@@ -1,6 +1,7 @@
 # 인물 캐릭터: characters.json(Claude가 편마다 설계) → 겹 SVG → 영상에서 숨쉬기·깜빡임·입 움직임
 #   python3 audio/characters.py list episodes/mongol-03/ep.json   이 편에 필요한 인물과 아직 설계가 없는 인물
-#   python3 audio/characters.py build [id...]                     public/chars/<id>/{body,head,eyes0,eyes1,mouth0,mouth1,mouth2}.svg
+#   python3 audio/characters.py build [id...]                     public/chars/<id>/<포즈>/{body,head,eyes0,eyes1,mouth0,mouth1,mouth2}.svg
+#                                                                 포즈: front·side·angry·shocked·sad·happy (POSES)
 #   .venv/bin/python -I audio/characters.py mouth episodes/mongol-03/ep.json
 #                                                                 목소리 크기 → 프레임별 입 모양(0·1·2) public/ep/<편>/ep/mouth.json
 # 겹은 모두 같은 600×720 판. 머리 겹(head·eyes·mouth)은 영상에서 같이 흔들리고 몸은 숨쉬기만 한다
@@ -159,92 +160,156 @@ def beard(c):
     return ""
 
 
-def brows(c):
-    mood = c.get("mood", "calm")
+# 포즈 = 보는 방향(view) + 표정(expr). 장면표에서 "pose": "angry" 처럼 고른다 (없으면 front)
+POSES = {
+    "front": ("front", None),
+    "side": ("side", None),  # 3/4 옆모습, 오른쪽을 봄 (왼쪽은 영상에서 뒤집기 facing: "left")
+    "angry": ("front", "angry"),
+    "shocked": ("front", "shocked"),
+    "sad": ("front", "sad"),
+    "happy": ("front", "happy"),
+}
+# 옆모습: 이목구비를 가로로 0.82배 줄이고 오른쪽으로 40 옮김 (300 기준)
+SIDE = "matrix(0.82 0 0 1 94 0)"
+
+
+def feat(view, inner):
+    return f'<g transform="{SIDE}">{inner}</g>' if view == "side" else inner
+
+
+def brows(c, expr):
     col = c.get("brow", c.get("hair", "#2a2018"))
-    tilt = {"angry": 14, "stern": 8, "calm": 0, "worried": -12, "smug": 4}.get(mood, 0)
+    mood = expr or c.get("mood", "calm")
+    tilt = {"angry": 16, "stern": 8, "calm": 0, "worried": -12, "sad": -14, "smug": 4, "shocked": -4, "happy": -2}.get(mood, 0)
+    lift = {"shocked": 18, "happy": 6, "sad": 2}.get(mood, 0)
     sw = 12 if mood in ("angry", "stern") else 9
+    y = 238 - lift
     return (
-        f'<path d="M 212 {238 - tilt} Q 240 {226 - tilt} 272 {240 + tilt}" fill="none" stroke="{col}" stroke-width="{sw}"/>'
-        f'<path d="M 388 {238 - tilt} Q 360 {226 - tilt} 328 {240 + tilt}" fill="none" stroke="{col}" stroke-width="{sw}"/>'
+        f'<path d="M 212 {y - tilt} Q 240 {y - 12 - tilt} 272 {y + 2 + tilt}" fill="none" stroke="{col}" stroke-width="{sw}"/>'
+        f'<path d="M 388 {y - tilt} Q 360 {y - 12 - tilt} 328 {y + 2 + tilt}" fill="none" stroke="{col}" stroke-width="{sw}"/>'
     )
 
 
-def head_layer(c):
+FACE_SIDE = "M 178 270 C 172 150 430 146 438 258 C 448 292 446 330 428 352 C 405 402 360 425 306 426 C 230 420 178 360 178 270 Z"
+
+
+def head_layer(c, view, expr):
     skin = c["skin"]
     out = [hair_back(c)]
-    out.append(f'<ellipse cx="172" cy="285" rx="20" ry="30" fill="{skin}"/><ellipse cx="428" cy="285" rx="20" ry="30" fill="{skin}"/>')
-    out.append(f'<path d="{FACE}" fill="{skin}"/>')
-    # 그늘 (오른쪽 뺨) + 볼
-    out.append(f'<path d="M 400 220 C 425 290 410 370 330 418 C 380 400 430 340 400 220 Z" fill="{shade(skin, 0.86)}" stroke="none"/>')
-    out.append(f'<ellipse cx="228" cy="335" rx="24" ry="13" fill="#d9776a" opacity="0.35" stroke="none"/><ellipse cx="372" cy="335" rx="24" ry="13" fill="#d9776a" opacity="0.35" stroke="none"/>')
-    # 코
-    out.append('<path d="M 300 290 Q 292 318 300 324 Q 306 326 312 320" fill="none" stroke-width="5"/>')
-    # 나이
+    if view == "side":
+        out.append(f'<ellipse cx="190" cy="290" rx="22" ry="32" fill="{skin}"/>')
+        out.append(f'<path d="{FACE_SIDE}" fill="{skin}"/>')
+        out.append(f'<path d="M 214 230 C 196 290 206 370 270 418 C 220 400 180 340 214 230 Z" fill="{shade(skin, 0.86)}" stroke="none"/>')
+    else:
+        out.append(f'<ellipse cx="172" cy="285" rx="20" ry="30" fill="{skin}"/><ellipse cx="428" cy="285" rx="20" ry="30" fill="{skin}"/>')
+        out.append(f'<path d="{FACE}" fill="{skin}"/>')
+        out.append(f'<path d="M 400 220 C 425 290 410 370 330 418 C 380 400 430 340 400 220 Z" fill="{shade(skin, 0.86)}" stroke="none"/>')
+    blush = 0.55 if expr in ("happy", "angry") else 0.35
+    f = [f'<ellipse cx="228" cy="335" rx="24" ry="13" fill="#d9776a" opacity="{blush}" stroke="none"/><ellipse cx="372" cy="335" rx="24" ry="13" fill="#d9776a" opacity="{blush}" stroke="none"/>']
+    if view == "side":
+        f.append('<path d="M 300 288 Q 318 316 330 322 Q 316 330 302 326" fill="none" stroke-width="5"/>')
+    else:
+        f.append('<path d="M 300 290 Q 292 318 300 324 Q 306 326 312 320" fill="none" stroke-width="5"/>')
     if c.get("age", "adult") == "old":
-        out.append('<path d="M 210 372 q 14 10 28 6 M 362 378 q 14 4 28 -6 M 255 210 q 45 -10 90 0" fill="none" stroke-width="4" opacity="0.7"/>')
+        f.append('<path d="M 210 372 q 14 10 28 6 M 362 378 q 14 4 28 -6 M 255 210 q 45 -10 90 0" fill="none" stroke-width="4" opacity="0.7"/>')
     if c.get("scar"):
-        out.append('<path d="M 350 245 L 380 320" fill="none" stroke="#8a3b2e" stroke-width="5"/>')
-    # 앞머리 (모자가 없을 때)
+        f.append('<path d="M 350 245 L 380 320" fill="none" stroke="#8a3b2e" stroke-width="5"/>')
+    if expr == "angry":  # 미간 주름
+        f.append('<path d="M 292 236 l 4 16 M 308 236 l -4 16" fill="none" stroke-width="4" opacity="0.6"/>')
+    if expr == "sad":  # 눈물
+        f.append('<path d="M 368 300 Q 360 318 368 326 Q 376 318 368 300 Z" fill="#8cc4e8" stroke="#3a6a8a" stroke-width="3"/>')
+    out.append(feat(view, "".join(f)))
     if c.get("hat", "none") == "none":
         hair = c.get("hair", "#2a2018")
+        g = ""
         if c.get("hair_style") == "braids":
-            out.append(f'<path d="M 184 236 C 200 160 400 160 416 236 C 380 196 220 196 184 236 Z" fill="{shade(skin, 0.8)}"/>')
-            out.append(f'<path d="M 282 175 C 290 200 310 200 318 175 L 312 212 L 288 212 Z" fill="{hair}"/>')
+            g += f'<path d="M 184 236 C 200 160 400 160 416 236 C 380 196 220 196 184 236 Z" fill="{shade(skin, 0.8)}"/>'
+            g += f'<path d="M 282 175 C 290 200 310 200 318 175 L 312 212 L 288 212 Z" fill="{hair}"/>'
         else:
-            out.append(f'<path d="M 172 262 C 160 140 440 140 428 262 C 400 210 360 190 300 200 C 240 190 200 210 172 262 Z" fill="{hair}"/>')
-    out.append(beard(c))
-    out.append(brows(c))
-    out.append(hat(c))
+            g += f'<path d="M 172 262 C 160 140 440 140 428 262 C 400 210 360 190 300 200 C 240 190 200 210 172 262 Z" fill="{hair}"/>'
+        out.append(f'<g transform="translate(10 0)">{g}</g>' if view == "side" else g)
+    out.append(feat(view, beard(c) + brows(c, expr)))
+    h = hat(c)
+    out.append(f'<g transform="translate(12 0)">{h}</g>' if view == "side" else h)
     out.append(c.get("extra_head", ""))
     return svg("".join(out))
 
 
-def eyes_layer(c, closed):
-    if closed:
-        return svg('<path d="M 218 284 Q 242 296 266 284 M 334 284 Q 358 296 382 284" fill="none" stroke-width="6"/>')
-    narrow = c.get("eyes", "almond") == "narrow"
-    ry = 11 if narrow else 16
+def eyes_layer(c, closed, view, expr):
+    if closed or expr == "happy":  # 기쁨은 눈웃음(∩)
+        d = "M 218 288 Q 242 266 266 288 M 334 288 Q 358 266 382 288" if expr == "happy" and not closed else "M 218 284 Q 242 296 266 284 M 334 284 Q 358 296 382 284"
+        return svg(feat(view, f'<path d="{d}" fill="none" stroke-width="7"/>'))
     col = c.get("eye_color", "#2b1d14")
-    return svg(
-        "".join(
-            f'<path d="M {x - 26} 282 Q {x} {282 - ry * 1.6} {x + 26} 282 Q {x} {282 + ry * 0.9} {x - 26} 282 Z" fill="#fbf4e4"/>'
-            f'<circle cx="{x + 3}" cy="{282 - ry * 0.25}" r="{ry * 0.75}" fill="{col}" stroke="none"/>'
-            f'<circle cx="{x + 7}" cy="{282 - ry * 0.55}" r="3.5" fill="#fff" stroke="none"/>'
-            for x in (242, 358)
-        )
+    if expr == "shocked":  # 동그랗게 커진 눈 + 작은 눈동자
+        return svg(feat(view, "".join(
+            f'<circle cx="{x}" cy="280" r="22" fill="#fbf4e4"/><circle cx="{x}" cy="281" r="6" fill="{col}" stroke="none"/>' for x in (242, 358)
+        )))
+    ry = 11 if c.get("eyes", "almond") == "narrow" else 16
+    out = "".join(
+        f'<path d="M {x - 26} 282 Q {x} {282 - ry * 1.6} {x + 26} 282 Q {x} {282 + ry * 0.9} {x - 26} 282 Z" fill="#fbf4e4"/>'
+        f'<circle cx="{x + 3}" cy="{282 - ry * 0.25}" r="{ry * 0.75}" fill="{col}" stroke="none"/>'
+        f'<circle cx="{x + 7}" cy="{282 - ry * 0.55}" r="3.5" fill="#fff" stroke="none"/>'
+        for x in (242, 358)
     )
+    skin = c["skin"]
+    if expr == "angry":  # 위 눈꺼풀이 안쪽으로 내려옴
+        out += f'<path d="M 212 262 L 272 262 L 272 284 Q 250 270 214 268 Z M 388 262 L 328 262 L 328 284 Q 350 270 386 268 Z" fill="{skin}" stroke="none"/>'
+        out += '<path d="M 214 268 Q 250 270 270 282 M 386 268 Q 350 270 330 282" fill="none" stroke-width="6"/>'
+    if expr == "sad":  # 바깥으로 처진 눈꺼풀
+        out += f'<path d="M 212 260 L 272 260 L 270 270 Q 240 266 214 282 Z M 388 260 L 328 260 L 330 270 Q 360 266 386 282 Z" fill="{skin}" stroke="none"/>'
+        out += '<path d="M 214 282 Q 240 266 270 270 M 386 282 Q 360 266 330 270" fill="none" stroke-width="6"/>'
+    return svg(feat(view, out))
 
 
-def mouth_layer(level, c):
+def mouth_layer(level, c, view, expr):
     lip = shade(c["skin"], 0.62)
+    if expr == "shocked":
+        ry = (12, 17, 24)[level]
+        return svg(feat(view, f'<ellipse cx="300" cy="{372 + ry * 0.3}" rx="{10 + level * 3}" ry="{ry}" fill="#5a1f19"/>'))
     if level == 0:
-        return svg(f'<path d="M 278 372 Q 300 380 322 370" fill="none" stroke-width="6"/>')
-    h = 14 if level == 1 else 30
-    return svg(
-        f'<path d="M 276 368 Q 300 362 324 368 Q 318 {368 + h} 300 {370 + h} Q 282 {368 + h} 276 368 Z" fill="#5a1f19"/>'
-        f'<path d="M 286 {362 + h} Q 300 {356 + h * 0.8} 314 {362 + h}" fill="#c5534a" stroke="none"/>'
-        f'<path d="M 276 368 Q 300 362 324 368" fill="none" stroke="{lip}" stroke-width="3"/>'
-    )
+        d = {"angry": "M 276 378 Q 300 364 324 378", "sad": "M 278 380 Q 300 366 322 380", "happy": "M 268 364 Q 300 394 332 364"}.get(expr, "M 278 372 Q 300 380 322 370")
+        return svg(feat(view, f'<path d="{d}" fill="none" stroke-width="6"/>'))
+    h = (14 if level == 1 else 30) + (8 if expr == "angry" else 0)
+    w = 30 if expr in ("angry", "happy") else 24
+    top = 364 if expr == "happy" else 368
+    teeth = f'<path d="M {300 - w + 6} {top + 3} L {300 + w - 6} {top + 3} L {300 + w - 9} {top + 10} L {300 - w + 9} {top + 10} Z" fill="#fbf4e4" stroke="none"/>' if expr in ("angry", "happy") else ""
+    return svg(feat(view,
+        f'<path d="M {300 - w} {top} Q 300 {top - 6} {300 + w} {top} Q {300 + w * 0.75} {top + h} 300 {top + 2 + h} Q {300 - w * 0.75} {top + h} {300 - w} {top} Z" fill="#5a1f19"/>'
+        + teeth
+        + f'<path d="M 286 {top - 6 + h} Q 300 {top - 12 + h * 0.8} 314 {top - 6 + h}" fill="#c5534a" stroke="none"/>'
+        f'<path d="M {300 - w} {top} Q 300 {top - 6} {300 + w} {top}" fill="none" stroke="{lip}" stroke-width="3"/>'
+    ))
+
+
+def body_for(c, view):
+    b = body_layer(c)
+    # 옆모습은 몸을 살짝 돌린 느낌으로 (가로 0.94배, 오른쪽으로)
+    return b.replace('<g stroke=', f'<g transform="matrix(0.94 0 0 1 30 0)" stroke=', 1) if view == "side" else b
 
 
 def build(ids=None):
+    import shutil
+
     spec = json.loads(SPEC.read_text())["characters"]
     for cid, c in spec.items():
         if ids and cid not in ids:
             continue
         d = OUT / cid
-        d.mkdir(parents=True, exist_ok=True)
-        files = {
-            "body": body_layer(c),
-            "head": head_layer(c),
-            "eyes0": eyes_layer(c, False),
-            "eyes1": eyes_layer(c, True),
-            **{f"mouth{k}": mouth_layer(k, c) for k in range(3)},
-        }
-        for name, text in files.items():
-            (d / f"{name}.svg").write_text(text)
-        print(f"→ public/chars/{cid}/ ({len(files)}겹)")
+        if d.exists():
+            shutil.rmtree(d)
+        for pose, (view, expr) in POSES.items():
+            pd = d / pose
+            pd.mkdir(parents=True)
+            files = {
+                "body": body_for(c, view),
+                "head": head_layer(c, view, expr),
+                "eyes0": eyes_layer(c, False, view, expr),
+                "eyes1": eyes_layer(c, True, view, expr),
+                **{f"mouth{k}": mouth_layer(k, c, view, expr) for k in range(3)},
+            }
+            for name, text in files.items():
+                (pd / f"{name}.svg").write_text(text)
+        print(f"→ public/chars/{cid}/ (포즈 {len(POSES)}개)")
 
 
 def needed(ep_path):

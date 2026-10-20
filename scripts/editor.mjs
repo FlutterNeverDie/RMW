@@ -102,8 +102,11 @@ const api = {
           }),
         )
       : null;
+    // 업로드한 편(meta.json "uploaded")은 화면이 유튜브에 올라가 고정 → 편집기가 화면·인물 배치·장면 순서·영어를 잠근다
+    const meta = JSON.parse(await readFile(join(CODE, "episodes", q.e, "meta.json"), "utf8").catch(() => "{}"));
     return {
       ep,
+      locked: meta.uploaded || null,
       tl: tl?.scenes?.map((s) => ({ text: s.text, i18n: s.i18n, vo: s.vo, vo_i18n: s.vo_i18n, frames: s.frames })) ?? null,
       durs,
       bgm: await list("public/bgm", ".wav"),
@@ -115,6 +118,13 @@ const api = {
   "POST /api/ep": async (q, body) => {
     const ep = JSON.parse(body);
     if (!Array.isArray(ep.scenes)) throw new Error("scenes가 없음");
+    // 업로드한 편: 더빙 대사(i18n)·효과음·브금만 바뀌었는지 서버에서도 확인
+    const meta = JSON.parse(await readFile(join(CODE, "episodes", q.e, "meta.json"), "utf8").catch(() => "{}"));
+    if (meta.uploaded) {
+      const fixed = (e) => JSON.stringify(e.scenes.map(({ i18n, sfx, music, cues, ...rest }) => rest));
+      const old = JSON.parse(await readFile(epPath(q.e), "utf8"));
+      if (fixed(old) !== fixed(ep)) throw new Error("업로드한 편은 화면·장면 순서·영어 대사를 바꿀 수 없음 (더빙 대사·효과음·브금만)");
+    }
     await writeFile(epPath(q.e), JSON.stringify(ep, null, 1) + "\n");
     return { saved: true };
   },
@@ -174,44 +184,72 @@ const api = {
     for (let k = 2; await stat(join(dir, name + ".wav")).catch(() => null); k++) name = `${base}-${k}`;
     const tmp = join(OUT, "upload-" + Date.now());
     await writeFile(tmp, raw);
-    const ff = join(CODE, "node_modules/@remotion/compositor-darwin-arm64");
-    await run(join(ff, "ffmpeg"), ["-y", "-loglevel", "error", "-i", tmp, "-ar", "48000", "-ac", "2", "-c:a", "pcm_s16le", join(dir, name + ".wav")], { env: { ...process.env, DYLD_LIBRARY_PATH: ff } });
+    // Remotion에 든 ffmpeg (맥 M칩·인텔 모두), 없으면 설치된 ffmpeg
+    const ff = join(CODE, `node_modules/@remotion/compositor-${process.platform}-${process.arch}`);
+    const bin = (await stat(join(ff, "ffmpeg")).catch(() => null)) ? join(ff, "ffmpeg") : "ffmpeg";
+    await run(bin, ["-y", "-loglevel", "error", "-i", tmp, "-ar", "48000", "-ac", "2", "-c:a", "pcm_s16le", join(dir, name + ".wav")], { env: { ...process.env, DYLD_LIBRARY_PATH: ff } });
     await rm(tmp);
     return { src: `${kind}/${name}.wav`, name };
   },
   "GET /api/chars": async () => JSON.parse(await readFile(join(CODE, "characters.json"), "utf8")).characters,
   "POST /api/rebundle": async () => (await buildApp(), await getBundle(true), { ok: true }),
-  "POST /api/chars": async () => {
-    const r = await run("python3", ["audio/characters.py", "build"], { cwd: CODE });
-    await getBundle(true);
-    return { log: r.stdout };
+  // 캐릭터 하나 저장(설계 → characters.json) + 그 인물만 다시 그림. body가 {"_delete": true}면 지움
+  "POST /api/char": async (q, body) => {
+    if (!/^[a-z0-9_]+$/.test(q.id || "")) throw new Error("id는 영어 소문자·숫자·_만");
+    const file = join(CODE, "characters.json");
+    const all = JSON.parse(await readFile(file, "utf8"));
+    const spec = JSON.parse(body);
+    if (spec._delete) {
+      delete all.characters[q.id];
+      await rm(join(CODE, "public/chars", q.id), { recursive: true, force: true });
+    } else all.characters[q.id] = spec;
+    await writeFile(file, JSON.stringify(all, null, 1) + "\n");
+    if (!spec._delete) await run("python3", ["audio/characters.py", "build", q.id], { cwd: CODE });
+    serveUrl = null; // 그림·영상 뽑기용 묶음은 다음에 다시
+    await buildApp(); // 말하는 사람 → 캐릭터 연결이 화면 코드에 들어 있음
+    return { ok: true, v: Date.now() };
   },
   "GET /api/srt": async (q) => {
-    // 유튜브 자막 파일: 장면 시작~끝 = 그 장면 대사 (실제 길이는 timeline.json, 없으면 만들 수 없음)
+    // 유튜브 자막: 장면마다 그 언어 목소리 길이를 문장 글자 수 비율로 나눠 문장 하나씩 (실제 길이는 timeline.json)
     const ep = JSON.parse(await readFile(epPath(q.e), "utf8"));
     const tl = await timelineOf(q.e);
-    if (!tl) throw new Error("timeline.json이 없음 - 목소리를 먼저 만들어야 길이를 앎");
-    const ts = (fr) => {
-      const ms = Math.round((fr / tl.fps) * 1000);
+    if (!tl) throw new Error("목소리를 먼저 만들어야 자막 시간을 앎 (timeline.json 없음)");
+    const ts = (sec) => {
+      const ms = Math.max(0, Math.round(sec * 1000));
       const p = (n, w = 2) => String(n).padStart(w, "0");
       return `${p(Math.floor(ms / 3600000))}:${p(Math.floor(ms / 60000) % 60)}:${p(Math.floor(ms / 1000) % 60)},${p(ms % 1000, 3)}`;
     };
     const files = [];
+    const stale = [];
     for (const lang of ep.langs || ["en"]) {
       let at = 0;
       let n = 0;
       const rows = [];
-      ep.scenes.forEach((sc, i) => {
-        const fr = tl.scenes[i]?.frames ?? 0;
-        const t = lang === "en" ? sc.text : sc.i18n?.[lang];
-        if (t) rows.push(`${++n}\n${ts(at)} --> ${ts(at + fr - 4)}\n${t}\n`);
-        at += fr;
-      });
-      const f = join(OUT, `${q.e}.${lang}.srt`);
-      await writeFile(f, rows.join("\n"));
+      for (const [i, sc] of ep.scenes.entries()) {
+        const t = tl.scenes[i];
+        const sceneSecs = (t?.frames ?? 0) / tl.fps;
+        const text = lang === "en" ? sc.text : sc.i18n?.[lang];
+        const voiced = lang === "en" ? t?.text : t?.i18n?.[lang];
+        if (text && voiced !== text) stale.push(`${i} ${lang}`); // 목소리 만든 뒤 대사가 바뀜 → 시간이 어긋남
+        if (text) {
+          const dur = Math.min(sceneSecs, t?.dur?.[lang] ?? (await wavSecs(join(CODE, "public", (lang === "en" ? t?.vo : t?.vo_i18n?.[lang]) || "x"))) ?? sceneSecs);
+          const sents = text.split(/(?<=[.!?…。？！])\s+/).map((x) => x.trim()).filter(Boolean);
+          const weight = sents.map((x) => x.replace(/\s/g, "").length || 1);
+          const sum = weight.reduce((a, b) => a + b, 0);
+          let s0 = at;
+          sents.forEach((line, k) => {
+            const len = (dur * weight[k]) / sum;
+            const end = k === sents.length - 1 ? at + Math.max(dur, 0.8) : s0 + len;
+            rows.push(`${++n}\n${ts(s0)} --> ${ts(Math.min(end, at + sceneSecs - 0.05))}\n${line}\n`);
+            s0 = end;
+          });
+        }
+        at += sceneSecs;
+      }
+      await writeFile(join(OUT, `${q.e}.${lang}.srt`), rows.join("\n"));
       files.push(`/out/${q.e}.${lang}.srt`);
     }
-    return { files };
+    return { files, stale };
   },
 };
 

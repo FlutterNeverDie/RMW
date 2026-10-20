@@ -21,7 +21,7 @@ type Show =
   | { type: "line" }
   | { type: "units" }
   | { type: "endcard"; seconds: number; next?: string };
-export type Scene = { role?: string; speaker?: string; text?: string; vo: string | null; vo_i18n?: Record<string, string>; frames: number; show: Show; music?: string; sfx?: string | null; char?: string; cues?: Cue[]; hold?: number; dur?: Record<string, number>; i18n?: Record<string, string> };
+export type Scene = { role?: string; speaker?: string; text?: string; vo: string | null; vo_i18n?: Record<string, string>; frames: number; show: Show; music?: string; sfx?: string | null; char?: string; pose?: string; facing?: "left" | "right"; charAt?: "left" | "center" | "right"; cues?: Cue[]; hold?: number; dur?: Record<string, number>; i18n?: Record<string, string> };
 // 장면 안 원하는 시점에 넣는 소리 (편집기에서 끌어다 놓음). src = public 아래 경로, at = 장면 시작부터 초, vol = 0~1
 export type Cue = { src: string; at: number; vol?: number };
 export type Timeline = { fps: number; bgm?: string; langs?: string[]; scenes: Scene[] };
@@ -218,9 +218,9 @@ const Line = ({ sc, frames, vo }: { sc: Scene; frames: number; vo?: string | nul
       {hasChar(char) ? (
         <>
           {/* 인물이 아래에서 올라와 말한다 + 오른쪽에 이름 */}
-          <div style={{ position: "absolute", left: 230, bottom: -40, transform: `translateY(${(1 - p) * 160}px)`, opacity: Math.min(1, p * 1.5) }}>
+          <div style={{ position: "absolute", left: 230, bottom: 0, transform: `translateY(${(1 - p) * 160}px)`, opacity: Math.min(1, p * 1.5) }}>
             <div style={{ position: "absolute", left: "8%", right: "8%", bottom: 40, height: 120, borderRadius: "50%", background: "radial-gradient(rgba(233,201,127,0.35), transparent 70%)" }} />
-            <Character id={char!} talking={talking} mouth={mouth} height={760} />
+            <Character id={char!} talking={talking} mouth={mouth} height={760} pose={sc.pose} flip={sc.facing === "left"} />
           </div>
           <div style={{ position: "absolute", left: 1000, right: 80, top: 0, bottom: 0, display: "flex", flexDirection: "column", justifyContent: "center", opacity: p, transform: `translateX(${(1 - p) * 40}px)` }}>
             <div style={{ fontFamily: SERIF, fontSize: 150, lineHeight: 0.6, color: "rgba(226,85,58,0.5)" }}>“</div>
@@ -240,12 +240,15 @@ const Line = ({ sc, frames, vo }: { sc: Scene; frames: number; vo?: string | nul
 };
 
 // 지도·그림 장면에 인물을 세운다 (장면표 char: "<id>"). 오른쪽 아래에서 올라와 숨쉬고 깜빡인다
-const CharOverlay = ({ id }: { id: string }) => {
+const CharOverlay = ({ id, pose, flip, at = "right" }: { id: string; pose?: string; flip?: boolean; at?: "left" | "center" | "right" }) => {
   const f = useCurrentFrame();
-  const p = spring({ frame: f - 6, fps: 30, config: { damping: 15 } });
+  const p = spring({ frame: f, fps: 30, config: { damping: 16, stiffness: 140 } });
+  const h = 620;
+  const w = (h * 600) / 720;
+  const x = at === "left" ? 90 : at === "center" ? (1920 - w) / 2 : 1920 - w - 90;
   return (
-    <div style={{ position: "absolute", right: 60, bottom: -30, transform: `translateY(${(1 - p) * 300}px)`, filter: "drop-shadow(0 18px 30px rgba(0,0,0,0.55))" }}>
-      <Character id={id} height={560} />
+    <div style={{ position: "absolute", left: x, bottom: 0, width: w, height: h, opacity: Math.min(1, p * 1.6), transform: `translateY(${(1 - p) * 120}px)`, filter: "drop-shadow(0 18px 30px rgba(0,0,0,0.55))" }}>
+      <Character id={id} height={h} pose={pose} flip={flip} />
     </div>
   );
 };
@@ -301,7 +304,8 @@ const Shot = ({ sc, vo }: { sc: Scene; vo?: string | null }) => {
   return sc.char && sc.show.type !== "line" && hasChar(sc.char) ? (
     <AbsoluteFill>
       {shot}
-      <CharOverlay id={sc.char} />
+      {/* 오른쪽에 서면 기본으로 화면 안쪽(왼쪽)을 봄 */}
+      <CharOverlay id={sc.char} pose={sc.pose} at={sc.charAt} flip={sc.facing ? sc.facing === "left" : (sc.charAt ?? "right") === "right"} />
     </AbsoluteFill>
   ) : (
     shot

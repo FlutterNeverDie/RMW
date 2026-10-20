@@ -1,4 +1,5 @@
-// 인물 캐릭터: audio/characters.py가 만든 겹 SVG(public/chars/<id>/)를 쌓아서 움직인다
+// 인물 캐릭터: audio/characters.py가 만든 겹 SVG(public/chars/<id>/<포즈>/)를 쌓아서 움직인다
+// 포즈: front·side·angry·shocked·sad·happy (장면표 "pose"), 방향: 장면표 "facing": "left"면 좌우 뒤집기
 // 몸은 숨쉬기, 머리는 살짝 흔들림 + 말할 때 끄덕임, 눈은 3~4초마다 깜빡임,
 // 입은 mouth.json(목소리 크기 → 프레임별 0·1·2)이 있으면 그대로, 없으면 말하는 동안 비슷하게 흉내
 import { useEffect, useState } from "react";
@@ -12,6 +13,8 @@ export const charForSpeaker = (speaker?: string) =>
   speaker ? Object.keys(chars).find((id) => chars[id].speakers?.some((s) => s.toUpperCase() === speaker.toUpperCase())) : undefined;
 
 export const hasChar = (id?: string) => !!id && id in chars;
+export const POSES = ["front", "side", "angry", "shocked", "sad", "happy"] as const;
+export const POSE_NAME: Record<string, string> = { front: "정면", side: "옆", angry: "화남", shocked: "놀람", sad: "슬픔", happy: "기쁨" };
 
 // 목소리 파일 옆 mouth.json (public/ep/<편>/<이름>/mouth.json). 없으면 null
 const cache: Record<string, Record<string, string> | null> = {};
@@ -41,8 +44,10 @@ export const Character = ({
   mouth = null,
   height = 640,
   flip = false,
+  pose = "front",
 }: {
   id: string;
+  pose?: string;
   talking?: boolean;
   mouth?: string | null;
   height?: number;
@@ -65,7 +70,8 @@ export const Character = ({
   const sway = Math.sin(f / 41 + seed) * 1.6;
   const nod = m ? Math.sin(f / 3) * 1.2 : 0;
   const w = (height * 600) / 720;
-  const layer = (name: string) => <Img src={staticFile(`chars/${id}/${name}.svg`)} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }} />;
+  const p = (POSES as readonly string[]).includes(pose) ? pose : "front";
+  const layer = (name: string) => <Img src={staticFile(`chars/${id}/${p}/${name}.svg`)} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }} />;
   return (
     <div style={{ position: "relative", width: w, height, transform: flip ? "scaleX(-1)" : undefined }}>
       <AbsoluteFill style={{ transform: `scaleY(${1 + breathe * 0.012})`, transformOrigin: "50% 100%" }}>{layer("body")}</AbsoluteFill>
