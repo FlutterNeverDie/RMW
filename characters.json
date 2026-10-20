@@ -1,0 +1,45 @@
+{
+ "_설명": "채널 인물 캐릭터 설계 (Claude가 편마다 추가, 같은 인물은 편이 바뀌어도 그대로 재사용). speakers = 장면표 speaker 값(대사 카드에 이 캐릭터가 나옴), names = names.json 이름. 칸: skin·hair·hair_style(braids|long|short)·eyes(almond|narrow)·eye_color·brow·mood(calm|stern|angry|worried|smug)·age(adult|old)·scar·beard(none|mustache|goatee|full)·beard_color·hat(none|fur|helmet|crown|turban|scarf|hood)·hat_color·fur·outfit(deel|armor|gown|robe)·cloth·trim·belt·cape·extra_head·extra_body(직접 그린 SVG 조각, 600×720 판, 얼굴 가운데 300,285). 고친 뒤: python3 audio/characters.py build <id>",
+ "characters": {
+  "temujin": {
+   "speakers": ["TEMÜJIN"], "names": ["Temüjin"],
+   "skin": "#e9b98c", "hair": "#241a12", "hair_style": "braids", "eyes": "narrow", "mood": "stern",
+   "beard": "none", "hat": "none", "outfit": "deel", "cloth": "#4d6b8a", "trim": "#c9a24e", "belt": "#8a5a2b"
+  },
+  "genghis": {
+   "speakers": ["GENGHIS KHAN"], "names": ["Genghis Khan"],
+   "skin": "#e2ad80", "hair": "#2a2018", "eyes": "narrow", "mood": "stern", "age": "old",
+   "beard": "mustache", "beard_color": "#5b4a3a", "hat": "fur", "hat_color": "#f2ead8", "fur": "#8a6a48", "trim": "#d9a92e",
+   "outfit": "deel", "cloth": "#9b2f24", "belt": "#d9a92e", "cape": "#6e4a2e"
+  },
+  "hoelun": {
+   "speakers": ["HOELUN"], "names": ["Hoelun"],
+   "skin": "#ecbf93", "hair": "#1f1712", "hair_style": "long", "eyes": "narrow", "mood": "worried",
+   "hat": "scarf", "hat_color": "#3f6b5c", "trim": "#d9b45a", "outfit": "deel", "cloth": "#6b4a7a", "belt": "#b5863a"
+  },
+  "jamukha": {
+   "speakers": ["JAMUKHA"], "names": ["Jamukha"],
+   "skin": "#dfa978", "hair": "#1a130e", "hair_style": "braids", "eyes": "narrow", "mood": "smug",
+   "beard": "goatee", "hat": "fur", "hat_color": "#3b3a4a", "fur": "#5e4a3a", "trim": "#9a9a9a",
+   "outfit": "deel", "cloth": "#2f4a3a", "trim_note": "", "belt": "#6e6e6e"
+  },
+  "archer": {
+   "speakers": ["THE ARCHER"], "names": ["Jebe"],
+   "skin": "#dda676", "hair": "#2a2018", "hair_style": "braids", "eyes": "narrow", "mood": "calm",
+   "beard": "mustache", "hat": "helmet", "hat_color": "#7d817f", "fur": "#7a5a3a", "trim": "#2a6db0",
+   "outfit": "armor", "cloth": "#6b5a3a"
+  },
+  "taichiud_chief": {
+   "speakers": ["TAICHIUD CHIEF"],
+   "skin": "#d39d6c", "hair": "#20180f", "hair_style": "braids", "eyes": "narrow", "mood": "angry", "scar": true,
+   "beard": "full", "beard_color": "#2b2018", "hat": "fur", "hat_color": "#4a2a22", "fur": "#3a2c22", "trim": "#8a8a8a",
+   "outfit": "deel", "cloth": "#5a2a22", "trim": "#3a3a3a", "belt": "#2a2a2a"
+  },
+  "inalchuq": {
+   "speakers": ["GOVERNOR INALCHUQ"], "names": ["Inalchuq"],
+   "skin": "#d9a374", "hair": "#2a2018", "eyes": "almond", "mood": "smug",
+   "beard": "full", "beard_color": "#2a2018", "hat": "turban", "hat_color": "#f2e6c8", "trim": "#2e8b57",
+   "outfit": "robe", "cloth": "#c47a2a", "trim": "#f2e6c8"
+  }
+ }
+}

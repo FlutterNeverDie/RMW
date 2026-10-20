@@ -1,13 +1,22 @@
 {
   "name": "chronomap-reel",
   "private": true,
+  "scripts": {
+    "editor": "node scripts/editor.mjs"
+  },
   "dependencies": {
+    "@remotion/bundler": "^4.0.536",
     "@remotion/cli": "^4.0.536",
+    "@remotion/player": "^4.0.536",
+    "@remotion/renderer": "^4.0.536",
     "@types/react": "^18.3.31",
     "puppeteer-core": "^24.43.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "remotion": "^4.0.536",
     "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.1"
   }
 }

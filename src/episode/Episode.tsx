@@ -1,6 +1,7 @@
 // 해설 영상 한 편: audio/voice_episode.py가 만든 timeline.json(장면 + 목소리 + 길이)을 그대로 그린다
 // 장면 종류는 episodes/<편>/*.json 머리말 참고. 화면은 장면마다 계속 움직인다(채널 규칙 8)
 import { AbsoluteFill, Audio, Img, interpolate, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig, Easing } from "remotion";
+import { Character, charForSpeaker, hasChar, useMouth } from "./Character";
 
 const SERIF = "Baskerville, 'Big Caslon', 'Hoefler Text', serif";
 const SANS = "-apple-system, 'Helvetica Neue', Arial, sans-serif";
@@ -20,7 +21,9 @@ type Show =
   | { type: "line" }
   | { type: "units" }
   | { type: "endcard"; seconds: number; next?: string };
-export type Scene = { role?: string; speaker?: string; text?: string; vo: string | null; vo_i18n?: Record<string, string>; frames: number; show: Show; music?: string; sfx?: string | null };
+export type Scene = { role?: string; speaker?: string; text?: string; vo: string | null; vo_i18n?: Record<string, string>; frames: number; show: Show; music?: string; sfx?: string | null; char?: string; cues?: Cue[]; hold?: number; dur?: Record<string, number>; i18n?: Record<string, string> };
+// 장면 안 원하는 시점에 넣는 소리 (편집기에서 끌어다 놓음). src = public 아래 경로, at = 장면 시작부터 초, vol = 0~1
+export type Cue = { src: string; at: number; vol?: number };
 export type Timeline = { fps: number; bgm?: string; langs?: string[]; scenes: Scene[] };
 
 export const timelineFrames = (t: Timeline) => t.scenes.reduce((a, s) => a + s.frames, 0) + 45;
@@ -193,26 +196,57 @@ const Stamp = ({ s }: { s: Extract<Show, { type: "stamp" }> }) => {
 };
 
 // 인물 대사: 이름 + 말하는 동안 움직이는 소리 막대 (화면은 모든 언어 더빙이 같이 쓰므로 대사 글자는 넣지 않는다)
-const Line = ({ sc, frames }: { sc: Scene; frames: number }) => {
+const Line = ({ sc, frames, vo }: { sc: Scene; frames: number; vo?: string | null }) => {
   const f = useCurrentFrame();
   const p = spring({ frame: f, fps: 30, config: { damping: 14 } });
   const shake = Math.sin(f / 2) * Math.max(0, 1 - f / 10) * 6;
   const talking = f < frames - 8;
+  const char = sc.char ?? charForSpeaker(sc.speaker);
+  const mouth = useMouth(vo);
+  const bars = (n: number, scale: number) => (
+    <div style={{ display: "flex", gap: 10 * scale, justifyContent: "center", alignItems: "center", height: 90 * scale, marginTop: 30 * scale }}>
+      {Array.from({ length: n }, (_, k) => {
+        const h = talking ? 14 + 70 * Math.abs(Math.sin(f / 3 + k * 1.7) * Math.sin(f / 7 + k)) : 10;
+        return <div key={k} style={{ width: 10 * scale, height: h * scale, borderRadius: 5, background: "#e2553a", opacity: 0.85 }} />;
+      })}
+    </div>
+  );
   return (
     <AbsoluteFill style={{ background: "#0d0b08", alignItems: "center", justifyContent: "center" }}>
       <Img decoding="sync" src={staticFile("clean/mg-zoom/1160.jpg")} style={{ ...zoomBox(0.6, 0.43, 1.6 + 0.1 * (f / frames)), filter: "sepia(0.8) brightness(0.3)" }} />
       <Vignette dark />
-      <div style={{ transform: `translateX(${shake}px) scale(${0.9 + 0.1 * p})`, opacity: p, textAlign: "center" }}>
-        <div style={{ fontFamily: SERIF, fontSize: 200, lineHeight: 0.6, color: "rgba(226,85,58,0.5)" }}>“</div>
-        <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: fitSize(sc.speaker ?? "", 110, 1600, 8), letterSpacing: 8, color: "#f1e6cf", textShadow: "0 8px 30px rgba(0,0,0,0.8)" }}>{sc.speaker}</div>
-        <div style={{ display: "flex", gap: 10, justifyContent: "center", alignItems: "center", height: 90, marginTop: 30 }}>
-          {Array.from({ length: 21 }, (_, k) => {
-            const h = talking ? 14 + 70 * Math.abs(Math.sin(f / 3 + k * 1.7) * Math.sin(f / 7 + k)) : 10;
-            return <div key={k} style={{ width: 10, height: h, borderRadius: 5, background: "#e2553a", opacity: 0.85 }} />;
-          })}
+      {hasChar(char) ? (
+        <>
+          {/* 인물이 아래에서 올라와 말한다 + 오른쪽에 이름 */}
+          <div style={{ position: "absolute", left: 230, bottom: -40, transform: `translateY(${(1 - p) * 160}px)`, opacity: Math.min(1, p * 1.5) }}>
+            <div style={{ position: "absolute", left: "8%", right: "8%", bottom: 40, height: 120, borderRadius: "50%", background: "radial-gradient(rgba(233,201,127,0.35), transparent 70%)" }} />
+            <Character id={char!} talking={talking} mouth={mouth} height={760} />
+          </div>
+          <div style={{ position: "absolute", left: 1000, right: 80, top: 0, bottom: 0, display: "flex", flexDirection: "column", justifyContent: "center", opacity: p, transform: `translateX(${(1 - p) * 40}px)` }}>
+            <div style={{ fontFamily: SERIF, fontSize: 150, lineHeight: 0.6, color: "rgba(226,85,58,0.5)" }}>“</div>
+            <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: fitSize(sc.speaker ?? "", 84, 820, 6), letterSpacing: 6, color: "#f1e6cf", textShadow: "0 8px 30px rgba(0,0,0,0.8)" }}>{sc.speaker}</div>
+            <div style={{ display: "flex" }}>{bars(13, 0.7)}</div>
+          </div>
+        </>
+      ) : (
+        <div style={{ transform: `translateX(${shake}px) scale(${0.9 + 0.1 * p})`, opacity: p, textAlign: "center" }}>
+          <div style={{ fontFamily: SERIF, fontSize: 200, lineHeight: 0.6, color: "rgba(226,85,58,0.5)" }}>“</div>
+          <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: fitSize(sc.speaker ?? "", 110, 1600, 8), letterSpacing: 8, color: "#f1e6cf", textShadow: "0 8px 30px rgba(0,0,0,0.8)" }}>{sc.speaker}</div>
+          {bars(21, 1)}
         </div>
-      </div>
+      )}
     </AbsoluteFill>
+  );
+};
+
+// 지도·그림 장면에 인물을 세운다 (장면표 char: "<id>"). 오른쪽 아래에서 올라와 숨쉬고 깜빡인다
+const CharOverlay = ({ id }: { id: string }) => {
+  const f = useCurrentFrame();
+  const p = spring({ frame: f - 6, fps: 30, config: { damping: 15 } });
+  return (
+    <div style={{ position: "absolute", right: 60, bottom: -30, transform: `translateY(${(1 - p) * 300}px)`, filter: "drop-shadow(0 18px 30px rgba(0,0,0,0.55))" }}>
+      <Character id={id} height={560} />
+    </div>
   );
 };
 
@@ -262,7 +296,19 @@ const EndCard = ({ next }: { next?: string }) => {
   );
 };
 
-const Shot = ({ sc }: { sc: Scene }) => {
+const Shot = ({ sc, vo }: { sc: Scene; vo?: string | null }) => {
+  const shot = <ShotOnly sc={sc} vo={vo} />;
+  return sc.char && sc.show.type !== "line" && hasChar(sc.char) ? (
+    <AbsoluteFill>
+      {shot}
+      <CharOverlay id={sc.char} />
+    </AbsoluteFill>
+  ) : (
+    shot
+  );
+};
+
+const ShotOnly = ({ sc, vo }: { sc: Scene; vo?: string | null }) => {
   const s = sc.show;
   if (s.type === "map") return <MapShot s={s} frames={sc.frames} />;
   if (s.type === "art") return <ArtShot s={s} frames={sc.frames} />;
@@ -271,22 +317,45 @@ const Shot = ({ sc }: { sc: Scene }) => {
   if (s.type === "stamp") return <Stamp s={s} />;
   if (s.type === "units") return <Units frames={sc.frames} />;
   if (s.type === "endcard") return <EndCard next={s.next} />;
-  return <Line sc={sc} frames={sc.frames} />;
+  return <Line sc={sc} frames={sc.frames} vo={vo} />;
 };
 
-// 화면 종류별 기본 효과음 (장면에 sfx: null을 주면 끔)
-const SFX: Record<string, [string, number]> = {
-  map: ["whoosh", 0.22],
-  art: ["swish", 0.18],
-  lapse: ["whoosh", 0.25],
+// 화면 종류별 기본 효과음 (장면에 sfx: null을 주면 끔, sfx: "이름"을 주면 그 소리)
+// 지도·그림·연도 넘김의 바람 소리는 매 장면마다 붙이면 거슬린다(2026-10-20 사용자) →
+// 화면 종류가 바뀔 때만, 앞 바람 소리에서 MOVE_GAP초 넘게 지났을 때만, 작게
+export const SFX: Record<string, [string, number]> = {
+  map: ["swish", 0.1],
+  art: ["swish", 0.1],
+  lapse: ["swish", 0.12],
   title: ["boom", 0.55],
   stamp: ["impact", 0.6],
   line: ["hit", 0.4],
   units: ["drum", 0.45],
 };
+const MOVE = new Set(["map", "art", "lapse"]);
+const MOVE_GAP = 20;
+
+// 장면마다 실제로 낼 효과음 [이름, 크기] 또는 null
+export const sceneSfx = (scenes: Scene[], fps: number) => {
+  let at = 0;
+  let lastMove = -Infinity;
+  return scenes.map((sc, i) => {
+    const from = at;
+    at += sc.frames;
+    if (sc.sfx === null) return null;
+    if (sc.sfx) return [sc.sfx, 0.5] as [string, number];
+    const d = SFX[sc.show.type];
+    if (!d) return null;
+    if (!MOVE.has(sc.show.type)) return d;
+    const prev = scenes[i - 1]?.show.type;
+    if (prev === sc.show.type || from - lastMove < MOVE_GAP * fps) return null;
+    lastMove = from;
+    return d;
+  });
+};
 
 // 브금 구간: 장면의 music이 바뀌는 곳마다 새 곡(반복 재생), 목소리가 나오는 동안은 줄인다
-const musicSegments = (t: Timeline, total: number) => {
+export const musicSegments = (t: Timeline, total: number) => {
   const segs: { track: string; from: number; to: number }[] = [];
   let at = 0;
   for (const sc of t.scenes) {
@@ -301,8 +370,9 @@ const musicSegments = (t: Timeline, total: number) => {
 };
 
 export const Episode = ({ timeline, lang = "en" }: { timeline: Timeline; lang?: string }) => {
-  const { durationInFrames } = useVideoConfig();
+  const { durationInFrames, fps } = useVideoConfig();
   const f = useCurrentFrame();
+  const sfx = sceneSfx(timeline.scenes, fps);
   let at = 0;
   const end = durationInFrames - 45;
   const outro = interpolate(f, [end, end + 30], [1, 0], clamp);
@@ -345,20 +415,17 @@ export const Episode = ({ timeline, lang = "en" }: { timeline: Timeline; lang?: 
           at += sc.frames;
           return (
             <Sequence key={i} from={from} durationInFrames={sc.frames}>
-              <Shot sc={sc} />
+              <Shot sc={sc} vo={lang === "en" ? sc.vo : sc.vo_i18n?.[lang]} />
               {(() => {
                 const vo = lang === "en" ? sc.vo : sc.vo_i18n?.[lang];
                 return vo ? <Audio src={staticFile(vo)} /> : null;
               })()}
-              {sc.sfx !== null && (sc.sfx || SFX[sc.show.type]) && (
-                <Audio src={staticFile(`sfx/ep/${sc.sfx || SFX[sc.show.type][0]}.wav`)} volume={sc.sfx ? 0.5 : SFX[sc.show.type][1]} />
-              )}
-              {sc.show.type === "lapse" &&
-                (sc.show as { years: number[] }).years.slice(1).map((_, k, arr) => (
-                  <Sequence key={k} from={Math.round(((k + 1) * sc.frames) / (arr.length + 1))}>
-                    <Audio src={staticFile("sfx/ep/tick.wav")} volume={0.35} />
-                  </Sequence>
-                ))}
+              {sfx[i] && <Audio src={staticFile(`sfx/ep/${sfx[i]![0]}.wav`)} volume={sfx[i]![1]} />}
+              {sc.cues?.map((c, k) => (
+                <Sequence key={`cue${k}`} from={Math.max(0, Math.round(c.at * fps))}>
+                  <Audio src={staticFile(c.src)} volume={c.vol ?? 0.6} />
+                </Sequence>
+              ))}
             </Sequence>
           );
         })}

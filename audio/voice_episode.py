@@ -60,7 +60,7 @@ def voice_line(r, text, lang, raw, extra=""):
 
 scenes = []
 for i, s in enumerate(ep["scenes"]):
-    sc = {**s, "vo": None, "vo_i18n": {}, "acted": False}
+    sc = {**s, "vo": None, "vo_i18n": {}, "acted": False, "dur": {}}
     secs = s["show"].get("seconds", 0)
     if s.get("text"):
         r = C.CAST[s["role"]]
@@ -80,8 +80,11 @@ for i, s in enumerate(ep["scenes"]):
                 sc["vo"], sc["acted"] = path, acted
             else:
                 sc["vo_i18n"][lang] = path
-            # 장면 길이 = 가장 긴 언어 (더빙 트랙이 영상과 같은 길이가 되게)
+            # 장면 길이 = 가장 긴 언어 (더빙 트랙이 영상과 같은 길이가 되게). 언어별 실제 길이는 편집기가 타이밍 맞추기에 씀
+            sc["dur"][lang] = round(len(y) / sr, 3)
             secs = max(secs, len(y) / sr + GAP)
+    # hold = 장면 끝 여유(초, 모든 언어 공통). 편집기에서 장면 끝을 끌어 정함
+    secs += s.get("hold", 0)
     sc["frames"] = round(secs * FPS)
     scenes.append(sc)
     print(f"{i:02d} {sc['frames'] / FPS:5.2f}s  {s.get('role', '-'):9s}{' (연기)' if sc['acted'] else ''} {s.get('text', '')[:60]}")
