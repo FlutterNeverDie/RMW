@@ -1,0 +1,1244 @@
+{
+ "east-asia": {
+  "shots": [
+   {
+    "year": -1000,
+    "from": 48,
+    "dur": 12,
+    "note": null
+   },
+   {
+    "year": -700,
+    "from": 60,
+    "dur": 12,
+    "note": null
+   },
+   {
+    "year": -500,
+    "from": 72,
+    "dur": 12,
+    "note": null
+   },
+   {
+    "year": -300,
+    "from": 84,
+    "dur": 12,
+    "note": null
+   },
+   {
+    "year": -200,
+    "from": 96,
+    "dur": 45,
+    "note": "Han dynasty"
+   },
+   {
+    "year": 1,
+    "from": 141,
+    "dur": 12,
+    "note": null
+   },
+   {
+    "year": 200,
+    "from": 153,
+    "dur": 12,
+    "note": null
+   },
+   {
+    "year": 300,
+    "from": 165,
+    "dur": 12,
+    "note": null
+   },
+   {
+    "year": 400,
+    "from": 177,
+    "dur": 12,
+    "note": null
+   },
+   {
+    "year": 500,
+    "from": 189,
+    "dur": 12,
+    "note": null
+   },
+   {
+    "year": 600,
+    "from": 201,
+    "dur": 12,
+    "note": null
+   },
+   {
+    "year": 700,
+    "from": 213,
+    "dur": 45,
+    "note": "Tang China · Silla Korea"
+   },
+   {
+    "year": 800,
+    "from": 258,
+    "dur": 12,
+    "note": null
+   },
+   {
+    "year": 900,
+    "from": 270,
+    "dur": 12,
+    "note": null
+   },
+   {
+    "year": 1000,
+    "from": 282,
+    "dur": 12,
+    "note": null
+   },
+   {
+    "year": 1100,
+    "from": 294,
+    "dur": 12,
+    "note": null
+   },
+   {
+    "year": 1200,
+    "from": 306,
+    "dur": 12,
+    "note": null
+   },
+   {
+    "year": 1240,
+    "from": 318,
+    "dur": 12,
+    "note": null
+   },
+   {
+    "year": 1280,
+    "from": 330,
+    "dur": 45,
+    "note": "The Mongols rule China"
+   },
+   {
+    "year": 1360,
+    "from": 375,
+    "dur": 12,
+    "note": null
+   },
+   {
+    "year": 1400,
+    "from": 387,
+    "dur": 45,
+    "note": "Ming China · Joseon Korea"
+   },
+   {
+    "year": 1500,
+    "from": 432,
+    "dur": 12,
+    "note": null
+   },
+   {
+    "year": 1600,
+    "from": 444,
+    "dur": 12,
+    "note": null
+   },
+   {
+    "year": 1640,
+    "from": 456,
+    "dur": 12,
+    "note": null
+   },
+   {
+    "year": 1700,
+    "from": 468,
+    "dur": 45,
+    "note": "Qing dynasty"
+   },
+   {
+    "year": 1800,
+    "from": 513,
+    "dur": 12,
+    "note": null
+   },
+   {
+    "year": 1870,
+    "from": 525,
+    "dur": 12,
+    "note": null
+   },
+   {
+    "year": 1900,
+    "from": 537,
+    "dur": 12,
+    "note": null
+   },
+   {
+    "year": 1910,
+    "from": 549,
+    "dur": 45,
+    "note": "Japan annexes Korea"
+   },
+   {
+    "year": 1920,
+    "from": 594,
+    "dur": 12,
+    "note": null
+   },
+   {
+    "year": 1940,
+    "from": 606,
+    "dur": 45,
+    "note": "Japan's empire at war"
+   },
+   {
+    "year": 1945,
+    "from": 651,
+    "dur": 12,
+    "note": null
+   },
+   {
+    "year": 1950,
+    "from": 663,
+    "dur": 45,
+    "note": "A divided Korea"
+   },
+   {
+    "year": 2000,
+    "from": 708,
+    "dur": 45,
+    "note": "Today's borders"
+   }
+  ],
+  "mapEnd": 773,
+  "total": 863
+ },
+ "rome": {
+  "shots": [
+   {
+    "year": -500,
+    "from": 48,
+    "dur": 22,
+    "note": null
+   },
+   {
+    "year": -400,
+    "from": 70,
+    "dur": 22,
+    "note": null
+   },
+   {
+    "year": -300,
+    "from": 92,
+    "dur": 22,
+    "note": null
+   },
+   {
+    "year": -200,
+    "from": 114,
+    "dur": 22,
+    "note": null
+   },
+   {
+    "year": -100,
+    "from": 136,
+    "dur": 45,
+    "note": "Rome rules the Mediterranean"
+   },
+   {
+    "year": 1,
+    "from": 181,
+    "dur": 45,
+    "note": "The empire of Augustus"
+   },
+   {
+    "year": 25,
+    "from": 226,
+    "dur": 22,
+    "note": null
+   },
+   {
+    "year": 50,
+    "from": 248,
+    "dur": 22,
+    "note": null
+   },
+   {
+    "year": 75,
+    "from": 270,
+    "dur": 22,
+    "note": null
+   },
+   {
+    "year": 100,
+    "from": 292,
+    "dur": 22,
+    "note": null
+   },
+   {
+    "year": 125,
+    "from": 314,
+    "dur": 45,
+    "note": "Rome near its height"
+   },
+   {
+    "year": 150,
+    "from": 359,
+    "dur": 22,
+    "note": null
+   },
+   {
+    "year": 200,
+    "from": 381,
+    "dur": 22,
+    "note": null
+   },
+   {
+    "year": 250,
+    "from": 403,
+    "dur": 22,
+    "note": null
+   },
+   {
+    "year": 300,
+    "from": 425,
+    "dur": 22,
+    "note": null
+   },
+   {
+    "year": 350,
+    "from": 447,
+    "dur": 22,
+    "note": null
+   },
+   {
+    "year": 375,
+    "from": 469,
+    "dur": 22,
+    "note": null
+   },
+   {
+    "year": 400,
+    "from": 491,
+    "dur": 45,
+    "note": "Split into East and West"
+   },
+   {
+    "year": 425,
+    "from": 536,
+    "dur": 22,
+    "note": null
+   },
+   {
+    "year": 450,
+    "from": 558,
+    "dur": 22,
+    "note": null
+   },
+   {
+    "year": 475,
+    "from": 580,
+    "dur": 45,
+    "note": "The West falls"
+   },
+   {
+    "year": 500,
+    "from": 625,
+    "dur": 22,
+    "note": null
+   },
+   {
+    "year": 525,
+    "from": 647,
+    "dur": 22,
+    "note": null
+   },
+   {
+    "year": 550,
+    "from": 669,
+    "dur": 45,
+    "note": "Justinian strikes back"
+   },
+   {
+    "year": 575,
+    "from": 714,
+    "dur": 22,
+    "note": null
+   },
+   {
+    "year": 600,
+    "from": 736,
+    "dur": 22,
+    "note": null
+   }
+  ],
+  "mapEnd": 778,
+  "total": 868
+ },
+ "mongol": {
+  "shots": [
+   {
+    "year": 1100,
+    "from": 48,
+    "dur": 30,
+    "note": null
+   },
+   {
+    "year": 1120,
+    "from": 78,
+    "dur": 30,
+    "note": null
+   },
+   {
+    "year": 1140,
+    "from": 108,
+    "dur": 30,
+    "note": null
+   },
+   {
+    "year": 1160,
+    "from": 138,
+    "dur": 30,
+    "note": null
+   },
+   {
+    "year": 1180,
+    "from": 168,
+    "dur": 30,
+    "note": null
+   },
+   {
+    "year": 1200,
+    "from": 198,
+    "dur": 45,
+    "note": "Before Genghis Khan"
+   },
+   {
+    "year": 1220,
+    "from": 243,
+    "dur": 45,
+    "note": "Genghis Khan's conquests"
+   },
+   {
+    "year": 1240,
+    "from": 288,
+    "dur": 30,
+    "note": null
+   },
+   {
+    "year": 1260,
+    "from": 318,
+    "dur": 45,
+    "note": "The largest land empire ever"
+   },
+   {
+    "year": 1280,
+    "from": 363,
+    "dur": 30,
+    "note": null
+   },
+   {
+    "year": 1300,
+    "from": 393,
+    "dur": 45,
+    "note": "Split into four khanates"
+   },
+   {
+    "year": 1320,
+    "from": 438,
+    "dur": 30,
+    "note": null
+   },
+   {
+    "year": 1340,
+    "from": 468,
+    "dur": 30,
+    "note": null
+   },
+   {
+    "year": 1360,
+    "from": 498,
+    "dur": 30,
+    "note": null
+   },
+   {
+    "year": 1380,
+    "from": 528,
+    "dur": 45,
+    "note": "Driven out of China"
+   },
+   {
+    "year": 1400,
+    "from": 573,
+    "dur": 30,
+    "note": null
+   },
+   {
+    "year": 1420,
+    "from": 603,
+    "dur": 30,
+    "note": null
+   },
+   {
+    "year": 1440,
+    "from": 633,
+    "dur": 30,
+    "note": null
+   }
+  ],
+  "mapEnd": 683,
+  "total": 773
+ },
+ "ottoman": {
+  "shots": [
+   {
+    "year": 1300,
+    "from": 48,
+    "dur": 45,
+    "note": "A small frontier state"
+   },
+   {
+    "year": 1320,
+    "from": 93,
+    "dur": 16,
+    "note": null
+   },
+   {
+    "year": 1340,
+    "from": 109,
+    "dur": 16,
+    "note": null
+   },
+   {
+    "year": 1360,
+    "from": 125,
+    "dur": 16,
+    "note": null
+   },
+   {
+    "year": 1380,
+    "from": 141,
+    "dur": 16,
+    "note": null
+   },
+   {
+    "year": 1400,
+    "from": 157,
+    "dur": 16,
+    "note": null
+   },
+   {
+    "year": 1420,
+    "from": 173,
+    "dur": 16,
+    "note": null
+   },
+   {
+    "year": 1440,
+    "from": 189,
+    "dur": 16,
+    "note": null
+   },
+   {
+    "year": 1460,
+    "from": 205,
+    "dur": 45,
+    "note": "Constantinople has fallen"
+   },
+   {
+    "year": 1480,
+    "from": 250,
+    "dur": 16,
+    "note": null
+   },
+   {
+    "year": 1500,
+    "from": 266,
+    "dur": 16,
+    "note": null
+   },
+   {
+    "year": 1520,
+    "from": 282,
+    "dur": 45,
+    "note": "Egypt and Syria conquered"
+   },
+   {
+    "year": 1540,
+    "from": 327,
+    "dur": 16,
+    "note": null
+   },
+   {
+    "year": 1560,
+    "from": 343,
+    "dur": 16,
+    "note": null
+   },
+   {
+    "year": 1580,
+    "from": 359,
+    "dur": 16,
+    "note": null
+   },
+   {
+    "year": 1600,
+    "from": 375,
+    "dur": 16,
+    "note": null
+   },
+   {
+    "year": 1650,
+    "from": 391,
+    "dur": 16,
+    "note": null
+   },
+   {
+    "year": 1680,
+    "from": 407,
+    "dur": 45,
+    "note": "At its largest"
+   },
+   {
+    "year": 1700,
+    "from": 452,
+    "dur": 16,
+    "note": null
+   },
+   {
+    "year": 1750,
+    "from": 468,
+    "dur": 16,
+    "note": null
+   },
+   {
+    "year": 1800,
+    "from": 484,
+    "dur": 16,
+    "note": null
+   },
+   {
+    "year": 1830,
+    "from": 500,
+    "dur": 45,
+    "note": "Greece breaks free"
+   },
+   {
+    "year": 1860,
+    "from": 545,
+    "dur": 16,
+    "note": null
+   },
+   {
+    "year": 1880,
+    "from": 561,
+    "dur": 16,
+    "note": null
+   },
+   {
+    "year": 1900,
+    "from": 577,
+    "dur": 16,
+    "note": null
+   },
+   {
+    "year": 1912,
+    "from": 593,
+    "dur": 16,
+    "note": null
+   },
+   {
+    "year": 1914,
+    "from": 609,
+    "dur": 45,
+    "note": "The Balkans are lost"
+   },
+   {
+    "year": 1920,
+    "from": 654,
+    "dur": 45,
+    "note": "Carved up after World War I"
+   },
+   {
+    "year": 1925,
+    "from": 699,
+    "dur": 45,
+    "note": "The Republic of Turkey"
+   }
+  ],
+  "mapEnd": 764,
+  "total": 854
+ },
+ "africa": {
+  "shots": [
+   {
+    "year": 1800,
+    "from": 48,
+    "dur": 24,
+    "note": null
+   },
+   {
+    "year": 1820,
+    "from": 72,
+    "dur": 24,
+    "note": null
+   },
+   {
+    "year": 1840,
+    "from": 96,
+    "dur": 24,
+    "note": null
+   },
+   {
+    "year": 1860,
+    "from": 120,
+    "dur": 24,
+    "note": null
+   },
+   {
+    "year": 1870,
+    "from": 144,
+    "dur": 24,
+    "note": null
+   },
+   {
+    "year": 1880,
+    "from": 168,
+    "dur": 45,
+    "note": "Before the Scramble"
+   },
+   {
+    "year": 1885,
+    "from": 213,
+    "dur": 24,
+    "note": null
+   },
+   {
+    "year": 1890,
+    "from": 237,
+    "dur": 24,
+    "note": null
+   },
+   {
+    "year": 1895,
+    "from": 261,
+    "dur": 24,
+    "note": null
+   },
+   {
+    "year": 1900,
+    "from": 285,
+    "dur": 45,
+    "note": "Europe carves up Africa"
+   },
+   {
+    "year": 1905,
+    "from": 330,
+    "dur": 24,
+    "note": null
+   },
+   {
+    "year": 1910,
+    "from": 354,
+    "dur": 45,
+    "note": "Only Ethiopia and Liberia stay free"
+   },
+   {
+    "year": 1920,
+    "from": 399,
+    "dur": 24,
+    "note": null
+   },
+   {
+    "year": 1930,
+    "from": 423,
+    "dur": 24,
+    "note": null
+   },
+   {
+    "year": 1940,
+    "from": 447,
+    "dur": 24,
+    "note": null
+   },
+   {
+    "year": 1950,
+    "from": 471,
+    "dur": 24,
+    "note": null
+   },
+   {
+    "year": 1955,
+    "from": 495,
+    "dur": 24,
+    "note": null
+   },
+   {
+    "year": 1960,
+    "from": 519,
+    "dur": 45,
+    "note": "The Year of Africa"
+   },
+   {
+    "year": 1965,
+    "from": 564,
+    "dur": 24,
+    "note": null
+   },
+   {
+    "year": 1970,
+    "from": 588,
+    "dur": 24,
+    "note": null
+   },
+   {
+    "year": 1975,
+    "from": 612,
+    "dur": 45,
+    "note": "Portugal's colonies go free"
+   },
+   {
+    "year": 1980,
+    "from": 657,
+    "dur": 24,
+    "note": null
+   },
+   {
+    "year": 1990,
+    "from": 681,
+    "dur": 45,
+    "note": "Namibia, one of the last"
+   },
+   {
+    "year": 2000,
+    "from": 726,
+    "dur": 24,
+    "note": null
+   }
+  ],
+  "mapEnd": 770,
+  "total": 860
+ },
+ "americas": {
+  "shots": [
+   {
+    "year": 1490,
+    "from": 48,
+    "dur": 45,
+    "note": "Before Columbus"
+   },
+   {
+    "year": 1500,
+    "from": 93,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1510,
+    "from": 116,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1520,
+    "from": 139,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1530,
+    "from": 162,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1540,
+    "from": 185,
+    "dur": 45,
+    "note": "Spain topples the Aztecs and Incas"
+   },
+   {
+    "year": 1560,
+    "from": 230,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1580,
+    "from": 253,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1600,
+    "from": 276,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1650,
+    "from": 299,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1700,
+    "from": 322,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1750,
+    "from": 345,
+    "dur": 45,
+    "note": "Europe's empires"
+   },
+   {
+    "year": 1770,
+    "from": 390,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1780,
+    "from": 413,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1790,
+    "from": 436,
+    "dur": 45,
+    "note": "A new country: the United States"
+   },
+   {
+    "year": 1800,
+    "from": 481,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1810,
+    "from": 504,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1820,
+    "from": 527,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1830,
+    "from": 550,
+    "dur": 45,
+    "note": "Latin America breaks free"
+   },
+   {
+    "year": 1840,
+    "from": 595,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1850,
+    "from": 618,
+    "dur": 45,
+    "note": "The US reaches the Pacific"
+   },
+   {
+    "year": 1860,
+    "from": 663,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1870,
+    "from": 686,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1900,
+    "from": 709,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1950,
+    "from": 732,
+    "dur": 23,
+    "note": null
+   }
+  ],
+  "mapEnd": 775,
+  "total": 865
+ },
+ "russia": {
+  "shots": [
+   {
+    "year": 1300,
+    "from": 48,
+    "dur": 45,
+    "note": "Under the Golden Horde"
+   },
+   {
+    "year": 1350,
+    "from": 93,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1400,
+    "from": 116,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1450,
+    "from": 139,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1480,
+    "from": 162,
+    "dur": 45,
+    "note": "Moscow breaks free"
+   },
+   {
+    "year": 1500,
+    "from": 207,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1550,
+    "from": 230,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1580,
+    "from": 253,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1600,
+    "from": 276,
+    "dur": 45,
+    "note": "Pushing into Siberia"
+   },
+   {
+    "year": 1650,
+    "from": 321,
+    "dur": 45,
+    "note": "Reaching the Pacific"
+   },
+   {
+    "year": 1700,
+    "from": 366,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1750,
+    "from": 389,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1800,
+    "from": 412,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1850,
+    "from": 435,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1870,
+    "from": 458,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1900,
+    "from": 481,
+    "dur": 45,
+    "note": "The Russian Empire"
+   },
+   {
+    "year": 1914,
+    "from": 526,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1920,
+    "from": 549,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1925,
+    "from": 572,
+    "dur": 45,
+    "note": "The Soviet Union"
+   },
+   {
+    "year": 1940,
+    "from": 617,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1945,
+    "from": 640,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1950,
+    "from": 663,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 1990,
+    "from": 686,
+    "dur": 23,
+    "note": null
+   },
+   {
+    "year": 2000,
+    "from": 709,
+    "dur": 45,
+    "note": "After the USSR"
+   }
+  ],
+  "mapEnd": 774,
+  "total": 864
+ },
+ "india": {
+  "shots": [
+   {
+    "year": 1500,
+    "from": 48,
+    "dur": 30,
+    "note": null
+   },
+   {
+    "year": 1550,
+    "from": 78,
+    "dur": 30,
+    "note": null
+   },
+   {
+    "year": 1600,
+    "from": 108,
+    "dur": 45,
+    "note": "The Mughal Empire"
+   },
+   {
+    "year": 1650,
+    "from": 153,
+    "dur": 30,
+    "note": null
+   },
+   {
+    "year": 1700,
+    "from": 183,
+    "dur": 45,
+    "note": "The Mughals at their peak"
+   },
+   {
+    "year": 1720,
+    "from": 228,
+    "dur": 30,
+    "note": null
+   },
+   {
+    "year": 1740,
+    "from": 258,
+    "dur": 30,
+    "note": null
+   },
+   {
+    "year": 1760,
+    "from": 288,
+    "dur": 45,
+    "note": "Maratha power"
+   },
+   {
+    "year": 1780,
+    "from": 333,
+    "dur": 30,
+    "note": null
+   },
+   {
+    "year": 1800,
+    "from": 363,
+    "dur": 30,
+    "note": null
+   },
+   {
+    "year": 1820,
+    "from": 393,
+    "dur": 45,
+    "note": "The East India Company"
+   },
+   {
+    "year": 1840,
+    "from": 438,
+    "dur": 30,
+    "note": null
+   },
+   {
+    "year": 1850,
+    "from": 468,
+    "dur": 30,
+    "note": null
+   },
+   {
+    "year": 1860,
+    "from": 498,
+    "dur": 45,
+    "note": "The British Raj"
+   },
+   {
+    "year": 1900,
+    "from": 543,
+    "dur": 30,
+    "note": null
+   },
+   {
+    "year": 1940,
+    "from": 573,
+    "dur": 30,
+    "note": null
+   },
+   {
+    "year": 1945,
+    "from": 603,
+    "dur": 30,
+    "note": null
+   },
+   {
+    "year": 1950,
+    "from": 633,
+    "dur": 45,
+    "note": "India and Pakistan"
+   },
+   {
+    "year": 2000,
+    "from": 678,
+    "dur": 45,
+    "note": "Today's borders"
+   }
+  ],
+  "mapEnd": 743,
+  "total": 833
+ }
+}

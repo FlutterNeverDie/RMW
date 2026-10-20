@@ -1,0 +1,2119 @@
+{
+ "_설명": "몽골 1편 전체 장면표 (형식은 pilot.json 머리말). music = 그 장면부터 바뀌는 브금(main·tension·battle·lament·triumph), sfx = 효과음 직접 지정(없으면 화면 종류별 기본). 인물 대사는 극화, [기록]은 실제 기록에서 온 말을 다듬은 것",
+ "bgm": "bgm/main.wav",
+ "scenes": [
+  {
+   "music": "main",
+   "role": "narrator",
+   "text": "In 1206, a man who had been hunted as a boy, captured, and left to starve...",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-zoom/1200.jpg",
+    "from": [
+     0.5,
+     0.5,
+     1.0
+    ],
+    "to": [
+     0.55,
+     0.42,
+     1.9
+    ],
+    "labels": [
+     {
+      "text": "1206",
+      "x": 0.5,
+      "y": 0.2,
+      "big": true
+     },
+     {
+      "text": "THE STEPPE",
+      "x": 0.55,
+      "y": 0.42,
+      "at": 0.45
+     }
+    ]
+   },
+   "i18n": {
+    "ko": "1206년. 어릴 때 쫓기고 붙잡히고, 굶어 죽게 버려졌던 한 남자가...",
+    "es": "Año 1206. Un hombre al que de niño persiguieron, capturaron y dejaron morir de hambre..."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "stood in front of every tribe on the steppe.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/genghis-proclaimed-1206.jpg",
+    "from": [
+     0.5,
+     0.6,
+     1.0
+    ],
+    "to": [
+     0.5,
+     0.35,
+     1.25
+    ]
+   },
+   "i18n": {
+    "ko": "초원의 모든 부족 앞에 섰습니다.",
+    "es": "se plantó frente a todas las tribus de la estepa."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "And they called him Genghis Khan.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/genghis-portrait.jpg",
+    "from": [
+     0.5,
+     0.4,
+     1.0
+    ],
+    "to": [
+     0.5,
+     0.3,
+     1.18
+    ],
+    "name": "GENGHIS KHAN",
+    "sub": "c. 1162 - 1227"
+   },
+   "i18n": {
+    "ko": "사람들은 그를 칭기즈칸이라 불렀죠.",
+    "es": "Y lo llamaron Gengis Kan."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Seventy years later, his family ruled from the Pacific to the Black Sea.",
+   "show": {
+    "type": "lapse",
+    "set": "clean/mg-wide",
+    "years": [
+     1200,
+     1210,
+     1220,
+     1230,
+     1240,
+     1250,
+     1260,
+     1270,
+     1280
+    ]
+   },
+   "i18n": {
+    "ko": "그리고 70년 뒤, 그 가문은 태평양에서 흑해까지 다스리게 됩니다.",
+    "es": "Setenta años después, su familia gobernaba desde el Pacífico hasta el mar Negro."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "The largest land empire in history.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-wide/1280.jpg",
+    "from": [
+     0.5,
+     0.5,
+     1.12
+    ],
+    "to": [
+     0.5,
+     0.5,
+     1.0
+    ],
+    "labels": [
+     {
+      "text": "LARGEST LAND EMPIRE IN HISTORY",
+      "x": 0.5,
+      "y": 0.18,
+      "big": true
+     }
+    ]
+   },
+   "i18n": {
+    "ko": "인류 역사상 가장 큰 육지 제국이에요.",
+    "es": "El imperio terrestre más grande de la historia."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "There were maybe a million Mongols. Their enemies had tens of millions.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-zoom/1210.jpg",
+    "from": [
+     0.55,
+     0.55,
+     1.15
+    ],
+    "to": [
+     0.6,
+     0.6,
+     1.3
+    ],
+    "labels": [
+     {
+      "text": "MONGOLS: ~1 MILLION",
+      "x": 0.55,
+      "y": 0.43,
+      "tone": "accent"
+     },
+     {
+      "text": "JIN CHINA: TENS OF MILLIONS",
+      "x": 0.66,
+      "y": 0.6,
+      "at": 0.45,
+      "tone": "dark"
+     },
+     {
+      "text": "SONG CHINA: TENS OF MILLIONS",
+      "x": 0.6,
+      "y": 0.77,
+      "at": 0.6,
+      "tone": "dark"
+     }
+    ]
+   },
+   "i18n": {
+    "ko": "몽골인은 많아야 100만 명. 상대는 수천만 명이었죠.",
+    "es": "Los mongoles eran, como mucho, un millón. Sus enemigos, decenas de millones."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "So how did a nation of herders pull it off?",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/mongol-horde.jpg",
+    "from": [
+     0.3,
+     0.55,
+     1.15
+    ],
+    "to": [
+     0.7,
+     0.55,
+     1.15
+    ]
+   },
+   "i18n": {
+    "ko": "도대체 유목민들이 어떻게 이걸 해낸 걸까요?",
+    "es": "¿Cómo diablos lo lograron unos pastores nómadas?"
+   }
+  },
+  {
+   "text": "",
+   "show": {
+    "type": "title",
+    "title": "THE MONGOL EMPIRE",
+    "sub": "PART 1 · THE OUTCAST",
+    "seconds": 2.6
+   }
+  },
+  {
+   "music": "tension",
+   "role": "narrator",
+   "text": "His name was Temüjin.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-zoom/1160.jpg",
+    "from": [
+     0.58,
+     0.45,
+     1.3
+    ],
+    "to": [
+     0.59,
+     0.43,
+     2.1
+    ],
+    "pins": [
+     {
+      "text": "Temüjin born, c. 1162",
+      "x": 0.6,
+      "y": 0.43
+     }
+    ]
+   },
+   "i18n": {
+    "ko": "그의 이름은 테무친.",
+    "es": "Se llamaba Temuyín."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "His father, Yesügei, was a chief. Not a big one... but a chief.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/genghis-toghril.jpg",
+    "from": [
+     0.35,
+     0.5,
+     1.1
+    ],
+    "to": [
+     0.55,
+     0.5,
+     1.25
+    ],
+    "name": "YESÜGEI",
+    "sub": "Temüjin's father"
+   },
+   "i18n": {
+    "ko": "아버지 예수게이는 족장이었어요. 큰 부족은 아니었지만, 그래도 족장.",
+    "es": "Su padre, Yesügei, era jefe. No de los grandes... pero jefe al fin."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "When Temüjin was about nine, his father rode home past a Tatar camp, shared their food... and was dead within days.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-zoom/1160.jpg",
+    "from": [
+     0.6,
+     0.45,
+     2.0
+    ],
+    "to": [
+     0.64,
+     0.47,
+     2.4
+    ],
+    "pins": [
+     {
+      "text": "Yesügei's camp",
+      "x": 0.6,
+      "y": 0.43
+     },
+     {
+      "text": "Tatars",
+      "x": 0.68,
+      "y": 0.5,
+      "at": 0.3,
+      "tone": "dark"
+     }
+    ]
+   },
+   "i18n": {
+    "ko": "테무친이 아홉 살쯤 됐을 때, 아버지는 집에 오던 길에 타타르족 천막에 들러 밥을 얻어먹었고... 며칠 만에 숨을 거둡니다.",
+    "es": "Cuando Temuyín tenía unos nueve años, su padre volvía a casa, paró en un campamento tártaro, comió con ellos... y a los pocos días estaba muerto."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Poisoned.",
+   "show": {
+    "type": "stamp",
+    "text": "POISONED"
+   },
+   "i18n": {
+    "ko": "독살이었죠.",
+    "es": "Envenenado."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "And then the clan did something brutal. They packed up... and left.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/alanquva-sons.jpg",
+    "from": [
+     0.5,
+     0.7,
+     1.05
+    ],
+    "to": [
+     0.5,
+     0.45,
+     1.3
+    ],
+    "grade": "dark"
+   },
+   "i18n": {
+    "ko": "그리고 부족은 정말 잔인한 짓을 합니다. 짐을 싸서... 그냥 떠나 버린 거예요.",
+    "es": "Y entonces el clan hizo algo brutal. Recogieron todo... y se fueron."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "The widow, Hoelun, and her children were abandoned on the open steppe to die.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-zoom/1160.jpg",
+    "from": [
+     0.6,
+     0.43,
+     2.4
+    ],
+    "to": [
+     0.6,
+     0.43,
+     1.4
+    ],
+    "pins": [
+     {
+      "text": "Hoelun and her children",
+      "x": 0.6,
+      "y": 0.43
+     }
+    ],
+    "grade": "dark"
+   },
+   "i18n": {
+    "ko": "과부 호엘룬과 아이들은 허허벌판에 버려졌습니다. 죽으라는 거였죠.",
+    "es": "La viuda, Hoelún, y sus hijos quedaron abandonados en plena estepa. Para que murieran."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "They survived on roots, wild onions and whatever fish the boys could catch.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/alanquva-sons.jpg",
+    "from": [
+     0.35,
+     0.55,
+     1.5
+    ],
+    "to": [
+     0.45,
+     0.6,
+     1.7
+    ],
+    "grade": "dark"
+   },
+   "i18n": {
+    "ko": "풀뿌리, 들양파, 아이들이 겨우 잡은 물고기로 버텼어요.",
+    "es": "Sobrevivieron con raíces, cebollas silvestres y los pocos peces que los chicos lograban pescar."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "And hunger made the brothers vicious. When his half-brother Begter kept stealing their food, Temüjin and his brother shot him dead with arrows.",
+   "show": {
+    "type": "stamp",
+    "text": "BEGTER"
+   },
+   "i18n": {
+    "ko": "배고픔은 형제들을 독하게 만들었습니다. 이복형 베크테르가 계속 먹을 걸 빼앗자, 테무친과 동생은 그를 화살로 쏴 죽여 버려요.",
+    "es": "Y el hambre los volvió despiadados. Como su medio hermano Bekter les robaba la comida, Temuyín y su hermano lo mataron a flechazos."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Hoelun was furious.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/alanquva-sons.jpg",
+    "from": [
+     0.25,
+     0.55,
+     1.6
+    ],
+    "to": [
+     0.25,
+     0.5,
+     1.9
+    ],
+    "name": "HOELUN",
+    "sub": "Temüjin's mother"
+   },
+   "i18n": {
+    "ko": "호엘룬은 불같이 화를 냈죠.",
+    "es": "Hoelún estalló de furia."
+   }
+  },
+  {
+   "role": "mother",
+   "speaker": "HOELUN",
+   "text": "You murderers! Besides your own shadows, you have no friends!",
+   "show": {
+    "type": "line"
+   },
+   "i18n": {
+    "ko": "이 살인자들아! 너희한텐 이제 그림자 말고는 친구도 없다!",
+    "es": "¡Asesinos! ¡Aparte de su propia sombra, no les queda ni un amigo!"
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Then a rival clan, the Taichiud, hunted him down and locked his neck in a wooden collar.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-zoom/1160.jpg",
+    "from": [
+     0.6,
+     0.43,
+     1.8
+    ],
+    "to": [
+     0.58,
+     0.44,
+     2.2
+    ],
+    "pins": [
+     {
+      "text": "Taichiud",
+      "x": 0.575,
+      "y": 0.415,
+      "at": 0.15,
+      "tone": "dark"
+     },
+     {
+      "text": "Temüjin",
+      "x": 0.6,
+      "y": 0.43
+     }
+    ]
+   },
+   "i18n": {
+    "ko": "그러다 라이벌 부족 타이치우드가 그를 쫓아와 붙잡고, 목에 나무 칼을 씌웁니다.",
+    "es": "Después, un clan rival, los taichiud, lo cazó y le encerró el cuello en un cepo de madera."
+   }
+  },
+  {
+   "role": "villain",
+   "speaker": "TAICHIUD CHIEF",
+   "text": "The son of Yesügei. Keep him alive. For now.",
+   "show": {
+    "type": "line"
+   },
+   "i18n": {
+    "ko": "예수게이의 아들이라... 살려 둬라. 아직은.",
+    "es": "El hijo de Yesügei... Manténganlo con vida. Por ahora."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "One night he slipped away and hid in a river. A guard spotted him... and said nothing.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-zoom/1160.jpg",
+    "from": [
+     0.6,
+     0.43,
+     2.2
+    ],
+    "to": [
+     0.62,
+     0.42,
+     2.6
+    ],
+    "pins": [
+     {
+      "text": "Onon River",
+      "x": 0.615,
+      "y": 0.42
+     }
+    ],
+    "grade": "dark"
+   },
+   "i18n": {
+    "ko": "어느 날 밤, 그는 빠져나와 강물 속에 숨습니다. 경비병 하나가 그를 봤는데... 모른 척했죠.",
+    "es": "Una noche se escapó y se escondió en un río. Un guardia lo vio... y no dijo nada."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "That man even hid him in a cart full of wool. Years later, Temüjin would reward his family for the rest of their lives.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/genghis-advising-sons.jpg",
+    "from": [
+     0.5,
+     0.6,
+     1.0
+    ],
+    "to": [
+     0.5,
+     0.4,
+     1.2
+    ]
+   },
+   "i18n": {
+    "ko": "그 사람은 양털 수레에 그를 숨겨 주기까지 했어요. 훗날 테무친은 그 집안에 평생 은혜를 갚습니다.",
+    "es": "Ese hombre hasta lo escondió en una carreta llena de lana. Años después, Temuyín recompensaría a su familia de por vida."
+   }
+  },
+  {
+   "music": "main",
+   "role": "narrator",
+   "text": "He grew up, married a girl named Börte... and almost immediately lost her. Merkit raiders swept in and kidnapped her.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-zoom/1160.jpg",
+    "from": [
+     0.6,
+     0.43,
+     1.6
+    ],
+    "to": [
+     0.57,
+     0.38,
+     2.0
+    ],
+    "pins": [
+     {
+      "text": "Temüjin & Börte",
+      "x": 0.6,
+      "y": 0.43
+     },
+     {
+      "text": "Merkits",
+      "x": 0.56,
+      "y": 0.36,
+      "at": 0.4,
+      "tone": "dark"
+     }
+    ]
+   },
+   "i18n": {
+    "ko": "어른이 된 그는 보르테라는 여인과 결혼하는데... 곧바로 잃어버립니다. 메르키트족이 쳐들어와 그녀를 납치해 간 거예요.",
+    "es": "Creció, se casó con una joven llamada Börte... y casi enseguida la perdió. Unos jinetes merkitas la secuestraron."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Temüjin had no army. So he did what he would do for the rest of his life. He found allies.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/genghis-toghril.jpg",
+    "from": [
+     0.5,
+     0.5,
+     1.0
+    ],
+    "to": [
+     0.6,
+     0.45,
+     1.3
+    ]
+   },
+   "i18n": {
+    "ko": "테무친에겐 군대가 없었어요. 그래서 평생 써먹을 방법을 씁니다. 동맹을 구한 거죠.",
+    "es": "Temuyín no tenía ejército. Así que hizo lo que haría toda su vida: buscar aliados."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "His father's old blood brother, Toghrul, a powerful khan... and his childhood friend, Jamukha.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/genghis-toghril.jpg",
+    "from": [
+     0.7,
+     0.5,
+     1.3
+    ],
+    "to": [
+     0.3,
+     0.5,
+     1.3
+    ],
+    "name": "TOGHRUL & JAMUKHA",
+    "sub": "allies... for now"
+   },
+   "i18n": {
+    "ko": "아버지의 의형제이자 강력한 칸인 토그릴... 그리고 어린 시절 친구 자무카.",
+    "es": "Toghrul, poderoso kan y viejo hermano de sangre de su padre... y su amigo de la infancia, Yamuqa."
+   }
+  },
+  {
+   "role": "hero",
+   "speaker": "TEMÜJIN",
+   "text": "Lend me your riders. I will pay you back. In everything.",
+   "show": {
+    "type": "line"
+   },
+   "i18n": {
+    "ko": "기병을 빌려주시오. 반드시 갚겠소. 전부 다.",
+    "es": "Préstenme a sus jinetes. Les pagaré. Con todo."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Together they smashed the Merkits and got Börte back. Suddenly, the outcast boy was someone men wanted to follow.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-zoom/1200.jpg",
+    "from": [
+     0.56,
+     0.38,
+     2.0
+    ],
+    "to": [
+     0.55,
+     0.42,
+     1.4
+    ],
+    "labels": [
+     {
+      "text": "VICTORY",
+      "x": 0.56,
+      "y": 0.38,
+      "at": 0.15,
+      "tone": "accent"
+     }
+    ]
+   },
+   "i18n": {
+    "ko": "셋은 메르키트족을 박살 내고 보르테를 되찾습니다. 버림받았던 소년은 어느새, 사람들이 따르고 싶어 하는 남자가 돼 있었죠.",
+    "es": "Juntos aplastaron a los merkitas y recuperaron a Börte. De pronto, aquel chico abandonado era alguien a quien la gente quería seguir."
+   }
+  },
+  {
+   "music": "tension",
+   "role": "narrator",
+   "text": "The steppe back then was chaos. Tatars, Keraites, Naimans, Merkits, all raiding each other, forever.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-zoom/1200.jpg",
+    "from": [
+     0.55,
+     0.45,
+     1.3
+    ],
+    "to": [
+     0.55,
+     0.42,
+     1.55
+    ],
+    "labels": [
+     {
+      "text": "NAIMANS",
+      "x": 0.48,
+      "y": 0.42,
+      "tone": "dark"
+     },
+     {
+      "text": "KERAITES",
+      "x": 0.56,
+      "y": 0.47,
+      "at": 0.2,
+      "tone": "dark"
+     },
+     {
+      "text": "MERKITS",
+      "x": 0.55,
+      "y": 0.34,
+      "at": 0.35,
+      "tone": "dark"
+     },
+     {
+      "text": "TATARS",
+      "x": 0.66,
+      "y": 0.47,
+      "at": 0.5,
+      "tone": "dark"
+     }
+    ]
+   },
+   "i18n": {
+    "ko": "당시 초원은 그야말로 난장판이었어요. 타타르, 케레이트, 나이만, 메르키트가 끝도 없이 서로 약탈했죠.",
+    "es": "La estepa era un caos. Tártaros, keraítas, naimanos, merkitas... saqueándose unos a otros sin parar."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Temüjin and Jamukha led side by side for a while. But the two friends wanted very different things.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/chinese-envoys.jpg",
+    "from": [
+     0.5,
+     0.5,
+     1.0
+    ],
+    "to": [
+     0.5,
+     0.5,
+     1.2
+    ]
+   },
+   "i18n": {
+    "ko": "테무친과 자무카는 한동안 나란히 무리를 이끌었어요. 하지만 두 친구가 원하는 건 완전히 달랐죠.",
+    "es": "Temuyín y Yamuqa lideraron juntos un tiempo. Pero los dos amigos querían cosas muy distintas."
+   }
+  },
+  {
+   "role": "schemer",
+   "speaker": "JAMUKHA",
+   "text": "The old families rule, my friend. That is the way of the steppe.",
+   "show": {
+    "type": "line"
+   },
+   "i18n": {
+    "ko": "친구여, 초원은 원래 귀한 가문이 다스리는 거야. 그게 초원의 법이지.",
+    "es": "Amigo mío, aquí mandan las viejas familias. Así es la estepa."
+   }
+  },
+  {
+   "role": "hero",
+   "speaker": "TEMÜJIN",
+   "text": "I don't care who your father was. I care if you're loyal... and if you can fight.",
+   "show": {
+    "type": "line"
+   },
+   "i18n": {
+    "ko": "난 네 아비가 누군지 관심 없어. 충성하는지... 싸울 줄 아는지, 그것만 본다.",
+    "es": "Me da igual quién era tu padre. Me importa si eres leal... y si sabes pelear."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Around 1187, the friends went to war. And Temüjin lost. Badly.",
+   "show": {
+    "type": "stamp",
+    "text": "DEFEAT"
+   },
+   "i18n": {
+    "ko": "1187년쯤, 두 친구는 결국 전쟁을 벌입니다. 그리고 테무친은 졌어요. 처참하게.",
+    "es": "Hacia 1187, los amigos fueron a la guerra. Y Temuyín perdió. Feo."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "The chronicles claim Jamukha boiled seventy prisoners alive. True or not, it backfired. Men began leaving Jamukha... and riding over to Temüjin.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/mongol-horde.jpg",
+    "from": [
+     0.7,
+     0.5,
+     1.3
+    ],
+    "to": [
+     0.3,
+     0.5,
+     1.3
+    ],
+    "grade": "dark"
+   },
+   "i18n": {
+    "ko": "기록에 따르면 자무카는 포로 70명을 산 채로 삶아 죽였다고 해요. 사실이든 아니든 역효과였죠. 사람들이 자무카를 떠나... 테무친에게 넘어오기 시작했거든요.",
+    "es": "Las crónicas dicen que Yamuqa hirvió vivos a setenta prisioneros. Fuera cierto o no, le salió caro: la gente empezó a abandonarlo... y a pasarse al bando de Temuyín."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "In one battle, an enemy archer shot Temüjin's horse right out from under him. After the fight, the archer was captured... and he admitted it.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/mongol-horde.jpg",
+    "from": [
+     0.5,
+     0.4,
+     1.6
+    ],
+    "to": [
+     0.55,
+     0.45,
+     1.9
+    ]
+   },
+   "i18n": {
+    "ko": "어느 전투에서 적 궁수가 테무친이 탄 말을 쏴 쓰러뜨립니다. 전투가 끝나고 그 궁수가 붙잡혔는데... 순순히 인정했어요.",
+    "es": "En una batalla, un arquero enemigo le mató el caballo a Temuyín. Al terminar, capturaron al arquero... y lo confesó."
+   }
+  },
+  {
+   "role": "general",
+   "speaker": "THE ARCHER",
+   "text": "It was me. Kill me if you want. Or let me fight for you.",
+   "show": {
+    "type": "line"
+   },
+   "i18n": {
+    "ko": "내가 쐈소. 죽이려면 죽이시오. 아니면 당신 밑에서 싸우게 해 주든가.",
+    "es": "Fui yo. Mátame si quieres. O déjame pelear para ti."
+   }
+  },
+  {
+   "role": "king",
+   "speaker": "TEMÜJIN",
+   "text": "A man who tells the truth when it can get him killed... From now on, your name is Jebe. The Arrow.",
+   "show": {
+    "type": "line"
+   },
+   "i18n": {
+    "ko": "목숨이 걸렸는데도 진실을 말하는 자라... 오늘부터 네 이름은 제베다. 화살이라는 뜻이지.",
+    "es": "Un hombre que dice la verdad aunque le cueste la vida... Desde hoy te llamarás Jebe. La Flecha."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Jebe would become one of the greatest generals who ever lived. Next to him rose another nobody: Subutai, a blacksmith's son. Remember these two names.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/mongol-horde.jpg",
+    "from": [
+     0.4,
+     0.6,
+     1.2
+    ],
+    "to": [
+     0.6,
+     0.55,
+     1.4
+    ],
+    "name": "JEBE & SUBUTAI",
+    "sub": "remember these names"
+   },
+   "i18n": {
+    "ko": "제베는 역사상 손꼽히는 명장이 됩니다. 그 곁에 또 한 명의 무명이 떠오르죠. 대장장이 아들인 수부타이. 이 두 이름, 꼭 기억해 두세요.",
+    "es": "Jebe se convertiría en uno de los mejores generales de la historia. A su lado surgió otro don nadie: Subotai, hijo de un herrero. Recuerda estos dos nombres."
+   }
+  },
+  {
+   "music": "battle",
+   "role": "narrator",
+   "text": "Then Temüjin went on a run. 1202, the Tatars. The people who poisoned his father.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-zoom/1200.jpg",
+    "from": [
+     0.62,
+     0.46,
+     1.4
+    ],
+    "to": [
+     0.66,
+     0.47,
+     1.9
+    ],
+    "labels": [
+     {
+      "text": "1202 · TATARS CRUSHED",
+      "x": 0.66,
+      "y": 0.47,
+      "tone": "accent"
+     }
+    ]
+   },
+   "i18n": {
+    "ko": "그리고 테무친의 질주가 시작됩니다. 1202년, 타타르. 아버지를 독살한 바로 그들.",
+    "es": "Y entonces Temuyín arrasó. 1202: los tártaros. Los que envenenaron a su padre."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "1203, the Keraites. Even his old ally, Toghrul.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-zoom/1200.jpg",
+    "from": [
+     0.66,
+     0.47,
+     1.9
+    ],
+    "to": [
+     0.56,
+     0.47,
+     1.9
+    ],
+    "labels": [
+     {
+      "text": "1203 · KERAITES",
+      "x": 0.56,
+      "y": 0.47,
+      "tone": "accent"
+     }
+    ]
+   },
+   "i18n": {
+    "ko": "1203년, 케레이트. 옛 동맹 토그릴까지.",
+    "es": "1203: los keraítas. Ni su viejo aliado Toghrul se salvó."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "1204, the Naimans. Jamukha's own men finally tied him up and dragged him in.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-zoom/1200.jpg",
+    "from": [
+     0.56,
+     0.47,
+     1.9
+    ],
+    "to": [
+     0.48,
+     0.42,
+     2.0
+    ],
+    "labels": [
+     {
+      "text": "1204 · NAIMANS",
+      "x": 0.48,
+      "y": 0.42,
+      "tone": "accent"
+     }
+    ]
+   },
+   "i18n": {
+    "ko": "1204년, 나이만. 결국 자무카의 부하들이 직접 그를 묶어 끌고 옵니다.",
+    "es": "1204: los naimanos. Al final, los propios hombres de Yamuqa lo ataron y se lo entregaron."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Temüjin executed the traitors who betrayed their own lord. And then his old friend asked for one last thing.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/genghis-advising-sons.jpg",
+    "from": [
+     0.5,
+     0.4,
+     1.3
+    ],
+    "to": [
+     0.5,
+     0.55,
+     1.5
+    ],
+    "grade": "dark"
+   },
+   "i18n": {
+    "ko": "테무친은 주인을 배신한 자들을 처형했어요. 그리고 옛 친구는 마지막 부탁을 하나 하죠.",
+    "es": "Temuyín ejecutó a los traidores que vendieron a su propio señor. Y su viejo amigo le pidió una última cosa."
+   }
+  },
+  {
+   "role": "schemer",
+   "speaker": "JAMUKHA",
+   "text": "Let me die without shedding my blood. And bury me on high ground.",
+   "show": {
+    "type": "line"
+   },
+   "i18n": {
+    "ko": "피를 흘리지 않게 죽여 다오. 그리고 높은 언덕에 묻어 줘.",
+    "es": "Déjame morir sin derramar mi sangre. Y entiérrame en lo alto."
+   }
+  },
+  {
+   "music": "triumph",
+   "role": "narrator",
+   "text": "In 1206, at a great assembly by the Onon River, every tribe on the steppe swore to one man. Temüjin took a new name. Genghis Khan.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/genghis-proclaimed-1206.jpg",
+    "from": [
+     0.5,
+     0.3,
+     1.3
+    ],
+    "to": [
+     0.5,
+     0.5,
+     1.0
+    ],
+    "name": "GENGHIS KHAN",
+    "sub": "1206 · Great Khan of the Mongols"
+   },
+   "i18n": {
+    "ko": "1206년, 오논강 가의 대집회. 초원의 모든 부족이 한 사람에게 충성을 맹세합니다. 테무친은 새 이름을 얻었어요. 칭기즈칸.",
+    "es": "En 1206, en una gran asamblea junto al río Onón, todas las tribus juraron lealtad a un solo hombre. Temuyín tomó un nuevo nombre: Gengis Kan."
+   }
+  },
+  {
+   "music": "main",
+   "text": "",
+   "show": {
+    "type": "title",
+    "title": "THE WAR MACHINE",
+    "sub": "HOW THE MONGOLS FOUGHT",
+    "seconds": 2.4
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Now here's the real secret. Genghis didn't just beat the tribes. He broke them apart.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/mongol-horde.jpg",
+    "from": [
+     0.2,
+     0.5,
+     1.2
+    ],
+    "to": [
+     0.8,
+     0.5,
+     1.2
+    ]
+   },
+   "i18n": {
+    "ko": "자, 이제 진짜 비밀이에요. 칭기즈칸은 부족들을 이기기만 한 게 아니라, 아예 해체해 버렸어요.",
+    "es": "Y aquí viene el verdadero secreto. Gengis no solo venció a las tribus. Las desarmó por completo."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "He split everyone into units of ten, a hundred, a thousand, and ten thousand, and mixed the tribes together on purpose.",
+   "show": {
+    "type": "units"
+   },
+   "i18n": {
+    "ko": "모두를 10명, 100명, 1000명, 1만 명 단위로 쪼개고, 일부러 부족을 섞어 버렸죠.",
+    "es": "Dividió a todos en unidades de diez, cien, mil y diez mil... y mezcló las tribus a propósito."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Your old tribe didn't matter anymore. Your unit did. And if one man ran from battle, the whole ten could be punished.",
+   "show": {
+    "type": "stamp",
+    "text": "10 · 100 · 1,000 · 10,000"
+   },
+   "i18n": {
+    "ko": "이제 출신 부족은 상관없어요. 중요한 건 내 부대였죠. 한 명이라도 도망치면 열 명 전체가 벌을 받을 수 있었어요.",
+    "es": "Tu vieja tribu ya no importaba. Importaba tu unidad. Y si uno solo huía del combate, podían castigar a los diez."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Officers were picked by talent, not birth. A former enemy archer, a blacksmith's son... in this army, they could command ten thousand men.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/genghis-advising-sons.jpg",
+    "from": [
+     0.5,
+     0.5,
+     1.0
+    ],
+    "to": [
+     0.5,
+     0.45,
+     1.25
+    ]
+   },
+   "i18n": {
+    "ko": "지휘관은 출신이 아니라 실력으로 뽑았어요. 적군 궁수였던 자, 대장장이 아들... 이 군대에선 이런 사람들이 1만 명을 지휘할 수 있었죠.",
+    "es": "Los oficiales se elegían por talento, no por cuna. Un ex arquero enemigo, el hijo de un herrero... en este ejército podían mandar a diez mil hombres."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Every man was a horse archer from childhood. Each rider brought several horses, so an army could cover sixty miles in a day.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/mongol-horde.jpg",
+    "from": [
+     0.6,
+     0.45,
+     1.5
+    ],
+    "to": [
+     0.4,
+     0.5,
+     1.7
+    ]
+   },
+   "i18n": {
+    "ko": "남자들은 모두 어릴 때부터 말 위에서 활을 쐈어요. 한 사람이 말을 여러 마리 끌고 다녀서, 군대가 하루에 100킬로미터 가까이 움직일 수 있었죠.",
+    "es": "Todos eran arqueros a caballo desde niños. Cada jinete llevaba varios caballos, así que un ejército podía avanzar casi cien kilómetros en un día."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "And their favorite trick? Fake a retreat. Lure the enemy into chasing. Then turn around... and close the trap.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/siege-engine.jpg",
+    "from": [
+     0.5,
+     0.5,
+     1.0
+    ],
+    "to": [
+     0.5,
+     0.5,
+     1.3
+    ]
+   },
+   "i18n": {
+    "ko": "그리고 이들의 필살기? 일부러 도망치는 척, 적이 쫓아오게 만든 다음... 휙 돌아서서 포위해 버리는 거예요.",
+    "es": "¿Y su truco favorito? Fingir una retirada. Hacer que el enemigo los persiga. Y luego darse la vuelta... y cerrar la trampa."
+   }
+  },
+  {
+   "music": "tension",
+   "role": "narrator",
+   "text": "Genghis had a war machine. And just to the south sat the richest target on Earth. China.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-china/1210.jpg",
+    "from": [
+     0.5,
+     0.4,
+     1.0
+    ],
+    "to": [
+     0.56,
+     0.5,
+     1.6
+    ],
+    "labels": [
+     {
+      "text": "JIN DYNASTY",
+      "x": 0.58,
+      "y": 0.45,
+      "at": 0.4,
+      "tone": "dark"
+     }
+    ]
+   },
+   "i18n": {
+    "ko": "칭기즈칸에겐 이제 전쟁 기계가 있었어요. 그리고 바로 남쪽엔 세상에서 가장 부유한 먹잇감이 있었죠. 중국.",
+    "es": "Gengis ya tenía una máquina de guerra. Y justo al sur estaba el botín más rico del planeta: China."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "The north was ruled by the Jin dynasty. For generations, the Jin had played the steppe tribes against each other, and humiliated the Mongols.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/chinese-envoys.jpg",
+    "from": [
+     0.4,
+     0.5,
+     1.1
+    ],
+    "to": [
+     0.6,
+     0.5,
+     1.3
+    ]
+   },
+   "i18n": {
+    "ko": "북중국은 금나라가 다스렸어요. 금나라는 대대로 초원 부족들을 서로 싸우게 만들고, 몽골을 깔봤죠.",
+    "es": "El norte lo gobernaba la dinastía Jin. Durante generaciones, los Jin habían enfrentado a las tribus entre sí... y humillado a los mongoles."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "First, Genghis knocked out the Western Xia kingdom, so they couldn't stab him in the back.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-china/1210.jpg",
+    "from": [
+     0.5,
+     0.5,
+     1.6
+    ],
+    "to": [
+     0.445,
+     0.49,
+     2.0
+    ],
+    "pins": [
+     {
+      "text": "Western Xia",
+      "x": 0.445,
+      "y": 0.49,
+      "tone": "dark"
+     }
+    ]
+   },
+   "i18n": {
+    "ko": "칭기즈칸은 먼저 서하를 무너뜨립니다. 뒤에서 칼 맞지 않으려고요.",
+    "es": "Primero, Gengis tumbó al reino de Xia Occidental, para que no lo apuñalaran por la espalda."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Though not before a classic blunder. The Mongols tried to flood the Xia capital by diverting a river. The dam broke... and flooded their own camp instead.",
+   "show": {
+    "type": "stamp",
+    "text": "OOPS"
+   },
+   "i18n": {
+    "ko": "물론 어이없는 실수도 하나 있었죠. 강물을 돌려 서하 수도를 물바다로 만들려다가, 둑이 터져서... 자기 진영이 잠겨 버렸어요.",
+    "es": "Aunque antes metió la pata en grande: intentaron inundar la capital desviando un río. La presa reventó... y se inundó su propio campamento."
+   }
+  },
+  {
+   "music": "battle",
+   "role": "narrator",
+   "text": "Then, in 1211, at a mountain pass called Badger's Mouth, the Mongols met a Jin army many times their size.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-china/1210.jpg",
+    "from": [
+     0.445,
+     0.49,
+     2.0
+    ],
+    "to": [
+     0.535,
+     0.49,
+     2.2
+    ],
+    "pins": [
+     {
+      "text": "Badger's Mouth, 1211",
+      "x": 0.535,
+      "y": 0.49
+     }
+    ]
+   },
+   "i18n": {
+    "ko": "그리고 1211년, 야호령이라는 산길에서 몽골군은 자기들보다 몇 배나 큰 금나라 대군과 맞닥뜨립니다.",
+    "es": "Luego, en 1211, en un paso de montaña llamado la Boca del Tejón, los mongoles se toparon con un ejército Jin varias veces más grande."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "And they destroyed it.",
+   "show": {
+    "type": "stamp",
+    "text": "1211"
+   },
+   "i18n": {
+    "ko": "그리고 박살 냈죠.",
+    "es": "Y lo hicieron pedazos."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "The Jin emperor fled south. And by 1215, the Mongols had taken his capital, Zhongdu. Today we call it Beijing.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/siege-beijing.jpg",
+    "from": [
+     0.5,
+     0.5,
+     1.0
+    ],
+    "to": [
+     0.5,
+     0.45,
+     1.3
+    ],
+    "name": "ZHONGDU",
+    "sub": "today's Beijing · 1215"
+   },
+   "i18n": {
+    "ko": "금나라 황제는 남쪽으로 도망갔고, 1215년 몽골은 수도 중도를 함락합니다. 지금의 베이징이에요.",
+    "es": "El emperador Jin huyó al sur. Y en 1215 los mongoles tomaron su capital, Zhongdu. Hoy la conocemos como Pekín."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Chroniclers said the city burned for a month.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-china/1220.jpg",
+    "from": [
+     0.555,
+     0.51,
+     2.2
+    ],
+    "to": [
+     0.555,
+     0.51,
+     1.6
+    ],
+    "pins": [
+     {
+      "text": "Zhongdu (Beijing)",
+      "x": 0.555,
+      "y": 0.51
+     }
+    ],
+    "grade": "dark"
+   },
+   "i18n": {
+    "ko": "기록에 따르면 도시가 한 달 내내 불탔다고 해요.",
+    "es": "Las crónicas dicen que la ciudad ardió durante un mes."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Genghis left his general Muqali to keep grinding down the Jin. Because something in the west had caught his eye.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-west/1210.jpg",
+    "from": [
+     0.75,
+     0.5,
+     1.2
+    ],
+    "to": [
+     0.45,
+     0.55,
+     1.4
+    ]
+   },
+   "i18n": {
+    "ko": "칭기즈칸은 장군 무칼리에게 금나라를 계속 갈아 넣으라 맡겨 두고... 서쪽으로 눈을 돌립니다. 뭔가가 눈에 들어왔거든요.",
+    "es": "Gengis dejó a su general Muqali terminando de desgastar a los Jin. Porque algo en el oeste le había llamado la atención."
+   }
+  },
+  {
+   "music": "tension",
+   "role": "narrator",
+   "text": "West of the Mongols lay the Khwarazmian Empire. Rich. Huge. Its army may have outnumbered the Mongols several times over.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-west/1220.jpg",
+    "from": [
+     0.5,
+     0.55,
+     1.2
+    ],
+    "to": [
+     0.45,
+     0.6,
+     1.7
+    ],
+    "labels": [
+     {
+      "text": "KHWARAZMIAN EMPIRE",
+      "x": 0.45,
+      "y": 0.6,
+      "at": 0.25,
+      "tone": "dark"
+     }
+    ]
+   },
+   "i18n": {
+    "ko": "몽골 서쪽엔 호라즘 제국이 있었어요. 부유하고, 거대하고, 군대는 몽골의 몇 배였을지도 모르죠.",
+    "es": "Al oeste estaba el Imperio corasmio. Rico. Enorme. Su ejército quizá triplicaba al mongol."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Its ruler, Shah Muhammad the Second, liked to call himself a second Alexander the Great.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/persian-merchants.jpg",
+    "from": [
+     0.5,
+     0.3,
+     1.2
+    ],
+    "to": [
+     0.5,
+     0.4,
+     1.4
+    ],
+    "name": "SHAH MUHAMMAD II",
+    "sub": "ruler of Khwarazm"
+   },
+   "i18n": {
+    "ko": "그 왕 무함마드 2세는 자기를 제2의 알렉산드로스 대왕이라고 부르길 좋아했어요.",
+    "es": "Su soberano, el sha Mohamed II, se hacía llamar el segundo Alejandro Magno."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "And here's the twist. Genghis didn't want war with him. He wanted trade. So he sent a caravan of hundreds of merchants, loaded with silver, silk and furs.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/persian-merchants.jpg",
+    "from": [
+     0.5,
+     0.6,
+     1.0
+    ],
+    "to": [
+     0.5,
+     0.5,
+     1.25
+    ]
+   },
+   "i18n": {
+    "ko": "그런데 반전. 칭기즈칸은 전쟁이 아니라 장사를 원했어요. 그래서 은, 비단, 모피를 잔뜩 실은 수백 명의 상인단을 보냅니다.",
+    "es": "Y aquí el giro: Gengis no quería guerra con él. Quería comerciar. Así que mandó una caravana de cientos de mercaderes, cargada de plata, seda y pieles."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "At the border city of Otrar, the governor, Inalchuq, accused them of being spies.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-west/1220.jpg",
+    "from": [
+     0.45,
+     0.6,
+     1.7
+    ],
+    "to": [
+     0.52,
+     0.53,
+     2.3
+    ],
+    "pins": [
+     {
+      "text": "Otrar",
+      "x": 0.52,
+      "y": 0.53
+     }
+    ]
+   },
+   "i18n": {
+    "ko": "그런데 국경 도시 오트라르의 총독 이날추크가 그들을 첩자로 몰아붙입니다.",
+    "es": "En la ciudad fronteriza de Otrar, el gobernador Inalchuq los acusó de espías."
+   }
+  },
+  {
+   "role": "clown",
+   "speaker": "GOVERNOR INALCHUQ",
+   "text": "Spies! All of them! Take their goods... and kill every last one!",
+   "show": {
+    "type": "line"
+   },
+   "i18n": {
+    "ko": "첩자다! 전부 다! 물건은 뺏고... 한 놈도 남김없이 죽여라!",
+    "es": "¡Espías! ¡Todos! ¡Quítenles las mercancías... y no dejen a ninguno con vida!"
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Hundreds of merchants. Murdered.",
+   "show": {
+    "type": "stamp",
+    "text": "OTRAR · 1218"
+   },
+   "i18n": {
+    "ko": "상인 수백 명이 몰살당했어요.",
+    "es": "Cientos de mercaderes. Asesinados."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Genghis gave the Shah one more chance, and sent envoys to ask for justice. The Shah beheaded one and sent the others home with their beards shaved off.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/messenger-nishapur.jpg",
+    "from": [
+     0.5,
+     0.5,
+     1.0
+    ],
+    "to": [
+     0.5,
+     0.4,
+     1.3
+    ]
+   },
+   "i18n": {
+    "ko": "칭기즈칸은 한 번 더 기회를 줬어요. 사신을 보내 책임을 물었죠. 그런데 샤는 사신 하나의 목을 베고, 나머지는 수염을 밀어서 돌려보냅니다.",
+    "es": "Gengis le dio otra oportunidad y envió embajadores a pedir justicia. El sha decapitó a uno y devolvió a los demás con la barba afeitada."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "The chronicles say Genghis climbed a mountain and prayed for three days and three nights.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/genghis-portrait.jpg",
+    "from": [
+     0.5,
+     0.35,
+     1.4
+    ],
+    "to": [
+     0.5,
+     0.3,
+     1.7
+    ],
+    "grade": "dark"
+   },
+   "i18n": {
+    "ko": "기록에 따르면 칭기즈칸은 산에 올라 사흘 밤낮을 기도했다고 해요.",
+    "es": "Las crónicas cuentan que Gengis subió a una montaña y rezó tres días y tres noches."
+   }
+  },
+  {
+   "role": "king",
+   "speaker": "GENGHIS KHAN",
+   "text": "I did not start this. Grant me the strength... to finish it.",
+   "show": {
+    "type": "line"
+   },
+   "i18n": {
+    "ko": "내가 시작한 게 아니다. 끝낼 힘을... 주소서.",
+    "es": "Yo no empecé esto. Dame la fuerza... para terminarlo."
+   }
+  },
+  {
+   "music": "battle",
+   "text": "",
+   "show": {
+    "type": "title",
+    "title": "1219",
+    "sub": "THE INVASION OF KHWARAZM",
+    "seconds": 2.4
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "In 1219, the Mongols came. Not as one army, but several, striking from different directions at once.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-west/1220.jpg",
+    "from": [
+     0.55,
+     0.5,
+     1.3
+    ],
+    "to": [
+     0.5,
+     0.55,
+     1.8
+    ],
+    "labels": [
+     {
+      "text": "MONGOL ARMIES",
+      "x": 0.6,
+      "y": 0.45,
+      "tone": "accent"
+     }
+    ]
+   },
+   "i18n": {
+    "ko": "1219년, 몽골군이 쳐들어옵니다. 한 덩어리가 아니라, 여러 갈래로 동시에.",
+    "es": "En 1219 llegaron los mongoles. No como un solo ejército, sino varios, atacando desde distintos frentes a la vez."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Otrar held out for months. Legend says Inalchuq was executed with molten silver poured into his eyes and ears. The price of greed.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/siege-engine.jpg",
+    "from": [
+     0.5,
+     0.4,
+     1.2
+    ],
+    "to": [
+     0.5,
+     0.6,
+     1.4
+    ],
+    "grade": "dark"
+   },
+   "i18n": {
+    "ko": "오트라르는 몇 달을 버텼어요. 전설에 따르면 이날추크는 눈과 귀에 녹인 은을 붓는 형벌로 죽었다고 하죠. 탐욕의 대가였어요.",
+    "es": "Otrar resistió meses. Dice la leyenda que a Inalchuq lo ejecutaron vertiéndole plata fundida en los ojos y los oídos. El precio de la codicia."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Meanwhile, Genghis himself crossed a desert the Shah thought no army could cross... and appeared behind his lines, at Bukhara.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-west/1220.jpg",
+    "from": [
+     0.52,
+     0.53,
+     2.3
+    ],
+    "to": [
+     0.48,
+     0.55,
+     2.5
+    ],
+    "pins": [
+     {
+      "text": "Bukhara",
+      "x": 0.48,
+      "y": 0.55
+     },
+     {
+      "text": "Kyzylkum Desert",
+      "x": 0.5,
+      "y": 0.52,
+      "at": 0.15,
+      "tone": "dark"
+     }
+    ]
+   },
+   "i18n": {
+    "ko": "그 사이 칭기즈칸은 샤가 절대 못 건넌다고 믿던 사막을 건너... 적의 등 뒤, 부하라에 나타납니다.",
+    "es": "Mientras tanto, Gengis cruzó un desierto que el sha creía imposible de atravesar... y apareció a sus espaldas, en Bujará."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "According to the Persian historian Juvaini, Genghis climbed into the pulpit of the great mosque and told the people:",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/bukhara-sermon.jpg",
+    "from": [
+     0.5,
+     0.65,
+     1.0
+    ],
+    "to": [
+     0.5,
+     0.35,
+     1.3
+    ]
+   },
+   "i18n": {
+    "ko": "페르시아 역사가 주베이니에 따르면, 칭기즈칸은 대모스크 설교단에 올라 사람들에게 이렇게 말했다고 해요.",
+    "es": "Según el historiador persa Yuvainí, Gengis subió al púlpito de la gran mezquita y le dijo a la gente:"
+   }
+  },
+  {
+   "role": "king",
+   "speaker": "GENGHIS KHAN",
+   "text": "I am the punishment of God. If you had not committed great sins, God would not have sent a punishment like me upon you.",
+   "show": {
+    "type": "line"
+   },
+   "i18n": {
+    "ko": "나는 신의 형벌이다. 너희가 큰 죄를 짓지 않았다면, 신이 나 같은 벌을 내리진 않았을 것이다.",
+    "es": "Soy el castigo de Dios. Si no hubieran cometido grandes pecados, Dios no les habría enviado un castigo como yo."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Samarkand, the jewel of the Silk Road, fell next.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-west/1220.jpg",
+    "from": [
+     0.48,
+     0.55,
+     2.5
+    ],
+    "to": [
+     0.495,
+     0.565,
+     2.7
+    ],
+    "pins": [
+     {
+      "text": "Samarkand",
+      "x": 0.495,
+      "y": 0.565
+     }
+    ]
+   },
+   "i18n": {
+    "ko": "다음은 실크로드의 보석, 사마르칸트였죠.",
+    "es": "Después cayó Samarcanda, la joya de la Ruta de la Seda."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "And the mighty Shah? He ran. Genghis sent Jebe and Subutai after him, with orders not to come back until he was dead.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-west/1220.jpg",
+    "from": [
+     0.495,
+     0.565,
+     2.4
+    ],
+    "to": [
+     0.43,
+     0.59,
+     2.2
+    ],
+    "pins": [
+     {
+      "text": "The Shah flees",
+      "x": 0.44,
+      "y": 0.6
+     },
+     {
+      "text": "Jebe & Subutai",
+      "x": 0.48,
+      "y": 0.57,
+      "at": 0.35,
+      "tone": "dark"
+     }
+    ]
+   },
+   "i18n": {
+    "ko": "그럼 그 대단하신 샤는? 도망쳤어요. 칭기즈칸은 제베와 수부타이에게 놈이 죽기 전엔 돌아오지 말라며 추격을 보냅니다.",
+    "es": "¿Y el poderoso sha? Salió corriendo. Gengis mandó a Jebe y Subotai tras él, con órdenes de no volver hasta verlo muerto."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "They chased him across Persia, all the way to the Caspian Sea, where he died on a tiny island. Sick, broke, and alone.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-west/1220.jpg",
+    "from": [
+     0.43,
+     0.59,
+     2.2
+    ],
+    "to": [
+     0.42,
+     0.59,
+     3.0
+    ],
+    "pins": [
+     {
+      "text": "Island in the Caspian",
+      "x": 0.42,
+      "y": 0.59
+     }
+    ],
+    "grade": "dark"
+   },
+   "i18n": {
+    "ko": "둘은 페르시아를 가로질러 카스피해까지 쫓아갔고, 샤는 작은 섬에서 숨을 거둡니다. 병들고, 빈털터리에, 혼자서.",
+    "es": "Lo persiguieron por toda Persia, hasta el mar Caspio, donde murió en una islita. Enfermo, arruinado y solo."
+   }
+  },
+  {
+   "music": "lament",
+   "role": "narrator",
+   "text": "The cities that resisted paid a horrible price.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/siege-engine.jpg",
+    "from": [
+     0.5,
+     0.5,
+     1.4
+    ],
+    "to": [
+     0.5,
+     0.5,
+     1.1
+    ],
+    "grade": "dark"
+   },
+   "i18n": {
+    "ko": "저항한 도시들은 끔찍한 대가를 치렀어요.",
+    "es": "Las ciudades que resistieron lo pagaron de forma horrible."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "At Urgench, the siege dragged on for months, partly because Genghis's sons Jochi and Chagatai couldn't stop fighting each other. In the end, the Mongols broke the dams and flooded the city.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-west/1220.jpg",
+    "from": [
+     0.45,
+     0.55,
+     2.0
+    ],
+    "to": [
+     0.45,
+     0.51,
+     2.5
+    ],
+    "pins": [
+     {
+      "text": "Urgench",
+      "x": 0.45,
+      "y": 0.51
+     }
+    ],
+    "grade": "dark"
+   },
+   "i18n": {
+    "ko": "우르겐치에선 포위가 몇 달이나 이어졌어요. 칭기즈칸의 아들 주치와 차가타이가 계속 싸웠거든요. 결국 몽골군은 둑을 터뜨려 도시를 물에 잠기게 합니다.",
+    "es": "En Urgench el asedio duró meses, en parte porque los hijos de Gengis, Jochi y Chagatai, no paraban de pelearse entre ellos. Al final rompieron los diques e inundaron la ciudad."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "At Nishapur, an arrow killed Genghis's son-in-law. His widow, Genghis's own daughter, is said to have ordered that no living thing be spared. Not even the cats and dogs.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/messenger-nishapur.jpg",
+    "from": [
+     0.5,
+     0.3,
+     1.3
+    ],
+    "to": [
+     0.5,
+     0.6,
+     1.5
+    ],
+    "grade": "dark",
+    "name": "NISHAPUR",
+    "sub": "1221"
+   },
+   "i18n": {
+    "ko": "니샤푸르에선 화살 한 대가 칭기즈칸의 사위를 죽였어요. 과부가 된 칭기즈칸의 딸은 살아 있는 건 아무것도 남기지 말라고 명령했다고 하죠. 고양이와 개까지도요.",
+    "es": "En Nishapur, una flecha mató al yerno de Gengis. Dicen que su viuda, la propia hija de Gengis, ordenó no dejar nada vivo. Ni gatos, ni perros."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "For Merv, chroniclers claimed more than a million dead. Historians think that's wildly exaggerated. But the exaggeration itself tells you how terrified the world was.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-west/1220.jpg",
+    "from": [
+     0.44,
+     0.61,
+     2.4
+    ],
+    "to": [
+     0.465,
+     0.6,
+     2.8
+    ],
+    "pins": [
+     {
+      "text": "Merv",
+      "x": 0.465,
+      "y": 0.6
+     }
+    ],
+    "labels": [
+     {
+      "text": "1,000,000+ DEAD?",
+      "x": 0.465,
+      "y": 0.66,
+      "at": 0.35,
+      "tone": "dark"
+     }
+    ],
+    "grade": "dark"
+   },
+   "i18n": {
+    "ko": "메르브는 기록상 100만 명 넘게 죽었다고 해요. 역사학자들은 크게 부풀린 숫자로 봐요. 하지만 그렇게 부풀릴 만큼, 세상이 공포에 떨었다는 뜻이죠.",
+    "es": "Sobre Merv, los cronistas hablan de más de un millón de muertos. Los historiadores creen que es una exageración enorme. Pero la exageración misma te dice cuánto miedo tenía el mundo."
+   }
+  },
+  {
+   "music": "battle",
+   "role": "narrator",
+   "text": "The Shah's son, Jalal al-Din, made one last stand, on the banks of the Indus River, in 1221.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-west/1220.jpg",
+    "from": [
+     0.465,
+     0.6,
+     2.4
+    ],
+    "to": [
+     0.555,
+     0.61,
+     2.6
+    ],
+    "pins": [
+     {
+      "text": "Indus River, 1221",
+      "x": 0.555,
+      "y": 0.61
+     }
+    ]
+   },
+   "i18n": {
+    "ko": "샤의 아들 잘랄 앗딘은 1221년, 인더스강 가에서 마지막 결전을 벌입니다.",
+    "es": "El hijo del sha, Jalal al-Din, plantó cara por última vez a orillas del río Indo, en 1221."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "He lost. His army was trapped against the water. And then he did something nobody expected.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/jalal-indus.jpg",
+    "from": [
+     0.5,
+     0.3,
+     1.3
+    ],
+    "to": [
+     0.5,
+     0.45,
+     1.5
+    ]
+   },
+   "i18n": {
+    "ko": "그리고 졌어요. 군대는 강물에 갇혔죠. 그런데 그때, 아무도 예상 못 한 일을 합니다.",
+    "es": "Perdió. Su ejército quedó atrapado contra el agua. Y entonces hizo algo que nadie esperaba."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "He rode his horse straight off a cliff, into the river... and swam away.",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/jalal-indus.jpg",
+    "from": [
+     0.5,
+     0.45,
+     1.5
+    ],
+    "to": [
+     0.5,
+     0.75,
+     1.8
+    ],
+    "name": "JALAL AL-DIN",
+    "sub": "the prince who got away"
+   },
+   "i18n": {
+    "ko": "말을 탄 채로 절벽에서 강으로 뛰어내려... 헤엄쳐 달아난 거예요.",
+    "es": "Lanzó su caballo por un acantilado, directo al río... y escapó nadando."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Genghis stopped his archers from shooting. He turned to his sons and said:",
+   "show": {
+    "type": "art",
+    "img": "art/mongol/jalal-indus.jpg",
+    "from": [
+     0.5,
+     0.2,
+     1.6
+    ],
+    "to": [
+     0.5,
+     0.25,
+     1.9
+    ]
+   },
+   "i18n": {
+    "ko": "칭기즈칸은 활을 쏘지 말라고 막고, 아들들을 돌아보며 말했죠.",
+    "es": "Gengis ordenó a sus arqueros que no dispararan. Se volvió hacia sus hijos y dijo:"
+   }
+  },
+  {
+   "role": "king",
+   "speaker": "GENGHIS KHAN",
+   "text": "Such a son... should a father have.",
+   "show": {
+    "type": "line"
+   },
+   "i18n": {
+    "ko": "아비라면... 저런 아들을 둬야 하느니라.",
+    "es": "Un padre... debería tener un hijo así."
+   }
+  },
+  {
+   "music": "main",
+   "role": "narrator",
+   "text": "In fifteen years, the outcast boy had gone from one abandoned tent... to an empire stretching from Beijing to Persia.",
+   "show": {
+    "type": "lapse",
+    "set": "clean/mg-wide",
+    "years": [
+     1200,
+     1210,
+     1220,
+     1230
+    ]
+   },
+   "i18n": {
+    "ko": "15년 만에, 버려진 천막 하나에서 시작한 소년은... 베이징에서 페르시아까지 뻗은 제국을 손에 넣었습니다.",
+    "es": "En quince años, el chico abandonado pasó de una tienda solitaria... a un imperio que iba de Pekín a Persia."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "But Jebe and Subutai never came home. With maybe twenty thousand men, they kept riding west. Around the Caspian Sea. Over the Caucasus Mountains.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-west/1220.jpg",
+    "from": [
+     0.42,
+     0.59,
+     2.4
+    ],
+    "to": [
+     0.38,
+     0.47,
+     2.0
+    ],
+    "pins": [
+     {
+      "text": "Jebe & Subutai",
+      "x": 0.4,
+      "y": 0.52
+     }
+    ],
+    "labels": [
+     {
+      "text": "CAUCASUS",
+      "x": 0.37,
+      "y": 0.49,
+      "at": 0.5,
+      "tone": "dark"
+     }
+    ]
+   },
+   "i18n": {
+    "ko": "그런데 제베와 수부타이는 돌아오지 않았어요. 많아야 2만 명을 데리고 계속 서쪽으로 달렸죠. 카스피해를 돌아, 캅카스산맥을 넘어.",
+    "es": "Pero Jebe y Subotai nunca volvieron. Con unos veinte mil hombres siguieron cabalgando al oeste. Rodearon el Caspio. Cruzaron el Cáucaso."
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Straight toward a world that had no idea they even existed.",
+   "show": {
+    "type": "map",
+    "img": "clean/mg-west/1220.jpg",
+    "from": [
+     0.38,
+     0.47,
+     2.0
+    ],
+    "to": [
+     0.28,
+     0.3,
+     1.6
+    ],
+    "labels": [
+     {
+      "text": "EUROPE",
+      "x": 0.25,
+      "y": 0.3,
+      "at": 0.4,
+      "big": true
+     }
+    ]
+   },
+   "i18n": {
+    "ko": "그들의 존재조차 몰랐던 세계를 향해서.",
+    "es": "Directo hacia un mundo que ni sabía que existían."
+   }
+  },
+  {
+   "music": "triumph",
+   "role": "narrator",
+   "text": "Next time: the very first time Europeans met the Mongols. Spoiler. It did not go well for Europe. Subscribe, so you don't miss it.",
+   "show": {
+    "type": "title",
+    "title": "PART 2",
+    "sub": "THE FIRST CLASH WITH EUROPE",
+    "seconds": 0
+   },
+   "i18n": {
+    "ko": "다음 편에선 유럽이 처음으로 몽골을 만나는 순간을 다룹니다. 미리 말하자면... 유럽한테 좋게 끝나진 않았어요. 구독해 두시면 놓치지 않으실 거예요.",
+    "es": "En el próximo video: la primera vez que los europeos se encontraron con los mongoles. Spoiler: a Europa no le fue nada bien. Suscríbete para no perdértelo."
+   }
+  },
+  {
+   "music": "main",
+   "text": "",
+   "sfx": null,
+   "show": {
+    "type": "endcard",
+    "seconds": 20
+   }
+  }
+ ],
+ "langs": [
+  "en",
+  "ko",
+  "es"
+ ]
+}

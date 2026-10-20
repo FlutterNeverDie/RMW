@@ -1,0 +1,165 @@
+{
+  "fps": 30,
+  "scrub": {
+    "width": 1920,
+    "height": 1080,
+    "start": 1.6,
+    "dragSpeed": 2.2,
+    "cut": 29.6,
+    "endFrames": 96
+  },
+  "borders": {
+    "width": 1080,
+    "height": 1080,
+    "step": 12,
+    "hold": 33,
+    "introFrames": 45,
+    "endFrames": 84,
+    "notes": {
+      "1810": "Napoleon's empire",
+      "1880": "A united Germany",
+      "1910": "On the eve of World War I",
+      "1920": "Empires break apart",
+      "1940": "World War II",
+      "1950": "Cold War Europe",
+      "2000": "After the USSR"
+    },
+    "set": "europe",
+    "years": [
+      1700,
+      1710,
+      1720,
+      1730,
+      1740,
+      1750,
+      1760,
+      1770,
+      1780,
+      1790,
+      1800,
+      1810,
+      1820,
+      1830,
+      1840,
+      1850,
+      1860,
+      1870,
+      1880,
+      1890,
+      1900,
+      1910,
+      1920,
+      1930,
+      1940,
+      1950,
+      1960,
+      1970,
+      1980,
+      1990,
+      2000,
+      2010,
+      2020
+    ],
+    "label": "decade",
+    "safeTop": 22,
+    "safeBottom": 36,
+    "title": [
+      "Europe's borders,",
+      "1700 → 2020"
+    ],
+    "sub": "one decade at a time"
+  },
+  "quiz": {
+    "width": 1080,
+    "height": 1350,
+    "introFrames": 66,
+    "askFrames": 105,
+    "revealFrames": 84,
+    "endFrames": 96,
+    "rounds": [
+      {
+        "set": "quiz-eu",
+        "year": 1810,
+        "options": [
+          "1710s",
+          "1810s",
+          "1910s"
+        ],
+        "answer": 1,
+        "note": "Napoleon's French Empire"
+      },
+      {
+        "set": "quiz-as",
+        "year": 1280,
+        "options": [
+          "1080s",
+          "1580s",
+          "1280s"
+        ],
+        "answer": 2,
+        "note": "The Mongol Empire at its height"
+      },
+      {
+        "set": "quiz-eu",
+        "year": 1940,
+        "options": [
+          "1940s",
+          "1910s",
+          "1960s"
+        ],
+        "answer": 0,
+        "note": "Nazi Germany and Vichy France"
+      }
+    ]
+  },
+  "bordersAsia": {
+    "width": 1080,
+    "height": 1920,
+    "set": "asia",
+    "years": [
+      -200,
+      -100,
+      1,
+      100,
+      200,
+      300,
+      400,
+      500,
+      600,
+      700,
+      800,
+      900,
+      1000,
+      1100,
+      1200,
+      1300,
+      1400,
+      1500,
+      1600,
+      1700,
+      1800,
+      1900,
+      1950,
+      2000
+    ],
+    "label": "year",
+    "step": 14,
+    "hold": 36,
+    "introFrames": 54,
+    "endFrames": 90,
+    "safeTop": 250,
+    "safeBottom": 380,
+    "title": [
+      "East Asia,",
+      "200 BC → 2000"
+    ],
+    "sub": "2,200 years of borders",
+    "notes": {
+      "-200": "Han China vs. the Xiongnu",
+      "700": "Tang China and Unified Silla",
+      "1300": "The Mongols rule China",
+      "1900": "Qing China's last years",
+      "1950": "Korea divided, a new China"
+    }
+  }
+}

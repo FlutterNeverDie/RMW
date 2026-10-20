@@ -1,0 +1,19 @@
+{
+ "_설명": "TTS에 넣을 때만 바꾸는 발음 (화면·대본 글자는 그대로). 언어별로 '글자': '소리 나는 대로'",
+ "ko": {
+  "흑해": "흐캐",
+  "카스피해": "카스피 해",
+  "캅카스산맥": "캅카스 산맥",
+  "허허벌판": "허허 벌판",
+  "루수단": "루쑤단"
+ },
+ "es": {
+  "Mohamed II": "Mohamed segundo",
+  "el sah": "el sha",
+  "del sah": "del sha",
+  "poderoso sah": "poderoso sha",
+  "taichiud": "taichiut",
+  "Gengis": "Jenjis"
+ },
+ "en": {}
+}

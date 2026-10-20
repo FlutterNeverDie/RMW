@@ -1,0 +1,1383 @@
+{
+ "_설명": "몽골 2편: 유럽과의 첫 충돌 (칼카강 1223). 형식은 mongol-01/ep.json과 같음. i18n = 한국어·스페인어(그 나라 유튜브 말투)",
+ "bgm": "bgm/main.wav",
+ "langs": [
+  "en",
+  "ko",
+  "es"
+ ],
+ "scenes": [
+  {
+   "music": "tension",
+   "role": "narrator",
+   "text": "May, 1223. On the banks of a small river in what is now Ukraine, the princes of Rus ate their last meal.",
+   "i18n": {
+    "ko": "1223년 5월. 지금의 우크라이나, 작은 강가에서 루스의 공후들은 마지막 식사를 합니다.",
+    "es": "Mayo de 1223. A orillas de un pequeño río, en la actual Ucrania, los príncipes de la Rus comieron por última vez."
+   },
+   "show": {
+    "type": "art",
+    "img": "art/mongol/kalka-battle.jpg",
+    "from": [
+     0.5,
+     0.75,
+     1.0
+    ],
+    "to": [
+     0.5,
+     0.4,
+     1.3
+    ],
+    "grade": "dark"
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Well. Not exactly. They were the table.",
+   "i18n": {
+    "ko": "음... 정확히는 아니에요. 그들이 식탁이었으니까요.",
+    "es": "Bueno. No exactamente. Ellos eran la mesa."
+   },
+   "show": {
+    "type": "stamp",
+    "text": "THE TABLE"
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "This is the story of the very first time Europe met the Mongols. And how twenty thousand riders who were never supposed to be there wrecked the biggest army Rus could raise.",
+   "i18n": {
+    "ko": "이건 유럽이 몽골을 처음 만난 이야기예요. 원래 거기 있을 이유도 없던 기병 2만 명이, 루스가 끌어모은 최대의 군대를 어떻게 박살 냈는지에 대한 이야기죠.",
+    "es": "Esta es la historia de la primera vez que Europa se topó con los mongoles. Y de cómo veinte mil jinetes que ni siquiera debían estar ahí destrozaron el ejército más grande que pudo reunir la Rus."
+   },
+   "show": {
+    "type": "map",
+    "img": "clean/mg-west/1220.jpg",
+    "from": [
+     0.45,
+     0.5,
+     1.0
+    ],
+    "to": [
+     0.33,
+     0.35,
+     1.8
+    ],
+    "labels": [
+     {
+      "text": "RUS",
+      "x": 0.3,
+      "y": 0.3,
+      "at": 0.4,
+      "tone": "dark"
+     }
+    ]
+   }
+  },
+  {
+   "text": "",
+   "show": {
+    "type": "title",
+    "title": "THE MONGOL EMPIRE",
+    "sub": "PART 2 · THE FIRST CLASH WITH EUROPE",
+    "seconds": 2.6
+   }
+  },
+  {
+   "music": "main",
+   "role": "narrator",
+   "text": "Quick recap. In 1220, Genghis Khan sent his two best generals, Jebe and Subutai, to hunt down the runaway Shah of Khwarazm.",
+   "i18n": {
+    "ko": "빠르게 복습할게요. 1220년, 칭기즈칸은 최고의 장군 둘, 제베와 수부타이를 보내 도망친 호라즘의 샤를 쫓게 합니다.",
+    "es": "Repaso rápido. En 1220, Gengis Kan mandó a sus dos mejores generales, Jebe y Subotai, a cazar al sha fugitivo de Corasmia."
+   },
+   "show": {
+    "type": "art",
+    "img": "art/mongol/mongol-horde.jpg",
+    "from": [
+     0.3,
+     0.5,
+     1.2
+    ],
+    "to": [
+     0.6,
+     0.5,
+     1.3
+    ],
+    "name": "JEBE & SUBUTAI",
+    "sub": "Genghis Khan's best generals"
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "The Shah died on an island in the Caspian Sea. Mission accomplished. Time to go home, right?",
+   "i18n": {
+    "ko": "샤는 카스피해의 섬에서 죽었고, 임무 완료. 이제 집에 갈 시간이죠?",
+    "es": "El sha murió en una isla del Caspio. Misión cumplida. Hora de volver a casa, ¿no?"
+   },
+   "show": {
+    "type": "map",
+    "img": "clean/mg-west/1220.jpg",
+    "from": [
+     0.42,
+     0.59,
+     2.6
+    ],
+    "to": [
+     0.42,
+     0.55,
+     2.0
+    ],
+    "pins": [
+     {
+      "text": "The Shah dies here",
+      "x": 0.42,
+      "y": 0.59
+     }
+    ]
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Instead, they asked Genghis for permission to keep riding. West. Into lands no Mongol had ever seen.",
+   "i18n": {
+    "ko": "그런데 둘은 칭기즈칸에게 허락을 구합니다. 계속 달려도 되겠냐고요. 서쪽으로. 몽골인이 한 번도 가 본 적 없는 땅으로.",
+    "es": "En lugar de eso, le pidieron permiso a Gengis para seguir cabalgando. Hacia el oeste. A tierras que ningún mongol había visto jamás."
+   },
+   "show": {
+    "type": "map",
+    "img": "clean/mg-west/1220.jpg",
+    "from": [
+     0.42,
+     0.55,
+     2.0
+    ],
+    "to": [
+     0.37,
+     0.45,
+     2.2
+    ],
+    "labels": [
+     {
+      "text": "UNKNOWN LANDS",
+      "x": 0.33,
+      "y": 0.4,
+      "at": 0.4,
+      "tone": "dark"
+     }
+    ]
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Officially, it was a scouting mission. In reality, it would become one of the greatest cavalry raids in history. Five thousand miles, in about three years.",
+   "i18n": {
+    "ko": "공식적으로는 정찰이었어요. 실제로는 역사상 손꼽히는 기병 원정이 되죠. 약 3년 동안 8천 킬로미터를 달렸으니까요.",
+    "es": "Oficialmente era una misión de reconocimiento. En realidad, se convirtió en una de las mayores incursiones de caballería de la historia: unos ocho mil kilómetros en tres años."
+   },
+   "show": {
+    "type": "lapse",
+    "set": "clean/mg-wide",
+    "years": [
+     1210,
+     1220,
+     1230
+    ]
+   }
+  },
+  {
+   "music": "battle",
+   "role": "narrator",
+   "text": "First stop: the Kingdom of Georgia. Christian, rich, and at the peak of its golden age.",
+   "i18n": {
+    "ko": "첫 목적지는 조지아 왕국. 기독교 왕국이고, 부유했고, 한창 황금기였죠.",
+    "es": "Primera parada: el Reino de Georgia. Cristiano, rico y en plena edad de oro."
+   },
+   "show": {
+    "type": "map",
+    "img": "clean/mg-west/1220.jpg",
+    "from": [
+     0.37,
+     0.45,
+     2.0
+    ],
+    "to": [
+     0.36,
+     0.5,
+     2.6
+    ],
+    "pins": [
+     {
+      "text": "Kingdom of Georgia",
+      "x": 0.36,
+      "y": 0.5
+     }
+    ]
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Its knights rode out to crush these strange invaders. The Mongols ran. The knights chased. And you already know how this ends.",
+   "i18n": {
+    "ko": "조지아 기사들이 이 낯선 침입자들을 쓸어버리러 나섰어요. 몽골군은 도망쳤고, 기사들은 쫓아갔죠. 그 다음은... 이제 아시죠?",
+    "es": "Sus caballeros salieron a aplastar a esos invasores extraños. Los mongoles huyeron. Los caballeros los persiguieron. Y ya sabes cómo termina esto."
+   },
+   "show": {
+    "type": "art",
+    "img": "art/mongol/mongol-horde.jpg",
+    "from": [
+     0.7,
+     0.5,
+     1.4
+    ],
+    "to": [
+     0.3,
+     0.5,
+     1.4
+    ]
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "The fake retreat. The trap closed, and the Georgian army was destroyed.",
+   "i18n": {
+    "ko": "가짜 후퇴. 덫이 닫혔고, 조지아군은 전멸합니다.",
+    "es": "La retirada fingida. La trampa se cerró y el ejército georgiano fue aniquilado."
+   },
+   "show": {
+    "type": "stamp",
+    "text": "TRAP"
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Georgia's queen, Rusudan, then wrote a letter to the Pope, explaining why her knights could no longer join the Crusade.",
+   "i18n": {
+    "ko": "조지아의 여왕 루수단은 교황에게 편지를 씁니다. 왜 자기 기사들이 더는 십자군에 갈 수 없는지 설명하려고요.",
+    "es": "La reina de Georgia, Rusudán, le escribió entonces al papa para explicarle por qué sus caballeros ya no podían unirse a la cruzada."
+   },
+   "show": {
+    "type": "art",
+    "img": "art/mongol/karamzin-44.jpg",
+    "from": [
+     0.5,
+     0.4,
+     1.0
+    ],
+    "to": [
+     0.5,
+     0.5,
+     1.25
+    ],
+    "name": "QUEEN RUSUDAN",
+    "sub": "of Georgia"
+   }
+  },
+  {
+   "role": "queen",
+   "speaker": "QUEEN RUSUDAN",
+   "text": "A savage people, the Tartars, hideous in form, broke into our land. Our army is gone.",
+   "i18n": {
+    "ko": "타타르라는 흉측하고 야만스러운 족속이 우리 땅에 쳐들어왔습니다. 우리 군대는... 사라졌습니다.",
+    "es": "Un pueblo salvaje, los tártaros, de aspecto horrible, irrumpió en nuestra tierra. Nuestro ejército ya no existe."
+   },
+   "show": {
+    "type": "line"
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "And here's the wild part. At that exact moment, Crusaders in Egypt were hearing rumors of a mysterious Christian king in the East, marching west to save them. They called him King David.",
+   "i18n": {
+    "ko": "그런데 진짜 웃긴 건요. 바로 그때 이집트에 있던 십자군은 동쪽에서 정체불명의 기독교 왕이 자기들을 구하러 온다는 소문을 듣고 있었어요. 그 왕을 다윗 왕이라고 불렀죠.",
+    "es": "Y aquí viene lo increíble. En ese mismo momento, los cruzados en Egipto oían rumores de un misterioso rey cristiano en Oriente que venía a salvarlos. Lo llamaban el rey David."
+   },
+   "show": {
+    "type": "map",
+    "img": "clean/mg-west/1220.jpg",
+    "from": [
+     0.36,
+     0.5,
+     2.2
+    ],
+    "to": [
+     0.3,
+     0.6,
+     1.8
+    ],
+    "labels": [
+     {
+      "text": "CRUSADERS IN EGYPT",
+      "x": 0.27,
+      "y": 0.65,
+      "at": 0.2,
+      "tone": "dark"
+     }
+    ]
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Europe's first rumor of the Mongols... was that they were the good guys.",
+   "i18n": {
+    "ko": "유럽이 몽골에 대해 처음 들은 소문이... 그들이 구원자라는 거였어요.",
+    "es": "El primer rumor que tuvo Europa sobre los mongoles... fue que eran los buenos."
+   },
+   "show": {
+    "type": "stamp",
+    "text": "THE GOOD GUYS?"
+   }
+  },
+  {
+   "music": "tension",
+   "role": "narrator",
+   "text": "Next, the Caucasus Mountains. The only real road north ran through the fortress city of Derbent.",
+   "i18n": {
+    "ko": "다음은 캅카스산맥. 북쪽으로 가는 길은 사실상 하나, 요새 도시 데르벤트를 지나는 길뿐이었어요.",
+    "es": "Después, el Cáucaso. El único camino de verdad hacia el norte pasaba por la ciudad fortaleza de Derbent."
+   },
+   "show": {
+    "type": "map",
+    "img": "clean/mg-west/1220.jpg",
+    "from": [
+     0.36,
+     0.5,
+     2.4
+    ],
+    "to": [
+     0.42,
+     0.47,
+     2.8
+    ],
+    "pins": [
+     {
+      "text": "Derbent",
+      "x": 0.42,
+      "y": 0.47
+     }
+    ]
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "The Mongols demanded guides. To make sure the guides didn't lie, according to one chronicler, they killed one of them in front of the others.",
+   "i18n": {
+    "ko": "몽골군은 길잡이를 내놓으라고 했어요. 한 연대기에 따르면, 거짓말 못 하게 하려고 길잡이 하나를 다른 길잡이들 앞에서 죽였다고 해요.",
+    "es": "Los mongoles exigieron guías. Y para que no mintieran, según un cronista, mataron a uno delante de los demás."
+   },
+   "show": {
+    "type": "art",
+    "img": "art/mongol/vasnetsov-steppe.jpg",
+    "from": [
+     0.3,
+     0.5,
+     1.1
+    ],
+    "to": [
+     0.6,
+     0.5,
+     1.25
+    ],
+    "grade": "dark"
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "The rest became very, very helpful.",
+   "i18n": {
+    "ko": "나머지는 아주, 아주 친절해졌죠.",
+    "es": "Los demás se volvieron muy, muy colaboradores."
+   },
+   "show": {
+    "type": "art",
+    "img": "art/mongol/vasnetsov-steppe.jpg",
+    "from": [
+     0.6,
+     0.5,
+     1.25
+    ],
+    "to": [
+     0.7,
+     0.45,
+     1.4
+    ],
+    "grade": "dark"
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "On the other side of the mountains, a huge army was waiting. The Alans... and the Cumans, the great horse nomads of the western steppe.",
+   "i18n": {
+    "ko": "산맥 너머엔 대군이 기다리고 있었어요. 알란족... 그리고 서쪽 초원의 거대한 유목민, 쿠만족이었죠.",
+    "es": "Al otro lado de las montañas los esperaba un ejército enorme. Los alanos... y los cumanos, los grandes nómadas a caballo de la estepa occidental."
+   },
+   "show": {
+    "type": "map",
+    "img": "clean/mg-west/1220.jpg",
+    "from": [
+     0.42,
+     0.47,
+     2.4
+    ],
+    "to": [
+     0.37,
+     0.4,
+     2.2
+    ],
+    "labels": [
+     {
+      "text": "ALANS",
+      "x": 0.39,
+      "y": 0.45,
+      "at": 0.2,
+      "tone": "dark"
+     },
+     {
+      "text": "CUMANS",
+      "x": 0.35,
+      "y": 0.37,
+      "at": 0.45,
+      "tone": "dark"
+     }
+    ]
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Subutai did the math. He couldn't beat both. So he sent the Cumans a message.",
+   "i18n": {
+    "ko": "수부타이는 계산을 해 봤어요. 둘 다 이길 순 없다. 그래서 쿠만족에게 전갈을 보냅니다.",
+    "es": "Subotai hizo cuentas. No podía con los dos. Así que les mandó un mensaje a los cumanos."
+   },
+   "show": {
+    "type": "art",
+    "img": "art/mongol/subutai.jpg",
+    "from": [
+     0.5,
+     0.3,
+     1.0
+    ],
+    "to": [
+     0.5,
+     0.25,
+     1.2
+    ],
+    "name": "SUBUTAI",
+    "sub": "the blacksmith's son"
+   }
+  },
+  {
+   "role": "schemer",
+   "speaker": "SUBUTAI",
+   "text": "We are nomads, just like you. Why die for these mountain people? Take these gifts... and go home.",
+   "i18n": {
+    "ko": "우린 너희랑 같은 유목민이야. 왜 저 산골 놈들을 위해 죽으려고 해? 이 선물 받고... 집에 가.",
+    "es": "Somos nómadas, igual que ustedes. ¿Por qué morir por esta gente de las montañas? Tomen estos regalos... y váyanse a casa."
+   },
+   "show": {
+    "type": "line"
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "The Cumans took the gifts and left. The Mongols crushed the Alans. Then they rode after the Cumans... and took their gifts back. With interest.",
+   "i18n": {
+    "ko": "쿠만족은 선물을 받고 떠났어요. 몽골군은 알란족을 박살 냈고요. 그리고 쿠만족을 쫓아가서... 선물을 도로 가져갔죠. 이자까지 쳐서.",
+    "es": "Los cumanos tomaron los regalos y se fueron. Los mongoles aplastaron a los alanos. Luego fueron tras los cumanos... y recuperaron sus regalos. Con intereses."
+   },
+   "show": {
+    "type": "map",
+    "img": "clean/mg-west/1220.jpg",
+    "from": [
+     0.37,
+     0.4,
+     2.2
+    ],
+    "to": [
+     0.33,
+     0.33,
+     2.4
+    ],
+    "labels": [
+     {
+      "text": "ALANS CRUSHED",
+      "x": 0.39,
+      "y": 0.45,
+      "tone": "accent"
+     },
+     {
+      "text": "CUMANS HUNTED",
+      "x": 0.34,
+      "y": 0.35,
+      "at": 0.5,
+      "tone": "accent"
+     }
+    ]
+   }
+  },
+  {
+   "music": "main",
+   "role": "narrator",
+   "text": "The Cuman khan, Köten, fled west, to the one place he thought could save him. The lands of the Rus.",
+   "i18n": {
+    "ko": "쿠만의 칸 쾨텐은 서쪽으로 도망칩니다. 자기를 구해 줄 수 있는 유일한 곳, 루스의 땅으로요.",
+    "es": "El kan cumano, Köten, huyó al oeste, al único lugar que creía que podía salvarlo: las tierras de la Rus."
+   },
+   "show": {
+    "type": "art",
+    "img": "art/mongol/koten-wives.jpg",
+    "from": [
+     0.5,
+     0.5,
+     1.0
+    ],
+    "to": [
+     0.4,
+     0.45,
+     1.3
+    ],
+    "name": "KÖTEN",
+    "sub": "khan of the Cumans"
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Rus wasn't one country back then. It was a patchwork of principalities ruled by princes who were all related... and who all hated each other.",
+   "i18n": {
+    "ko": "당시 루스는 한 나라가 아니었어요. 공국들이 조각조각 나뉘어 있었고, 다스리는 공후들은 다 친척이었는데... 다 서로를 싫어했죠.",
+    "es": "La Rus no era un solo país. Era un mosaico de principados gobernados por príncipes que eran todos parientes... y que se odiaban entre sí."
+   },
+   "show": {
+    "type": "map",
+    "img": "clean/mg-west/1220.jpg",
+    "from": [
+     0.33,
+     0.33,
+     1.8
+    ],
+    "to": [
+     0.3,
+     0.27,
+     2.4
+    ],
+    "labels": [
+     {
+      "text": "KIEV",
+      "x": 0.3,
+      "y": 0.3,
+      "at": 0.2,
+      "tone": "dark"
+     },
+     {
+      "text": "GALICH",
+      "x": 0.25,
+      "y": 0.3,
+      "at": 0.4,
+      "tone": "dark"
+     },
+     {
+      "text": "CHERNIGOV",
+      "x": 0.32,
+      "y": 0.26,
+      "at": 0.6,
+      "tone": "dark"
+     }
+    ]
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Köten went straight to his son-in-law, Prince Mstislav of Galich. A man the chronicles call Mstislav the Bold.",
+   "i18n": {
+    "ko": "쾨텐은 사위인 갈리치의 공후 므스티슬라프를 곧장 찾아갑니다. 연대기는 그를 대담공 므스티슬라프라고 불러요.",
+    "es": "Köten fue directo a su yerno, el príncipe Mstislav de Galich. Las crónicas lo llaman Mstislav el Audaz."
+   },
+   "show": {
+    "type": "art",
+    "img": "art/mongol/kalka-mstislav-bold.jpg",
+    "from": [
+     0.5,
+     0.3,
+     1.1
+    ],
+    "to": [
+     0.5,
+     0.5,
+     1.3
+    ],
+    "name": "MSTISLAV THE BOLD",
+    "sub": "prince of Galich"
+   }
+  },
+  {
+   "role": "messenger",
+   "speaker": "KÖTEN KHAN",
+   "text": "Today they took our land. Tomorrow, they will take yours!",
+   "i18n": {
+    "ko": "오늘은 우리 땅을 빼앗겼소. 내일은 당신 땅 차례요!",
+    "es": "¡Hoy se llevaron nuestra tierra! ¡Mañana se llevarán la suya!"
+   },
+   "show": {
+    "type": "line"
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "That actually worked. The princes met in Kiev. Three of them were named Mstislav, which really didn't help anyone.",
+   "i18n": {
+    "ko": "이게 통했어요. 공후들이 키예프에 모였죠. 그중 셋이 이름이 다 므스티슬라프였는데... 이건 아무한테도 도움이 안 됐어요.",
+    "es": "Y funcionó. Los príncipes se reunieron en Kiev. Tres de ellos se llamaban Mstislav, lo cual no ayudó a nadie."
+   },
+   "show": {
+    "type": "art",
+    "img": "art/mongol/kalka-mstislav-daniel.jpg",
+    "from": [
+     0.5,
+     0.5,
+     1.0
+    ],
+    "to": [
+     0.5,
+     0.4,
+     1.3
+    ],
+    "name": "MSTISLAV × 3",
+    "sub": "Kiev · Galich · Chernigov"
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Together they raised the biggest army Rus had seen in a generation. Tens of thousands of men, marching down the Dnieper River.",
+   "i18n": {
+    "ko": "그렇게 루스에서 한 세대 만에 가장 큰 군대가 꾸려집니다. 수만 명이 드네프르강을 따라 남쪽으로 내려갔죠.",
+    "es": "Juntos reunieron el mayor ejército que la Rus había visto en una generación. Decenas de miles de hombres bajando por el río Dniéper."
+   },
+   "show": {
+    "type": "map",
+    "img": "clean/mg-west/1220.jpg",
+    "from": [
+     0.3,
+     0.3,
+     2.4
+    ],
+    "to": [
+     0.33,
+     0.37,
+     2.4
+    ],
+    "labels": [
+     {
+      "text": "RUS ARMY",
+      "x": 0.31,
+      "y": 0.33,
+      "tone": "accent"
+     }
+    ]
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Then the Mongols sent envoys. Their message was simple.",
+   "i18n": {
+    "ko": "그러자 몽골이 사신을 보냅니다. 메시지는 간단했어요.",
+    "es": "Entonces los mongoles enviaron emisarios. El mensaje era sencillo."
+   },
+   "show": {
+    "type": "art",
+    "img": "art/mongol/karamzin-50.jpg",
+    "from": [
+     0.5,
+     0.5,
+     1.0
+    ],
+    "to": [
+     0.5,
+     0.45,
+     1.25
+    ]
+   }
+  },
+  {
+   "role": "general",
+   "speaker": "MONGOL ENVOY",
+   "text": "We have no quarrel with you. The Cumans are our enemies. Stay out of this.",
+   "i18n": {
+    "ko": "우린 너희와 싸울 생각이 없다. 우리 적은 쿠만족이다. 끼어들지 마라.",
+    "es": "No tenemos nada contra ustedes. Los cumanos son nuestros enemigos. No se metan."
+   },
+   "show": {
+    "type": "line"
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "The princes had the envoys killed.",
+   "i18n": {
+    "ko": "공후들은 그 사신들을 죽여 버립니다.",
+    "es": "Los príncipes mandaron matar a los emisarios."
+   },
+   "show": {
+    "type": "stamp",
+    "text": "ENVOYS KILLED"
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "If you've watched part one, you know that killing Mongol envoys is basically the worst decision in medieval history. The Mongols sent one more message.",
+   "i18n": {
+    "ko": "1편 보셨으면 아시겠지만, 몽골 사신을 죽이는 건 중세사 최악의 선택이에요. 몽골은 마지막 메시지를 보내죠.",
+    "es": "Si viste la primera parte, ya sabes que matar emisarios mongoles es básicamente la peor decisión de la historia medieval. Los mongoles enviaron un último mensaje."
+   },
+   "show": {
+    "type": "art",
+    "img": "art/mongol/genghis-portrait.jpg",
+    "from": [
+     0.5,
+     0.3,
+     1.5
+    ],
+    "to": [
+     0.5,
+     0.3,
+     1.8
+    ],
+    "grade": "dark"
+   }
+  },
+  {
+   "role": "villain",
+   "speaker": "MONGOL ENVOY",
+   "text": "You have killed our envoys. So be it. Let God judge between us.",
+   "i18n": {
+    "ko": "우리 사신을 죽였군. 좋다. 이제 신께서 판단하시겠지.",
+    "es": "Mataron a nuestros emisarios. Que así sea. Que Dios juzgue entre nosotros."
+   },
+   "show": {
+    "type": "line"
+   }
+  },
+  {
+   "music": "battle",
+   "role": "narrator",
+   "text": "And then... the Mongols ran away.",
+   "i18n": {
+    "ko": "그리고... 몽골군은 도망칩니다.",
+    "es": "Y entonces... los mongoles huyeron."
+   },
+   "show": {
+    "type": "map",
+    "img": "clean/mg-west/1220.jpg",
+    "from": [
+     0.33,
+     0.37,
+     2.4
+    ],
+    "to": [
+     0.37,
+     0.38,
+     2.4
+    ],
+    "labels": [
+     {
+      "text": "MONGOLS RETREAT",
+      "x": 0.37,
+      "y": 0.38,
+      "tone": "dark"
+     }
+    ]
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "For nine days, they fell back east across the steppe. The Rus followed, sure they had the invaders on the run.",
+   "i18n": {
+    "ko": "9일 동안 몽골군은 초원을 가로질러 동쪽으로 물러났어요. 루스군은 침입자들이 겁먹고 도망간다고 확신하며 뒤를 쫓았죠.",
+    "es": "Durante nueve días retrocedieron hacia el este por la estepa. La Rus los siguió, segura de que los invasores huían."
+   },
+   "show": {
+    "type": "art",
+    "img": "art/mongol/vasnetsov-steppe.jpg",
+    "from": [
+     0.2,
+     0.5,
+     1.15
+    ],
+    "to": [
+     0.8,
+     0.5,
+     1.15
+    ]
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "But every day, the Rus army stretched out a little more. The princes argued. Nobody was really in charge.",
+   "i18n": {
+    "ko": "그런데 하루하루 루스군의 행렬은 점점 길게 늘어졌어요. 공후들은 서로 다퉜고, 제대로 지휘하는 사람은 아무도 없었죠.",
+    "es": "Pero cada día el ejército de la Rus se estiraba un poco más. Los príncipes discutían. Nadie mandaba de verdad."
+   },
+   "show": {
+    "type": "art",
+    "img": "art/mongol/kalka-vasilko.jpg",
+    "from": [
+     0.5,
+     0.3,
+     1.0
+    ],
+    "to": [
+     0.5,
+     0.6,
+     1.25
+    ]
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "On May 31st, 1223, they reached a little river called the Kalka.",
+   "i18n": {
+    "ko": "1223년 5월 31일, 그들은 칼카라는 작은 강에 다다릅니다.",
+    "es": "El 31 de mayo de 1223 llegaron a un riachuelo llamado Kalka."
+   },
+   "show": {
+    "type": "map",
+    "img": "clean/mg-west/1220.jpg",
+    "from": [
+     0.37,
+     0.38,
+     2.4
+    ],
+    "to": [
+     0.365,
+     0.38,
+     3.0
+    ],
+    "pins": [
+     {
+      "text": "Kalka River · 31 May 1223",
+      "x": 0.365,
+      "y": 0.38
+     }
+    ]
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Mstislav the Bold wanted the glory for himself. So he crossed the river and attacked... without even telling the prince of Kiev.",
+   "i18n": {
+    "ko": "대담공 므스티슬라프는 공을 혼자 차지하고 싶었어요. 그래서 강을 건너 공격합니다... 키예프 공후한테 말도 안 하고요.",
+    "es": "Mstislav el Audaz quería la gloria para él solo. Así que cruzó el río y atacó... sin siquiera avisarle al príncipe de Kiev."
+   },
+   "show": {
+    "type": "art",
+    "img": "art/mongol/kalka-mstislav-bold.jpg",
+    "from": [
+     0.5,
+     0.5,
+     1.3
+    ],
+    "to": [
+     0.5,
+     0.3,
+     1.5
+    ]
+   }
+  },
+  {
+   "role": "clown",
+   "speaker": "MSTISLAV THE BOLD",
+   "text": "Forward! Forward! This victory is mine. Mine!",
+   "i18n": {
+    "ko": "진격! 진격하라! 이 승리는 내 거다. 내 거라고!",
+    "es": "¡Adelante! ¡Adelante! ¡Esta victoria es mía! ¡Mía!"
+   },
+   "show": {
+    "type": "line"
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "The Cumans charged in front. The Mongols hit them with everything they had. And the Cumans broke.",
+   "i18n": {
+    "ko": "쿠만족이 앞장서 돌격했어요. 몽골군은 그들에게 전력을 쏟아부었고, 쿠만족은 무너졌죠.",
+    "es": "Los cumanos cargaron al frente. Los mongoles los golpearon con todo. Y los cumanos se quebraron."
+   },
+   "show": {
+    "type": "art",
+    "img": "art/mongol/kalka-battle.jpg",
+    "from": [
+     0.5,
+     0.3,
+     1.2
+    ],
+    "to": [
+     0.5,
+     0.55,
+     1.5
+    ]
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "They fled straight back through the Rus army, trampling their own allies. Panic spread like fire.",
+   "i18n": {
+    "ko": "그들은 루스군 한가운데로 도망쳐 들어오며 아군을 짓밟았어요. 공포가 불처럼 번졌죠.",
+    "es": "Huyeron de vuelta atravesando el ejército de la Rus, pisoteando a sus propios aliados. El pánico se extendió como fuego."
+   },
+   "show": {
+    "type": "art",
+    "img": "art/mongol/kalka-1224.jpg",
+    "from": [
+     0.3,
+     0.5,
+     1.1
+    ],
+    "to": [
+     0.6,
+     0.5,
+     1.35
+    ]
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "In minutes, the battle turned into a massacre.",
+   "i18n": {
+    "ko": "몇 분 만에 전투는 학살로 바뀝니다.",
+    "es": "En minutos, la batalla se convirtió en una masacre."
+   },
+   "show": {
+    "type": "stamp",
+    "text": "ROUT"
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "And Mstislav the Bold? He escaped across the Dnieper... and burned the boats behind him, so nobody could follow. Including his own men.",
+   "i18n": {
+    "ko": "그럼 대담공 므스티슬라프는요? 드네프르강을 건너 도망쳤어요... 그리고 아무도 못 따라오게 배를 불태웠죠. 자기 부하들까지요.",
+    "es": "¿Y Mstislav el Audaz? Escapó cruzando el Dniéper... y quemó los botes detrás de él para que nadie lo siguiera. Ni siquiera sus propios hombres."
+   },
+   "show": {
+    "type": "art",
+    "img": "art/mongol/kalka-mstislav-mute.jpg",
+    "from": [
+     0.5,
+     0.5,
+     1.0
+    ],
+    "to": [
+     0.5,
+     0.3,
+     1.3
+    ],
+    "grade": "dark"
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Among the few who got away was a young prince, Daniel of Galicia. Twenty-two years old, wounded in the chest. Remember him. He'll be back.",
+   "i18n": {
+    "ko": "겨우 살아남은 몇 안 되는 사람 중에 젊은 공후 갈리치아의 다닐로가 있었어요. 스물두 살, 가슴에 상처를 입은 채로요. 이 사람도 기억해 두세요. 다시 나옵니다.",
+    "es": "Entre los pocos que escaparon estaba un joven príncipe, Daniel de Galitzia. Veintidós años, herido en el pecho. Recuérdalo. Va a volver."
+   },
+   "show": {
+    "type": "art",
+    "img": "art/mongol/kalka-mstislav-daniel.jpg",
+    "from": [
+     0.5,
+     0.6,
+     1.2
+    ],
+    "to": [
+     0.5,
+     0.4,
+     1.45
+    ],
+    "name": "DANIEL OF GALICIA",
+    "sub": "22 years old · wounded at the Kalka"
+   }
+  },
+  {
+   "music": "lament",
+   "role": "narrator",
+   "text": "The prince of Kiev never even joined the fight. He dug in on a hill behind a ring of wagons, and held out for three days.",
+   "i18n": {
+    "ko": "키예프 공후는 싸움에 끼지도 않았어요. 언덕 위에 수레로 진을 치고 사흘을 버텼죠.",
+    "es": "El príncipe de Kiev ni siquiera entró en combate. Se atrincheró en una colina tras un círculo de carretas y resistió tres días."
+   },
+   "show": {
+    "type": "art",
+    "img": "art/mongol/kalka-sytin.jpg",
+    "from": [
+     0.5,
+     0.5,
+     1.0
+    ],
+    "to": [
+     0.5,
+     0.5,
+     1.3
+    ],
+    "name": "MSTISLAV OF KIEV",
+    "sub": "three days on the hill"
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Then a man named Ploskinya rode up under a truce. He served the Mongols, but he was a Christian. He kissed the cross, and made a promise.",
+   "i18n": {
+    "ko": "그때 플로스키냐라는 자가 휴전 깃발을 들고 다가옵니다. 몽골 편이었지만 기독교인이었죠. 그는 십자가에 입을 맞추고 약속했어요.",
+    "es": "Entonces un hombre llamado Ploskinia se acercó bajo tregua. Servía a los mongoles, pero era cristiano. Besó la cruz e hizo una promesa."
+   },
+   "show": {
+    "type": "art",
+    "img": "art/mongol/karamzin-50.jpg",
+    "from": [
+     0.5,
+     0.3,
+     1.3
+    ],
+    "to": [
+     0.5,
+     0.5,
+     1.5
+    ],
+    "grade": "dark"
+   }
+  },
+  {
+   "role": "schemer",
+   "speaker": "PLOSKINYA",
+   "text": "Lay down your weapons. I swear on this cross, not one drop of your blood will be shed.",
+   "i18n": {
+    "ko": "무기를 내려놓으시오. 이 십자가에 맹세하건대, 당신들 피는 단 한 방울도 흘리지 않을 거요.",
+    "es": "Dejen las armas. Les juro por esta cruz que no se derramará ni una gota de su sangre."
+   },
+   "show": {
+    "type": "line"
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "They surrendered. The soldiers were cut down. And the princes...",
+   "i18n": {
+    "ko": "그들은 항복했어요. 병사들은 도륙당했고, 공후들은...",
+    "es": "Se rindieron. Los soldados fueron masacrados. Y los príncipes..."
+   },
+   "show": {
+    "type": "art",
+    "img": "art/mongol/vasnetsov-igor.jpg",
+    "from": [
+     0.3,
+     0.5,
+     1.1
+    ],
+    "to": [
+     0.6,
+     0.55,
+     1.3
+    ],
+    "grade": "dark"
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "The princes were tied up and laid on the ground. The Mongols put heavy wooden boards on top of them... and sat down on the boards for their victory feast.",
+   "i18n": {
+    "ko": "공후들은 꽁꽁 묶여 땅에 눕혀졌어요. 몽골군은 그 위에 무거운 나무판을 깔고... 그 위에 앉아 승전 잔치를 벌였죠.",
+    "es": "A los príncipes los ataron y los tendieron en el suelo. Los mongoles les pusieron encima unas pesadas tablas de madera... y se sentaron sobre ellas a celebrar su banquete de victoria."
+   },
+   "show": {
+    "type": "art",
+    "img": "art/mongol/kalka-battle.jpg",
+    "from": [
+     0.5,
+     0.85,
+     1.6
+    ],
+    "to": [
+     0.5,
+     0.75,
+     1.9
+    ],
+    "grade": "dark"
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "The princes were crushed to death under the feast. Not one drop of blood was shed. The promise was kept.",
+   "i18n": {
+    "ko": "공후들은 잔칫상 밑에서 깔려 죽었어요. 피는 한 방울도 흘리지 않았죠. 약속은 지켜진 거예요.",
+    "es": "Los príncipes murieron aplastados bajo el banquete. No se derramó ni una gota de sangre. La promesa se cumplió."
+   },
+   "show": {
+    "type": "stamp",
+    "text": "NO BLOOD SHED"
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "In Mongol culture, killing nobles without spilling their blood was actually a mark of respect. The princes probably didn't see it that way.",
+   "i18n": {
+    "ko": "몽골 문화에서 귀족을 피 흘리지 않게 죽이는 건 오히려 예우였어요. 물론 공후들 입장에선... 전혀 그렇게 안 느껴졌겠지만요.",
+    "es": "En la cultura mongola, matar a un noble sin derramar su sangre era una señal de respeto. Seguramente los príncipes no lo vieron así."
+   },
+   "show": {
+    "type": "art",
+    "img": "art/mongol/genghis-advising-sons.jpg",
+    "from": [
+     0.5,
+     0.5,
+     1.2
+    ],
+    "to": [
+     0.5,
+     0.4,
+     1.4
+    ],
+    "grade": "dark"
+   }
+  },
+  {
+   "music": "main",
+   "role": "narrator",
+   "text": "Jebe and Subutai rode east again. On the Volga, the Bulgars ambushed them, one of the very few times anyone beat the Mongols in this era.",
+   "i18n": {
+    "ko": "제베와 수부타이는 다시 동쪽으로 향합니다. 볼가강에서 볼가 불가르족의 매복에 걸렸는데, 이 시대에 몽골을 이긴 몇 안 되는 사례예요.",
+    "es": "Jebe y Subotai volvieron a cabalgar hacia el este. En el Volga, los búlgaros les tendieron una emboscada: una de las poquísimas veces que alguien venció a los mongoles en esa época."
+   },
+   "show": {
+    "type": "map",
+    "img": "clean/mg-west/1220.jpg",
+    "from": [
+     0.365,
+     0.38,
+     2.2
+    ],
+    "to": [
+     0.42,
+     0.26,
+     2.4
+    ],
+    "pins": [
+     {
+      "text": "Volga Bulgars",
+      "x": 0.42,
+      "y": 0.26
+     }
+    ]
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Then they rode home to Genghis Khan. Somewhere along the way, Jebe the Arrow disappears from history. Most likely, he died soon after.",
+   "i18n": {
+    "ko": "그리고 칭기즈칸에게 돌아갑니다. 그 길 어딘가에서 '화살' 제베는 역사에서 사라져요. 아마 얼마 안 가 세상을 떠난 것 같아요.",
+    "es": "Luego volvieron con Gengis Kan. En algún punto del camino, Jebe, la Flecha, desaparece de la historia. Lo más probable es que muriera poco después."
+   },
+   "show": {
+    "type": "art",
+    "img": "art/mongol/mongol-horde.jpg",
+    "from": [
+     0.6,
+     0.5,
+     1.3
+    ],
+    "to": [
+     0.4,
+     0.55,
+     1.2
+    ],
+    "grade": "dark",
+    "name": "JEBE",
+    "sub": "the Arrow · disappears c. 1223"
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "Back in Rus, a monk wrote down what had happened. He had no idea who these people were.",
+   "i18n": {
+    "ko": "루스에선 한 수도사가 이 일을 기록했어요. 그는 이 사람들이 누군지 전혀 몰랐죠.",
+    "es": "En la Rus, un monje dejó por escrito lo ocurrido. No tenía ni idea de quiénes eran esa gente."
+   },
+   "show": {
+    "type": "art",
+    "img": "art/mongol/karamzin-44.jpg",
+    "from": [
+     0.5,
+     0.5,
+     1.2
+    ],
+    "to": [
+     0.5,
+     0.35,
+     1.4
+    ]
+   }
+  },
+  {
+   "role": "sage",
+   "speaker": "THE CHRONICLER",
+   "text": "No one knows where they came from, nor where they went. Only God knows.",
+   "i18n": {
+    "ko": "그들이 어디서 왔는지, 어디로 갔는지 아무도 모른다. 오직 신만이 아실 뿐.",
+    "es": "Nadie sabe de dónde vinieron ni adónde se fueron. Solo Dios lo sabe."
+   },
+   "show": {
+    "type": "line"
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "And the princes of Rus? They went right back to fighting each other. As if the Mongols had been a bad dream.",
+   "i18n": {
+    "ko": "그럼 루스의 공후들은요? 곧바로 다시 서로 싸우기 시작했어요. 몽골은 그냥 악몽이었던 것처럼요.",
+    "es": "¿Y los príncipes de la Rus? Volvieron a pelearse entre ellos de inmediato. Como si los mongoles hubieran sido una pesadilla."
+   },
+   "show": {
+    "type": "map",
+    "img": "clean/mg-west/1220.jpg",
+    "from": [
+     0.3,
+     0.3,
+     2.2
+    ],
+    "to": [
+     0.3,
+     0.3,
+     1.6
+    ],
+    "labels": [
+     {
+      "text": "BACK TO FIGHTING",
+      "x": 0.3,
+      "y": 0.27,
+      "at": 0.3,
+      "tone": "dark"
+     }
+    ]
+   }
+  },
+  {
+   "music": "lament",
+   "role": "narrator",
+   "text": "In 1227, Genghis Khan died on campaign. His empire passed to his son Ögedei.",
+   "i18n": {
+    "ko": "1227년, 칭기즈칸은 원정 도중 숨을 거둡니다. 제국은 아들 오고타이에게 넘어갔죠.",
+    "es": "En 1227, Gengis Kan murió en campaña. Su imperio pasó a su hijo Ögedei."
+   },
+   "show": {
+    "type": "art",
+    "img": "art/mongol/death-genghis.jpg",
+    "from": [
+     0.5,
+     0.5,
+     1.0
+    ],
+    "to": [
+     0.5,
+     0.45,
+     1.3
+    ],
+    "name": "GENGHIS KHAN",
+    "sub": "died 1227"
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "But Subutai never forgot the road west. He remembered every river crossing, every quarrel between the princes, every weak spot.",
+   "i18n": {
+    "ko": "하지만 수부타이는 서쪽으로 가는 길을 잊지 않았어요. 강을 건너는 곳, 공후들 사이의 다툼, 약점 하나하나까지 다 기억했죠.",
+    "es": "Pero Subotai nunca olvidó el camino al oeste. Recordaba cada vado, cada pelea entre los príncipes, cada punto débil."
+   },
+   "show": {
+    "type": "art",
+    "img": "art/mongol/subutai.jpg",
+    "from": [
+     0.5,
+     0.25,
+     1.3
+    ],
+    "to": [
+     0.5,
+     0.2,
+     1.6
+    ],
+    "grade": "dark"
+   }
+  },
+  {
+   "music": "battle",
+   "role": "narrator",
+   "text": "Fourteen years later, he came back. With Genghis's grandson, Batu, and an army many times bigger.",
+   "i18n": {
+    "ko": "14년 뒤, 그는 돌아옵니다. 칭기즈칸의 손자 바투, 그리고 몇 배나 더 큰 군대와 함께.",
+    "es": "Catorce años después, volvió. Con Batu, el nieto de Gengis, y un ejército muchas veces más grande."
+   },
+   "show": {
+    "type": "lapse",
+    "set": "clean/mg-wide",
+    "years": [
+     1220,
+     1230,
+     1240
+    ]
+   }
+  },
+  {
+   "role": "narrator",
+   "text": "This time, they weren't scouting. This time, they came for Europe.",
+   "i18n": {
+    "ko": "이번엔 정찰이 아니었어요. 이번엔, 유럽을 먹으러 온 거였죠.",
+    "es": "Esta vez no venían a explorar. Esta vez venían por Europa."
+   },
+   "show": {
+    "type": "map",
+    "img": "clean/mg-wide/1240.jpg",
+    "from": [
+     0.4,
+     0.4,
+     1.6
+    ],
+    "to": [
+     0.3,
+     0.35,
+     2.0
+    ],
+    "labels": [
+     {
+      "text": "1237",
+      "x": 0.5,
+      "y": 0.18,
+      "big": true
+     }
+    ]
+   }
+  },
+  {
+   "music": "triumph",
+   "role": "narrator",
+   "text": "That's part three: Kiev, Poland, Hungary... and the battle that made Europe think the world was ending. Subscribe so you don't miss it.",
+   "i18n": {
+    "ko": "그게 3편이에요. 키예프, 폴란드, 헝가리... 그리고 유럽이 세상의 종말이라고 믿게 만든 전투. 놓치지 않게 구독해 두세요.",
+    "es": "Eso es la tercera parte: Kiev, Polonia, Hungría... y la batalla que hizo creer a Europa que el mundo se acababa. Suscríbete para no perdértela."
+   },
+   "show": {
+    "type": "title",
+    "title": "PART 3",
+    "sub": "THE INVASION OF EUROPE",
+    "seconds": 0
+   }
+  },
+  {
+   "music": "main",
+   "text": "",
+   "sfx": null,
+   "show": {
+    "type": "endcard",
+    "seconds": 20,
+    "next": "Next: Part 3 · The Invasion of Europe"
+   }
+  }
+ ]
+}

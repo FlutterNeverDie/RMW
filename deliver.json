@@ -1,0 +1,263 @@
+{
+ "_설명": "완성본을 hwm/ 산출물 폴더로 복사 (node scripts/deliver.mjs). 파일 이름 = 이름_날짜(파일 만든 날). thumb가 있으면 '이름_날짜_썸네일.png'로 같이 둔다",
+ "items": [
+  {
+   "src": "out/mongol-02.es.wav",
+   "dir": "영상/몽골 제국/2편 - 유럽과의 첫 충돌, 칼카강",
+   "name": "몽골 제국 2편_스페인어 더빙",
+   "nodate": true
+  },
+  {
+   "src": "out/mongol-02.ko.wav",
+   "dir": "영상/몽골 제국/2편 - 유럽과의 첫 충돌, 칼카강",
+   "name": "몽골 제국 2편_한국어 더빙",
+   "nodate": true
+  },
+  {
+   "src": "out/mongol-02.mp4",
+   "dir": "영상/몽골 제국/2편 - 유럽과의 첫 충돌, 칼카강",
+   "name": "몽골 제국 2편",
+   "nodate": false
+  },
+  {
+   "src": "out/thumbs/mongol-02-A.png",
+   "dir": "영상/몽골 제국/2편 - 유럽과의 첫 충돌, 칼카강",
+   "name": "몽골 제국 2편_썸네일 1 그들이 식탁이었다",
+   "nodate": true
+  },
+  {
+   "src": "out/thumbs/mongol-02-B.png",
+   "dir": "영상/몽골 제국/2편 - 유럽과의 첫 충돌, 칼카강",
+   "name": "몽골 제국 2편_썸네일 2 누가 이겼나",
+   "nodate": true
+  },
+  {
+   "src": "out/thumbs/mongol-02-C.png",
+   "dir": "영상/몽골 제국/2편 - 유럽과의 첫 충돌, 칼카강",
+   "name": "몽골 제국 2편_썸네일 3 유럽의 첫 악몽",
+   "nodate": true
+  },
+  {
+   "src": "out/mongol-01.es.wav",
+   "dir": "영상/몽골 제국/1편 - 쫓기던 고아가 세계를 삼키기까지",
+   "name": "몽골 제국 1편_스페인어 더빙",
+   "nodate": true
+  },
+  {
+   "src": "out/mongol-01.ko.wav",
+   "dir": "영상/몽골 제국/1편 - 쫓기던 고아가 세계를 삼키기까지",
+   "name": "몽골 제국 1편_한국어 더빙",
+   "nodate": true
+  },
+  {
+   "src": "out/mongol-01.mp4",
+   "dir": "영상/몽골 제국/1편 - 쫓기던 고아가 세계를 삼키기까지",
+   "name": "몽골 제국 1편",
+   "nodate": false
+  },
+  {
+   "src": "out/thumbs/mongol-01-A.png",
+   "dir": "영상/몽골 제국/1편 - 쫓기던 고아가 세계를 삼키기까지",
+   "name": "몽골 제국 1편_썸네일 1 고아에서 정복자로",
+   "nodate": true
+  },
+  {
+   "src": "out/thumbs/mongol-01-B.png",
+   "dir": "영상/몽골 제국/1편 - 쫓기던 고아가 세계를 삼키기까지",
+   "name": "몽골 제국 1편_썸네일 2 어떻게 이겼나",
+   "nodate": true
+  },
+  {
+   "src": "out/thumbs/mongol-01-C.png",
+   "dir": "영상/몽골 제국/1편 - 쫓기던 고아가 세계를 삼키기까지",
+   "name": "몽골 제국 1편_썸네일 3 칭기즈칸",
+   "nodate": true
+  },
+  {
+   "src": "out/watermark.png",
+   "dir": "배너",
+   "name": "워터마크 (RWM 메달)",
+   "nodate": true
+  },
+  {
+   "src": "out/profile-medal.png",
+   "dir": "배너/시안",
+   "name": "프로필 시안 A 메달",
+   "nodate": true
+  },
+  {
+   "src": "out/profile-bold.png",
+   "dir": "배너/시안",
+   "name": "프로필 시안 B 큰 글자",
+   "nodate": true
+  },
+  {
+   "src": "out/profile-ring.png",
+   "dir": "배너/시안",
+   "name": "프로필 시안 C 원형 테두리",
+   "nodate": true
+  },
+  {
+   "src": "out/banner-color.png",
+   "dir": "배너",
+   "name": "채널 배너",
+   "nodate": true
+  },
+  {
+   "src": "out/historymapworld-europe-borders-1x1.mp4",
+   "dir": "쇼츠",
+   "name": "유럽 국경 1700-2020"
+  },
+  {
+   "src": "out/historymapworld-eastasia-borders-9x16.mp4",
+   "dir": "쇼츠",
+   "name": "동아시아 국경 2200년"
+  },
+  {
+   "src": "out/historymapworld-quiz-4x5.mp4",
+   "dir": "쇼츠",
+   "name": "몇 년대 지도일까 퀴즈 (유럽·아시아)"
+  },
+  {
+   "src": "out/shorts/historymapworld-east-asia.mp4",
+   "dir": "쇼츠",
+   "name": "동아시아 국경 3000년"
+  },
+  {
+   "src": "out/shorts/historymapworld-rome.mp4",
+   "dir": "쇼츠",
+   "name": "로마 흥망"
+  },
+  {
+   "src": "out/shorts/historymapworld-mongol.mp4",
+   "dir": "쇼츠",
+   "name": "몽골 제국 흥망"
+  },
+  {
+   "src": "out/shorts/historymapworld-ottoman.mp4",
+   "dir": "쇼츠",
+   "name": "오스만 제국 600년"
+  },
+  {
+   "src": "out/shorts/historymapworld-africa.mp4",
+   "dir": "쇼츠",
+   "name": "아프리카 식민지와 독립"
+  },
+  {
+   "src": "out/shorts/historymapworld-americas.mp4",
+   "dir": "쇼츠",
+   "name": "아메리카 콜럼버스 이후"
+  },
+  {
+   "src": "out/shorts/historymapworld-russia.mp4",
+   "dir": "쇼츠",
+   "name": "러시아는 어떻게 커졌나"
+  },
+  {
+   "src": "out/shorts/historymapworld-india.mp4",
+   "dir": "쇼츠",
+   "name": "인도 무굴에서 영국령까지"
+  },
+  {
+   "src": "out/shorts/historymapworld-quiz.mp4",
+   "dir": "쇼츠",
+   "name": "몇 년대 지도일까 퀴즈 (세계)"
+  },
+  {
+   "src": "out/shorts/historymapworld-sameyear.mp4",
+   "dir": "쇼츠",
+   "name": "1492년 같은 해 세계"
+  },
+  {
+   "src": "out/historymapworld-scrub-16x9.mp4",
+   "dir": "홍보",
+   "name": "사이트 시연 가로 (레딧·쓰레드)"
+  },
+  {
+   "src": "out/historymapworld-reel-en.mp4",
+   "dir": "홍보",
+   "name": "사이트 릴스 영어"
+  },
+  {
+   "src": "out/historymapworld-reel-ko.mp4",
+   "dir": "홍보",
+   "name": "사이트 릴스 한국어"
+  },
+  {
+   "src": "out/historymapworld-reel-ja.mp4",
+   "dir": "홍보",
+   "name": "사이트 릴스 일본어"
+  },
+  {
+   "src": "out/historymapworld-reel-zh.mp4",
+   "dir": "홍보",
+   "name": "사이트 릴스 중국어"
+  },
+  {
+   "src": "public/bgm/main.wav",
+   "dir": "브금",
+   "name": "메인 테마",
+   "nodate": true
+  },
+  {
+   "src": "public/bgm/battle.wav",
+   "dir": "브금",
+   "name": "전투",
+   "nodate": true
+  },
+  {
+   "src": "public/bgm/tension.wav",
+   "dir": "브금",
+   "name": "긴장",
+   "nodate": true
+  },
+  {
+   "src": "public/bgm/lament.wav",
+   "dir": "브금",
+   "name": "비가",
+   "nodate": true
+  },
+  {
+   "src": "public/bgm/triumph.wav",
+   "dir": "브금",
+   "name": "승리 엔딩",
+   "nodate": true
+  },
+  {
+   "src": "../../Documents/GitHub/chronomap/marketing/brand/youtube/banner-en-2560x1440.png",
+   "dir": "배너",
+   "name": "채널 배너 영어",
+   "nodate": true
+  },
+  {
+   "src": "../../Documents/GitHub/chronomap/marketing/brand/youtube/banner-ko-2560x1440.png",
+   "dir": "배너",
+   "name": "채널 배너 한국어",
+   "nodate": true
+  },
+  {
+   "src": "../../Documents/GitHub/chronomap/marketing/brand/youtube/profile-800x800.png",
+   "dir": "배너",
+   "name": "프로필 사진",
+   "nodate": true
+  },
+  {
+   "src": "../../Documents/GitHub/chronomap/marketing/brand/youtube/watermark-150x150.png",
+   "dir": "배너",
+   "name": "워터마크",
+   "nodate": true
+  },
+  {
+   "src": "docs/youtube.html",
+   "dir": ".",
+   "name": "채널 운영 정리",
+   "nodate": true
+  },
+  {
+   "src": "docs/새 맥에서 이어가기.html",
+   "dir": ".",
+   "name": "새 맥에서 이어가기",
+   "nodate": true
+  }
+ ]
+}

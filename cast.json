@@ -1,0 +1,147 @@
+{
+ "_설명": "채널 배역 목소리. 영상마다 인물을 이 배역 중 하나에 배정한다(같은 배역 = 같은 목소리라 시청자가 '왕이구나·악당이구나' 알아봄). voice = Google TTS 목소리, rate = 속도, pitch = 반음 후처리(기계음 잡음이 생겨서 0으로 둠 - 성격은 목소리 고르기·억양·속도로), fx = 울림 효과(동굴처럼 들려서 안 씀, 빈칸). 다시 만들기: .venv/bin/python -I audio/cast.py [배역키...] 속도: 채널 규칙상 느린 목소리 금지 - 내레이터 1.07(2026-10-20 사용자: 1.19는 빠름, 10% 느리게), 다른 배역도 1.0 이상(2026-10-20). direction = Gemini 연기 지시(인물 대사는 Gemini 3.8/3.1로 연기, 무료 한도가 막히면 Chirp로 대신).",
+ "roles": {
+  "narrator": {
+   "ko": "내레이터",
+   "voice": "en-US-Chirp3-HD-Charon",
+   "rate": 1.07,
+   "pitch": 0,
+   "fx": "",
+   "line": "In 1206, every tribe on the steppe swore loyalty to one man. The world was about to change."
+  },
+  "narrator2": {
+   "ko": "내레이터 (후보 2)",
+   "voice": "en-US-Chirp3-HD-Sadaltager",
+   "rate": 1.07,
+   "pitch": 0,
+   "fx": "",
+   "line": "In 1206, every tribe on the steppe swore loyalty to one man. The world was about to change."
+  },
+  "king": {
+   "ko": "왕·황제",
+   "voice": "en-GB-Chirp3-HD-Alnilam",
+   "rate": 1.0,
+   "pitch": 0,
+   "fx": "",
+   "line": "Kneel. From this day there is one law under the Eternal Blue Sky. And it is mine.",
+   "direction": "A mighty ruler giving orders: deep, heavy, regal, absolute authority, controlled power."
+  },
+  "general": {
+   "ko": "장군·전사",
+   "voice": "en-US-Chirp3-HD-Algenib",
+   "rate": 1.08,
+   "pitch": 0,
+   "fx": "",
+   "line": "Hold the line! Archers, wait for my signal... Now! Loose!",
+   "direction": "A battle-hardened commander: gruff, loud, urgent, barking orders over the noise of battle."
+  },
+  "villain": {
+   "ko": "악의 근원 (무서운 악당)",
+   "voice": "en-GB-Chirp3-HD-Enceladus",
+   "rate": 0.98,
+   "pitch": 0,
+   "fx": "",
+   "line": "Let them run. Let them hide. In the end, every city opens its gates to me.",
+   "direction": "A menacing villain: low, cold, close to a whisper, with a cruel smile in the voice."
+  },
+  "schemer": {
+   "ko": "비열한 간신·배신자",
+   "voice": "en-GB-Chirp3-HD-Algieba",
+   "rate": 1.08,
+   "pitch": 0,
+   "fx": "",
+   "line": "Of course, Your Majesty. I would never betray you. Never... ever.",
+   "direction": "A sly, two-faced schemer: smooth, oily, flattering, quietly scheming."
+  },
+  "clown": {
+   "ko": "촐싹이·허세꾼",
+   "voice": "en-US-Chirp3-HD-Fenrir",
+   "rate": 1.25,
+   "pitch": 0,
+   "fx": "",
+   "line": "Wait, wait, wait! I'm the commander here! Why is everyone listening to him?!",
+   "direction": "A panicking, self-important braggart: whiny, outraged, voice cracking higher."
+  },
+  "hero": {
+   "ko": "젊은 주인공",
+   "voice": "en-US-Chirp3-HD-Puck",
+   "rate": 1.12,
+   "pitch": 0,
+   "fx": "",
+   "line": "They left us here to die. Fine. Then I'll survive. And one day, they'll all remember my name.",
+   "direction": "A determined young hero: fierce, defiant, intense, full of conviction."
+  },
+  "sage": {
+   "ko": "현자·노인",
+   "voice": "en-GB-Chirp3-HD-Schedar",
+   "rate": 1.0,
+   "pitch": 0,
+   "fx": "",
+   "line": "An empire won on horseback, my lord, cannot be ruled from horseback.",
+   "direction": "A wise old advisor: calm, measured, knowing, a little weary."
+  },
+  "commoner": {
+   "ko": "선량한 백성",
+   "voice": "en-AU-Chirp3-HD-Achird",
+   "rate": 1.08,
+   "pitch": 0,
+   "fx": "",
+   "line": "Please, we're just farmers. We have nothing left to give you.",
+   "direction": "A frightened ordinary villager: pleading, shaky, desperate."
+  },
+  "messenger": {
+   "ko": "전령·사신",
+   "voice": "en-US-Chirp3-HD-Iapetus",
+   "rate": 1.18,
+   "pitch": 0,
+   "fx": "",
+   "line": "My lord! The enemy has crossed the river. Ten thousand riders, maybe more!",
+   "direction": "A breathless messenger who just rode in: urgent, alarmed, out of breath."
+  },
+  "queen": {
+   "ko": "여왕·귀부인",
+   "voice": "en-GB-Chirp3-HD-Kore",
+   "rate": 1.02,
+   "pitch": 0,
+   "fx": "",
+   "line": "My husband is dead. Until his son comes of age, this empire answers to me.",
+   "direction": "A commanding queen: cool, composed, regal, steel under silk."
+  },
+  "mother": {
+   "ko": "강인한 어머니",
+   "voice": "en-US-Chirp3-HD-Sulafat",
+   "rate": 1.06,
+   "pitch": 0,
+   "fx": "",
+   "line": "Listen to me. Brothers who fight each other get eaten by the wolves, one by one.",
+   "direction": "A fierce, protective mother scolding her sons: stern, emotional, strong."
+  },
+  "maiden": {
+   "ko": "젊은 여성",
+   "voice": "en-US-Chirp3-HD-Leda",
+   "rate": 1.1,
+   "pitch": 0,
+   "fx": "",
+   "line": "They took me in the night. But I knew he would come for me.",
+   "direction": "A brave young woman: emotional but resolute."
+  },
+  "witch": {
+   "ko": "여성 악당",
+   "voice": "en-GB-Chirp3-HD-Gacrux",
+   "rate": 1.0,
+   "pitch": 0,
+   "fx": "",
+   "line": "Poison, they say, is a coward's weapon. How fortunate that I am no coward... and no fool.",
+   "direction": "A cold, calculating female villain: silky, amused, dangerous."
+  },
+  "boy": {
+   "ko": "소년",
+   "voice": "en-US-Chirp3-HD-Zephyr",
+   "rate": 1.1,
+   "pitch": 0,
+   "fx": "",
+   "line": "Mother... Father isn't coming back, is he?",
+   "direction": "A frightened young boy: small trembling voice, holding back tears."
+  }
+ }
+}

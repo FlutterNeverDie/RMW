@@ -1,0 +1,33 @@
+{
+  "fps": 30,
+  "bpm": 100,
+  "framesPerBeat": 18,
+  "framesPerBar": 72,
+  "width": 1080,
+  "height": 1920,
+  "durationInFrames": 840,
+  "scenes": [
+    { "id": "hook",      "from": 0,   "duration": 72 },
+    { "id": "timelapse", "from": 72,  "duration": 120 },
+    { "id": "demo",      "from": 192, "duration": 288 },
+    { "id": "maps",      "from": 480, "duration": 216 },
+    { "id": "cta",       "from": 696, "duration": 144 }
+  ],
+  "shotFrames": 10,
+  "mapFrames": 54,
+  "sfx": [
+    { "frame": 2,   "type": "thud" },
+    { "frame": 68,  "type": "wind" },
+    { "frame": 192, "type": "whoosh" },
+    { "frame": 229, "type": "click" },
+    { "frame": 308, "type": "click" },
+    { "frame": 480, "type": "whoosh" },
+    { "frame": 534, "type": "pop" },
+    { "frame": 588, "type": "pop" },
+    { "frame": 642, "type": "pop" },
+    { "frame": 696, "type": "whoosh" },
+    { "frame": 738, "type": "thud" },
+    { "frame": 756, "type": "ding" }
+  ],
+  "accents": [72, 82, 92, 102, 112, 122, 132, 142, 152, 162, 172, 182]
+}

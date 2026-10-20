@@ -1,0 +1,28 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>새 맥에서 이어가기</title>
+<style>:root{--bg:#faf6ec;--card:#fffdf7;--ink:#2b2418;--muted:#6f6450;--line:#e4dcc8;--accent:#c2410c}
+@media (prefers-color-scheme: dark){:root{--bg:#0b1220;--card:#111a2c;--ink:#e5e7eb;--muted:#94a3b8;--line:#22304a;--accent:#f59e0b}}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,"Apple SD Gothic Neo",sans-serif}main{max-width:820px;margin:0 auto;padding:28px 16px 80px}
+h2{margin-top:30px;border-top:1px solid var(--line);padding-top:12px}code{font:14px ui-monospace,Menlo,monospace}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto}li{margin:6px 0}</style></head><body><main>
+<h1>새 맥에서 이어가기</h1>
+<p>코드는 GitHub(FlutterNeverDie/RMW), 열쇠·Claude 기억은 AirDrop, 큰 파일(영상·더빙·목소리 캐시)은 이 맥에 그대로 둔다.</p>
+<h2>1. 이 맥에서</h2>
+<ol><li><code>~/hwm/코드/scripts/pack-handoff.sh</code> → 바탕화면 <code>hwm-옮길것</code> 폴더 (열쇠 4개 + Claude 기억)</li>
+<li>그 폴더를 AirDrop. <b>옮긴 뒤 폴더와 사본은 지우기</b> (유튜브 업로드 권한이 들어 있음)</li></ol>
+<h2>2. 새 맥에서</h2>
+<pre>mkdir -p ~/hwm && cd ~/hwm
+git clone https://github.com/FlutterNeverDie/RMW.git 코드
+cd 코드 && ./setup.sh</pre>
+<ol><li>받은 <code>secrets/</code> 파일 → <code>~/hwm/코드/secrets/</code>, 그리고 <code>chmod 600 ~/hwm/코드/secrets/*</code></li>
+<li>받은 <code>claude-memory/*.md</code> → <code>~/.claude/projects/-Users-&lt;사용자이름&gt;/memory/</code></li>
+<li><code>./setup.sh</code>를 다시 돌려 "열쇠 있음" 4줄 확인</li>
+<li><code>cd ~/hwm && claude</code> → CLAUDE.md와 <code>docs/guide/</code>를 읽고 이어감</li></ol>
+<h2>3. 쇼츠만 만들 때 필요한 것</h2>
+<ul><li>지도 캡처는 저장소에 들어 있음 (<code>public/clean</code>). 새 연도·지역이 필요하면 사이트(chronomap) 로컬 서버를 켜고 <code>scripts/clean.mjs</code></li>
+<li>브금·효과음은 저장소에 들어 있음. 목소리는 처음 만들 때 TTS를 다시 부름 (무료 한도 안)</li>
+<li>렌더 결과는 새 맥의 <code>~/hwm/쇼츠</code>에 쌓임 - 이 맥과 자동으로 합쳐지지 않으니 필요하면 AirDrop</li></ul>
+<h2>주의</h2>
+<ul><li>열쇠는 git·클라우드에 올리지 않기 (<code>.gitignore</code>로 막혀 있음)</li>
+<li>두 맥에서 동시에 같은 편을 고치지 말기 - 끝나면 커밋·푸시, 시작 전 <code>git pull</code></li>
+<li>공유 Claude 계정이라 claude.ai 원격 세션은 쓰지 않기</li></ul>
+</main></body></html>
