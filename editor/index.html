@@ -179,7 +179,8 @@ button.small { padding: 3px 9px; font-size: 12px; }
 .charGrid .sname { font-size: 12px; font-weight: 600; max-width: 100%; }
 .cthumb { position: relative; width: 84px; aspect-ratio: 600/720; }
 .cthumb img { position: absolute; inset: 0; width: 100%; height: 100%; }
-.badge { font-size: 11.5px; padding: 3px 9px; border-radius: 20px; border: 1px solid var(--line2); color: var(--dim); }
+.badge { font-size: 11.5px; padding: 3px 9px; border-radius: 20px; border: 1px solid var(--line2); color: var(--dim); white-space: nowrap; }
+.badge.warn { border-color: #6b5420; color: #e6c46a; }
 textarea[readonly], input:disabled, select:disabled { opacity: .55; cursor: not-allowed; }
 .charRows { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
 .charRows li { display: flex; gap: 10px; background: var(--panel2); border: 1px solid var(--line); border-radius: 9px; padding: 8px 10px; }
@@ -198,6 +199,32 @@ textarea[readonly], input:disabled, select:disabled { opacity: .55; cursor: not-
 .camField input[type=range] { grid-row: 1; grid-column: 2; width: 100%; height: 16px; }
 .camField input[type=number] { grid-row: 2; grid-column: 1 / 3; height: 24px; font-size: 11.5px; padding: 2px 5px; }
 .camField.over input[type=number] { border-color: var(--err); color: #ff8f8f; }
+/* 내역 */
+.modalBack { position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 40; display: grid; place-items: center; }
+.modal { width: min(1000px, 92vw); height: min(640px, 86vh); background: var(--bg); border: 1px solid var(--line2); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 20px 60px rgba(0,0,0,.6); }
+.histBody { flex: 1; min-height: 0; display: grid; grid-template-columns: 200px 1fr; }
+.histList { overflow-y: auto; border-right: 1px solid var(--line); padding: 8px; }
+.histList button { display: flex; justify-content: space-between; width: 100%; text-align: left; background: none; border-color: transparent; margin-bottom: 2px; }
+.histList button.on { background: var(--raise); border-color: var(--line2); }
+.histDiff { overflow-y: auto; padding: 12px 16px; display: flex; flex-direction: column; }
+table.diff td { border-bottom: 1px solid var(--line); padding: 7px 6px; vertical-align: top; }
+table.diff td.num { width: 64px; color: var(--dim); }
+.ba { display: flex; flex-direction: column; gap: 3px; margin-top: 4px; font-size: 12px; }
+.ba .b { color: #ff9b9b; text-decoration: line-through; text-decoration-color: rgba(255,155,155,.5); }
+.ba .a { color: #b9f27a; }
+.histActions { margin-top: auto; padding-top: 12px; justify-content: flex-end; }
+/* 저장 */
+.saveBox { width: min(460px, 92vw); background: var(--panel); border: 1px solid var(--line2); border-radius: 12px; padding: 18px 20px; box-shadow: 0 20px 60px rgba(0,0,0,.6); }
+.saveBox h2 { margin: 0 0 6px; font-size: 15px; }
+.saveBox input { width: 100%; height: 34px; font-size: 14px; }
+.savePath { font-size: 11.5px; margin: 8px 0 14px; word-break: break-all; }
+.savePath b { color: var(--text); font-weight: 600; }
+.busy { position: fixed; inset: 0; z-index: 80; background: rgba(0,0,0,.45); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; font-size: 13px; }
+.spinner { width: 34px; height: 34px; border-radius: 50%; border: 3px solid rgba(255,255,255,.18); border-top-color: var(--accent); animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 2.4s; } }
+.histGroup { margin: 10px 6px 4px; font-size: 11px; color: var(--dim); font-weight: 500; }
+.histList button b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 120px; }
 /* 우클릭 메뉴 */
 .ctx { position: fixed; z-index: 60; min-width: 180px; background: var(--panel2); border: 1px solid var(--line2); border-radius: 8px; padding: 4px; box-shadow: 0 10px 30px rgba(0,0,0,.6); display: flex; flex-direction: column; animation: ctxin 100ms ease-out; }
 @keyframes ctxin { from { opacity: 0; transform: translateY(-3px); } }

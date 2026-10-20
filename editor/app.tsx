@@ -141,6 +141,7 @@ function App() {
   const [playing, setPlaying] = useState(false);
   const [overPlayer, setOverPlayer] = useState(false);
   const [studioId, setStudioId] = useState("");
+  const [historyOpen, setHistoryOpen] = useState(false);
   const player = useRef<PlayerRef>(null);
 
   const say = (t: string) => { setToast(t); window.setTimeout(() => setToast((x) => (x === t ? "" : x)), 2600); };
@@ -276,16 +277,28 @@ function App() {
     return out;
   };
 
-  const save = useCallback(async () => {
+  // 저장: 이름을 받아 장면표 저장 + 영상 폴더 "편집"에 MMDDhhmm-이름.json 편집본
+  const [saveAsk, setSaveAsk] = useState(false);
+  const [busy, setBusy] = useState("");
+  const save = useCallback(async (name: string) => {
     if (!d) return;
-    await api(`/api/ep?e=${epId}`, { method: "POST", body: JSON.stringify(d.ep) });
-    setDirty(false); say("저장됨"); runCheck(epId);
+    setSaveAsk(false);
+    setBusy("저장 중");
+    try {
+      const t0 = Date.now();
+      const r = await api<{ file?: string }>(`/api/ep?e=${epId}&name=${encodeURIComponent(name)}`, { method: "POST", body: JSON.stringify(d.ep) });
+      await runCheck(epId);
+      await new Promise((ok) => setTimeout(ok, Math.max(0, 450 - (Date.now() - t0)))); // 너무 빨리 사라지지 않게
+      setDirty(false);
+      say(r.file ? `저장됨 · ${r.file.split("/").slice(-3).join("/")}` : "저장됨");
+    } catch (e) { say("저장 실패: " + (e as Error).message); }
+    setBusy("");
   }, [d, epId, runCheck]);
   const seekScene = (i: number) => { setSel(i); setCue(null); if (timing) player.current?.seekTo(timing.starts[i] + 1); };
 
   useEffect(() => {
     const onKey = (ev: KeyboardEvent) => {
-      if ((ev.metaKey || ev.ctrlKey) && ev.key === "s") { ev.preventDefault(); if (dirty) save(); return; }
+      if ((ev.metaKey || ev.ctrlKey) && ev.key === "s") { ev.preventDefault(); if (dirty && !busy) setSaveAsk(true); return; }
       // ⌘Z / ⇧⌘Z: 글자 칸 안에선 그 칸의 되돌리기, 밖에선 편집 되돌리기
       if ((ev.metaKey || ev.ctrlKey) && ev.key.toLowerCase() === "z" && !/TEXTAREA|INPUT/.test((document.activeElement as HTMLElement)?.tagName)) { ev.preventDefault(); undo(ev.shiftKey); return; }
       if (ev.key === "Escape") setGallery(false);
@@ -315,10 +328,12 @@ function App() {
         <select aria-label="편" data-tip="편 고르기" value={epId} onChange={(e) => { if (!dirty || window.confirm("저장하지 않은 수정을 버릴까요?")) setEpId(e.target.value); }}>
           {Object.entries(groups).map(([pl, list]) => <optgroup key={pl} label={pl}>{list.map((e) => <option key={e.id} value={e.id}>{e.title}</option>)}</optgroup>)}
         </select>
+        {!d.tl && <span className="badge warn" data-tip="이 컴퓨터에 이 편 목소리 파일(public/ep/<편>/)이 없음 - 다른 컴에서 복사하거나 목소리를 만들면 언어별로 들림. 길이도 지금은 글자 수 어림">목소리 없음 · 브금·효과음만 들림</span>}
         {d.locked && <span className="badge" data-tip="유튜브에 올린 편 - 화면·장면 순서·영어 대사·인물 배치는 잠금. 더빙 대사·효과음·브금만 수정">업로드됨 {d.locked}</span>}
         <IconBtn n="undo" label="되돌리기 (⌘Z)" onClick={() => undo()} />
         <IconBtn n="redo" label="다시 하기 (⇧⌘Z)" onClick={() => undo(true)} />
-        <button className="primary" data-tip="장면표 저장 (⌘S)" disabled={!dirty} onClick={save}>저장</button>
+        <button data-tip="저장 내역 보기·되돌리기 (저장할 때마다 이전 상태가 남음)" onClick={() => setHistoryOpen(true)}>내역</button>
+        <button className="primary" data-tip="장면표 저장 (⌘S) - 저장 전 상태는 내역에 남음" disabled={!dirty || !!busy} onClick={() => setSaveAsk(true)}>저장</button>
         <button data-tip="대본 검사 다시 하기" onClick={() => runCheck(epId)}>검사</button>
         {m && <span className="counts"><b className={+m[1] ? "err" : "ok"}>{m[1]}</b> 오류 · <b className="warn">{m[2]}</b> 경고</span>}
         <span className="grow" />
@@ -391,6 +406,13 @@ function App() {
         onHold={(i, hold) => edit((ep) => { const v = Math.round(hold * 10) / 10; if (v > 0) ep.scenes[i].hold = v; else delete ep.scenes[i].hold; })} />
 
       {toast && <div className="toast" role="status">{toast}</div>}
+      {saveAsk && <SaveDialog epId={epId} onCancel={() => setSaveAsk(false)} onSave={save} />}
+      {busy && <div className="busy" role="status" aria-live="polite"><div className="spinner" /><span>{busy}</span></div>}
+      {historyOpen && (
+        <HistoryPanel epId={epId} current={d.ep} dirty={dirty} onClose={() => setHistoryOpen(false)}
+          onRestore={(ep, label) => { edit(() => {}, false); setD({ ...d, ep, ...(ep.scenes.length !== d.ep.scenes.length ? { tl: null, durs: null } : {}) }); setDirty(true); setSel(0); setCue(null); setHistoryOpen(false); say(`${label} - 확인하고 저장하면 적용`); }}
+          onDiscard={() => { api<Data>(`/api/ep?e=${epId}`).then((x) => { setD(x); setDirty(false); setSel(0); setCue(null); setHistoryOpen(false); say("저장 안 한 변경을 버림"); }); }} />
+      )}
       {gallery && <Studio initialId={studioId} onClose={(changed) => { setGallery(false); if (changed && !dirty) location.reload(); else if (changed) say("저장 후 새로고침하면 영상에 반영"); }} />}
     </div>
   );
@@ -724,6 +746,133 @@ function IssueList({ issues, onPick }: { issues: { byScene: Record<string, Issue
         {list.map((x, k) => <li key={k} className={"iss " + x.kind} onClick={() => onPick(x.i)}><span className="num">{x.i}</span> {x.msg}</li>)}
         {issues.general.map((g, k) => <li key={"g" + k} className={"iss " + g.kind}>{g.msg}</li>)}
       </ul>
+    </div>
+  );
+}
+
+// ---------- 저장 이름 묻기 ----------
+function SaveDialog({ epId, onCancel, onSave }: { epId: string; onCancel: () => void; onSave: (name: string) => void }) {
+  const [name, setName] = useState("");
+  const [dir, setDir] = useState("");
+  useEffect(() => { api<{ dir: string }>(`/api/edits?e=${epId}`).then((r) => setDir(r.dir)); }, [epId]);
+  const n = new Date(), z = (x: number) => String(x).padStart(2, "0");
+  const stamp = `${z(n.getMonth() + 1)}${z(n.getDate())}${z(n.getHours())}${z(n.getMinutes())}`;
+  const clean = name.replace(/[/\\:*?"<>|]/g, "").trim();
+  return (
+    <div className="modalBack" onMouseDown={onCancel}>
+      <form className="saveBox" role="dialog" aria-label="저장" onMouseDown={(e) => e.stopPropagation()}
+        onSubmit={(e) => { e.preventDefault(); if (clean) onSave(clean); }} onKeyDown={(e) => e.key === "Escape" && onCancel()}>
+        <h2>저장</h2>
+        <label htmlFor="saveName">무엇을 고쳤는지 이름</label>
+        <input id="saveName" autoFocus placeholder="예: 스페인어 대사 다듬기" value={name} onChange={(e) => setName(e.target.value)} />
+        <p className="dim savePath">{dir}/<b>{stamp}-{clean || "이름"}</b>.json</p>
+        <div className="row" style={{ justifyContent: "flex-end" }}>
+          <button type="button" onClick={onCancel}>취소</button>
+          <button type="submit" className="primary" disabled={!clean}>저장</button>
+        </div>
+      </form>
+    </div>
+  );
+}
+
+// ---------- 내역: 저장할 때마다 남긴 이전 장면표와 비교해서 무엇이 바뀌었는지 보여 주고 되돌림 ----------
+type Change = { scene: string; what: string; before?: string; after?: string };
+const FIELD_NAME: [string, string][] = [["text", "영어 대사"], ["speaker", "말하는 사람"], ["role", "목소리"], ["show", "화면"], ["music", "브금"], ["sfx", "전환음"], ["cues", "효과음"], ["char", "인물"], ["pose", "포즈"], ["facing", "보는 방향"], ["charAt", "인물 위치"], ["hold", "여유"]];
+const short = (v: unknown) => { if (v === undefined) return "없음"; const t = typeof v === "string" ? v : JSON.stringify(v); return t.length > 90 ? t.slice(0, 90) + "…" : t; };
+const same = (x: unknown, y: unknown) => JSON.stringify(x ?? null, (_, v) => (typeof v === "number" ? +v.toFixed(6) : v)) === JSON.stringify(y ?? null, (_, v) => (typeof v === "number" ? +v.toFixed(6) : v));
+function diffEp(a: Ep, b: Ep): Change[] {
+  const sig = (s: EpScene) => (s.text || "") + "|" + JSON.stringify(s.show);
+  const used = new Set<number>();
+  const match = b.scenes.map((s, i) => {
+    if (a.scenes[i] && sig(a.scenes[i]) === sig(s)) { used.add(i); return i; }
+    return -1;
+  });
+  b.scenes.forEach((s, i) => { if (match[i] < 0) { const j = a.scenes.findIndex((x, k) => !used.has(k) && sig(x) === sig(s)); if (j >= 0) { used.add(j); match[i] = j; } } });
+  b.scenes.forEach((_, i) => { if (match[i] < 0 && a.scenes[i] && !used.has(i)) { used.add(i); match[i] = i; } });
+  // 실제로 옮긴 장면만 "이동": 원래 순서를 지킨 가장 긴 줄(LIS)에 든 장면은 밀렸을 뿐
+  const idx = match.map((m, i) => [m, i]).filter(([m]) => m >= 0);
+  const tails: number[] = [], prev: number[] = new Array(idx.length).fill(-1), at: number[] = [];
+  idx.forEach(([m], k) => {
+    let lo = 0, hi = tails.length;
+    while (lo < hi) { const mid = (lo + hi) >> 1; if (idx[tails[mid]][0] < m) lo = mid + 1; else hi = mid; }
+    prev[k] = lo ? tails[lo - 1] : -1; tails[lo] = k; at[k] = lo;
+  });
+  const stay = new Set<number>();
+  for (let k = tails[tails.length - 1] ?? -1; k >= 0; k = prev[k]) stay.add(idx[k][1]);
+  const out: Change[] = [];
+  b.scenes.forEach((s, i) => {
+    const m = match[i];
+    if (m < 0) return out.push({ scene: `${i}`, what: "새 장면", after: short(s.text || s.show) });
+    const o = a.scenes[m];
+    if (!stay.has(i)) out.push({ scene: `${i}`, what: `자리 이동 (원래 ${m}번)` });
+    for (const [k, name] of FIELD_NAME) if (!same(o[k], s[k])) out.push({ scene: `${i}`, what: name, before: short(o[k]), after: short(s[k]) });
+    const langs = new Set([...Object.keys(o.i18n || {}), ...Object.keys(s.i18n || {})]);
+    for (const l of langs) if (!same(o.i18n?.[l], s.i18n?.[l])) out.push({ scene: `${i}`, what: `${LANG_NAME[l] || l} 대사`, before: short(o.i18n?.[l]), after: short(s.i18n?.[l]) });
+  });
+  a.scenes.forEach((s, k) => { if (!used.has(k)) out.push({ scene: `원래 ${k}`, what: "장면 삭제", before: short(s.text || s.show) }); });
+  if (!same(a.bgm, b.bgm)) out.push({ scene: "편", what: "기본 브금", before: short(a.bgm), after: short(b.bgm) });
+  return out;
+}
+
+function HistoryPanel({ epId, current, dirty, onClose, onRestore, onDiscard }: {
+  epId: string; current: Ep; dirty: boolean; onClose: () => void; onRestore: (ep: Ep, label: string) => void; onDiscard: () => void;
+}) {
+  const [list, setList] = useState<{ id: string; time: string }[]>([]);
+  const [edits, setEdits] = useState<{ id: string; name: string; time: string }[]>([]);
+  const [file, setFile] = useState<Ep | null>(null);
+  const [pick, setPick] = useState<string>(dirty ? "unsaved" : "");
+  const [snaps, setSnaps] = useState<Record<string, Ep>>({});
+  useEffect(() => {
+    api<{ id: string; time: string }[]>(`/api/history?e=${epId}`).then((l) => { setList(l); if (!dirty && l[0]) setPick(l[0].id); });
+    api<Data>(`/api/ep?e=${epId}`).then((x) => setFile(x.ep));
+    api<{ list: { id: string; name: string; time: string }[] }>(`/api/edits?e=${epId}`).then((r) => setEdits(r.list));
+  }, [epId, dirty]);
+  const load = async (id: string) => snaps[id] ?? (await api<Ep>(id.startsWith("edit:") ? `/api/edits/one?e=${epId}&id=${encodeURIComponent(id.slice(5))}` : `/api/history/one?e=${epId}&id=${id}`).then((x) => (setSnaps((m) => ({ ...m, [id]: x })), x)));
+  useEffect(() => { if (pick && pick !== "unsaved") load(pick); const i = list.findIndex((x) => x.id === pick); if (i > 0) load(list[i - 1].id); }, [pick, list]);
+  useEffect(() => { const k = (e: KeyboardEvent) => e.key === "Escape" && onClose(); window.addEventListener("keydown", k); return () => window.removeEventListener("keydown", k); }, [onClose]);
+  // 저장 하나 = (그 저장 직전 상태) → (다음 저장 직전 상태 또는 지금 파일)
+  let before: Ep | undefined, after: Ep | undefined;
+  if (pick === "unsaved") { before = file ?? undefined; after = current; }
+  else if (pick.startsWith("edit:")) { before = file ?? undefined; after = snaps[pick]; } // 지금 파일 → 그 편집본
+  else { const i = list.findIndex((x) => x.id === pick); before = snaps[pick]; after = i === 0 ? file ?? undefined : snaps[list[i - 1]?.id]; }
+  const changes = before && after ? diffEp(before, after) : null;
+  const picked = list.find((x) => x.id === pick);
+  return (
+    <div className="modalBack" onMouseDown={onClose}>
+      <div className="modal" role="dialog" aria-label="내역" onMouseDown={(e) => e.stopPropagation()}>
+        <div className="studioHead"><h2>내역</h2><span className="dim">저장할 때마다 저장 직전 상태가 남아요</span><span className="grow" /><IconBtn n="x" label="닫기 (Esc)" onClick={onClose} /></div>
+        <div className="histBody">
+          <nav className="histList">
+            {dirty && <button className={pick === "unsaved" ? "on" : ""} onClick={() => setPick("unsaved")}><b>저장 안 한 변경</b><small className="dim">지금 편집기</small></button>}
+            {edits.length > 0 && <h4 className="histGroup">편집본</h4>}
+            {edits.map((h) => <button key={h.id} className={pick === "edit:" + h.id ? "on" : ""} onClick={() => setPick("edit:" + h.id)}><b>{h.name}</b><small className="dim">{h.time}</small></button>)}
+            {list.length > 0 && <h4 className="histGroup">자동 저장 내역</h4>}
+            {list.map((h) => <button key={h.id} className={pick === h.id ? "on" : ""} onClick={() => setPick(h.id)}><b>{h.time.slice(5, 16)}</b><small className="dim">저장</small></button>)}
+            {!list.length && !dirty && <p className="dim" style={{ padding: 10 }}>아직 저장한 적 없음</p>}
+          </nav>
+          <section className="histDiff">
+            {changes === null ? <p className="dim">불러오는 중</p> : changes.length === 0 ? <p className="dim">바뀐 것 없음</p> : (
+              <table className="diff"><tbody>
+                {changes.map((c, k) => (
+                  <tr key={k}>
+                    <td className="num">{c.scene}</td>
+                    <td><b>{c.what}</b>{(c.before || c.after) && <div className="ba">{c.before !== undefined && <span className="b">{c.before}</span>}{c.after !== undefined && <span className="a">{c.after}</span>}</div>}</td>
+                  </tr>
+                ))}
+              </tbody></table>
+            )}
+            <div className="row histActions">
+              {pick === "unsaved" ? (
+                <button className="danger" data-tip="마지막 저장 상태로 돌아감" onClick={() => window.confirm("저장 안 한 변경을 모두 버릴까요?") && onDiscard()}>저장 안 한 변경 버리기</button>
+              ) : pick.startsWith("edit:") && snaps[pick] ? (
+                <button data-tip="이 편집본을 편집기에 불러옴 - 확인 후 저장해야 적용" onClick={() => onRestore(snaps[pick], `편집본 "${edits.find((x) => "edit:" + x.id === pick)?.name}" 불러옴`)}>이 편집본 불러오기</button>
+              ) : picked && snaps[pick] ? (
+                <button data-tip="이 저장을 하기 직전 상태를 편집기에 불러옴 - 확인 후 저장해야 적용" onClick={() => onRestore(snaps[pick], `${picked.time.slice(5, 16)} 저장 전으로 되돌림`)}>이 저장 전으로 되돌리기</button>
+              ) : null}
+            </div>
+          </section>
+        </div>
+      </div>
     </div>
   );
 }

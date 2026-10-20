@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>편집기 사용법</title>
+<style>
+:root { --bg: #0a0a0a; --panel: #141414; --line: #262626; --text: #ededed; --dim: #8f8f8f; --lime: #c6f432; --red: #ff8f8f; --green: #57a86b; --amber: #d1a12e; }
+@media (prefers-color-scheme: light) { :root { --bg: #fafafa; --panel: #ffffff; --line: #e4e4e4; --text: #161616; --dim: #6b6b6b; --lime: #5b7d00; --red: #c43b3b; } }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.7 -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif; -webkit-font-smoothing: antialiased; }
+main { max-width: 860px; margin: 0 auto; padding: 48px 20px 96px; }
+h1 { font-size: 28px; margin: 0 0 6px; letter-spacing: -.3px; }
+.lead { color: var(--dim); margin: 0 0 28px; }
+nav.toc { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 36px; }
+nav.toc a { font-size: 13px; color: var(--text); text-decoration: none; border: 1px solid var(--line); border-radius: 20px; padding: 3px 11px; }
+nav.toc a:hover { border-color: var(--lime); }
+h2 { font-size: 19px; margin: 44px 0 10px; padding-top: 8px; border-top: 1px solid var(--line); }
+h3 { font-size: 15px; margin: 22px 0 6px; }
+p { margin: 6px 0; }
+ul { margin: 6px 0; padding-left: 20px; }
+li { margin: 3px 0; }
+kbd { font: 12px ui-monospace, Menlo, monospace; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px; padding: 1px 6px; background: var(--panel); }
+code { font: 13px ui-monospace, Menlo, monospace; background: var(--panel); border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; }
+.box { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin: 12px 0; }
+.box.lime { border-color: var(--lime); }
+.box.warn { border-color: var(--amber); }
+table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 14px; }
+th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--dim); font-weight: 500; font-size: 12.5px; }
+.layout { display: grid; grid-template-columns: 1fr 2.2fr 1.3fr; grid-template-rows: auto auto auto; gap: 6px; font-size: 13px; margin: 14px 0; }
+.layout div { border: 1px solid var(--line); border-radius: 8px; padding: 10px; background: var(--panel); }
+.layout .top { grid-column: 1 / 4; }
+.layout .tracks { grid-column: 1 / 3; }
+.layout .right { grid-row: 2 / 4; grid-column: 3; }
+.layout b { display: block; margin-bottom: 2px; }
+.layout span { color: var(--dim); font-size: 12px; }
+.dot { display: inline-block; width: 10px; height: 10px; border-radius: 3px; vertical-align: middle; margin-right: 4px; }
+.no { color: var(--red); }
+@media (max-width: 640px) { .layout { grid-template-columns: 1fr; } .layout .top, .layout .tracks, .layout .right { grid-column: auto; grid-row: auto; } }
+</style>
+</head>
+<body>
+<main>
+<h1>편집기 사용법</h1>
+<p class="lead">ReStory Worlds Map 영상 편집기. 내 맥 브라우저에서만 돌고 AI를 쓰지 않아요. 고친 내용은 장면표(<code>episodes/&lt;편&gt;/ep.json</code>)에 저장되고, 렌더하면 그대로 영상이 돼요.</p>
+
+<nav class="toc">
+  <a href="#start">켜기</a><a href="#layout">화면 구성</a><a href="#open">편 열기·잠금</a><a href="#play">재생</a><a href="#tracks">트랙</a>
+  <a href="#line">대사 탭</a><a href="#screen">화면 탭</a><a href="#sound">소리 탭</a><a href="#char">인물 탭</a><a href="#menu">우클릭</a>
+  <a href="#save">저장·되돌리기·내역</a><a href="#check">검사·타이밍·자막</a><a href="#keys">단축키</a><a href="#cant">못 하는 것</a>
+</nav>
+
+<h2 id="start">켜기</h2>
+<div class="box">
+  <p>터미널에서 <code>cd ~/hwm/코드</code> 후 <code>npm run editor</code> → 브라우저에서 <b>http://localhost:4600</b></p>
+  <p class="dim" style="color:var(--dim)">처음 켤 때 영상 준비에 몇 초 걸려요. 끄려면 터미널에서 <kbd>Ctrl</kbd>+<kbd>C</kbd>.</p>
+</div>
+
+<h2 id="layout">화면 구성</h2>
+<div class="layout">
+  <div class="top"><b>위</b><span>편 고르기 · 되돌리기/다시 하기 · 내역 · 저장 · 검사 · 오류/경고 수</span></div>
+  <div><b>왼쪽</b><span>언어 타이밍 · 자막 파일 · 검사 결과</span></div>
+  <div><b>가운데 영상</b><span>실제 렌더와 같은 화면과 소리. 아래에 재생 버튼, 재생 언어, 확대</span></div>
+  <div class="right"><b>오른쪽 탭</b><span>대사 · 화면 · 소리 · 인물</span></div>
+  <div class="tracks"><b>아래 트랙</b><span>화면 · 인물 · 효과음 · 브금 · 언어별 대사</span></div>
+</div>
+<p>버튼에 마우스를 올리면 한국어 설명이 떠요.</p>
+
+<h2 id="open">편 열기 · 업로드한 편 잠금</h2>
+<ul>
+  <li>위 왼쪽 칸에서 <b>재생목록 &gt; 편</b>을 골라요. 한 번에 한 편씩 열고, 편마다 따로 저장돼요.</li>
+  <li>유튜브에 올린 편은 <b>업로드됨</b> 표시가 붙고 잠겨요. 올린 영상은 바꿀 수 없으니까요.
+    <table>
+      <tr><th>잠김</th><th>고칠 수 있음</th></tr>
+      <tr><td>장면 순서·복제·삭제, 장면 길이, 영어 대사, 목소리, 화면, 인물</td><td>한국어·스페인어 등 더빙 대사, 효과음, 브금 (아직 안 올린 더빙 트랙용)</td></tr>
+    </table>
+  </li>
+  <li>잠금은 <code>meta.json</code>의 <code>"uploaded"</code> 줄로 정해져요. 유튜브에서 영상을 지우고 다시 만들 때 이 줄을 지우면 풀려요.</li>
+  <li>업로드한 편은 미리보기도 올린 영상 그대로 보여요(그 뒤에 생긴 캐릭터는 안 나옴).</li>
+</ul>
+
+<h2 id="play">재생</h2>
+<ul>
+  <li>가운데 라임색 버튼 또는 <kbd>Space</kbd>로 재생/멈춤, 양옆 버튼 또는 <kbd>←</kbd> <kbd>→</kbd>로 장면 이동</li>
+  <li><b>재생 언어</b>를 바꾸면 그 언어 더빙으로 들려요. 위에 <b>목소리 없음</b> 표시가 있으면 이 컴퓨터에 그 편 목소리 파일(<code>public/ep/&lt;편&gt;/</code>)이 없는 것 - 다른 컴에서 복사하거나 목소리를 만들어야 들려요</li>
+  <li>트랙 위 시간 눈금을 누르면 그 시점으로 가요. 재생 중엔 지나가는 장면이 자동으로 골라져요</li>
+  <li>오른쪽 아래 슬라이더로 트랙을 확대·축소해요</li>
+</ul>
+
+<h2 id="tracks">트랙</h2>
+<table>
+  <tr><th>줄</th><th>보이는 것</th><th>할 수 있는 것</th></tr>
+  <tr><td>화면</td><td>장면 막대 (색 = 종류: 지도·그림·대사 카드·제목·도장). 빨간 점 = 검사에 걸림, 빗금 = 여유 시간</td><td>누르면 그 장면으로. <b>오른쪽 끝을 끌면</b> 장면 끝 여유(모든 언어 공통)</td></tr>
+  <tr><td>인물</td><td>그 장면에 나오는 캐릭터와 포즈</td><td>우클릭 → 캐릭터 모습 고치기</td></tr>
+  <tr><td>효과음</td><td>테두리만 있는 것 = 기본 전환음, 파란 것 = 직접 넣은 효과음</td><td>파란 것은 <b>끌어서 옮기기</b>, <kbd>Delete</kbd>로 지우기</td></tr>
+  <tr><td>브금</td><td>곡이 바뀌는 구간</td><td>우클릭 → 듣기, 바꾸기 해제</td></tr>
+  <tr><td>언어별 대사</td><td>그 언어 대사 길이 막대</td><td>누르면 그 장면으로</td></tr>
+</table>
+<p>대사 막대 색: <span class="dot" style="background:var(--green)"></span>꽉 참 <span class="dot" style="background:var(--amber)"></span>뒤가 1.2초 넘게 빔 <span class="dot" style="background:#e5484d"></span>2.5초 넘게 비거나 장면보다 김 · 점선 = 목소리 만들기 전 글자 수로 어림한 길이</p>
+
+<h2 id="line">대사 탭</h2>
+<ul>
+  <li>장면 번호·길이, 장면 위로/아래로/복제/새 장면/삭제</li>
+  <li>언어별 길이 막대와 <b>여유</b>(장면 끝에 더 머무는 초)</li>
+  <li>목소리(배역), 말하는 사람, 영어·한국어·스페인어 대사. 검사에 걸린 문제가 그 칸 바로 아래에 떠요</li>
+</ul>
+<div class="box warn"><p>대사를 고쳐도 목소리는 바로 안 바뀌어요. 그 언어 목소리를 다시 만들어야 해요(한 편 만들기 <code>make-episode.sh</code>). 바뀐 곳은 막대에 "다시"로 표시돼요.</p></div>
+
+<h2 id="screen">화면 탭</h2>
+<ul>
+  <li><b>브금</b>: 이 장면부터 바꿀 곡 (이어서 = 앞 곡 계속)</li>
+  <li><b>전환음</b>: 기본 / 끔 / 직접 고르기</li>
+  <li><b>인물</b> (캐릭터가 있는 장면만): 포즈(정면·옆·화남·놀람·슬픔·기쁨), 서는 자리(왼쪽·가운데·오른쪽), 보는 방향(왼쪽·오른쪽·자동)</li>
+  <li><b>카메라</b> (지도·그림 장면): 시작과 끝의 가로(x)·세로(y)·확대를 슬라이더나 숫자로. 영상에 바로 보여요</li>
+  <li><b>확대 한도 경고</b>: 그림 크기를 읽어서 확대가 선명하게 볼 수 있는 한도를 넘으면 빨갛게 알려 줘요. 더 당기려면 지도를 확대해서 따로 캡처해야 해요</li>
+  <li><b>show</b>: 화면 설정 원본(JSON). 지명 표시 등 슬라이더에 없는 것은 여기서 고쳐요</li>
+</ul>
+
+<h2 id="sound">소리 탭</h2>
+<ul>
+  <li>효과음(내 소리·채널)과 브금 목록. 찾기 칸으로 거르기</li>
+  <li>▶ <b>미리듣기</b> (다른 소리를 누르면 앞 소리는 멈춤)</li>
+  <li><b>넣기</b>: 소리를 <b>트랙이나 영상 위로 끌어다 놓기</b>, 또는 + (지금 재생 위치에). 효과음은 그 시점에, 브금은 그 장면부터</li>
+  <li><b>내 소리 파일</b>: mp3·wav 등을 Finder에서 소리 탭이나 트랙으로 끌어다 놓으면 목록에 추가돼요 (트랙에 놓으면 그 자리에 바로 들어감). 업로드 버튼으로도 돼요</li>
+  <li>넣은 효과음을 누르면 소리 탭 맨 위에서 소리 바꾸기·시작 시간·크기·듣기·삭제</li>
+</ul>
+
+<h2 id="char">인물 탭 · 캐릭터 페이지</h2>
+<ul>
+  <li>채널 캐릭터 목록: 그림, <b>한국어 이름</b>, <b>영상에서 하는 일</b>, 이 편에서 나오는 장면 번호(누르면 이동)</li>
+  <li><b>모습</b> 버튼 → 캐릭터 페이지: 피부·눈·표정·나이·흉터, 머리·수염, 모자, 옷 색과 종류, 한국어 이름·설명을 고치면 그 인물만 포즈 6개가 바로 다시 그려져요. <b>다시 그리기</b> 버튼도 있어요</li>
+  <li>큰 그림을 누르면 말하는 모습, 아래 6칸으로 포즈별 모습</li>
+</ul>
+<div class="box"><p>캐릭터를 장면에 넣고 빼거나 새 캐릭터를 만드는 건 편집기에서 하지 않아요. Claude가 시나리오(장면표)를 쓸 때 정해요. 편집기는 이미 정해진 인물의 위치·포즈·모습만 다듬어요.</p></div>
+
+<h2 id="menu">우클릭 메뉴 (트랙)</h2>
+<table>
+  <tr><th>무엇을</th><th>메뉴</th></tr>
+  <tr><td>장면</td><td>장면 복제 · 장면 삭제</td></tr>
+  <tr><td>넣은 효과음</td><td>듣기 · 삭제</td></tr>
+  <tr><td>기본 전환음</td><td>듣기 · 이 장면 전환음 끄기</td></tr>
+  <tr><td>브금</td><td>듣기 · 여기서 바꾸기 해제</td></tr>
+  <tr><td>인물</td><td>캐릭터 모습 고치기</td></tr>
+</table>
+<p>메뉴는 <kbd>Esc</kbd>나 다른 곳을 누르면 닫혀요.</p>
+
+<h2 id="save">저장 · 되돌리기 · 내역</h2>
+<ul>
+  <li><b>저장</b> (<kbd>⌘</kbd>+<kbd>S</kbd>): 고친 게 있으면 라임색으로 켜져요. 누르면 <b>무엇을 고쳤는지 이름</b>을 물어보고, 저장하는 동안 로딩이 떠요
+    <ul>
+      <li>장면표에 저장되고, 영상 폴더에 <b>편집본</b>이 따로 남아요: <code>영상/&lt;재생목록&gt;/&lt;편&gt;/편집/10202215-이름.json</code> (월일시분-이름)</li>
+      <li>저장하지 않고 창을 닫으려 하면 물어봐요</li>
+    </ul>
+  </li>
+  <li><b>되돌리기</b> <kbd>⌘</kbd>+<kbd>Z</kbd> / <b>다시 하기</b> <kbd>⇧</kbd>+<kbd>⌘</kbd>+<kbd>Z</kbd>: 저장 전 편집을 하나씩 되돌려요 (글자 칸 안에서는 그 칸의 글자 되돌리기가 먼저)</li>
+  <li><b>내역</b>: 저장할 때마다 <b>저장 직전 상태</b>가 자동으로 남아요(최근 100개, 이 컴퓨터에만).
+    <ul>
+      <li>왼쪽에서 저장 시각을 고르면 그 저장에서 <b>무엇이 바뀌었는지</b> 보여요 (옮긴 장면, 바뀐 대사는 <span class="no">빨강 = 전</span> / <span style="color:var(--lime)">초록 = 후</span>)</li>
+      <li><b>이 저장 전으로 되돌리기</b>: 그 상태를 편집기에 불러와요. 확인하고 저장해야 적용돼요</li>
+      <li><b>편집본</b>: 이름 붙여 저장한 것들. 고르면 지금과 무엇이 다른지 보이고, <b>이 편집본 불러오기</b>로 그 상태로 돌아가요</li>
+      <li><b>저장 안 한 변경</b>: 지금 고친 것과 저장된 파일의 차이, <b>버리기</b>도 여기서</li>
+    </ul>
+  </li>
+</ul>
+<div class="box lime"><p>실수로 장면 순서를 바꾸거나 지워도 <b>내역</b>에서 무엇이 바뀌었는지 보고 되돌릴 수 있어요. 저장한 장면표는 git에도 남아요(커밋한 것까지).</p></div>
+
+<h2 id="check">검사 · 언어 타이밍 · 자막</h2>
+<ul>
+  <li><b>검사</b>: 위에 오류·경고 수, 왼쪽에 목록(누르면 그 장면으로). 잡는 것: 한국어 "~습니다" 섞임(채널 말투는 "~요/~죠"), "이였", 화면에 이름·지명·연도가 아닌 영어 낱말, 이름 표기가 사전(<code>episodes/names.json</code>)과 다름</li>
+  <li><b>언어 타이밍</b>: 화면은 하나고 소리만 언어별로 붙어서 장면 길이 = 가장 긴 언어예요. 언어마다 말하는 비율과 <b>언어끼리 길이 차이가 큰 장면</b> 목록이 떠요. 혼자 긴 언어는 줄이고, 뒤가 많이 비는 언어는 늘려서 맞춰요</li>
+  <li><b>자막 파일</b>: 왼쪽 언어 타이밍 칸 위. 언어별 <code>.srt</code>를 만들어요(문장마다 시간을 나눔). 목소리를 만든 편에서만 되고, 목소리를 만든 뒤 대사가 바뀐 곳은 알려 줘요. 파일은 <code>~/hwm/코드/out/editor/</code></li>
+</ul>
+
+<h2 id="keys">단축키</h2>
+<table>
+  <tr><th>키</th><th>하는 일</th></tr>
+  <tr><td><kbd>Space</kbd></td><td>재생 / 멈춤</td></tr>
+  <tr><td><kbd>←</kbd> <kbd>→</kbd></td><td>이전 / 다음 장면</td></tr>
+  <tr><td><kbd>⌘</kbd>+<kbd>S</kbd></td><td>저장</td></tr>
+  <tr><td><kbd>⌘</kbd>+<kbd>Z</kbd> / <kbd>⇧</kbd>+<kbd>⌘</kbd>+<kbd>Z</kbd></td><td>되돌리기 / 다시 하기</td></tr>
+  <tr><td><kbd>Delete</kbd></td><td>고른 효과음 지우기</td></tr>
+  <tr><td><kbd>Esc</kbd></td><td>메뉴·내역·캐릭터 페이지 닫기</td></tr>
+</table>
+
+<h2 id="cant">편집기에서 못 하는 것</h2>
+<ul>
+  <li>목소리 새로 만들기, mp4 렌더 → 한 편 만들기(<code>scripts/make-episode.sh</code>)</li>
+  <li>캐릭터를 장면에 넣고 빼기, 새 캐릭터 만들기 → 시나리오 단계(Claude)</li>
+  <li>이미 올린 영상의 화면 바꾸기 → 유튜브는 영상 파일을 바꿀 수 없어서, 다시 만들어 올려야 함</li>
+  <li>새 지도 캡처 → <code>scripts/clean.mjs</code></li>
+</ul>
+<p style="color:var(--dim);margin-top:40px;font-size:13px">2026-10-20 기준 · 편집기를 고치면 이 문서(<code>docs/편집기-사용법.html</code>)도 같이 고치고 <code>node scripts/deliver.mjs</code></p>
+</main>
+</body>
+</html>

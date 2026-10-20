@@ -258,6 +258,12 @@
    "dir": ".",
    "name": "새 맥에서 이어가기",
    "nodate": true
+  },
+  {
+   "src": "docs/편집기-사용법.html",
+   "dir": ".",
+   "name": "편집기 사용법",
+   "nodate": true
   }
  ]
 }

@@ -16,6 +16,13 @@ const CODE = fileURLToPath(new URL("..", import.meta.url));
 const PORT = Number(process.env.PORT || 4600);
 const OUT = join(CODE, "out/editor");
 const run = promisify(execFile);
+const HOME = join(CODE, ".."); // ~/hwm (산출물 폴더)
+// 편의 영상 폴더 (meta.json video 경로의 폴더) + /편집. 없으면 영상/정리 안 됨/<편>/편집
+const editDir = async (e) => {
+  const meta = JSON.parse(await readFile(join(CODE, "episodes", e, "meta.json"), "utf8").catch(() => "{}"));
+  const parts = (meta.video || "").split("/");
+  return (parts.length > 2 ? parts.slice(0, -1).join("/") : `영상/정리 안 됨/${e}`) + "/편집";
+};
 const TYPES = { ".html": "text/html; charset=utf-8", ".json": "application/json", ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".wav": "audio/wav", ".mp4": "video/mp4", ".srt": "text/plain; charset=utf-8" };
 
 await mkdir(OUT, { recursive: true });
@@ -125,8 +132,53 @@ const api = {
       const old = JSON.parse(await readFile(epPath(q.e), "utf8"));
       if (fixed(old) !== fixed(ep)) throw new Error("업로드한 편은 화면·장면 순서·영어 대사를 바꿀 수 없음 (더빙 대사·효과음·브금만)");
     }
-    await writeFile(epPath(q.e), JSON.stringify(ep, null, 1) + "\n");
+    // 저장 직전 파일을 내역에 남김 (실수로 망가져도 편집기 "내역"에서 되돌림). 최근 100개
+    const prev = await readFile(epPath(q.e), "utf8");
+    const next = JSON.stringify(ep, null, 1) + "\n";
+    if (prev !== next) {
+      const dir = join(CODE, "episodes", q.e, ".history");
+      await mkdir(dir, { recursive: true });
+      const n = new Date(), z = (x) => String(x).padStart(2, "0");
+      const stamp = `${n.getFullYear()}-${z(n.getMonth() + 1)}-${z(n.getDate())}T${z(n.getHours())}-${z(n.getMinutes())}-${z(n.getSeconds())}`;
+      await writeFile(join(dir, `${stamp}.json`), prev);
+      const old = (await readdir(dir)).filter((f) => f.endsWith(".json")).sort();
+      for (const f of old.slice(0, Math.max(0, old.length - 100))) await rm(join(dir, f));
+    }
+    await writeFile(epPath(q.e), next);
+    // 이름을 붙이면 영상 폴더의 "편집"에 편집본을 남김: 영상/<재생목록>/<편>/편집/MMDDhhmm-이름.json
+    if (q.name) {
+      const n = new Date(), z = (x) => String(x).padStart(2, "0");
+      const name = q.name.replace(/[\/\\:*?"<>|]/g, "").trim().slice(0, 60) || "편집";
+      const file = `${z(n.getMonth() + 1)}${z(n.getDate())}${z(n.getHours())}${z(n.getMinutes())}-${name}.json`;
+      const dir = await editDir(q.e);
+      await mkdir(join(HOME, dir), { recursive: true });
+      await writeFile(join(HOME, dir, file), next);
+      return { saved: true, file: `${dir}/${file}` };
+    }
     return { saved: true };
+  },
+  // 이름 붙여 저장한 편집본 목록 (새것부터)
+  "GET /api/edits": async (q) => {
+    const dir = await editDir(q.e);
+    const files = (await readdir(join(HOME, dir)).catch(() => [])).filter((f) => f.endsWith(".json")).sort().reverse();
+    return { dir, list: files.map((f) => { const m = f.match(/^(\d{2})(\d{2})(\d{2})(\d{2})-(.*)\.json$/); return { id: f, name: m ? m[5] : f, time: m ? `${m[1]}-${m[2]} ${m[3]}:${m[4]}` : "" }; }) };
+  },
+  "GET /api/edits/one": async (q) => {
+    if (/[\/\\]/.test(q.id || "") || !q.id.endsWith(".json")) throw new Error("편집본 이름이 이상함");
+    return JSON.parse(await readFile(join(HOME, await editDir(q.e), q.id), "utf8"));
+  },
+  // 내역: 저장할 때마다 남긴 "저장 직전" 장면표 목록 (새것부터)
+  "GET /api/history": async (q) => {
+    const dir = join(CODE, "episodes", q.e, ".history");
+    const files = (await readdir(dir).catch(() => [])).filter((f) => f.endsWith(".json")).sort().reverse();
+    return files.map((f) => {
+      const [d, t] = f.replace(".json", "").split("T");
+      return { id: f, time: `${d} ${t.replace(/-/g, ":")}` };
+    });
+  },
+  "GET /api/history/one": async (q) => {
+    if (!/^[\w.-]+\.json$/.test(q.id || "")) throw new Error("내역 이름이 이상함");
+    return JSON.parse(await readFile(join(CODE, "episodes", q.e, ".history", q.id), "utf8"));
   },
   "GET /api/check": async (q) => {
     const r = await run("python3", ["scripts/check-text.py", epPath(q.e)], { cwd: CODE }).catch((err) => err);
