@@ -93,7 +93,7 @@ def stages(e: Ep):
     return [
         ("plan", "기획: 잘된 영상 분석", "claude",
          lambda: ((e.dir / "plan.md").exists(), "plan.md"),
-         f"같은 주제 조회수 높은 영상(별별역사 등 + 사용자가 준 것)을 분석해 {e.dir}/plan.md에 구조·길이·훅·장면 리듬 정리"),
+         f"같은 주제 조회수 높은 영상(사용자가 준 것 + 별별역사: 도입부·전환·구성, 퍼퍼킴: 캐릭터 연출 - 01 모티브 채널)을 분석해 {e.dir}/plan.md에 구조·길이·훅·장면 리듬 정리"),
         ("script", "대본 (영어)", "claude",
          lambda: (sum(1 for s in e.scenes if s.get("text")) > 20, f"대사 {sum(1 for s in e.scenes if s.get('text'))}줄"),
          f"plan.md를 바탕으로 {p} 장면표 작성 (03 만드는 법 4번 형식)"),
