@@ -2,7 +2,7 @@
 // node scripts/gemini-tts.mjs say "<연기 지시>" "<대사>" out.wav [목소리] [모델]
 //   연기 지시 예: "Speak as a terrifying villain: quiet, slow, cold."
 // 같은 지시·대사·목소리·모델은 audio/.tts-cache에서 꺼내 씀
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { copyFile, mkdir, readFile, writeFile } from "node:fs/promises";
 
@@ -55,7 +55,8 @@ async function call(model, direction, line, voice) {
 }
 
 // 하루 사용량 기록 (audio/.gemini-usage.json, 태평양 시간 기준 날짜 - 구글 한도가 그 기준으로 초기화)
-const DAILY = 10;
+// 유료로 바꾸면(사용자가 결제 연결 후 secrets/gemini_paid 파일을 만듦) 하루 한도 없이 씀 - 연기 대사만 (06 참고)
+const DAILY = existsSync(new URL("secrets/gemini_paid", ROOT)) ? Infinity : 10;
 const LEDGER = new URL("audio/.gemini-usage.json", ROOT);
 const today = () => new Date().toLocaleDateString("en-CA", { timeZone: "America/Los_Angeles" });
 const ledger = () => { try { const j = JSON.parse(readFileSync(LEDGER, "utf8")); return j.date === today() ? j : { date: today(), used: {} }; } catch { return { date: today(), used: {} }; } };

@@ -65,6 +65,28 @@ class Ep:
         self.stamp_file.write_text(json.dumps(self.stamps, ensure_ascii=False, indent=1) + "\n")
 
 
+# 목소리 예보: 연기(Gemini) 호출이 몇 번 필요하고 오늘 무료 한도로 며칠 걸리는지 (모델 2개 × 하루 10번)
+GEMINI_MODELS = ["gemini-3.8-flash-tts", "gemini-3.1-flash-tts-preview"]  # audio/voice_episode.py와 같게
+
+
+def gemini_forecast(e):
+    cast = json.loads((CODE / "cast.json").read_text())["roles"]
+    acted = sum(1 for s in e.scenes if s.get("text") and cast.get(s.get("role"), {}).get("direction"))
+    need = acted * (1 + len(e.langs))
+    try:
+        led = json.loads((CODE / "audio/.gemini-usage.json").read_text())
+        today = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=-7))).date().isoformat()
+        used = sum(led.get("used", {}).get(m, 0) for m in GEMINI_MODELS) if led.get("date") == today else 0
+    except Exception:
+        used = 0
+    if (CODE / "secrets/gemini_paid").exists():
+        return f"연기 {need}번 · Gemini 유료 - 하루에 끝"
+    per_day = 10 * len(GEMINI_MODELS)
+    left = per_day - used
+    days = 1 if need <= left else 1 + -(-(need - left) // per_day)
+    return f"연기 {need}번 필요 · 오늘 남은 무료 {left}번 → 약 {days}일 (캐시된 줄은 빠짐)"
+
+
 # (단계, 이름, 담당, 확인 함수 → (통과?, 한 줄 설명), 할 일)
 def stages(e: Ep):
     p = str(e.path)
@@ -106,7 +128,7 @@ def stages(e: Ep):
          lambda: (e.stamped("ok2", e.chars_used()), "사용자 확인"),
          f"사용자가 편집기 인물 탭에서 확인 (모습 고치기 가능) → python3 scripts/pipeline.py ok {p} ok2"),
         ("voice", "목소리", "code",
-         lambda: (e.tl_path.exists() and [s.get("text") for s in json.loads(e.tl_path.read_text())["scenes"]] == e.en() and sh(PY, "-I", "scripts/check-voice.py", p)[0], "목소리 + 끝 잡음 검사"),
+         lambda: (e.tl_path.exists() and [s.get("text") for s in json.loads(e.tl_path.read_text())["scenes"]] == e.en() and sh(PY, "-I", "scripts/check-voice.py", p)[0], gemini_forecast(e)),
          f"{PY} -I audio/voice_episode.py {p} && {PY} -I scripts/check-voice.py {p} && {PY} -I audio/characters.py mouth {p}"),
         ("render", "렌더", "code",
          lambda: ((CODE / "out" / f"{e.id}.mp4").exists() and e.tl_path.exists() and (CODE / "out" / f"{e.id}.mp4").stat().st_mtime > e.path.stat().st_mtime, f"out/{e.id}.mp4"),
