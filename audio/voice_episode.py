@@ -59,6 +59,7 @@ def voice_line(r, text, lang, raw, extra=""):
 
 
 scenes = []
+fallback = []  # 연기(Gemini)해야 하는데 한도로 Chirp가 대신한 줄
 for i, s in enumerate(ep["scenes"]):
     sc = {**s, "vo": None, "vo_i18n": {}, "acted": False, "dur": {}}
     secs = s["show"].get("seconds", 0)
@@ -70,8 +71,10 @@ for i, s in enumerate(ep["scenes"]):
                 raise SystemExit(f"장면 {i} {lang} 대사 없음")
             raw = raw_dir / f"{src.parent.name}-{src.stem}-{lang}-{i:02d}.wav"
             acted = voice_line(r, text, lang, raw, s.get("direction", ""))
+            if r.get("direction") and not acted:
+                fallback.append(f"{i}{lang}")
             x, sr = C.read(raw)
-            y = C.level(C.gate(C.clarity(x, sr), sr))
+            y = C.tail(C.level(C.gate(C.clarity(x, sr), sr)), sr)  # 끝 지지직 정리 (scripts/check-voice.py가 다시 확인)
             name = f"vo/{lang}/{i:02d}.wav"
             (out / "vo" / lang).mkdir(parents=True, exist_ok=True)
             C.write(out / name, y, sr)
@@ -91,3 +94,6 @@ for i, s in enumerate(ep["scenes"]):
 
 (out / "timeline.json").write_text(json.dumps({"fps": FPS, "bgm": ep.get("bgm"), "langs": langs, "scenes": scenes}, ensure_ascii=False, indent=1))
 print(f"합계 {sum(s['frames'] for s in scenes) / FPS:.1f}s")
+if fallback:
+    # Gemini 결과는 캐시되므로 내일 다시 돌리면 남은 줄만 Gemini를 씀 (무료 모델당 하루 10번)
+    print(f"연기 대신 Chirp {len(fallback)}줄 ({', '.join(fallback[:12])}{'…' if len(fallback) > 12 else ''}) - 한도가 풀리면 다시 돌려 채우기. 사용량: node scripts/gemini-tts.mjs quota")

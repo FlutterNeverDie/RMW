@@ -2,6 +2,7 @@
 // node scripts/gemini-tts.mjs say "<연기 지시>" "<대사>" out.wav [목소리] [모델]
 //   연기 지시 예: "Speak as a terrifying villain: quiet, slow, cold."
 // 같은 지시·대사·목소리·모델은 audio/.tts-cache에서 꺼내 씀
+import { readFileSync, writeFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { copyFile, mkdir, readFile, writeFile } from "node:fs/promises";
 
@@ -53,6 +54,14 @@ async function call(model, direction, line, voice) {
   return wav(pcm, rate);
 }
 
+// 하루 사용량 기록 (audio/.gemini-usage.json, 태평양 시간 기준 날짜 - 구글 한도가 그 기준으로 초기화)
+const DAILY = 10;
+const LEDGER = new URL("audio/.gemini-usage.json", ROOT);
+const today = () => new Date().toLocaleDateString("en-CA", { timeZone: "America/Los_Angeles" });
+const ledger = () => { try { const j = JSON.parse(readFileSync(LEDGER, "utf8")); return j.date === today() ? j : { date: today(), used: {} }; } catch { return { date: today(), used: {} }; } };
+const used = (m) => ledger().used[m] ?? 0;
+const count = (m, set) => { const j = ledger(); j.used[m] = set ?? (j.used[m] ?? 0) + 1; writeFileSync(LEDGER, JSON.stringify(j)); };
+
 async function say(direction, line, out, voice = "Charon", model) {
   const id = createHash("sha1").update(JSON.stringify(["gemini2", direction, line, voice, model ?? "auto"])).digest("hex");
   const cached = new URL(`${id}.wav`, CACHE);
@@ -62,13 +71,17 @@ async function say(direction, line, out, voice = "Charon", model) {
   } catch {}
   const errors = [];
   for (const m of model ? [model] : MODELS) {
+    // 무료 한도(모델당 하루 10번)를 다 쓴 모델은 부르지 않음 - 실패 호출로 시간 낭비 안 함
+    if (used(m) >= DAILY) { errors.push(`${m}: 오늘 한도 ${DAILY}번 다 씀`); continue; }
     try {
+      count(m);
       const w = await call(m, direction, line, voice);
       await mkdir(CACHE, { recursive: true });
       await writeFile(cached, w);
       await writeFile(out, w);
       return console.log(`${out} (${m})`);
     } catch (e) {
+      if (/\b429\b|quota|RESOURCE_EXHAUSTED/i.test(e.message)) count(m, DAILY); // 한도 초과 응답 → 오늘은 그 모델 끝
       errors.push(e.message);
     }
   }
@@ -76,6 +89,11 @@ async function say(direction, line, out, voice = "Charon", model) {
 }
 
 const [cmd, ...args] = process.argv.slice(2);
+if (cmd === "quota") {
+  const j = ledger();
+  console.log(`오늘(${j.date}) Gemini 사용: ${MODELS.map((m) => `${m} ${used(m)}/${DAILY}`).join(", ")}`);
+  process.exit(0);
+}
 if (cmd !== "say") {
   console.log('사용법: node scripts/gemini-tts.mjs say "<연기 지시>" "<대사>" out.wav [목소리] [모델]');
   process.exit(1);

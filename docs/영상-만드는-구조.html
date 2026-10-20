@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>영상 만드는 구조</title>
+<style>
+:root { --bg: #0b0b0b; --panel: #151515; --line: #2a2a2a; --text: #efefef; --dim: #8f8f8f; --claude: #f2a65a; --code: #5aa9f2; --user: #c6f432; --red: #e5484d; --green: #57a86b; }
+@media (prefers-color-scheme: light) { :root { --bg: #fafafa; --panel: #fff; --line: #e2e2e2; --text: #151515; --dim: #6b6b6b; --user: #6f9400; --claude: #d9822b; --code: #2f7fd1; } }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.7 -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif; -webkit-font-smoothing: antialiased; }
+main { max-width: 1100px; margin: 0 auto; padding: 44px 20px 100px; }
+h1 { font-size: 34px; margin: 0; letter-spacing: -.5px; }
+.lead { color: var(--dim); margin: 6px 0 26px; }
+h2 { font-size: 22px; margin: 56px 0 6px; }
+h2 small { color: var(--dim); font-weight: 400; font-size: 14px; margin-left: 8px; }
+p { margin: 6px 0; }
+video { width: 100%; border-radius: 14px; border: 1px solid var(--line); background: #000; display: block; }
+.legend { display: flex; gap: 18px; flex-wrap: wrap; margin: 14px 0 0; font-size: 14px; }
+.legend span { display: inline-flex; align-items: center; gap: 7px; }
+.legend i { width: 13px; height: 13px; border-radius: 50%; display: inline-block; }
+svg { width: 100%; height: auto; display: block; }
+svg text { font-family: -apple-system, "Apple SD Gothic Neo", sans-serif; fill: var(--text); }
+svg .dim { fill: var(--dim); }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.grid3 .card h3 { margin: 0 0 8px; font-size: 17px; display: flex; align-items: center; gap: 8px; }
+.grid3 .card ul { margin: 0; padding-left: 18px; color: var(--text); font-size: 15px; }
+.grid3 .card li { margin: 3px 0; }
+.dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+code { font: 13.5px ui-monospace, Menlo, monospace; background: var(--panel); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; }
+.big { font-size: 22px; text-align: center; padding: 22px; }
+.big code { font-size: 20px; padding: 4px 12px; }
+@media (max-width: 760px) { .grid3 { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main>
+<h1>영상 만드는 구조</h1>
+<p class="lead">ReStory Worlds Map 한 편이 만들어지는 길. 메인은 Claude, 판단이 필요 없는 일은 코드, 사용자는 세 번 확인하고 마지막에 편집기로 다듬어요.</p>
+
+<video src="영상 만드는 구조.mp4" controls playsinline preload="metadata"></video>
+<div class="legend">
+  <span><i style="background:var(--claude)"></i>Claude (토큰 씀)</span>
+  <span><i style="background:var(--code)"></i>코드 (토큰 없음)</span>
+  <span><i style="background:var(--user)"></i>사용자 확인</span>
+  <span><i style="background:var(--red)"></i>검사 (걸리면 멈춤)</span>
+</div>
+
+<h2>1. 전체 흐름 <small>위에서 아래로, 왼쪽에서 오른쪽으로</small></h2>
+<svg viewBox="0 0 1060 760" role="img" aria-label="제작 단계 흐름도">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#666"/></marker>
+  </defs>
+  <style>
+    .b { fill: var(--panel); stroke: var(--line); stroke-width: 2; }
+    .c { stroke: var(--claude); } .k { stroke: var(--code); } .u { stroke: var(--user); stroke-width: 3; }
+    .t { font-size: 17px; font-weight: 700; } .s { font-size: 13px; fill: var(--dim); }
+    .g { fill: var(--red); } .gt { font-size: 11px; fill: #fff; font-weight: 700; }
+    .ln { stroke: #666; stroke-width: 2; fill: none; marker-end: url(#ar); }
+    .sec { font-size: 13px; fill: var(--dim); letter-spacing: 2px; }
+  </style>
+  <!-- 줄 1: 대본 -->
+  <text class="sec" x="122" y="24">대본</text>
+  <rect class="b c" x="10" y="36" width="190" height="80" rx="12"/><text class="t" x="28" y="70">0 기획</text><text class="s" x="28" y="94">잘된 영상 분석</text>
+  <path class="ln" d="M200 76 H 238"/>
+  <rect class="b c" x="240" y="36" width="190" height="80" rx="12"/><text class="t" x="258" y="70">1 대본</text><text class="s" x="258" y="94">영어</text>
+  <path class="ln" d="M430 76 H 468"/>
+  <rect class="b c" x="470" y="36" width="190" height="80" rx="12"/><text class="t" x="488" y="70">2 재미 보강</text><text class="s" x="488" y="94">첫 5초 훅 · 리듬</text>
+  <rect class="g" x="600" y="44" width="52" height="20" rx="5"/><text class="gt" x="609" y="58">리듬</text>
+  <path class="ln" d="M660 76 H 698"/>
+  <rect class="b u" x="700" y="36" width="190" height="80" rx="12"/><text class="t" x="718" y="70">✋ 확인 1</text><text class="s" x="718" y="94">대본 한국어 요약</text>
+  <path class="ln" d="M795 116 V 160 H 105 V 186"/>
+  <!-- 줄 2: 화면 -->
+  <text class="sec" x="122" y="176">화면</text>
+  <rect class="b k" x="10" y="188" width="190" height="80" rx="12"/><text class="t" x="28" y="222">3 화면 재료</text><text class="s" x="28" y="246">그림 · 지도 캡처</text>
+  <path class="ln" d="M200 228 H 238"/>
+  <rect class="b c" x="240" y="188" width="190" height="80" rx="12"/><text class="t" x="258" y="222">4 화면 연출</text><text class="s" x="258" y="246">카메라 · 라벨</text>
+  <rect class="g" x="370" y="196" width="52" height="20" rx="5"/><text class="gt" x="379" y="210">확대</text>
+  <path class="ln" d="M335 268 V 312 H 105 V 338"/>
+  <!-- 줄 3: 언어 -->
+  <text class="sec" x="122" y="328">언어</text>
+  <rect class="b c" x="10" y="340" width="190" height="80" rx="12"/><text class="t" x="28" y="374">5 나라별 언어</text><text class="s" x="28" y="398">번역 말고 현지화</text>
+  <path class="ln" d="M200 380 H 238"/>
+  <rect class="b c" x="240" y="340" width="190" height="80" rx="12"/><text class="t" x="258" y="374">6 언어 다듬기</text><text class="s" x="258" y="398">/localize</text>
+  <rect class="g" x="370" y="348" width="52" height="20" rx="5"/><text class="gt" x="379" y="362">도장</text>
+  <path class="ln" d="M430 380 H 468"/>
+  <rect class="b c" x="470" y="340" width="190" height="80" rx="12"/><text class="t" x="488" y="374">7 길이 맞추기</text><text class="s" x="488" y="398">더빙 ≤ 영어 110%</text>
+  <rect class="g" x="600" y="348" width="52" height="20" rx="5"/><text class="gt" x="609" y="362">길이</text>
+  <path class="ln" d="M565 420 V 464 H 105 V 490"/>
+  <!-- 줄 4: 소리·캐릭터 -->
+  <text class="sec" x="122" y="480">소리 · 캐릭터</text>
+  <rect class="b c" x="10" y="492" width="190" height="80" rx="12"/><text class="t" x="28" y="526">8 효과음 · 브금</text><text class="s" x="28" y="550">자리 정하기</text>
+  <path class="ln" d="M200 532 H 238"/>
+  <rect class="b k" x="240" y="492" width="190" height="80" rx="12"/><text class="t" x="258" y="526">9 캐릭터</text><text class="s" x="258" y="550">Claude 설계 → 코드 그림</text>
+  <path class="ln" d="M430 532 H 468"/>
+  <rect class="b u" x="470" y="492" width="190" height="80" rx="12"/><text class="t" x="488" y="526">✋ 확인 2</text><text class="s" x="488" y="550">편집기 인물 탭</text>
+  <path class="ln" d="M565 572 V 616 H 105 V 642"/>
+  <!-- 줄 5: 만들기·올리기 -->
+  <text class="sec" x="122" y="632">만들기 · 올리기</text>
+  <rect class="b k" x="10" y="644" width="190" height="80" rx="12"/><text class="t" x="28" y="678">10 목소리</text><text class="s" x="28" y="702">TTS + Gemini 연기</text>
+  <rect class="g" x="134" y="652" width="58" height="20" rx="5"/><text class="gt" x="140" y="666">지지직</text>
+  <path class="ln" d="M200 684 H 238"/>
+  <rect class="b k" x="240" y="644" width="190" height="80" rx="12"/><text class="t" x="258" y="678">11 렌더</text><text class="s" x="258" y="702">1440p</text>
+  <rect class="g" x="364" y="652" width="58" height="20" rx="5"/><text class="gt" x="370" y="666">깜빡임</text>
+  <path class="ln" d="M430 684 H 468"/>
+  <rect class="b u" x="470" y="644" width="190" height="80" rx="12"/><text class="t" x="488" y="678">✋ 확인 3</text><text class="s" x="488" y="702">편집기에서 다듬기</text>
+  <path class="ln" d="M660 684 H 698"/>
+  <rect class="b c" x="700" y="644" width="160" height="80" rx="12"/><text class="t" x="718" y="678">12 썸네일</text><text class="s" x="718" y="702">업로드 정보</text>
+  <path class="ln" d="M860 684 H 888"/>
+  <rect class="b k" x="890" y="644" width="160" height="80" rx="12"/><text class="t" x="908" y="678">13 업로드</text><text class="s" x="908" y="702">API</text>
+  <!-- 편집기 되돌아감 -->
+  <path d="M565 724 V 748 H 335 V 728" stroke="var(--user)" stroke-width="2" fill="none" stroke-dasharray="6 5" marker-end="url(#ar)"/>
+  <text class="s" x="372" y="744">고치면 렌더 다시</text>
+</svg>
+
+<h2>2. 누가 무엇을</h2>
+<div class="grid3">
+  <div class="card" style="border-color:var(--claude)">
+    <h3><span class="dot" style="background:var(--claude)"></span>Claude <small style="color:var(--dim);font-weight:400">토큰 씀</small></h3>
+    <ul><li>잘된 영상 분석, 대본</li><li>재미 보강 (훅·반전)</li><li>화면 연출 정하기</li><li>나라별 언어, 다듬기</li><li>캐릭터 설계, 썸네일 문구</li><li><b>검사에 걸린 곳만</b> 고침</li></ul>
+  </div>
+  <div class="card" style="border-color:var(--code)">
+    <h3><span class="dot" style="background:var(--code)"></span>코드 <small style="color:var(--dim);font-weight:400">토큰 없음</small></h3>
+    <ul><li>모든 검사 (리듬·확대·길이·말투·지지직·깜빡임)</li><li>지도 캡처, 그림 받기</li><li>캐릭터 그림 6포즈, 입 모양</li><li>목소리, 렌더, 더빙 트랙</li><li>API 업로드</li></ul>
+  </div>
+  <div class="card" style="border-color:var(--user)">
+    <h3><span class="dot" style="background:var(--user)"></span>사용자</h3>
+    <ul><li>✋1 대본 OK</li><li>✋2 캐릭터 OK (모습 직접 고치기 가능)</li><li>✋3 편집기에서 보고 고치기</li><li>스튜디오: 썸네일·더빙 트랙·재생목록</li></ul>
+  </div>
+</div>
+
+<h2>3. 검사 (게이트) <small>걸리면 멈추고, 걸린 곳만 고쳐서 다시</small></h2>
+<svg viewBox="0 0 1060 190" role="img" aria-label="검사 흐름">
+  <style>.bx{fill:var(--panel);stroke:var(--line);stroke-width:2}.t2{font-size:18px;font-weight:700}.s2{font-size:14px;fill:var(--dim)}.a2{stroke:#666;stroke-width:2;fill:none;marker-end:url(#ar)}</style>
+  <rect class="bx" x="10" y="50" width="220" height="90" rx="14" style="stroke:var(--claude)"/><text class="t2" x="34" y="90">Claude가 만듦</text><text class="s2" x="34" y="116">대본 · 언어 · 화면</text>
+  <path class="a2" d="M230 95 H 300"/>
+  <circle cx="370" cy="95" r="58" fill="var(--panel)" stroke="var(--code)" stroke-width="2"/><text class="t2" x="370" y="92" text-anchor="middle">코드 검사</text><text class="s2" x="370" y="116" text-anchor="middle">토큰 없음</text>
+  <path class="a2" d="M428 95 H 520"/><text class="s2" x="448" y="84">통과 ✓</text>
+  <rect class="bx" x="522" y="50" width="200" height="90" rx="14"/><text class="t2" x="546" y="100">다음 단계</text>
+  <path d="M370 153 V 176 H 120 V 146" stroke="var(--red)" stroke-width="2" fill="none" marker-end="url(#ar)"/>
+  <text class="s2" x="150" y="172" style="fill:var(--red)">걸림 ✕ → 걸린 줄 목록만 Claude에게</text>
+  <text class="s2" x="760" y="80">리듬 · 확대 한도 · 말투(해요체)</text>
+  <text class="s2" x="760" y="104">현지화 도장 · 더빙 길이 110%</text>
+  <text class="s2" x="760" y="128">목소리 지지직 · 화면 잘림 · 깜빡임</text>
+</svg>
+
+<h2>4. 도장 <small>앞이 바뀌면 뒤가 저절로 "다시 할 일"이 돼요</small></h2>
+<svg viewBox="0 0 1060 170" role="img" aria-label="도장이 풀리는 모습">
+  <style>.st{font-size:16px;font-weight:700}.ss{font-size:13px}</style>
+  <rect x="10" y="40" width="170" height="90" rx="14" fill="var(--panel)" stroke="var(--red)" stroke-width="3"/><text class="st" x="30" y="78">대본</text><text class="ss" x="30" y="104" style="fill:var(--red)">한 줄 고침</text>
+  <path d="M180 85 H 220" stroke="#666" stroke-width="2" marker-end="url(#ar)"/>
+  <g>
+    <rect x="222" y="40" width="150" height="90" rx="14" fill="var(--panel)" stroke="var(--line)" stroke-width="2"/><text class="st" x="240" y="78">확인 1</text><text class="ss" x="240" y="104" style="fill:var(--red)">도장 풀림</text>
+    <rect x="388" y="40" width="150" height="90" rx="14" fill="var(--panel)" stroke="var(--line)" stroke-width="2"/><text class="st" x="406" y="78">언어 도장</text><text class="ss" x="406" y="104" style="fill:var(--red)">도장 풀림</text>
+    <rect x="554" y="40" width="150" height="90" rx="14" fill="var(--panel)" stroke="var(--line)" stroke-width="2"/><text class="st" x="572" y="78">길이</text><text class="ss" x="572" y="104" style="fill:var(--red)">다시 검사</text>
+    <rect x="720" y="40" width="150" height="90" rx="14" fill="var(--panel)" stroke="var(--line)" stroke-width="2"/><text class="st" x="738" y="78">목소리</text><text class="ss" x="738" y="104" style="fill:var(--red)">다시 만듦</text>
+    <rect x="886" y="40" width="160" height="90" rx="14" fill="var(--panel)" stroke="var(--line)" stroke-width="2"/><text class="st" x="904" y="78">렌더</text><text class="ss" x="904" y="104" style="fill:var(--red)">다시</text>
+  </g>
+  <text class="ss dim" x="10" y="160">도장 = 그 단계가 본 내용의 지문. 그래서 AI가 바뀌어도, 며칠 뒤에 이어도 어디서부터 다시 할지 알아요</text>
+</svg>
+
+<h2>5. 시키는 법</h2>
+<div class="card big">Claude에게 <code>/episode mongol-03</code> &nbsp;(참고 영상 링크를 같이 주면 기획에 써요)</div>
+<p style="margin-top:12px">Claude가 단계를 차례로 하고 ✋ 확인에서 멈춰요. 다음 날 같은 명령을 치면 멈춘 곳부터 이어가요. 어디까지 됐는지는 <code>python3 scripts/pipeline.py status episodes/mongol-03/ep.json</code>로도 볼 수 있어요.</p>
+
+<h2>6. 파일은 어디에</h2>
+<svg viewBox="0 0 1060 300" role="img" aria-label="폴더 구조">
+  <style>.f{fill:var(--panel);stroke:var(--line);stroke-width:2}.ft{font-size:16px;font-weight:700}.fs{font-size:13px;fill:var(--dim)}</style>
+  <rect class="f" x="10" y="10" width="1040" height="280" rx="16"/><text class="ft" x="30" y="40">~/hwm</text><text class="fs" x="96" y="40">내가 보는 곳</text>
+  <rect class="f" x="30" y="56" width="470" height="110" rx="12" style="stroke:var(--user)"/><text class="ft" x="48" y="84">영상/몽골 제국/1편 - …/</text>
+  <text class="fs" x="48" y="108">영상 · 썸네일 3개 · 한국어/스페인어 더빙 · 업로드 정보</text><text class="fs" x="48" y="130">편집/10202215-이름.json ← 편집기에서 이름 붙여 저장한 것</text>
+  <rect class="f" x="520" y="56" width="510" height="110" rx="12"/><text class="ft" x="538" y="84">쇼츠 · 배너 · 브금 · 홍보</text><text class="fs" x="538" y="108">편집기 사용법.html · 영상 만드는 구조.html</text><text class="fs" x="538" y="130">채널 운영 정리.html</text>
+  <rect class="f" x="30" y="180" width="1000" height="96" rx="12" style="stroke:var(--code)"/><text class="ft" x="48" y="208">코드/</text><text class="fs" x="110" y="208">Claude와 코드가 일하는 곳 (git)</text>
+  <text class="fs" x="48" y="234">episodes/&lt;편&gt;/ep.json 장면표 · plan.md · review/(언어 도장) · pipeline.json(단계 도장)</text>
+  <text class="fs" x="48" y="258">docs/guide/ 규칙 · characters.json 캐릭터 · scripts/ 검사와 실행기 · public/ 그림·지도·소리</text>
+</svg>
+
+<p style="color:var(--dim);font-size:13px;margin-top:40px">2026-10-20 · 원본 <code>docs/영상-만드는-구조.html</code>, 영상 <code>src/docs/Pipeline.tsx</code>. 단계가 바뀌면 06-제작-단계.md와 함께 고치고 deliver</p>
+</main>
+</body>
+</html>

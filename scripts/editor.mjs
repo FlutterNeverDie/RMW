@@ -180,6 +180,11 @@ const api = {
     if (!/^[\w.-]+\.json$/.test(q.id || "")) throw new Error("내역 이름이 이상함");
     return JSON.parse(await readFile(join(CODE, "episodes", q.e, ".history", q.id), "utf8"));
   },
+  // 현지화 검토 도장 상태 (scripts/locale-review.py)
+  "GET /api/review": async (q) => {
+    const r = await run("python3", ["scripts/locale-review.py", "status", epPath(q.e), "--json"], { cwd: CODE }).catch(() => ({ stdout: "{}" }));
+    return JSON.parse(r.stdout || "{}");
+  },
   "GET /api/check": async (q) => {
     const r = await run("python3", ["scripts/check-text.py", epPath(q.e)], { cwd: CODE }).catch((err) => err);
     const text = r.stdout || "";

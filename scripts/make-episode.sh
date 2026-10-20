@@ -6,7 +6,11 @@ set -e
 cd "$(dirname "$0")/.."
 # 대본·화면 글자 검사 - 목소리 한도를 쓰기 전에 (말투 섞임, 이였, 화면 영어 낱말, 이름 표기)
 python3 scripts/check-text.py "$1"
-.venv/bin/python -I audio/voice_episode.py "$1" | tail -1
+# 현지화 검토 도장 - 언어마다 Claude가 가이드(docs/guide/locales) 기준으로 검토했는지, 그 뒤 대사가 안 바뀌었는지
+python3 scripts/locale-review.py gate "$1"
+.venv/bin/python -I audio/voice_episode.py "$1" | tail -3
+# 목소리 끝 지지직·뚝 끊김·깨짐 검사 - 걸리면 멈춤
+.venv/bin/python -I scripts/check-voice.py "$1"
 python3 scripts/check-layout.py "$1"
 # 캐릭터 입 모양 (목소리 크기 → 프레임별 0·1·2). 실패해도 렌더는 입을 흉내 내며 진행
 .venv/bin/python -I audio/characters.py mouth "$1" || echo "입 모양 건너뜀"

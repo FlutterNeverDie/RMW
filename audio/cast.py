@@ -93,7 +93,11 @@ def gate(x, sr):
 
 
 def clarity(x, sr):
-    """먹먹함 풀기: 목소리마다 부족한 만큼만 또렷한 대역(2~6kHz)을 올리고, 웅웅거리는 저음(250Hz 아래)은 줄인다"""
+    """먹먹함 풀기: 목소리마다 부족한 만큼만 또렷한 대역(2~6kHz)을 올리고, 웅웅거리는 저음(250Hz 아래)은 줄인다
+    파일 전체를 FFT로 거르면 끝과 시작이 이어진 것처럼 계산돼 끝에 딸깍·지지직이 생긴다 → 앞뒤에 0.5초 무음을 붙여 거르고 잘라냄"""
+    pad = int(sr * 0.5)
+    n0 = len(x)
+    x = np.concatenate([np.zeros(pad), x, np.zeros(pad)])
     X = np.fft.rfft(x)
     f = np.fft.rfftfreq(len(x), 1 / sr)
     p = np.abs(X) ** 2
@@ -104,7 +108,32 @@ def clarity(x, sr):
     gain_db = up * bell(3500, 0.8) + up * 0.2 * bell(7000, 0.5) - down * (1 / (1 + (f / 220) ** 4))
     gain_db -= 6 * (1 / (1 + (10500 / np.maximum(f, 1)) ** 6))  # 10.5kHz 위 쉿 소리는 깎는다
     gain = 10 ** (gain_db / 20) / np.sqrt(1 + (70 / np.maximum(f, 1)) ** 4)  # 70Hz 아래 울림 제거
-    return np.fft.irfft(X * gain, len(x))
+    return np.fft.irfft(X * gain, len(x))[pad : pad + n0]
+
+
+def tail(x, sr, keep=0.12):
+    """끝 정리: 마지막 말소리 뒤 잡음(지지직·숨소리)을 잘라내고 끝을 부드럽게 줄임. 앞도 살짝 페이드(딸깍 방지)"""
+    n = int(sr * 0.01)
+    e = np.sqrt(np.convolve(x**2, np.ones(n) / n, "same"))
+    th = e.max() * 10 ** (-32 / 20)
+    voiced = np.where(e > th)[0]
+    if len(voiced):
+        x = x[: min(len(x), voiced[-1] + int(sr * keep))]
+        # 말이 끝나고 0.15초 넘게 쉰 뒤 짧게(0.4초 안) 나는 잡음 덩어리 = 지지직 → 쉼 앞에서 자름
+        on = e[: len(x)] > th
+        idx = np.where(np.diff(on.astype(int)) == 1)[0]  # 소리가 다시 시작하는 곳들
+        if len(idx):
+            last = idx[-1]
+            gap = last - (np.where(on[:last])[0][-1] if on[:last].any() else 0)
+            seg = x[last:]
+            zcr = np.mean(np.abs(np.diff(np.sign(seg)))) / 2 if len(seg) > 1 else 0
+            if gap > sr * 0.15 and len(seg) < sr * 0.4 and zcr > 0.25:
+                x = x[: last - gap + int(sr * keep)]
+    fo, fi = min(len(x), int(sr * 0.06)), min(len(x), int(sr * 0.005))
+    x = x.copy()
+    x[-fo:] *= np.linspace(1, 0, fo) ** 2
+    x[:fi] *= np.linspace(0, 1, fi)
+    return x
 
 
 def level(x, target_db=-20):

@@ -18,3 +18,5 @@ public/shots/
 .DS_Store
 # 편집기 저장 직전 장면표 (편집기 "내역"에서 보고 되돌림, 이 컴퓨터에만)
 episodes/*/.history/
+audio/.gemini-usage.json
+__pycache__/

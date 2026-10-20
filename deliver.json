@@ -264,6 +264,18 @@
    "dir": ".",
    "name": "편집기 사용법",
    "nodate": true
+  },
+  {
+   "src": "docs/영상-만드는-구조.html",
+   "dir": ".",
+   "name": "영상 만드는 구조",
+   "nodate": true
+  },
+  {
+   "src": "out/pipeline-explainer.mp4",
+   "dir": ".",
+   "name": "영상 만드는 구조",
+   "nodate": true
   }
  ]
 }

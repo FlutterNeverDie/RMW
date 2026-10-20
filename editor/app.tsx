@@ -150,13 +150,18 @@ function App() {
     loadSounds();
     api<EpInfo[]>("/api/episodes").then((list) => {
       setEps(list);
-      let last = "";
-      try { last = localStorage.getItem("ep") || ""; } catch {}
+      // 주소에 ?e=<편>이 있으면 그 편부터 (Claude가 확인 단계에서 편집기를 열어 줄 때)
+      let last = new URLSearchParams(location.search).get("e") || "";
+      if (!last) try { last = localStorage.getItem("ep") || ""; } catch {}
       setEpId(list.some((e) => e.id === last) ? last : list[0]?.id);
     });
   }, [loadSounds]);
 
-  const runCheck = useCallback(async (id: string) => setIssues(await api(`/api/check?e=${id}`)), []);
+  const [review, setReview] = useState<Record<string, { state: string; date?: string; summary?: string; left?: string[] }>>({});
+  const runCheck = useCallback(async (id: string) => {
+    api<typeof review>(`/api/review?e=${id}`).then(setReview).catch(() => {});
+    setIssues(await api(`/api/check?e=${id}`));
+  }, []);
   useEffect(() => {
     if (!epId) return;
     try { localStorage.setItem("ep", epId); } catch {}
@@ -340,7 +345,7 @@ function App() {
       </header>
 
       <aside className="left">
-        <TimingSummary d={d} timing={timing} onPick={seekScene}
+        <TimingSummary d={d} timing={timing} onPick={seekScene} review={review}
           onSrt={async () => { try { const r = await api<{ files: string[]; stale: string[] }>(`/api/srt?e=${epId}`); r.files.forEach((f) => window.open(f)); if (r.stale.length) say(`목소리 만든 뒤 바뀐 대사 ${r.stale.length}곳 - 자막 시간이 어긋남 (장면 ${r.stale.slice(0, 5).join(", ")}…)`); } catch (e) { say((e as Error).message); } }} />
         <IssueList issues={issues} onPick={seekScene} />
       </aside>
@@ -699,7 +704,7 @@ function SoundPanel({ sounds, upload, onAdd }: { sounds: Sounds; upload: (f: Fil
 }
 
 // ---------- 왼쪽 ----------
-function TimingSummary({ d, timing, onPick, onSrt }: { d: Data; timing: Timing; onPick: (i: number) => void; onSrt: () => void }) {
+function TimingSummary({ d, timing, onPick, onSrt, review }: { d: Data; timing: Timing; onPick: (i: number) => void; onSrt: () => void; review: Record<string, { state: string; date?: string; summary?: string; left?: string[] }> }) {
   const totalSecs = (timing.starts.at(-1)! + timing.frames.at(-1)!) / FPS;
   const rows = timing.langs.map((l) => {
     let voiced = 0, est = 0, stale = 0;
@@ -723,7 +728,12 @@ function TimingSummary({ d, timing, onPick, onSrt }: { d: Data; timing: Timing; 
             <td>{LANG_NAME[r.l] || r.l}</td>
             <td><div className="meter"><i className="ok" style={{ width: `${(r.voiced / totalSecs) * 100}%` }} /></div></td>
             <td className="num">{Math.round((r.voiced / totalSecs) * 100)}%</td>
-            <td className="dim">{r.stale ? `${r.stale} 다시` : r.est ? "어림" : ""}</td>
+            {r.stale ? <td className="dim">{r.stale} 다시</td> : null}
+            <td>{r.l !== "en" && review[r.l] && (
+              <span className={"rv " + (review[r.l].state === "통과" ? "ok" : "no")}
+                data-tip={review[r.l].state === "통과" ? `현지화 검토 통과 ${review[r.l].date ?? ""}${review[r.l].summary ? " - " + review[r.l].summary : ""}` : `현지화 ${review[r.l].state} - Claude에게 /localize`}>
+                {review[r.l].state === "통과" ? "검토됨" : review[r.l].state.startsWith("대사") ? "다시 검토" : "검토 전"}
+              </span>)}</td>
           </tr>
         ))}
       </tbody></table>

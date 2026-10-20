@@ -8,7 +8,9 @@
 #   - 화면 글자에 이름·지명·연도가 아닌 낱말 (화면을 모든 언어 더빙이 같이 씀)
 #   - 이름 사전(episodes/names.json)의 variants(틀린 영어 표기)를 씀 (Begter → Bekter)
 #     (스페인어 Gengis Kan·Temuyín처럼 나라마다 다르게 쓰는 건 맞는 현지화 - 사전에 적어 두면 편마다 같은 표기로 맞춰짐)
+#   - 스페인어에 스페인 전용 표현 (vosotros·habéis·vale 등 - 채널은 중남미 중립)
 # 경고(보고만)
+#   - 스페인어 내레이션에 usted, 번역 안 하고 남은 영어 낱말
 #   - 사전에 없는 새 이름: 표기를 확인하고 names.json에 추가
 #   - 영어에 사전 이름이 나왔는데 다른 언어 대사에 사전 표기가 없음 (대명사로 바꿨으면 괜찮음)
 #   - 한국어 내레이션 "~다." 끝맺음, 한국어 대사 속 영어 글자, 스페인어 ¿ ¡ 짝
@@ -112,6 +114,17 @@ for i, sc in enumerate(scenes):
     es = tr.get("es", "")
     if es and (es.count("¿") != es.count("?") or es.count("¡") != es.count("!")):
         warns.append(f"{where(i, sc)}\n    es ¿? ¡! 짝이 안 맞음: {es}")
+    # 스페인어는 중남미 중립 (docs/guide/locales/es.md): 스페인 전용 표현·usted 섞임
+    spain = re.findall(r"\b(vosotros|vosotras|habéis|sois|tenéis|estáis|vale|coger|ordenador|os)\b", es, re.I)
+    if spain:
+        errors.append(f"{where(i, sc)}\n    es 스페인 전용 표현(중남미 중립으로): {', '.join(sorted(set(spain)))}: {es}")
+    if narr and re.search(r"\busted(es)?\b", es, re.I) and re.search(r"\busted\b", es, re.I):
+        warns.append(f"{where(i, sc)}\n    es 내레이션에 usted - 시청자에겐 tú로 통일: {es}")
+    # 번역하지 않고 남은 영어 낱말 (이름 빼고)
+    for lang in langs:
+        left = [w for w in re.findall(r"\b(the|and|of|with|but|this|that|was|were|they|their)\b", tr.get(lang, ""), re.I)]
+        if left:
+            warns.append(f"{where(i, sc)}\n    {lang}에 영어 낱말이 남음: {', '.join(left)}")
     # 이름 사전: 이 장면 영어에 나온 사전 이름은 언어마다 사전 표기로
     for name, forms in NAMES.items():
         variants = [v for v in forms.get("variants", []) if re.search(rf"\b{re.escape(v)}\b", en)]
