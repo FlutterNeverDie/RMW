@@ -5,15 +5,15 @@
 set -e -o pipefail  # | tail 로 이어도 앞 명령이 실패하면 멈춤 (04 사고 기록: 깨진 2편 업로드)
 cd "$(dirname "$0")/.."
 # 대본·화면 글자 검사 - 목소리 한도를 쓰기 전에 (말투 섞임, 이였, 화면 영어 낱말, 이름 표기)
-python3 scripts/check-text.py "$1"
+.venv/bin/python -I scripts/check-text.py "$1"
 # 현지화 검토 도장 - 언어마다 Claude가 가이드(docs/guide/locales) 기준으로 검토했는지, 그 뒤 대사가 안 바뀌었는지
-python3 scripts/locale-review.py gate "$1"
+.venv/bin/python -I scripts/locale-review.py gate "$1"
 .venv/bin/python -I audio/voice_episode.py "$1" | tail -3
 # 목소리 끝 지지직·뚝 끊김·깨짐 검사 - 걸리면 멈춤
 .venv/bin/python -I scripts/check-voice.py "$1"
 # 소리 섞임 검사 - 효과음·브금이 목소리를 덮으면 멈춤 (2026-10-21 사용자: 효과음에 내레이션이 묻힘)
 .venv/bin/python -I scripts/check-mix.py "$1"
-python3 scripts/check-layout.py "$1"
+.venv/bin/python -I scripts/check-layout.py "$1"
 # 캐릭터 입 모양 (목소리 크기 → 프레임별 0·1·2). 실패해도 렌더는 입을 흉내 내며 진행
 .venv/bin/python -I audio/characters.py mouth "$1" || echo "입 모양 건너뜀"
 # 미리 찍는 장면: 옛 그림 2.5D(art parallax)·기울인 지도(mapscene) - 목소리로 정해진 길이만큼
