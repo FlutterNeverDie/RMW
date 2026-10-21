@@ -467,6 +467,19 @@ export const Episode = ({ timeline, lang = "en" }: { timeline: Timeline; lang?: 
           </Sequence>
         ));
       })()}
+      {/* 장면에 넣은 효과음(cues)은 장면이 끝나도 끝까지 울린다 - 장면 안에 두면 장면 끝에서 잘렸다 (2026-10-21 사용자: 넣은 효과음이 안 들림) */}
+      {(() => {
+        let t = 0;
+        return timeline.scenes.flatMap((sc, i) => {
+          const from = t;
+          t += sc.frames;
+          return (sc.cues || []).map((c, k) => (
+            <Sequence key={`cue${i}-${k}`} from={from + Math.max(0, Math.round(c.at * fps))}>
+              <Audio src={staticFile(c.src)} volume={c.vol ?? 0.6} />
+            </Sequence>
+          ));
+        });
+      })()}
       <AbsoluteFill style={{ opacity: outro }}>
         {timeline.scenes.map((sc, i) => {
           const from = at;
@@ -480,11 +493,6 @@ export const Episode = ({ timeline, lang = "en" }: { timeline: Timeline; lang?: 
                 return vo ? <Audio src={staticFile(vo)} /> : null;
               })()}
               {sfx[i] && <Audio src={staticFile(`sfx/ep/${sfx[i]![0]}.wav`)} volume={sfx[i]![1]} />}
-              {sc.cues?.map((c, k) => (
-                <Sequence key={`cue${k}`} from={Math.max(0, Math.round(c.at * fps))}>
-                  <Audio src={staticFile(c.src)} volume={c.vol ?? 0.6} />
-                </Sequence>
-              ))}
             </Sequence>
           );
         })}

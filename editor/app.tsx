@@ -16,8 +16,8 @@ type Data = { id?: string; ep: Ep; locked: string | null; tl: TlScene[] | null; 
 type EpInfo = { id: string; playlist: string; title: string };
 // 검사 결과 한 줄 (scripts/checklib.py item과 같은 모양). 장면 번호는 검사에 보낸 장면표 기준
 type Item = { scene: number | null; lang: string | null; field: string | null; rule: string; group?: string | null; level: "error" | "warn"; msg: string; span?: [number, number] | null; match?: string | null; suggest?: string[] | null; source: string; stale?: boolean; engine?: string };
-const SOURCE_NAME: Record<string, string> = { text: "대본", pron: "발음", screen: "화면 글자", qa: "AI 검수", pacing: "리듬", length: "길이", zoom: "확대", voice: "목소리" };
-const TYPE_NAME: Record<string, string> = { map: "지도", art: "그림", cutout: "오린 그림", line: "대사 카드", title: "제목", stamp: "도장", lapse: "연도 넘김", units: "부대", endcard: "최종 화면" };
+const SOURCE_NAME: Record<string, string> = { text: "대본", pron: "발음", screen: "화면 글자", qa: "AI 검수", pacing: "리듬", length: "길이", zoom: "확대", voice: "목소리", mix: "소리 섞임" };
+const TYPE_NAME: Record<string, string> = { map: "지도", art: "그림", cutout: "오린 그림", line: "대사 카드", title: "제목", stamp: "도장", lapse: "연도 넘김", units: "부대", endcard: "최종 화면", mapscene: "기울인 지도", cinematic: "시네마틱" };
 // 장면표 칸 경로("i18n.ko", "show.labels.0.text")로 읽고 쓰기
 const getAt = (o: unknown, path: string): unknown => path.split(".").reduce<unknown>((x, k) => (x && typeof x === "object" ? (x as Record<string, unknown>)[k] : undefined), o);
 const setAt = (o: Record<string, unknown>, path: string, v: unknown) => {
@@ -28,6 +28,9 @@ const setAt = (o: Record<string, unknown>, path: string, v: unknown) => {
   x[last] = v;
 };
 type Sound = { src: string; name: string; group: string; secs: number | null };
+// 소리 한글 이름 (public/sound-names.json, 2026-10-21 사용자: 영어 파일 이름으론 못 알아봄)
+let SOUND_KO: { sfx: Record<string, string>; bgm: Record<string, string> } = { sfx: {}, bgm: {} };
+const ko = (kind: "sfx" | "bgm", name: string) => SOUND_KO[kind][name] || name;
 type Sounds = { sfx: Sound[]; bgm: Sound[] };
 type CueSel = { scene: number; k: number } | null;
 
@@ -116,7 +119,7 @@ const computeTiming = (d: Data): Timing => {
   return { langs, per, frames, starts, tlAt };
 };
 
-const TYPE_COLOR: Record<string, string> = { map: "#33475b", art: "#474747", cutout: "#4f4536", line: "#6a2c2e", title: "#463c5e", stamp: "#625632", lapse: "#2d4b58", units: "#3b4733", endcard: "#333" };
+const TYPE_COLOR: Record<string, string> = { map: "#33475b", art: "#474747", cutout: "#4f4536", line: "#6a2c2e", title: "#463c5e", stamp: "#625632", lapse: "#2d4b58", units: "#3b4733", endcard: "#333", mapscene: "#2f4d44", cinematic: "#4d3f2f" };
 const MUSIC_COLOR: Record<string, string> = { main: "#33475b", battle: "#6a2c2e", tension: "#5a4f2c", lament: "#433d5c", triumph: "#585130" };
 const LANG_NAME: Record<string, string> = { en: "영어", ko: "한국어", es: "스페인어", ja: "일본어", pt: "포르투갈어", fr: "프랑스어", de: "독일어", hi: "힌디어", zh: "중국어", id: "인도네시아어", ar: "아랍어" };
 const tc = (f: number) => {
@@ -149,6 +152,8 @@ const usePreview = () => {
 };
 
 function App() {
+  const [, setNamesReady] = useState(0);
+  useEffect(() => { fetch("/sound-names.json").then((r) => r.json()).then((j) => { SOUND_KO = { sfx: j.sfx || {}, bgm: j.bgm || {} }; setNamesReady(1); }).catch(() => {}); }, []);
   const [eps, setEps] = useState<EpInfo[]>([]);
   const [epId, setEpId] = useState("");
   const [d, setD] = useState<Data | null>(null);
@@ -287,6 +292,20 @@ function App() {
     edit((ep) => { next = fn(ep.scenes); });
     setSel(next); setCue(null);
   };
+  // 이 줄 목소리 다시 만들기: 지금 고친 대사(저장 전이어도)로 그 언어 목소리 한 줄만 → 목소리 짝·실제 길이만 새로 받음 (고친 장면표는 그대로)
+  const revoice = async (lang: string) => {
+    if (!d || !timing) return;
+    const sc = d.ep.scenes[sel];
+    const j = timing.tlAt[sel];
+    if (j === null) return say("이 장면은 아직 목소리가 없음 - 한 편 만들기로 처음 만들기");
+    const text = lang === "en" ? sc.text : sc.i18n?.[lang];
+    try {
+      const r = await api<{ dur: number; engine: string }>(`/api/revoice?e=${epId}`, { method: "POST", body: JSON.stringify({ tl: j, lang, text, role: sc.role, direction: sc.direction || "" }) });
+      const x = await api<Data>(`/api/ep?e=${epId}`);
+      setD((cur) => (cur ? { ...cur, tl: x.tl, durs: x.durs } : cur));
+      say(`${LANG_NAME[lang] || lang} 목소리 새로 만듦 · ${r.dur.toFixed(1)}초 (${r.engine})`);
+    } catch (e) { say((e as Error).message); }
+  };
   // 검사의 "고치기": 검사 때 잡은 글(match)이 그 자리에 그대로 있을 때만 제안으로 바꿈
   const fixIssue = (x: Item, sug: string) => {
     if (!d || x.scene === null || !x.field || !x.span) return;
@@ -317,12 +336,17 @@ function App() {
     let k = 0;
     edit((ep) => { const sc = ep.scenes[i]; sc.cues = [...(sc.cues || []), { src, at, vol: 0.6 }]; k = sc.cues.length - 1; });
     setSel(i); setCue({ scene: i, k }); setTab("sound");
+    if (timing) seek(Math.max(0, Math.round((sec - 1) * FPS)));
+    const name = ko("sfx", src.split("/").pop()!.replace(/\.wav$/, ""));
+    new Audio("/" + src).play().catch(() => {});
+    say(`${name} 넣음 · 장면 ${i}, ${at.toFixed(1)}초 - 재생하면 1초 앞부터 들려요`);
   };
   const setMusicAt = (name: string, sec: number) => {
     const { i } = locate(sec);
     edit((ep) => { ep.scenes[i].music = name; });
     setSel(i); setCue(null);
-    say(`#${i}부터 브금 ${name}`);
+    if (timing) seek(timing.starts[i]);
+    say(`장면 ${i}부터 브금 ${ko("bgm", name)}`);
   };
   const moveCue = (c: NonNullable<CueSel>, sec: number) => {
     const { i, at } = locate(sec);
@@ -369,7 +393,9 @@ function App() {
     } catch (e) { say("저장 실패: " + (e as Error).message); }
     setBusy("");
   }, [d, epId, loadReview]);
-  const seekScene = (i: number) => { setSel(i); setCue(null); if (timing) player.current?.seekTo(timing.starts[i] + 1); };
+  // 멈춘 채로 옮겨도 시간 표시가 따라오게 (frameupdate는 재생 중에만 옴)
+  const seek = (f: number) => { player.current?.seekTo(f); setFrame(f); };
+  const seekScene = (i: number) => { setSel(i); setCue(null); if (timing) seek(timing.starts[i] + 1); };
 
   useEffect(() => {
     const onKey = (ev: KeyboardEvent) => {
@@ -403,7 +429,8 @@ function App() {
     <div className="app">
       <header>
         <select aria-label="편" data-tip="편 고르기" value={epId} onChange={(e) => { if (!dirty || window.confirm("저장하지 않은 수정을 버릴까요?")) setEpId(e.target.value); }}>
-          {Object.entries(groups).map(([pl, list]) => <optgroup key={pl} label={pl}>{list.map((e) => <option key={e.id} value={e.id}>{e.title}</option>)}</optgroup>)}
+          {/* 재생목록(폴더) 이름도 같이 - 어느 시리즈인지가 중요 (2026-10-21 사용자) */}
+          {Object.entries(groups).map(([pl, list]) => <optgroup key={pl} label={pl}>{list.map((e) => <option key={e.id} value={e.id}>{pl} / {e.title}</option>)}</optgroup>)}
         </select>
         {!d.tl && <span className="badge warn" data-tip="이 컴퓨터에 이 편 목소리 파일(public/ep/<편>/)이 없음 - 다른 컴에서 복사하거나 목소리를 만들면 언어별로 들림. 길이도 지금은 글자 수 어림">목소리 없음 · 브금·효과음만 들림</span>}
         {d.locked && <span className="badge" data-tip="유튜브에 올린 편 - 화면·장면 순서·영어 대사·인물 배치는 잠금. 더빙 대사·효과음·브금만 수정">업로드됨 {d.locked}</span>}
@@ -417,8 +444,6 @@ function App() {
       </header>
 
       <aside className="left">
-        <TimingSummary d={d} timing={timing} onPick={seekScene} review={review}
-          onSrt={async () => { try { const r = await api<{ files: string[]; stale: string[] }>(`/api/srt?e=${epId}`); r.files.forEach((f) => window.open(f)); if (r.stale.length) say(`목소리 만든 뒤 바뀐 대사 ${r.stale.length}곳 - 자막 시간이 어긋남 (장면 ${r.stale.slice(0, 5).join(", ")}…)`); } catch (e) { say((e as Error).message); } }} />
         <IssueList issues={issues} onPick={pickIssue} />
       </aside>
 
@@ -436,21 +461,26 @@ function App() {
             acknowledgeRemotionLicense numberOfSharedAudioTags={12} />
         </div>
         <div className="transport">
-          <IconBtn n="prev" label="이전 장면 (←)" onClick={() => seekScene(Math.max(0, sel - 1))} />
-          <button className="icon play" data-tip={playing ? "멈춤 (Space)" : "재생 (Space)"} aria-label={playing ? "멈춤" : "재생"} onClick={() => player.current?.toggle()}><Icon n={playing ? "pause" : "play"} s={18} /></button>
-          <IconBtn n="next" label="다음 장면 (→)" onClick={() => seekScene(Math.min(d.ep.scenes.length - 1, sel + 1))} />
-          <span className="time">{tc(frame)} <span className="dim">/ {tc(total)}</span></span>
-          <span className="grow" />
+          <span />
+          {/* 가운데: 이전·재생·다음·시간 */}
+          <div className="tcenter">
+            <IconBtn n="prev" label="이전 장면 (←)" onClick={() => seekScene(Math.max(0, sel - 1))} />
+            <button className="icon play" data-tip={playing ? "멈춤 (Space)" : "재생 (Space)"} aria-label={playing ? "멈춤" : "재생"} onClick={() => player.current?.toggle()}><Icon n={playing ? "pause" : "play"} s={18} /></button>
+            <IconBtn n="next" label="다음 장면 (→)" onClick={() => seekScene(Math.min(d.ep.scenes.length - 1, sel + 1))} />
+            <span className="time">{tc(frame)} <span className="dim">/ {tc(total)}</span></span>
+          </div>
+          <div className="tright">
           <select aria-label="재생 언어" data-tip="들을 더빙 언어" value={lang} onChange={(e) => setLang(e.target.value)}>
             {timing.langs.map((l) => <option key={l} value={l}>{LANG_NAME[l] || l}</option>)}
           </select>
           <input aria-label="확대" data-tip="트랙 확대·축소" type="range" min={8} max={120} value={zoom} onChange={(e) => setZoom(+e.target.value)} />
+          </div>
         </div>
       </section>
 
       <aside className="right">
         <div className="tabs" role="tablist">
-          {([["line", "대사", "대사·목소리·언어별 길이"], ["screen", "화면", "화면·브금·인물·포즈"], ["sound", "소리", "효과음·브금 넣기"], ["char", "인물", "채널 캐릭터 목록 (보기·모습 고치기)"]] as const).map(([k, label, tip]) => (
+          {([["line", "대사", "대사·언어별 길이·언어 타이밍"], ["sound", "소리", "효과음·브금 넣기"], ["char", "인물", "채널 캐릭터 목록 (보기·모습 고치기)"], ["screen", "화면", "화면·브금·인물·포즈"]] as const).map(([k, label, tip]) => (
             <button key={k} role="tab" data-tip={tip} aria-selected={tab === k} className={tab === k ? "on" : ""} onClick={() => setTab(k)}>{label}</button>
           ))}
         </div>
@@ -458,7 +488,9 @@ function App() {
           <CharList ep={d.ep} onPick={seekScene} onEdit={(id) => { setStudioId(id); setGallery(true); }} />
         ) : tab !== "sound" ? (
           <Inspector part={tab} d={d} sel={sel} cue={cue} timing={timing} issues={byScene[sel] || []} sounds={sounds}
-            update={update} reorder={reorder} edit={edit} removeCue={removeCue} onFix={fixIssue} focus={focus} />
+            update={update} reorder={reorder} edit={edit} removeCue={removeCue} onFix={fixIssue} focus={focus} onRevoice={revoice}
+            top={<TimingSummary d={d} timing={timing} onPick={seekScene} review={review}
+            onSrt={async () => { try { const r = await api<{ files: string[]; stale: string[] }>(`/api/srt?e=${epId}`); r.files.forEach((f) => window.open(f)); if (r.stale.length) say(`목소리 만든 뒤 바뀐 대사 ${r.stale.length}곳 - 자막 시간이 어긋남 (장면 ${r.stale.slice(0, 5).join(", ")}…)`); } catch (e) { say((e as Error).message); } }} />} />
         ) : (
           <>
             <Inspector part="sound" d={d} sel={sel} cue={cue} timing={timing} issues={[]} sounds={sounds} update={update} reorder={reorder} edit={edit} removeCue={removeCue} onFix={fixIssue} focus={null} />
@@ -469,7 +501,7 @@ function App() {
       </aside>
 
       <Tracks d={d} timeline={timeline} timing={timing} sel={sel} cue={cue} frame={frame} zoom={zoom} lang={lang} issues={byScene}
-        onSeek={(f) => player.current?.seekTo(f)} onPick={seekScene}
+        onSeek={(f) => seek(f)} onPick={seekScene}
         onPickCue={(c) => { setSel(c.scene); setCue(c); setTab("sound"); }}
         onMoveCue={moveCue} onDropSound={(src, kind, sec) => (kind === "bgm" ? setMusicAt(src.replace(/^bgm\/|\.wav$/g, ""), sec) : addCue(src, sec))}
         onDropFiles={async (files, row, sec) => { const kind = row === "bgm" ? "bgm" : "sfx"; const added = await upload(files, kind); added.forEach((src) => (kind === "bgm" ? setMusicAt(src.replace(/^bgm\/|\.wav$/g, ""), sec) : addCue(src, sec))); }}
@@ -529,12 +561,34 @@ function Tracks(props: {
   const [ghost, setGhost] = useState<{ x: number; row: string } | null>(null);
   const [cueGhost, setCueGhost] = useState<number | null>(null);
 
-  useEffect(() => {
+  // 트랙은 재생 위치를 따라가다가, 사용자가 직접 옆으로 넘기면 멈춘다 (재생 위치는 그대로 - 앞뒤만 둘러보기, 2026-10-21 사용자)
+  const [following, setFollowing] = useState(true);
+  const autoScroll = useRef(false);
+  const toPlayhead = () => {
     const el = scroller.current;
     if (!el) return;
-    const x = px(frame) + 110;
-    if (x < el.scrollLeft + 110 || x > el.scrollLeft + el.clientWidth - 40) el.scrollLeft = x - el.clientWidth / 3;
-  }, [frame, zoom]);
+    autoScroll.current = true;
+    el.scrollLeft = px(frame) - el.clientWidth / 3;
+  };
+  useEffect(() => {
+    const el = scroller.current;
+    if (!el || !following) return;
+    const x = px(frame);
+    if (x < el.scrollLeft || x > el.scrollLeft + el.clientWidth - 40) {
+      autoScroll.current = true;
+      el.scrollLeft = x - el.clientWidth / 3;
+    }
+  }, [frame, zoom, following]);
+  const names = useRef<HTMLDivElement>(null);
+  const lastLeft = useRef(0);
+  const onScroll = () => {
+    const el = scroller.current!;
+    if (names.current) names.current.scrollTop = el.scrollTop; // 이름 칸은 위아래만 같이
+    if (el.scrollLeft === lastLeft.current) return; // 위아래만 움직임
+    lastLeft.current = el.scrollLeft;
+    if (autoScroll.current) { autoScroll.current = false; return; } // 내가 옮긴 것
+    setFollowing(false);
+  };
 
   useEffect(() => {
     const move = (e: MouseEvent) => {
@@ -595,9 +649,11 @@ function Tracks(props: {
   const step = zoom > 60 ? 1 : zoom > 25 ? 5 : 10;
   for (let s = 0; s <= total / FPS; s += step) ticks.push(s);
 
+  // 줄 이름은 스크롤 밖 왼쪽 칸에 따로 (옆으로 넘겨도 이름과 줄이 어긋나지 않게)
+  const nameCol: React.ReactNode[] = [];
   const row = (key: string, name: React.ReactNode, children: React.ReactNode, cls = "") => (
+    nameCol.push(<div className={"tname " + cls} key={key}>{name}</div>),
     <div className={"track " + cls} key={key} data-row={key}>
-      <div className="tname">{name}</div>
       <div className="lane" style={{ width: px(total) }}>
         {children}
         {ghost?.row === key && <div className="dropline" style={{ left: ghost.x }} />}
@@ -606,10 +662,9 @@ function Tracks(props: {
   );
   const name = (n: string, label: string) => <><Icon n={n} s={13} /> {label}</>;
 
-  return (
-    <div className="tracks" ref={scroller} onDragOver={onDragOver} onDragLeave={(e) => { if (e.currentTarget === e.target) setGhost(null); }} onDrop={onDrop}>
+  const lanes = (
+    <div className="tracks" ref={scroller} onScroll={onScroll} onDragOver={onDragOver} onDragLeave={(e) => { if (e.currentTarget === e.target) setGhost(null); }} onDrop={onDrop}>
       <div className="track ruler">
-        <div className="tname" />
         <div className="lane" style={{ width: px(total) }} onMouseDown={(e) => props.onSeek(Math.round(secAt(e.clientX) * FPS))}>
           {ticks.map((s) => <span key={s} className="tick" style={{ left: s * zoom }}>{Math.floor(s / 60)}:{String(s % 60).padStart(2, "0")}</span>)}
         </div>
@@ -650,7 +705,7 @@ function Tracks(props: {
             onContextMenu={(e) => openMenu(e, [
               { label: "듣기", run: () => listen(`sfx/ep/${x[0]}.wav`) },
               { label: "이 장면 전환음 끄기", run: () => props.onSfxOff(i), danger: true },
-            ])}>{x[0]}</div>
+            ])}>{ko("sfx", x[0])}</div>
         ))}
         {d.ep.scenes.flatMap((s, i) => (s.cues || []).map((c, k) => {
           const on = cue?.scene === i && cue.k === k;
@@ -662,7 +717,7 @@ function Tracks(props: {
                 { label: "듣기", run: () => listen(c.src) },
                 { label: "삭제", run: () => props.onRemoveCue({ scene: i, k }), danger: true },
               ]); }}>
-              {c.src.split("/").pop()!.replace(/\.wav$/, "")}
+              {ko(c.src.startsWith("bgm/") ? "bgm" : "sfx", c.src.split("/").pop()!.replace(/\.wav$/, ""))}
             </div>
           );
         }))}
@@ -673,7 +728,7 @@ function Tracks(props: {
             onContextMenu={(e) => openMenu(e, [
               { label: "듣기", run: () => listen(`bgm/${m.track}.wav`) },
               { label: "여기서 바꾸기 해제 (앞 곡 이어서)", run: () => props.onMusicClear(m.i), danger: true, disabled: !d.ep.scenes[m.i].music || m.i === 0 },
-            ])}>{m.track}</div>
+            ])}>{ko("bgm", m.track)}</div>
         )))}
       {timing.langs.map((l) => row("vo-" + l, <>{LANG_NAME[l] || l}{l === lang && <span className="live"><Icon n="speaker" s={12} /></span>}</>,
         d.ep.scenes.map((s, i) => {
@@ -689,7 +744,7 @@ function Tracks(props: {
             </div>
           );
         })))}
-      <div className="playhead" style={{ left: 110 + px(frame) }} />
+      <div className="playhead" style={{ left: px(frame) }} />
       {menu && (
         <div className="ctx" role="menu" style={{ left: menu.x, top: menu.y }} onMouseDown={(e) => e.stopPropagation()}>
           {menu.items.map((it) => (
@@ -697,6 +752,16 @@ function Tracks(props: {
           ))}
         </div>
       )}
+    </div>
+  );
+  return (
+    <div className="tracks-wrap">
+      <div className="tnames" ref={names}>
+        <div className="tname ruler" />
+        {nameCol}
+      </div>
+      {lanes}
+      {!following && <button className="small follow" data-tip="재생 위치로 돌아가서 다시 따라가기" onClick={() => { setFollowing(true); toPlayhead(); }}>재생 위치로</button>}
     </div>
   );
 }
@@ -737,19 +802,19 @@ function SoundPanel({ sounds, upload, onAdd }: { sounds: Sounds; upload: (f: Fil
   const { playing, toggle } = usePreview();
   const [q, setQ] = useState("");
   const [over, setOver] = useState<"sfx" | "bgm" | null>(null);
-  const filt = (l: Sound[]) => l.filter((s) => s.name.toLowerCase().includes(q.toLowerCase()));
+  const filt = (l: Sound[], kind: "sfx" | "bgm") => l.filter((s) => (s.name + " " + ko(kind, s.name)).toLowerCase().includes(q.toLowerCase()));
   const list = (items: Sound[], kind: "sfx" | "bgm") =>
     items.map((s) => (
-      <li key={s.src} draggable onDragStart={(e) => { e.dataTransfer.setData(DRAG_TYPE, JSON.stringify({ src: s.src, kind })); e.dataTransfer.effectAllowed = "copy"; }}>
+      <li key={s.src} className={playing === s.src ? "playing" : ""} draggable onDragStart={(e) => { e.dataTransfer.setData(DRAG_TYPE, JSON.stringify({ src: s.src, kind })); e.dataTransfer.effectAllowed = "copy"; }}>
         <button className={"icon" + (playing === s.src ? " on" : "")} aria-label={playing === s.src ? "멈춤" : "듣기"} data-tip={playing === s.src ? "멈춤" : "미리듣기"} onClick={() => toggle(s.src)}><Icon n={playing === s.src ? "pause" : "play"} s={14} /></button>
-        <span className="sname">{s.name}</span>
+        <span className="sname">{ko(kind, s.name)}{ko(kind, s.name) !== s.name && <small className="dim"> {s.name}</small>}</span>
         <span className="dim">{s.secs ? s.secs.toFixed(1) + "s" : ""}</span>
         <button className="icon" aria-label="재생 위치에 넣기" data-tip="재생 위치에 넣기" onClick={() => onAdd(s, kind)}><Icon n="plus" s={14} /></button>
       </li>
     ));
   const zone = (kind: "sfx" | "bgm", label: string, items: Sound[]) => {
     const groups: Record<string, Sound[]> = {};
-    filt(items).forEach((s) => (groups[s.group] ??= []).push(s));
+    filt(items, kind).forEach((s) => (groups[s.group] ??= []).push(s));
     return (
       <section className={"lib" + (over === kind ? " over" : "")}
         onDragOver={(e) => { if (e.dataTransfer.types.includes("Files")) { e.preventDefault(); setOver(kind); } }}
@@ -783,14 +848,6 @@ function TimingSummary({ d, timing, onPick, onSrt, review }: { d: Data; timing: 
     timing.per.forEach((p) => { const x = p.find((y) => y.lang === l)!; voiced += x.secs; if (!x.real && x.secs) est++; if (x.stale) stale++; });
     return { l, voiced, est, stale };
   });
-  const worst = timing.per
-    .map((p, i) => {
-      const v = p.map((x) => x.secs).filter(Boolean);
-      return { i, ratio: v.length > 1 ? Math.max(...v) / Math.min(...v) : 1, long: p.reduce((a, b) => (b.secs > a.secs ? b : a)).lang };
-    })
-    .filter((x) => x.ratio > 1.35)
-    .sort((a, b) => b.ratio - a.ratio)
-    .slice(0, 12);
   return (
     <div className="box">
       <div className="boxhead"><h3>언어 타이밍</h3><span className="grow" /><button className="small" data-tip="언어별 자막 파일(.srt) 만들기 - 목소리를 만든 뒤" onClick={onSrt}>자막 파일</button></div>
@@ -809,11 +866,6 @@ function TimingSummary({ d, timing, onPick, onSrt, review }: { d: Data; timing: 
           </tr>
         ))}
       </tbody></table>
-      {worst.length > 0 && (
-        <ul className="picks">
-          {worst.map((w) => <li key={w.i} onClick={() => onPick(w.i)}><span className="num">{w.i}</span> {LANG_NAME[w.long] || w.long} ×{w.ratio.toFixed(1)} <span className="dim">{(d.ep.scenes[w.i].text || "").slice(0, 30)}</span></li>)}
-        </ul>
-      )}
     </div>
   );
 }
@@ -1046,12 +1098,13 @@ function Camera({ title, img, fit, box, a, b, locked, onChange }: {
 }
 
 // ---------- 오른쪽 장면 탭 ----------
-function Inspector({ part, d, sel, cue, timing, issues, sounds, update, reorder, edit, removeCue, onFix, focus }: {
+function Inspector({ part, d, sel, cue, timing, issues, sounds, update, reorder, edit, removeCue, onFix, focus, onRevoice, top }: {
   part: "line" | "screen" | "sound"; d: Data; sel: number; cue: CueSel; timing: Timing; issues: Item[]; sounds: Sounds;
   update: (fn: (sc: EpScene) => void) => void; reorder: (fn: (s: EpScene[]) => number) => void; edit: (fn: (ep: Ep) => void) => void; removeCue: (c: NonNullable<CueSel>) => void;
-  onFix: (x: Item, s: string) => void; focus: Item | null;
+  onFix: (x: Item, s: string) => void; focus: Item | null; onRevoice?: (lang: string) => Promise<void>; top?: React.ReactNode;
 }) {
   const sc = d.ep.scenes[sel];
+  const [revoicing, setRevoicing] = useState<string | null>(null);
   const [showText, setShowText] = useState(JSON.stringify(sc.show));
   const [showErr, setShowErr] = useState("");
   const { playing, toggle } = usePreview();
@@ -1063,6 +1116,23 @@ function Inspector({ part, d, sel, cue, timing, issues, sounds, update, reorder,
   }, [sel, sc.show]);
   const langs = timing.langs.filter((l) => l !== "en");
   const sceneSecs = timing.frames[sel] / FPS;
+  // 대사 칸 제목 줄: 언어 이름 · 목소리 길이 · (고쳤으면) 다시 만들기
+  const lineHead = (l: string) => {
+    const p = timing.per[sel].find((x) => x.lang === l);
+    return (
+      <div className="lrow">
+        <label>{LANG_NAME[l] || l}</label>
+        {p && p.secs > 0 && <span className="dim num">{p.secs.toFixed(1)}초{p.real ? "" : " 어림"}</span>}
+        <span className="grow" />
+        {p?.stale && onRevoice && !(d.locked && l === "en") && (
+          <button className="small" disabled={!!revoicing} data-tip="고친 대사로 이 줄 목소리만 다시 만들기 (같은 대사는 캐시라 무료 한도를 안 씀)"
+            onClick={async () => { setRevoicing(l); try { await onRevoice(l); } finally { setRevoicing(null); } }}>
+            {revoicing === l ? "만드는 중…" : "다시 만들기"}
+          </button>
+        )}
+      </div>
+    );
+  };
   // 칸마다 그 칸의 검사 결과 (lang·field로 붙임 - 글 앞머리로 고르지 않음)
   const boxes = useRef<Record<string, HTMLTextAreaElement | null>>({});
   const select = (x: Item) => {
@@ -1091,7 +1161,7 @@ function Inspector({ part, d, sel, cue, timing, issues, sounds, update, reorder,
             <IconBtn n="trash" label="효과음 삭제" onClick={() => removeCue(cue)} />
           </div>
           <select aria-label="소리" value={c.src} onChange={(e) => edit((ep) => { ep.scenes[sel].cues![cue.k].src = e.target.value; })}>
-            {[...sounds.sfx, ...sounds.bgm].map((s) => <option key={s.src} value={s.src}>{s.group} · {s.name}</option>)}
+            {[...sounds.sfx, ...sounds.bgm].map((s) => <option key={s.src} value={s.src}>{s.group} · {ko(s.src.startsWith("bgm/") ? "bgm" : "sfx", s.name)}</option>)}
           </select>
           <div className="two">
             <div><label>시작</label><input type="number" step={0.05} min={0} value={c.at} onChange={(e) => edit((ep) => { ep.scenes[sel].cues![cue.k].at = Math.max(0, +e.target.value); })} /></div>
@@ -1141,7 +1211,9 @@ function Inspector({ part, d, sel, cue, timing, issues, sounds, update, reorder,
           </div>
         </div>
         </>}
-        {(sc.show as { type: string }).type === "cutout" ? (() => {
+        {(() => { const sh = sc.show as { type: string; parallax?: number }; return sh.type === "mapscene" || sh.type === "cinematic" || (sh.type === "art" && !!sh.parallax); })() ? (
+          <p className="dim prerender">미리 찍어 둔 장면이에요({TYPE_NAME[(sc.show as { type: string }).type] || (sc.show as { type: string }).type}{(sc.show as { parallax?: number }).parallax ? " · 옛 그림 2.5D" : ""}). 카메라·움직임을 바꾸려면 Claude에게 말해 주세요 - 다시 찍어야 반영돼요</p>
+        ) : (sc.show as { type: string }).type === "cutout" ? (() => {
           const sh = sc.show as CutShow;
           const set3 = (key: "from" | "to" | "mapFrom" | "mapTo", idx: number, v: number) => update((s) => { const x = s.show as CutShow; x[key] = [...x[key]] as V3; x[key][idx] = v; });
           return <>
@@ -1163,7 +1235,8 @@ function Inspector({ part, d, sel, cue, timing, issues, sounds, update, reorder,
     </div>
   );
   return (
-    <div className="pane">
+    <div className="pane linepane">
+      {top}
       <div className="box">
         <div className="boxhead">
           <h3>장면 {sel}</h3><span className="dim num">{sceneSecs.toFixed(1)}s</span><span className="dim">· {TYPE_NAME[(sc.show as { type: string }).type] || (sc.show as { type: string }).type}</span><span className="grow" />
@@ -1173,39 +1246,17 @@ function Inspector({ part, d, sel, cue, timing, issues, sounds, update, reorder,
           {!locked && <IconBtn n="plus" label="새 장면" onClick={() => reorder((s) => (s.splice(sel + 1, 0, { role: "narrator", text: "", show: { type: "stamp", text: "✕" }, i18n: {} } as unknown as EpScene), sel + 1))} />}
           {!locked && <IconBtn n="trash" label="장면 삭제" onClick={() => window.confirm(`장면 ${sel}을 지울까요?`) && reorder((s) => (s.splice(sel, 1), Math.min(sel, s.length - 1)))} />}
         </div>
-        <table><tbody>
-          {timing.per[sel].map((p) => {
-            const st = fillState(p.secs, sceneSecs);
-            return (
-              <tr key={p.lang}>
-                <td>{LANG_NAME[p.lang] || p.lang}</td>
-                <td><div className="meter"><i className={st.tone} style={{ width: `${Math.min(100, (p.secs / sceneSecs) * 100)}%` }} /></div></td>
-                <td className="num">{p.secs ? p.secs.toFixed(1) : "-"}</td>
-                <td className="dim">{p.stale ? "다시" : p.real ? "" : "어림"}</td>
-              </tr>
-            );
-          })}
-        </tbody></table>
-        <label>여유</label>
-        <input type="number" step={0.1} min={0} disabled={locked} value={(sc.hold as number) ?? 0} onChange={(e) => set("hold", +e.target.value > 0 ? +e.target.value : undefined)} />
         {iss((x) => !x.field || (!lineFields.has(x.field) && !x.field.startsWith("show")))}
       </div>
 
       <div className="box grow-box">
         <h3>대사</h3>
-        <div className="two">
-          <div><label>목소리</label>
-            <select disabled={locked} value={(sc.role as string) || ""} onChange={(e) => set("role", e.target.value)}>
-              <option value="">-</option>{Object.entries(d.roles).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
-            </select></div>
-          <div><label>말하는 사람</label><input disabled={locked} value={(sc.speaker as string) || ""} onChange={(e) => set("speaker", e.target.value)} /></div>
-        </div>
-        <label>영어</label>
+        {lineHead("en")}
         <textarea ref={(el) => { boxes.current.text = el; }} readOnly={locked} value={(sc.text as string) || ""} onChange={(e) => set("text", e.target.value)} />
         {iss((x) => x.field === "text")}
         {langs.map((l) => (
           <div key={l}>
-            <label>{LANG_NAME[l] || l}</label>
+            {lineHead(l)}
             <textarea ref={(el) => { boxes.current[`i18n.${l}`] = el; }} value={sc.i18n?.[l] || ""} onChange={(e) => update((s) => { (s.i18n ??= {})[l] = e.target.value; })} />
             {iss((x) => x.field === `i18n.${l}`)}
           </div>

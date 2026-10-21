@@ -6,7 +6,7 @@
 import { createHash } from "node:crypto";
 import { createServer } from "node:http";
 import { readFile, writeFile, readdir, mkdir, stat, rm } from "node:fs/promises";
-import { execFile } from "node:child_process";
+import { execFile, spawn } from "node:child_process";
 import { promisify } from "node:util";
 import { homedir } from "node:os";
 import { extname, join, normalize } from "node:path";
@@ -206,6 +206,8 @@ const api = {
       checker("length", "check-length.py", q.e, text),
       checker("zoom", "check-screen.py", q.e, text),
       voiceCheck(q.e, text, ep),
+      // 소리 섞임(효과음·브금이 목소리를 덮음): 목소리가 있어야 잼, 효과음을 넣고 빼면 바로 다시
+      (async () => ((await stat(join(CODE, "public/ep", q.e, "ep/timeline.json")).catch(() => null)) ? checker("mix", "check-mix.py", q.e, text, PY_VENV) : []))(),
     ]);
     return { items: parts.flat() };
   },
@@ -239,6 +241,22 @@ const api = {
       await rm(tmp, { force: true });
     }
     return { src: `${kind}/${name}.wav`, name };
+  },
+  // 이 줄 목소리 다시 만들기 (고친 대사 한 줄만, audio/revoice.py) - 업로드한 편의 영어는 잠김
+  "POST /api/revoice": async (q, body) => {
+    const req = JSON.parse(body);
+    const meta = JSON.parse(await readFile(join(CODE, "episodes", q.e, "meta.json"), "utf8").catch(() => "{}"));
+    if (meta.uploaded && req.lang === "en") throw new Error("업로드한 편의 영어 목소리는 바꿀 수 없음");
+    if (!Number.isInteger(req.tl) || !/^[a-z]{2}$/.test(req.lang || "") || !req.text?.trim()) throw new Error("요청이 이상함");
+    const out = await new Promise((resolve, reject) => {
+      const p = spawn(join(CODE, ".venv/bin/python"), ["-I", join(CODE, "audio/revoice.py"), epPath(q.e)], { cwd: CODE });
+      let so = "", se = "";
+      p.stdout.on("data", (c) => (so += c));
+      p.stderr.on("data", (c) => (se += c));
+      p.on("close", (code) => (code === 0 ? resolve(so) : reject(new Error("목소리 만들기 실패: " + (se.trim().split("\n").pop() || code)))));
+      p.stdin.end(JSON.stringify(req));
+    });
+    return JSON.parse(out.trim().split("\n").pop());
   },
   "GET /api/chars": async () => JSON.parse(await readFile(join(CODE, "characters.json"), "utf8")).characters,
   // 캐릭터 하나 저장(설계 → characters.json) + 그 인물만 다시 그림. 그리기가 실패하면 characters.json을 되돌림
@@ -287,7 +305,7 @@ createServer(async (req, res) => {
   const url = new URL(req.url, "http://x");
   const q = Object.fromEntries(url.searchParams);
   const send = (code, body, type = "application/json") => {
-    res.writeHead(code, { "content-type": type });
+    res.writeHead(code, { "content-type": type, "cache-control": "no-store" });
     res.end(body);
   };
   if (!allowed(req)) return send(403, JSON.stringify({ error: "이 맥의 편집기 화면에서만" }));

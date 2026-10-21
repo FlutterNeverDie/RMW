@@ -1068,6 +1068,10 @@ def render(name):
         w.setsampwidth(2)
         w.setframerate(RATE)
         w.writeframes((np.clip(x, -1, 1) * 32767).astype(np.int16).tobytes())
+    # 곡마다 크기를 -14 LUFS로 맞춘다 - 촘촘한 곡(긴장)이 목소리를 덮지 않게, 곡이 바뀌어도 크기가 튀지 않게 (2026-10-21 소리 섞임 검사)
+    norm = OUT / f"{name}.norm.wav"
+    subprocess.run([sys.executable, "-I", str(ROOT / "scripts/loudness.py"), str(OUT / f"{name}.wav"), str(norm)], check=True, capture_output=True)
+    norm.replace(OUT / f"{name}.wav")
     print(f"  -> public/bgm/{name}.wav {len(x) / RATE:.1f}s, 악기 {len(stems)}겹, RMS {20 * np.log10(np.sqrt((x ** 2).mean())):.1f} dBFS, 리미터 눌림 {squash:.2f}%")
 
 

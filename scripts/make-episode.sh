@@ -11,6 +11,8 @@ python3 scripts/locale-review.py gate "$1"
 .venv/bin/python -I audio/voice_episode.py "$1" | tail -3
 # 목소리 끝 지지직·뚝 끊김·깨짐 검사 - 걸리면 멈춤
 .venv/bin/python -I scripts/check-voice.py "$1"
+# 소리 섞임 검사 - 효과음·브금이 목소리를 덮으면 멈춤 (2026-10-21 사용자: 효과음에 내레이션이 묻힘)
+.venv/bin/python -I scripts/check-mix.py "$1"
 python3 scripts/check-layout.py "$1"
 # 캐릭터 입 모양 (목소리 크기 → 프레임별 0·1·2). 실패해도 렌더는 입을 흉내 내며 진행
 .venv/bin/python -I audio/characters.py mouth "$1" || echo "입 모양 건너뜀"

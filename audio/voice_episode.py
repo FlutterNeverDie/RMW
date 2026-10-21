@@ -12,14 +12,7 @@ FPS = 30
 LOC = {"en": None, "ko": "ko-KR", "es": "es-US", "ja": "ja-JP", "pt": "pt-BR", "hi": "hi-IN", "fr": "fr-FR", "de": "de-DE", "id": "id-ID", "ar": "ar-XA", "zh": "cmn-CN"}
 LANG_NAME = {"en": "English", "ko": "Korean", "es": "Spanish", "ja": "Japanese", "pt": "Brazilian Portuguese", "hi": "Hindi", "fr": "French", "de": "German", "id": "Indonesian", "ar": "Arabic", "zh": "Mandarin Chinese"}
 GAP = json.loads((Path(__file__).resolve().parent.parent / "scripts/estimate.json").read_text())["gap"]  # 대사 사이 숨 고르기(초) - 편집기·길이 검사와 같은 값
-src = Path(sys.argv[1])
-ep = json.loads(src.read_text())
-out = C.CODE / "public/ep" / src.parent.name / src.stem
-(out / "vo").mkdir(parents=True, exist_ok=True)
-raw_dir = C.CODE / "audio/.ep-raw"
-raw_dir.mkdir(exist_ok=True)
-
-langs = ep.get("langs", ["en"])
+RAW = C.CODE / "audio/.ep-raw"
 
 
 PRON = json.loads((C.CODE / "audio/pron.json").read_text())
@@ -58,49 +51,69 @@ def voice_line(r, text, lang, raw, extra=""):
     return "chirp"
 
 
-scenes = []
-fallback = []  # 연기(Gemini)해야 하는데 한도로 Chirp가 대신한 줄
-for i, s in enumerate(ep["scenes"]):
-    sc = {**s, "vo": None, "vo_i18n": {}, "acted": False, "dur": {}, "engine": {}}  # engine = 언어별로 목소리를 만든 모델 (끝 지지직 등 모델별 문제 추적, 2026-10-21)
-    if s["show"]["type"] == "mapscene":  # 기울인 지도 장면: 찍은 연속 그림 폴더 (scripts/map-scene.mjs가 이 장면 frames만큼 찍음)
-        sc["show"] = {**s["show"], "dir": f"ep/{src.parent.name}/maps/{s['show']['scene']}"}
-    if s["show"]["type"] == "cinematic":  # Blender 시네마틱 장면
-        sc["show"] = {**s["show"], "dir": f"ep/{src.parent.name}/{src.stem}/cinematic/{i:02d}"}
-    if s["show"]["type"] == "art" and s["show"].get("parallax"):  # 옛 그림 2.5D: scripts/scene-frames.py가 찍음
-        sc["show"] = {**s["show"], "dir": f"ep/{src.parent.name}/{src.stem}/parallax/{i:02d}"}
-    secs = s["show"].get("seconds", 0)
-    if s.get("text"):
-        r = C.CAST[s["role"]]
-        for lang in langs:
-            text = s["text"] if lang == "en" else s.get("i18n", {}).get(lang)
-            if not text:
-                raise SystemExit(f"장면 {i} {lang} 대사 없음")
-            raw = raw_dir / f"{src.parent.name}-{src.stem}-{lang}-{i:02d}.wav"
-            sc["engine"][lang] = voice_line(r, text, lang, raw, s.get("direction", ""))
-            acted = sc["engine"][lang] != "chirp"
-            if r.get("direction") and not acted:
-                fallback.append(f"{i}{lang}")
-            x, sr = C.read(raw)
-            y = C.tail(C.level(C.gate(C.clarity(x, sr), sr)), sr)  # 끝 지지직 정리 (scripts/check-voice.py가 다시 확인)
-            name = f"vo/{lang}/{i:02d}.wav"
-            (out / "vo" / lang).mkdir(parents=True, exist_ok=True)
-            C.write(out / name, y, sr)
-            path = f"ep/{src.parent.name}/{src.stem}/{name}"
-            if lang == "en":
-                sc["vo"], sc["acted"] = path, acted
-            else:
-                sc["vo_i18n"][lang] = path
-            # 장면 길이 = 가장 긴 언어 (더빙 트랙이 영상과 같은 길이가 되게). 언어별 실제 길이는 편집기가 타이밍 맞추기에 씀
-            sc["dur"][lang] = round(len(y) / sr, 3)
-            secs = max(secs, len(y) / sr + GAP)
-    # hold = 장면 끝 여유(초, 모든 언어 공통). 편집기에서 장면 끝을 끌어 정함
-    secs += s.get("hold", 0)
-    sc["frames"] = round(secs * FPS)
-    scenes.append(sc)
-    print(f"{i:02d} {sc['frames'] / FPS:5.2f}s  {s.get('role', '-'):9s}{' (연기)' if sc['acted'] else ''} {s.get('text', '')[:60]}")
+def make_line(r, text, lang, raw, extra=""):
+    """대사 한 줄: 목소리 만들기 + 끝 지지직 정리 → (소리, 샘플레이트, 만든 모델). audio/revoice.py(편집기 "이 줄 다시 만들기")도 씀"""
+    RAW.mkdir(exist_ok=True)
+    engine = voice_line(r, text, lang, raw, extra)
+    x, sr = C.read(raw)
+    return C.tail(C.level(C.gate(C.clarity(x, sr), sr)), sr), sr, engine  # 끝 지지직 정리 (scripts/check-voice.py가 다시 확인)
 
-(out / "timeline.json").write_text(json.dumps({"fps": FPS, "bgm": ep.get("bgm"), "langs": langs, "scenes": scenes}, ensure_ascii=False, indent=1))
-print(f"합계 {sum(s['frames'] for s in scenes) / FPS:.1f}s")
-if fallback:
-    # Gemini 결과는 캐시되므로 내일 다시 돌리면 남은 줄만 Gemini를 씀 (무료 모델당 하루 10번)
-    print(f"연기 대신 Chirp {len(fallback)}줄 ({', '.join(fallback[:12])}{'…' if len(fallback) > 12 else ''}) - 한도가 풀리면 다시 돌려 채우기. 사용량: node scripts/gemini-tts.mjs quota")
+
+def scene_frames(s, durs):
+    """장면 길이 = 가장 긴 언어 + 숨 고르기 + hold(장면 끝 여유, 모든 언어 공통). 더빙 트랙이 영상과 같은 길이가 되게"""
+    secs = s["show"].get("seconds", 0)
+    if durs:
+        secs = max(secs, max(durs) + GAP)
+    return round((secs + s.get("hold", 0)) * FPS)
+
+
+def main():
+    src = Path(sys.argv[1])
+    ep = json.loads(src.read_text())
+    out = C.CODE / "public/ep" / src.parent.name / src.stem
+    (out / "vo").mkdir(parents=True, exist_ok=True)
+    langs = ep.get("langs", ["en"])
+    scenes = []
+    fallback = []  # 연기(Gemini)해야 하는데 한도로 Chirp가 대신한 줄
+    for i, s in enumerate(ep["scenes"]):
+        sc = {**s, "vo": None, "vo_i18n": {}, "acted": False, "dur": {}, "engine": {}}  # engine = 언어별로 목소리를 만든 모델 (끝 지지직 등 모델별 문제 추적, 2026-10-21)
+        if s["show"]["type"] == "mapscene":  # 기울인 지도 장면: 찍은 연속 그림 폴더 (scripts/map-scene.mjs가 이 장면 frames만큼 찍음)
+            sc["show"] = {**s["show"], "dir": f"ep/{src.parent.name}/maps/{s['show']['scene']}"}
+        if s["show"]["type"] == "cinematic":  # Blender 시네마틱 장면
+            sc["show"] = {**s["show"], "dir": f"ep/{src.parent.name}/{src.stem}/cinematic/{i:02d}"}
+        if s["show"]["type"] == "art" and s["show"].get("parallax"):  # 옛 그림 2.5D: scripts/scene-frames.py가 찍음
+            sc["show"] = {**s["show"], "dir": f"ep/{src.parent.name}/{src.stem}/parallax/{i:02d}"}
+        if s.get("text"):
+            r = C.CAST[s["role"]]
+            for lang in langs:
+                text = s["text"] if lang == "en" else s.get("i18n", {}).get(lang)
+                if not text:
+                    raise SystemExit(f"장면 {i} {lang} 대사 없음")
+                raw = RAW / f"{src.parent.name}-{src.stem}-{lang}-{i:02d}.wav"
+                y, sr, sc["engine"][lang] = make_line(r, text, lang, raw, s.get("direction", ""))
+                acted = sc["engine"][lang] != "chirp"
+                if r.get("direction") and not acted:
+                    fallback.append(f"{i}{lang}")
+                name = f"vo/{lang}/{i:02d}.wav"
+                (out / "vo" / lang).mkdir(parents=True, exist_ok=True)
+                C.write(out / name, y, sr)
+                path = f"ep/{src.parent.name}/{src.stem}/{name}"
+                if lang == "en":
+                    sc["vo"], sc["acted"] = path, acted
+                else:
+                    sc["vo_i18n"][lang] = path
+                # 언어별 실제 길이는 편집기가 타이밍 맞추기에 씀
+                sc["dur"][lang] = round(len(y) / sr, 3)
+        sc["frames"] = scene_frames(s, list(sc["dur"].values()))
+        scenes.append(sc)
+        print(f"{i:02d} {sc['frames'] / FPS:5.2f}s  {s.get('role', '-'):9s}{' (연기)' if sc['acted'] else ''} {s.get('text', '')[:60]}")
+
+    (out / "timeline.json").write_text(json.dumps({"fps": FPS, "bgm": ep.get("bgm"), "langs": langs, "scenes": scenes}, ensure_ascii=False, indent=1))
+    print(f"합계 {sum(s['frames'] for s in scenes) / FPS:.1f}s")
+    if fallback:
+        # Gemini 결과는 캐시되므로 내일 다시 돌리면 남은 줄만 Gemini를 씀 (무료 모델당 하루 10번)
+        print(f"연기 대신 Chirp {len(fallback)}줄 ({', '.join(fallback[:12])}{'…' if len(fallback) > 12 else ''}) - 한도가 풀리면 다시 돌려 채우기. 사용량: node scripts/gemini-tts.mjs quota")
+
+
+if __name__ == "__main__":
+    main()
