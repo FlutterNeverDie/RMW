@@ -15,7 +15,11 @@ type Label = { text: string; x: number; y: number; at?: number; big?: boolean; t
 type Show =
   | { type: "map"; img: string; from: V3; to: V3; labels?: Label[]; pins?: Label[]; grade?: "dark" }
   | { type: "art"; img: string; from: V3; to: V3; name?: string; sub?: string; grade?: "dark" }
+  // 옛 그림을 찢은 종이처럼 오려 지도 위에 (2026-10-21 사용자: 캐릭터 A + 옛 그림 B 섞기). box = 화면 비율 [x, y, 너비, 높이]
+  | { type: "cutout"; map: string; mapFrom: V3; mapTo: V3; img: string; from: V3; to: V3; box: [number, number, number, number]; rot?: number }
   | { type: "lapse"; set: string; years: number[] }
+  // 사이트 장면 층으로 찍은 기울인 지도 + 부대 애니메이션 (scripts/map-scene.mjs → public/<dir>/00000.jpg…). dir은 voice_episode.py가 채운다
+  | { type: "mapscene"; scene: string; dir?: string }
   | { type: "title"; title: string; sub: string; seconds: number }
   | { type: "stamp"; text: string }
   | { type: "line" }
@@ -151,6 +155,54 @@ const ArtShot = ({ s, frames }: { s: Extract<Show, { type: "art" }>; frames: num
   );
 };
 
+// 찢은 종이 테두리 (같은 그림이면 같은 모양): clip-path polygon 퍼센트 점
+const torn = (seed: number, j: number) => {
+  let x = seed % 233280;
+  const r = () => (x = (x * 9301 + 49297) % 233280) / 233280;
+  const pts: string[] = [];
+  const n = 26;
+  for (let i = 0; i <= n; i++) pts.push(`${(i / n) * 100}% ${r() * j}%`);
+  for (let i = 0; i <= n; i++) pts.push(`${100 - r() * j}% ${(i / n) * 100}%`);
+  for (let i = n; i >= 0; i--) pts.push(`${(i / n) * 100}% ${100 - r() * j}%`);
+  for (let i = n; i >= 0; i--) pts.push(`${r() * j}% ${(i / n) * 100}%`);
+  return `polygon(${pts.join(",")})`;
+};
+const seedOf = (t: string) => [...t].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
+
+const Cutout = ({ s, frames }: { s: Extract<Show, { type: "cutout" }>; frames: number }) => {
+  const k = useK(frames);
+  const f = useCurrentFrame();
+  const [mx, my, mz] = lerp(s.mapFrom, s.mapTo, k);
+  const [fx, fy, z] = lerp(s.from, s.to, k);
+  const p = spring({ frame: f - 4, fps: 30, config: { damping: 15, stiffness: 120 } });
+  const [bx, by, bw, bh] = s.box;
+  const seed = seedOf(s.img);
+  return (
+    <AbsoluteFill style={{ background: "#0d0b08", overflow: "hidden" }}>
+      <div style={zoomBox(mx, my, mz)}>
+        <Img decoding="sync" src={staticFile(s.map)} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", filter: "sepia(0.45) saturate(0.75) brightness(0.6)" }} />
+      </div>
+      <Vignette dark />
+      <div style={{ position: "absolute", left: `${bx * 100}%`, top: `${by * 100}%`, width: `${bw * 100}%`, height: `${bh * 100}%`, opacity: Math.min(1, p * 1.4), transform: `translateY(${(1 - p) * 60}px) rotate(${(s.rot ?? -2) * p}deg) scale(${0.92 + 0.08 * p})`, filter: "drop-shadow(10px 18px 22px rgba(0,0,0,0.6))" }}>
+        <div style={{ position: "absolute", inset: 0, background: "#efe2c4", clipPath: torn(seed, 2.2) }} />
+        <div style={{ position: "absolute", inset: 12, overflow: "hidden", clipPath: torn(seed + 5, 1.6) }}>
+          <Img decoding="sync" src={staticFile(s.img)} style={{ ...zoomBox(fx, fy, z), objectFit: "cover", filter: "sepia(0.25) saturate(0.9) contrast(1.05)" }} />
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+const MapScene = ({ s }: { s: Extract<Show, { type: "mapscene" }> }) => {
+  const f = useCurrentFrame();
+  return (
+    <AbsoluteFill style={{ background: "#0d0b08" }}>
+      <Img decoding="sync" src={staticFile(`${s.dir}/${String(f).padStart(5, "0")}.jpg`)} style={{ width: "100%", height: "100%" }} />
+      <Vignette dark />
+    </AbsoluteFill>
+  );
+};
+
 const Lapse = ({ s, frames }: { s: Extract<Show, { type: "lapse" }>; frames: number }) => {
   const f = useCurrentFrame();
   const per = frames / s.years.length;
@@ -195,7 +247,7 @@ const Stamp = ({ s }: { s: Extract<Show, { type: "stamp" }> }) => {
   );
 };
 
-// 인물 대사: 이름 + 말하는 동안 움직이는 소리 막대 (화면은 모든 언어 더빙이 같이 쓰므로 대사 글자는 넣지 않는다)
+// 인물 대사: 캐릭터 + 말하는 동안 움직이는 소리 막대. 화면은 모든 언어 더빙이 같이 쓰므로 대사·이름 글자는 넣지 않는다 (2026-10-21 사용자: 영어가 너무 많음)
 const Line = ({ sc, frames, vo }: { sc: Scene; frames: number; vo?: string | null }) => {
   const f = useCurrentFrame();
   const p = spring({ frame: f, fps: 30, config: { damping: 14 } });
@@ -217,21 +269,19 @@ const Line = ({ sc, frames, vo }: { sc: Scene; frames: number; vo?: string | nul
       <Vignette dark />
       {hasChar(char) ? (
         <>
-          {/* 인물이 아래에서 올라와 말한다 + 오른쪽에 이름 */}
+          {/* 인물이 아래에서 올라와 말한다 + 오른쪽에 소리 막대 */}
           <div style={{ position: "absolute", left: 230, bottom: 0, transform: `translateY(${(1 - p) * 160}px)`, opacity: Math.min(1, p * 1.5) }}>
             <div style={{ position: "absolute", left: "8%", right: "8%", bottom: 40, height: 120, borderRadius: "50%", background: "radial-gradient(rgba(233,201,127,0.35), transparent 70%)" }} />
             <Character id={char!} talking={talking} mouth={mouth} height={760} pose={sc.pose} flip={sc.facing === "left"} />
           </div>
           <div style={{ position: "absolute", left: 1000, right: 80, top: 0, bottom: 0, display: "flex", flexDirection: "column", justifyContent: "center", opacity: p, transform: `translateX(${(1 - p) * 40}px)` }}>
             <div style={{ fontFamily: SERIF, fontSize: 150, lineHeight: 0.6, color: "rgba(226,85,58,0.5)" }}>“</div>
-            <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: fitSize(sc.speaker ?? "", 84, 820, 6), letterSpacing: 6, color: "#f1e6cf", textShadow: "0 8px 30px rgba(0,0,0,0.8)" }}>{sc.speaker}</div>
-            <div style={{ display: "flex" }}>{bars(13, 0.7)}</div>
+            <div style={{ display: "flex" }}>{bars(13, 0.9)}</div>
           </div>
         </>
       ) : (
         <div style={{ transform: `translateX(${shake}px) scale(${0.9 + 0.1 * p})`, opacity: p, textAlign: "center" }}>
           <div style={{ fontFamily: SERIF, fontSize: 200, lineHeight: 0.6, color: "rgba(226,85,58,0.5)" }}>“</div>
-          <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: fitSize(sc.speaker ?? "", 110, 1600, 8), letterSpacing: 8, color: "#f1e6cf", textShadow: "0 8px 30px rgba(0,0,0,0.8)" }}>{sc.speaker}</div>
           {bars(21, 1)}
         </div>
       )}
@@ -316,6 +366,8 @@ const ShotOnly = ({ sc, vo }: { sc: Scene; vo?: string | null }) => {
   const s = sc.show;
   if (s.type === "map") return <MapShot s={s} frames={sc.frames} />;
   if (s.type === "art") return <ArtShot s={s} frames={sc.frames} />;
+  if (s.type === "cutout") return <Cutout s={s} frames={sc.frames} />;
+  if (s.type === "mapscene") return <MapScene s={s} />;
   if (s.type === "lapse") return <Lapse s={s} frames={sc.frames} />;
   if (s.type === "title") return <Title s={s} />;
   if (s.type === "stamp") return <Stamp s={s} />;
@@ -325,10 +377,13 @@ const ShotOnly = ({ sc, vo }: { sc: Scene; vo?: string | null }) => {
 };
 
 // 화면 종류별 기본 효과음 (장면에 sfx: null을 주면 끔, sfx: "이름"을 주면 그 소리)
-// 지도·그림·연도 넘김의 바람 소리는 매 장면마다 붙이면 거슬린다(2026-10-20 사용자) →
-// 화면 종류가 바뀔 때만, 앞 바람 소리에서 MOVE_GAP초 넘게 지났을 때만, 작게
+// 전환 효과음이 잦으면 거슬린다(2026-10-20·21 사용자) →
+// 바람 소리는 장이 바뀐 뒤(제목 장면 다음) 첫 지도·그림에만 - 장소·시대가 크게 바뀌는 곳은 장면표에 sfx: "swish"로 직접
+// 대사 카드 "탁"은 그 인물이 처음 나올 때만
 export const SFX: Record<string, [string, number]> = {
   map: ["swish", 0.1],
+  cutout: ["swish", 0.1],
+  mapscene: ["swish", 0.1],
   art: ["swish", 0.1],
   lapse: ["swish", 0.12],
   title: ["boom", 0.55],
@@ -336,24 +391,27 @@ export const SFX: Record<string, [string, number]> = {
   line: ["hit", 0.4],
   units: ["drum", 0.45],
 };
-const MOVE = new Set(["map", "art", "lapse"]);
-const MOVE_GAP = 20;
+const MOVE = new Set(["map", "art", "lapse", "cutout", "mapscene"]);
 
 // 장면마다 실제로 낼 효과음 [이름, 크기] 또는 null
-export const sceneSfx = (scenes: Scene[], fps: number) => {
-  let at = 0;
-  let lastMove = -Infinity;
-  return scenes.map((sc, i) => {
-    const from = at;
-    at += sc.frames;
+export const sceneSfx = (scenes: Scene[], _fps?: number) => {
+  let chapter = false;
+  const met = new Set<string>();
+  return scenes.map((sc) => {
+    const type = sc.show.type;
+    const first = type === "line" && !met.has(sc.speaker ?? "");
+    if (type === "line") met.add(sc.speaker ?? "");
+    if (type === "title") chapter = true;
     if (sc.sfx === null) return null;
     if (sc.sfx) return [sc.sfx, 0.5] as [string, number];
-    const d = SFX[sc.show.type];
+    const d = SFX[type];
     if (!d) return null;
-    if (!MOVE.has(sc.show.type)) return d;
-    const prev = scenes[i - 1]?.show.type;
-    if (prev === sc.show.type || from - lastMove < MOVE_GAP * fps) return null;
-    lastMove = from;
+    if (MOVE.has(type)) {
+      if (!chapter) return null;
+      chapter = false;
+      return d;
+    }
+    if (type === "line" && !first) return null;
     return d;
   });
 };
@@ -418,7 +476,8 @@ export const Episode = ({ timeline, lang = "en" }: { timeline: Timeline; lang?: 
           const from = at;
           at += sc.frames;
           return (
-            <Sequence key={i} from={from} durationInFrames={sc.frames}>
+            // 마지막 장면은 끝의 어두워지는 1.5초까지 남겨 둔다 (안 그러면 검은 화면으로 툭 바뀜)
+            <Sequence key={i} from={from} durationInFrames={sc.frames + (i === timeline.scenes.length - 1 ? 45 : 0)}>
               <Shot sc={sc} vo={lang === "en" ? sc.vo : sc.vo_i18n?.[lang]} />
               {(() => {
                 const vo = lang === "en" ? sc.vo : sc.vo_i18n?.[lang];

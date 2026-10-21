@@ -1,0 +1,21 @@
+{
+ "_설명": "화면 글자 규칙 (2026-10-21 사용자: 여러 언어 더빙이 화면 하나를 같이 씀). 화면에는 숫자·연도·기호(✕ → ⚔ 등)만, 말은 내레이션으로. 이름도 안 됨 - 인물은 얼굴(캐릭터)로 알아보고 지도는 이름 없이 캡처. 꼭 필요한 낱말은 장면표 \"screen_ok\": [\"...\"]에 (기본 없음). 대상: show의 labels·pins의 text, title, sub, name, text(도장)",
+ "lang": "screen",
+ "rules": [
+  {
+   "id": "screen-stamp", "group": "화면 글자", "kind": "screen", "level": "error", "scope": "screen", "position": "anywhere", "types": ["stamp"],
+   "pattern": "[^\\W\\d_]+",
+   "fix": "screen_strip", "whole": true,
+   "msg": "도장은 숫자·기호만 (예: ✕, ⚔, 1223) - 말은 내레이션으로",
+   "bad": ["ROUT", "TRAP"], "good": ["✕", "1223", "⚔ 1223"]
+  },
+  {
+   "id": "screen-letters", "group": "화면 글자", "kind": "screen", "level": "error", "scope": "screen", "position": "anywhere", "not_types": ["stamp"],
+   "pattern": "[^\\W\\d_]+",
+   "fix": "screen_strip", "whole": true,
+   "msg": "화면 글자는 숫자·연도·기호만 - 말은 내레이션으로 (이름도 안 됨: 인물은 얼굴로, 지도는 이름 없이)",
+   "bad": ["THE STEPPE", "GENGHIS KHAN", "c. 1162 - 1227", "칭기즈칸", "Gengis Kan"], "good": ["1206", "1162 - 1227", "~1 000 000", "→", "⚔"],
+   "fixes": [["c. 1162 - 1227", "1162 - 1227"]]
+  }
+ ]
+}

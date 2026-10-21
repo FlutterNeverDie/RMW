@@ -16,6 +16,8 @@
 // 열쇠 순서: 환경변수(YT_CLIENT_ID · YT_CLIENT_SECRET · YT_REFRESH_TOKEN, 깃허브 Actions용) → secrets/ 파일
 import { createServer } from "node:http";
 import { fileURLToPath } from "node:url";
+import { homedir } from "node:os";
+import { join } from "node:path";
 import { readFile, rm, stat, writeFile } from "node:fs/promises";
 import { execFile } from "node:child_process";
 
@@ -109,7 +111,14 @@ async function upload(file, metaPath, ...flags) {
   const meta = JSON.parse(await readFile(metaPath, "utf8"));
   const body0 = request(meta);
   const parts = ["snippet", "status", ...(body0.localizations ? ["localizations"] : [])].join(",");
-  const thumb = meta.thumbs?.[0] ? fileURLToPath(new URL(`../../${meta.thumbs[0]}`, import.meta.url)) : null;
+  // 편(uploads/<편>.json)이면 깜빡임 검사를 통과한 렌더만 올린다 - out/<편>.mp4.checked 가 영상보다 새로워야 함 (04 사고 기록: 깨진 2편 업로드)
+  const epId = metaPath.match(/uploads\/([\w-]+)\.json$/)?.[1];
+  if (meta.localizations && epId && !flags.includes("--dry-run")) {
+    const src = fileURLToPath(new URL(`../out/${epId}.mp4`, import.meta.url));
+    const [ok, s0] = await Promise.all([stat(src + ".checked").catch(() => null), stat(src).catch(() => null)]);
+    if (!ok || !s0 || ok.mtimeMs < s0.mtimeMs) throw new Error(`깜빡임 검사를 통과하지 않은 영상이라 올리지 않음: ${src}`);
+  }
+  const thumb = meta.thumbs?.[0] ? join(process.env.HWM ?? join(homedir(), "hwm"), meta.thumbs[0]) : null;
   if (flags.includes("--dry-run")) {
     console.log(`보낼 내용 (part=${parts}):\n${JSON.stringify(body0, null, 1)}\n영상: ${file}\n썸네일: ${thumb ?? "없음"}`);
     return;

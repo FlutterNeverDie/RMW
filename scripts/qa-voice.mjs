@@ -17,7 +17,7 @@ const lines = [];
 ep.scenes.forEach((s, i) => {
   if (!s.text) return;
   const text = lang === "en" ? s.text : s.i18n?.[lang];
-  lines.push({ i, text, file: join(outDir, "vo", lang, `${String(i).padStart(2, "0")}.wav`) });
+  lines.push({ i, text, en: s.text, file: join(outDir, "vo", lang, `${String(i).padStart(2, "0")}.wav`) });
 });
 
 async function ask(batch) {
@@ -56,6 +56,11 @@ const report = [];
 for (let k = 0; k < lines.length; k += 25) {
   const { model, issues } = await ask(lines.slice(k, k + 25));
   console.log(`대사 ${k + 1}~${Math.min(k + 25, lines.length)} 검수 (${model}): 문제 ${issues.length}개`);
+  // 검수한 대사를 지문으로 같이 남김 → 대사가 바뀌면 check-text·편집기가 "낡음"으로 보여 줌
+  for (const p of issues) {
+    const l = lines.find((x) => x.i === p.clip);
+    if (l) Object.assign(p, { text: l.text, en: l.en });
+  }
   report.push(...issues);
 }
 for (const p of report) {

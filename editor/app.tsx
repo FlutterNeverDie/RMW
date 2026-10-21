@@ -5,15 +5,28 @@ import { createRoot } from "react-dom/client";
 import { Player, type PlayerRef } from "@remotion/player";
 import { Episode, sceneSfx, timelineFrames, type Cue, type Scene, type Timeline } from "../src/episode/Episode";
 import { charForSpeaker, POSES, POSE_NAME } from "../src/episode/Character";
+import EST from "../scripts/estimate.json";
 
 const FPS = 30;
-const GAP = 0.18; // audio/voice_episode.py와 같게
+const GAP = EST.gap; // 대사 뒤 숨 고르기 - audio/voice_episode.py GAP과 같게 (scripts/estimate.json)
 type EpScene = Omit<Scene, "frames" | "vo"> & { i18n?: Record<string, string>; cues?: Cue[]; [k: string]: unknown };
 type Ep = { bgm?: string; langs?: string[]; scenes: EpScene[]; [k: string]: unknown };
 type TlScene = { text?: string; i18n?: Record<string, string>; vo: string | null; vo_i18n?: Record<string, string>; frames: number };
-type Data = { ep: Ep; locked: string | null; tl: TlScene[] | null; durs: Record<string, number>[] | null; bgm: string[]; sfx: string[]; roles: Record<string, string>; chars: Record<string, string> };
+type Data = { id?: string; ep: Ep; locked: string | null; tl: TlScene[] | null; durs: Record<string, number>[] | null; bgm: string[]; sfx: string[]; roles: Record<string, string>; chars: Record<string, string> };
 type EpInfo = { id: string; playlist: string; title: string };
-type Issue = { kind: string; msg: string };
+// 검사 결과 한 줄 (scripts/checklib.py item과 같은 모양). 장면 번호는 검사에 보낸 장면표 기준
+type Item = { scene: number | null; lang: string | null; field: string | null; rule: string; group?: string | null; level: "error" | "warn"; msg: string; span?: [number, number] | null; match?: string | null; suggest?: string[] | null; source: string; stale?: boolean; engine?: string };
+const SOURCE_NAME: Record<string, string> = { text: "대본", pron: "발음", screen: "화면 글자", qa: "AI 검수", pacing: "리듬", length: "길이", zoom: "확대", voice: "목소리" };
+const TYPE_NAME: Record<string, string> = { map: "지도", art: "그림", cutout: "오린 그림", line: "대사 카드", title: "제목", stamp: "도장", lapse: "연도 넘김", units: "부대", endcard: "최종 화면" };
+// 장면표 칸 경로("i18n.ko", "show.labels.0.text")로 읽고 쓰기
+const getAt = (o: unknown, path: string): unknown => path.split(".").reduce<unknown>((x, k) => (x && typeof x === "object" ? (x as Record<string, unknown>)[k] : undefined), o);
+const setAt = (o: Record<string, unknown>, path: string, v: unknown) => {
+  const ks = path.split(".");
+  const last = ks.pop()!;
+  let x: Record<string, unknown> = o;
+  for (const k of ks) x = (x[k] ??= {}) as Record<string, unknown>;
+  x[last] = v;
+};
 type Sound = { src: string; name: string; group: string; secs: number | null };
 type Sounds = { sfx: Sound[]; bgm: Sound[] };
 type CueSel = { scene: number; k: number } | null;
@@ -55,43 +68,55 @@ const IconBtn = ({ n, label, onClick, className = "" }: { n: string; label: stri
   <button className={"icon " + className} onClick={onClick} aria-label={label} data-tip={label}><Icon n={n} /></button>
 );
 
-// 목소리 만들기 전 어림 (내레이터 속도 1.07 기준)
+// 목소리 만들기 전 어림 (계수는 scripts/estimate.json - check-length·check-pacing과 같은 식)
 const estimate = (text: string | undefined, lang: string) => {
   if (!text) return 0;
   const t = text.replace(/\.\.\./g, "…");
-  const pauses = (t.match(/[.,!?…;:]/g) || []).length * 0.18;
-  if (/^(ko|ja|zh)/.test(lang)) return t.replace(/[\s.,!?…"'“”]/g, "").length / 6.3 + pauses;
-  if (lang === "en") return t.split(/\s+/).filter(Boolean).length / 2.7 + pauses;
-  return t.replace(/\s/g, "").length / 14.5 + pauses;
+  const pauses = [...t].filter((c) => EST.pause_chars.includes(c)).length * EST.pause;
+  if (EST.cjk_langs.some((l) => lang.startsWith(l))) return t.replace(/[\s.,!?…"'“”]/g, "").length / EST.cjk_chars_per_sec + pauses;
+  if (lang === "en") return t.split(/\s+/).filter(Boolean).length / EST.en_words_per_sec + pauses;
+  return t.replace(/\s/g, "").length / EST.chars_per_sec + pauses;
 };
 
-type Timing = { langs: string[]; per: { lang: string; secs: number; real: boolean; stale: boolean }[][]; frames: number[]; starts: number[] };
+type Timing = { langs: string[]; per: { lang: string; secs: number; real: boolean; stale: boolean }[][]; frames: number[]; starts: number[]; tlAt: (number | null)[] };
+
+// 장면 i ↔ 목소리(timeline) 장면: 같은 자리에 같은 영어면 그것, 아니면 같은 영어의 다른 자리(옮김·복제·되돌리기), 없으면 같은 자리
+// 언어마다 대사가 같은지는 다시 확인하므로 순서가 바뀌어도 남의 목소리를 쓰지 않는다 (scripts/checklib.py match와 같은 규칙)
+const matchTl = (d: Data): (number | null)[] => {
+  const tl = d.tl || [];
+  const byText = new Map<string | undefined, number>();
+  tl.forEach((t, j) => { if (!byText.has(t.text)) byText.set(t.text, j); });
+  return d.ep.scenes.map((sc, i) => (tl[i] && tl[i].text === sc.text ? i : byText.get(sc.text) ?? (i < tl.length ? i : null)));
+};
 
 // 장면 길이 = 가장 긴 언어 + 숨 고르기 + hold (voice_episode.py와 같은 규칙)
 const computeTiming = (d: Data): Timing => {
   const langs = ["en", ...(d.ep.langs || ["en"]).filter((l) => l !== "en")];
+  const tlAt = matchTl(d);
   const per = d.ep.scenes.map((sc, i) => {
-    const t = d.tl?.[i];
+    const j = tlAt[i];
+    const t = j === null ? undefined : d.tl?.[j];
     return langs.map((lang) => {
       const text = lang === "en" ? sc.text : sc.i18n?.[lang];
       const tlText = lang === "en" ? t?.text : t?.i18n?.[lang];
-      const realDur = d.durs?.[i]?.[lang];
+      const realDur = j === null ? undefined : d.durs?.[j]?.[lang];
       if (realDur && tlText === text) return { lang, secs: realDur, real: true, stale: false };
       return { lang, secs: estimate(text, lang), real: false, stale: !!realDur };
     });
   });
   const frames = d.ep.scenes.map((sc, i) => {
-    if (d.locked && d.tl?.[i]) return d.tl[i].frames; // 업로드한 편: 장면 길이 고정
+    const j = tlAt[i];
+    if (d.locked && j !== null && d.tl?.[j]) return d.tl[j].frames; // 업로드한 편: 장면 길이 고정
     const longest = Math.max(0, ...per[i].map((p) => p.secs));
     const secs = Math.max((sc.show as { seconds?: number }).seconds || 0, sc.text ? longest + GAP : 0) + (Number(sc.hold) || 0);
     return Math.max(15, Math.round(secs * FPS));
   });
   const starts: number[] = [];
   frames.reduce((a, f) => (starts.push(a), a + f), 0);
-  return { langs, per, frames, starts };
+  return { langs, per, frames, starts, tlAt };
 };
 
-const TYPE_COLOR: Record<string, string> = { map: "#33475b", art: "#474747", line: "#6a2c2e", title: "#463c5e", stamp: "#625632", lapse: "#2d4b58", units: "#3b4733", endcard: "#333" };
+const TYPE_COLOR: Record<string, string> = { map: "#33475b", art: "#474747", cutout: "#4f4536", line: "#6a2c2e", title: "#463c5e", stamp: "#625632", lapse: "#2d4b58", units: "#3b4733", endcard: "#333" };
 const MUSIC_COLOR: Record<string, string> = { main: "#33475b", battle: "#6a2c2e", tension: "#5a4f2c", lament: "#433d5c", triumph: "#585130" };
 const LANG_NAME: Record<string, string> = { en: "영어", ko: "한국어", es: "스페인어", ja: "일본어", pt: "포르투갈어", fr: "프랑스어", de: "독일어", hi: "힌디어", zh: "중국어", id: "인도네시아어", ar: "아랍어" };
 const tc = (f: number) => {
@@ -134,7 +159,9 @@ function App() {
   const [frame, setFrame] = useState(0);
   const [zoom, setZoom] = useState(28);
   const [dirty, setDirty] = useState(false);
-  const [issues, setIssues] = useState<{ byScene: Record<string, Issue[]>; general: Issue[]; summary?: string }>({ byScene: {}, general: [] });
+  const [issues, setIssues] = useState<Item[]>([]);
+  const [checking, setChecking] = useState(false);
+  const [focus, setFocus] = useState<Item | null>(null);
   const [sounds, setSounds] = useState<Sounds>({ sfx: [], bgm: [] });
   const [toast, setToast] = useState("");
   const [gallery, setGallery] = useState(false);
@@ -158,15 +185,33 @@ function App() {
   }, [loadSounds]);
 
   const [review, setReview] = useState<Record<string, { state: string; date?: string; summary?: string; left?: string[] }>>({});
-  const runCheck = useCallback(async (id: string) => {
-    api<typeof review>(`/api/review?e=${id}`).then(setReview).catch(() => {});
-    setIssues(await api(`/api/check?e=${id}`));
+  const loadReview = useCallback((id: string) => { api<typeof review>(`/api/review?e=${id}`).then(setReview).catch(() => {}); }, []);
+  // 검사: 지금 편집 중인 장면표(저장 안 한 것 포함)를 보내서 모든 검사기 결과를 한 목록으로. 늦게 온 옛 결과는 버림
+  const checkSeq = useRef(0);
+  const runCheck = useCallback(async (id: string, ep: Ep) => {
+    const n = ++checkSeq.current;
+    setChecking(true);
+    let items: Item[];
+    try {
+      items = (await api<{ items: Item[] }>(`/api/check?e=${id}`, { method: "POST", body: JSON.stringify(ep) })).items;
+    } catch (e) {
+      items = [{ scene: null, lang: null, field: null, rule: "crash", level: "error", source: "text", msg: "검사를 못 함: " + (e as Error).message }];
+    }
+    if (n !== checkSeq.current) return;
+    setIssues(items);
+    setChecking(false);
   }, []);
+  useEffect(() => {
+    if (!d?.id) return;
+    const h = window.setTimeout(() => runCheck(d.id!, d.ep), 500);
+    return () => window.clearTimeout(h);
+  }, [d?.id, d?.ep, runCheck]);
   useEffect(() => {
     if (!epId) return;
     try { localStorage.setItem("ep", epId); } catch {}
-    api<Data>(`/api/ep?e=${epId}`).then((x) => { hist.current = { past: [], future: [], last: 0 }; setD(x); setSel(0); setCue(null); setDirty(false); setLang("en"); runCheck(epId); });
-  }, [epId, runCheck]);
+    setIssues([]);
+    api<Data>(`/api/ep?e=${epId}`).then((x) => { hist.current = { past: [], future: [], last: 0 }; setD({ ...x, id: epId }); setSel(0); setCue(null); setDirty(false); setLang("en"); loadReview(epId); });
+  }, [epId, loadReview]);
 
   const timing = useMemo(() => (d ? computeTiming(d) : null), [d]);
   const timeline = useMemo<Timeline | null>(() => {
@@ -175,7 +220,8 @@ function App() {
       fps: FPS,
       bgm: d.ep.bgm,
       scenes: d.ep.scenes.map((sc, i) => {
-        const t = d.tl?.[i];
+        const j = timing.tlAt[i];
+        const t = j === null ? undefined : d.tl?.[j];
         const okFor = (l: string) => timing.per[i].find((p) => p.lang === l)?.real;
         const vo_i18n = Object.fromEntries(Object.entries(t?.vo_i18n || {}).filter(([l]) => okFor(l)));
         // 업로드한 편은 캐릭터 없이 렌더됐으므로 미리보기도 그대로 (char "none" = 인물 안 그림)
@@ -213,10 +259,10 @@ function App() {
     if (!prev) return say(redo ? "다시 할 것이 없음" : "되돌릴 것이 없음");
     to.push(d.ep);
     h.last = 0;
-    setD({ ...d, ep: prev, ...(prev.scenes.length !== d.ep.scenes.length ? { tl: null, durs: null } : {}) });
+    setD({ ...d, ep: prev }); // 목소리 짝은 영어 대사로 다시 맞춤 (matchTl)
     setSel((x) => Math.min(x, prev.scenes.length - 1)); setCue(null); setDirty(true);
   };
-  const edit = (fn: (ep: Ep) => void, keepTiming = true) => {
+  const edit = (fn: (ep: Ep) => void) => {
     if (!d) return;
     const h = hist.current;
     if (Date.now() - h.last > 500) { h.past.push(d.ep); if (h.past.length > 200) h.past.shift(); }
@@ -224,14 +270,38 @@ function App() {
     h.future = [];
     const ep = structuredClone(d.ep);
     fn(ep);
-    setD(keepTiming ? { ...d, ep } : { ...d, ep, tl: null, durs: null });
+    setD({ ...d, ep });
     setDirty(true);
   };
+  // 장면표를 통째로 바꿈 (내역에서 불러오기) - 되돌리기로 돌아올 수 있게
+  const replaceEp = (ep: Ep) => {
+    if (!d) return;
+    const h = hist.current;
+    h.past.push(d.ep); h.future = []; h.last = 0;
+    setD({ ...d, ep }); setDirty(true);
+  };
   const update = (fn: (sc: EpScene) => void) => edit((ep) => fn(ep.scenes[sel]));
+  // 장면 옮기기·복제·삭제: 목소리 짝은 영어 대사로 따라감 (matchTl) - 실제 길이·목소리가 그대로 유지
   const reorder = (fn: (s: EpScene[]) => number) => {
     let next = sel;
-    edit((ep) => { next = fn(ep.scenes); }, false); // 순서가 바뀌면 실제 목소리 짝이 안 맞음 → 어림으로
+    edit((ep) => { next = fn(ep.scenes); });
     setSel(next); setCue(null);
+  };
+  // 검사의 "고치기": 검사 때 잡은 글(match)이 그 자리에 그대로 있을 때만 제안으로 바꿈
+  const fixIssue = (x: Item, sug: string) => {
+    if (!d || x.scene === null || !x.field || !x.span) return;
+    if (d.locked && !x.field.startsWith("i18n.")) return say("업로드한 편은 더빙 대사만 고칠 수 있음");
+    const cur = getAt(d.ep.scenes[x.scene], x.field);
+    if (typeof cur !== "string" || cur.slice(x.span[0], x.span[1]) !== x.match) return say("그새 글이 바뀜 - 검사가 다시 돌면 고치기");
+    edit((ep) => setAt(ep.scenes[x.scene!] as Record<string, unknown>, x.field!, cur.slice(0, x.span![0]) + sug + cur.slice(x.span![1])));
+    say(`고침: ${x.match} → ${sug}`);
+  };
+  const pickIssue = (x: Item) => {
+    if (x.scene === null) return;
+    seekScene(x.scene);
+    if (x.field?.startsWith("show")) setTab("screen");
+    else if (x.field) setTab("line");
+    setFocus(x);
   };
 
   // 전체 시간(초) → 장면 번호 + 장면 안 초
@@ -292,13 +362,13 @@ function App() {
     try {
       const t0 = Date.now();
       const r = await api<{ file?: string }>(`/api/ep?e=${epId}&name=${encodeURIComponent(name)}`, { method: "POST", body: JSON.stringify(d.ep) });
-      await runCheck(epId);
+      loadReview(epId);
       await new Promise((ok) => setTimeout(ok, Math.max(0, 450 - (Date.now() - t0)))); // 너무 빨리 사라지지 않게
       setDirty(false);
       say(r.file ? `저장됨 · ${r.file.split("/").slice(-3).join("/")}` : "저장됨");
     } catch (e) { say("저장 실패: " + (e as Error).message); }
     setBusy("");
-  }, [d, epId, runCheck]);
+  }, [d, epId, loadReview]);
   const seekScene = (i: number) => { setSel(i); setCue(null); if (timing) player.current?.seekTo(timing.starts[i] + 1); };
 
   useEffect(() => {
@@ -325,7 +395,9 @@ function App() {
   if (!d || !timing || !timeline) return <div className="empty">불러오는 중</div>;
   const groups: Record<string, EpInfo[]> = {};
   eps.forEach((e) => (groups[e.playlist] ??= []).push(e));
-  const m = issues.summary?.match(/오류 (\d+), 경고 (\d+)/);
+  const nErr = issues.filter((x) => x.level === "error").length;
+  const byScene: Record<number, Item[]> = {};
+  issues.forEach((x) => { if (x.scene !== null) (byScene[x.scene] ??= []).push(x); });
 
   return (
     <div className="app">
@@ -339,15 +411,15 @@ function App() {
         <IconBtn n="redo" label="다시 하기 (⇧⌘Z)" onClick={() => undo(true)} />
         <button data-tip="저장 내역 보기·되돌리기 (저장할 때마다 이전 상태가 남음)" onClick={() => setHistoryOpen(true)}>내역</button>
         <button className="primary" data-tip="장면표 저장 (⌘S) - 저장 전 상태는 내역에 남음" disabled={!dirty || !!busy} onClick={() => setSaveAsk(true)}>저장</button>
-        <button data-tip="대본 검사 다시 하기" onClick={() => runCheck(epId)}>검사</button>
-        {m && <span className="counts"><b className={+m[1] ? "err" : "ok"}>{m[1]}</b> 오류 · <b className="warn">{m[2]}</b> 경고</span>}
+        <button data-tip="검사 다시 하기 (고칠 때마다 저절로 함 - 대본·발음·화면 글자·AI 검수·리듬·길이·확대·목소리)" onClick={() => d.id && runCheck(d.id, d.ep)}>검사</button>
+        <span className="counts" data-tip="저장 안 한 지금 상태 기준">{checking ? <span className="dim">검사 중 </span> : null}<b className={nErr ? "err" : "ok"}>{nErr}</b> 오류 · <b className="warn">{issues.length - nErr}</b> 경고</span>
         <span className="grow" />
       </header>
 
       <aside className="left">
         <TimingSummary d={d} timing={timing} onPick={seekScene} review={review}
           onSrt={async () => { try { const r = await api<{ files: string[]; stale: string[] }>(`/api/srt?e=${epId}`); r.files.forEach((f) => window.open(f)); if (r.stale.length) say(`목소리 만든 뒤 바뀐 대사 ${r.stale.length}곳 - 자막 시간이 어긋남 (장면 ${r.stale.slice(0, 5).join(", ")}…)`); } catch (e) { say((e as Error).message); } }} />
-        <IssueList issues={issues} onPick={seekScene} />
+        <IssueList issues={issues} onPick={pickIssue} />
       </aside>
 
       <section className="stage">
@@ -385,18 +457,18 @@ function App() {
         {tab === "char" ? (
           <CharList ep={d.ep} onPick={seekScene} onEdit={(id) => { setStudioId(id); setGallery(true); }} />
         ) : tab !== "sound" ? (
-          <Inspector part={tab} d={d} sel={sel} cue={cue} timing={timing} issues={issues.byScene[sel] || []} sounds={sounds}
-            update={update} reorder={reorder} edit={edit} removeCue={removeCue} />
+          <Inspector part={tab} d={d} sel={sel} cue={cue} timing={timing} issues={byScene[sel] || []} sounds={sounds}
+            update={update} reorder={reorder} edit={edit} removeCue={removeCue} onFix={fixIssue} focus={focus} />
         ) : (
           <>
-            <Inspector part="sound" d={d} sel={sel} cue={cue} timing={timing} issues={[]} sounds={sounds} update={update} reorder={reorder} edit={edit} removeCue={removeCue} />
+            <Inspector part="sound" d={d} sel={sel} cue={cue} timing={timing} issues={[]} sounds={sounds} update={update} reorder={reorder} edit={edit} removeCue={removeCue} onFix={fixIssue} focus={null} />
             <SoundPanel sounds={sounds} upload={upload}
               onAdd={(s, kind) => (kind === "bgm" ? setMusicAt(s.name, frame / FPS) : addCue(s.src, frame / FPS))} />
           </>
         )}
       </aside>
 
-      <Tracks d={d} timeline={timeline} timing={timing} sel={sel} cue={cue} frame={frame} zoom={zoom} lang={lang} issues={issues.byScene}
+      <Tracks d={d} timeline={timeline} timing={timing} sel={sel} cue={cue} frame={frame} zoom={zoom} lang={lang} issues={byScene}
         onSeek={(f) => player.current?.seekTo(f)} onPick={seekScene}
         onPickCue={(c) => { setSel(c.scene); setCue(c); setTab("sound"); }}
         onMoveCue={moveCue} onDropSound={(src, kind, sec) => (kind === "bgm" ? setMusicAt(src.replace(/^bgm\/|\.wav$/g, ""), sec) : addCue(src, sec))}
@@ -406,8 +478,8 @@ function App() {
         locked={!!d.locked}
         onSfxOff={(i) => { edit((ep) => { ep.scenes[i].sfx = null; }); say(`장면 ${i} 전환음 끔`); }}
         onMusicClear={(i) => { edit((ep) => { delete ep.scenes[i].music; }); say(`장면 ${i} 브금 바꾸기 해제`); }}
-        onSceneDup={(i) => { edit((ep) => { ep.scenes.splice(i + 1, 0, structuredClone(ep.scenes[i])); }, false); setSel(i + 1); setCue(null); }}
-        onSceneDel={(i) => { if (!window.confirm(`장면 ${i}을 지울까요?`)) return; edit((ep) => { ep.scenes.splice(i, 1); }, false); setSel(Math.max(0, Math.min(i, d.ep.scenes.length - 2))); setCue(null); }}
+        onSceneDup={(i) => { edit((ep) => { ep.scenes.splice(i + 1, 0, structuredClone(ep.scenes[i])); }); setSel(i + 1); setCue(null); }}
+        onSceneDel={(i) => { if (!window.confirm(`장면 ${i}을 지울까요?`)) return; edit((ep) => { ep.scenes.splice(i, 1); }); setSel(Math.max(0, Math.min(i, d.ep.scenes.length - 2))); setCue(null); }}
         onHold={(i, hold) => edit((ep) => { const v = Math.round(hold * 10) / 10; if (v > 0) ep.scenes[i].hold = v; else delete ep.scenes[i].hold; })} />
 
       {toast && <div className="toast" role="status">{toast}</div>}
@@ -415,8 +487,8 @@ function App() {
       {busy && <div className="busy" role="status" aria-live="polite"><div className="spinner" /><span>{busy}</span></div>}
       {historyOpen && (
         <HistoryPanel epId={epId} current={d.ep} dirty={dirty} onClose={() => setHistoryOpen(false)}
-          onRestore={(ep, label) => { edit(() => {}, false); setD({ ...d, ep, ...(ep.scenes.length !== d.ep.scenes.length ? { tl: null, durs: null } : {}) }); setDirty(true); setSel(0); setCue(null); setHistoryOpen(false); say(`${label} - 확인하고 저장하면 적용`); }}
-          onDiscard={() => { api<Data>(`/api/ep?e=${epId}`).then((x) => { setD(x); setDirty(false); setSel(0); setCue(null); setHistoryOpen(false); say("저장 안 한 변경을 버림"); }); }} />
+          onRestore={(ep, label) => { replaceEp(ep); setSel(0); setCue(null); setHistoryOpen(false); say(`${label} - 확인하고 저장하면 적용`); }}
+          onDiscard={() => { api<Data>(`/api/ep?e=${epId}`).then((x) => { hist.current = { past: [], future: [], last: 0 }; setD({ ...x, id: epId }); setDirty(false); setSel(0); setCue(null); setHistoryOpen(false); say("저장 안 한 변경을 버림"); }); }} />
       )}
       {gallery && <Studio initialId={studioId} onClose={(changed) => { setGallery(false); if (changed && !dirty) location.reload(); else if (changed) say("저장 후 새로고침하면 영상에 반영"); }} />}
     </div>
@@ -426,7 +498,7 @@ function App() {
 // ---------- 아래 트랙 ----------
 const DRAG_TYPE = "application/x-rwm-sound";
 function Tracks(props: {
-  d: Data; timeline: Timeline; timing: Timing; sel: number; cue: CueSel; frame: number; zoom: number; lang: string; issues: Record<string, Issue[]>;
+  d: Data; timeline: Timeline; timing: Timing; sel: number; cue: CueSel; frame: number; zoom: number; lang: string; issues: Record<number, Item[]>;
   onSeek: (f: number) => void; onPick: (i: number) => void; onPickCue: (c: NonNullable<CueSel>) => void; onMoveCue: (c: NonNullable<CueSel>, sec: number) => void;
   onDropSound: (src: string, kind: string, sec: number) => void; onDropFiles: (files: File[], row: string, sec: number) => void; onHold: (i: number, hold: number) => void;
   onRemoveCue: (c: NonNullable<CueSel>) => void; locked: boolean; onCharEdit: (id: string) => void; onSfxOff: (i: number) => void; onMusicClear: (i: number) => void; onSceneDup: (i: number) => void; onSceneDel: (i: number) => void;
@@ -544,10 +616,10 @@ function Tracks(props: {
       </div>
       {row("scene", "화면",
         d.ep.scenes.map((s, i) => {
-          const bad = (issues[i] || []).some((x) => x.kind === "오류");
+          const bad = (issues[i] || []).some((x) => x.level === "error");
           const show = s.show as { type: string; title?: string; text?: string; name?: string };
           return (
-            <div key={i} className={"clip scene" + (i === sel && !cue ? " sel" : "")} style={{ left: px(timing.starts[i]), width: px(timing.frames[i]), background: TYPE_COLOR[show.type] || "#555" }}
+            <div key={i} className={"clip scene" + (i === sel && !cue ? " sel" : "")} data-tip={`${TYPE_NAME[show.type] || show.type}${bad ? " · 검사 오류 " + (issues[i] || []).filter((x) => x.level === "error").length : ""}`} style={{ left: px(timing.starts[i]), width: px(timing.frames[i]), background: TYPE_COLOR[show.type] || "#555" }}
               onMouseDown={(e) => { if (e.button === 0 && !(e.target as HTMLElement).classList.contains("handle")) props.onPick(i); }}
               onContextMenu={(e) => { props.onPick(i); openMenu(e, [
                 { label: "장면 복제", run: () => props.onSceneDup(i), disabled: props.locked },
@@ -746,16 +818,55 @@ function TimingSummary({ d, timing, onPick, onSrt, review }: { d: Data; timing: 
   );
 }
 
-function IssueList({ issues, onPick }: { issues: { byScene: Record<string, Issue[]>; general: Issue[] }; onPick: (i: number) => void }) {
-  const list = Object.entries(issues.byScene).flatMap(([i, l]) => l.map((x) => ({ i: +i, ...x })));
-  if (!list.length && !issues.general.length) return null;
+// 검사 결과 목록: 검사기(출처)별로 묶음, 누르면 그 장면·칸으로
+function IssueList({ issues, onPick }: { issues: Item[]; onPick: (x: Item) => void }) {
+  if (!issues.length) return null;
+  const groups: Record<string, Item[]> = {};
+  issues.forEach((x) => (groups[x.source] ??= []).push(x));
+  const order = Object.keys(SOURCE_NAME);
+  const keys = Object.keys(groups).sort((a, b) => (order.indexOf(a) + 1 || 99) - (order.indexOf(b) + 1 || 99));
   return (
     <div className="box">
       <h3>검사</h3>
-      <ul className="picks">
-        {list.map((x, k) => <li key={k} className={"iss " + x.kind} onClick={() => onPick(x.i)}><span className="num">{x.i}</span> {x.msg}</li>)}
-        {issues.general.map((g, k) => <li key={"g" + k} className={"iss " + g.kind}>{g.msg}</li>)}
-      </ul>
+      {keys.map((k) => {
+        const l = [...groups[k]].sort((a, b) => (a.level === b.level ? 0 : a.level === "error" ? -1 : 1));
+        const ne = l.filter((x) => x.level === "error").length;
+        return (
+          <details key={k} className="issGroup" open={ne > 0}>
+            <summary>{SOURCE_NAME[k] || k} <span className="dim">{[ne ? `오류 ${ne}` : "", l.length - ne ? `경고 ${l.length - ne}` : ""].filter(Boolean).join(" · ")}</span></summary>
+            <ul className="picks">
+              {l.map((x, n) => (
+                <li key={n} className={"iss " + (x.level === "error" ? "오류" : "경고") + (x.stale ? " stale" : "")} onClick={() => onPick(x)}>
+                  {x.scene !== null && <span className="num">{x.scene}</span>}
+                  {x.lang && <span className="dim">{x.lang} </span>}{x.match ? <mark>{x.match.slice(0, 30)}</mark> : null} {x.msg}
+                </li>
+              ))}
+            </ul>
+          </details>
+        );
+      })}
+    </div>
+  );
+}
+
+// 칸 아래 검사 한 줄: 걸린 곳을 표시하고, 제안이 있으면 "고치기"
+function IssueRow({ x, text, onFix, onShow }: { x: Item; text?: string; onFix: (x: Item, s: string) => void; onShow?: (x: Item) => void }) {
+  const ok = !!(x.span && text !== undefined && text.slice(x.span[0], x.span[1]) === x.match);
+  let snip: React.ReactNode = null;
+  if (ok && x.span && text) {
+    const [a, b] = x.span;
+    const from = Math.max(0, a - 18), to = Math.min(text.length, b + 18);
+    snip = <span className="snip">{from > 0 ? "…" : ""}{text.slice(from, a)}<mark>{text.slice(a, b)}</mark>{text.slice(b, to)}{to < text.length ? "…" : ""}</span>;
+  }
+  return (
+    <div className={"iss " + (x.level === "error" ? "오류" : "경고") + (x.stale ? " stale" : "")} onClick={() => onShow?.(x)}>
+      <span className="src">{SOURCE_NAME[x.source] || x.source}</span> {x.msg}
+      {snip && <div>{snip}</div>}
+      {ok && x.suggest?.length ? (
+        <div className="fixes">{x.suggest.slice(0, 3).map((sg) => (
+          <button key={sg} className="small" data-tip={`"${x.match}" → "${sg}"`} onClick={(e) => { e.stopPropagation(); onFix(x, sg); }}>고치기 → {sg || "(지움)"}</button>
+        ))}</div>
+      ) : null}
     </div>
   );
 }
@@ -861,7 +972,7 @@ function HistoryPanel({ epId, current, dirty, onClose, onRestore, onDiscard }: {
             {!list.length && !dirty && <p className="dim" style={{ padding: 10 }}>아직 저장한 적 없음</p>}
           </nav>
           <section className="histDiff">
-            {changes === null ? <p className="dim">불러오는 중</p> : changes.length === 0 ? <p className="dim">바뀐 것 없음</p> : (
+            {changes === null ? <p className="dim">{pick ? "불러오는 중" : "고를 내역 없음"}</p> : changes.length === 0 ? <p className="dim">바뀐 것 없음</p> : (
               <table className="diff"><tbody>
                 {changes.map((c, k) => (
                   <tr key={k}>
@@ -890,50 +1001,55 @@ function HistoryPanel({ epId, current, dirty, onClose, onRestore, onDiscard }: {
 // ---------- 확대·이동 (시작 → 끝). 확대 한도 = 그림 폭 ÷ 렌더 폭(1440p) - 넘으면 원본을 늘려서 흐려짐 (02 지도 선명도 규칙) ----------
 type V3 = [number, number, number];
 type CamShow = { type: string; img?: string; from: V3; to: V3 };
+type CutShow = { type: "cutout"; map: string; mapFrom: V3; mapTo: V3; img: string; from: V3; to: V3; box: [number, number, number, number] };
 const natCache: Record<string, { w: number; h: number }> = {};
-function Camera({ show, locked, onChange }: { show: CamShow; locked: boolean; onChange: (key: "from" | "to", idx: number, v: number) => void }) {
-  const [nat, setNat] = useState(show.img ? natCache[show.img] : undefined);
+// fit: map = z=1에서 화면 폭을 채움, contain = 화면 안에 맞춤(그림), box = 오린 그림 상자를 덮음(cover)
+function Camera({ title, img, fit, box, a, b, locked, onChange }: {
+  title: string; img?: string; fit: "map" | "contain" | "box"; box?: [number, number, number, number]; a: V3; b: V3; locked: boolean; onChange: (end: 0 | 1, idx: number, v: number) => void;
+}) {
+  const [nat, setNat] = useState(img ? natCache[img] : undefined);
   useEffect(() => {
-    if (!show.img) return;
-    if (natCache[show.img]) return setNat(natCache[show.img]);
+    if (!img) return;
+    if (natCache[img]) return setNat(natCache[img]);
     const im = new Image();
-    im.onload = () => { natCache[show.img!] = { w: im.naturalWidth, h: im.naturalHeight }; setNat(natCache[show.img!]); };
-    im.src = "/" + show.img;
-  }, [show.img]);
-  // 지도는 z=1에서 화면 폭을 채움, 그림은 화면 안에 맞춤(contain)
-  const shownW = nat ? (show.type === "map" ? 1920 : Math.min(1920, (1080 * nat.w) / nat.h)) : 0;
-  const maxZ = nat ? nat.w / (shownW * (2560 / 1920)) : null;
-  const row = (key: "from" | "to", label: string) => (
+    im.onload = () => { natCache[img] = { w: im.naturalWidth, h: im.naturalHeight }; setNat(natCache[img]); };
+    im.src = "/" + img;
+  }, [img]);
+  const shownW = !nat ? 0 : fit === "map" ? 1920 : fit === "box" && box ? nat.w * Math.max((box[2] * 1920) / nat.w, (box[3] * 1080) / nat.h) : Math.min(1920, (1080 * nat.w) / nat.h);
+  const maxZ = nat && shownW ? nat.w / (shownW * (2560 / 1920)) : null;
+  const row = (end: 0 | 1, v3: V3, label: string) => (
     <div className="cam">
       <span className="camLabel">{label}</span>
       {(["x", "y", "확대"] as const).map((n, idx) => {
-        const v = show[key][idx];
+        const v = v3[idx];
         const over = idx === 2 && maxZ !== null && v > maxZ + 0.001;
         return (
           <label key={n} className={"camField" + (over ? " over" : "")} data-tip={idx === 2 ? `확대 배율${maxZ ? ` - 이 그림은 ${maxZ.toFixed(2)}배까지 선명` : ""}` : idx === 0 ? "가로 위치 (0 왼쪽 ~ 1 오른쪽)" : "세로 위치 (0 위 ~ 1 아래)"}>
             <span>{n}</span>
-            <input type="range" disabled={locked} min={idx === 2 ? 0.5 : 0} max={idx === 2 ? 4 : 1} step={idx === 2 ? 0.05 : 0.01} value={v} onChange={(e) => onChange(key, idx, +e.target.value)} />
-            <input type="number" disabled={locked} step={idx === 2 ? 0.05 : 0.01} value={v} onChange={(e) => onChange(key, idx, +e.target.value)} />
+            <input type="range" disabled={locked} min={idx === 2 ? 0.5 : 0} max={idx === 2 ? 4 : 1} step={idx === 2 ? 0.05 : 0.01} value={v} onChange={(e) => onChange(end, idx, +e.target.value)} />
+            <input type="number" disabled={locked} step={idx === 2 ? 0.05 : 0.01} value={v} onChange={(e) => onChange(end, idx, +e.target.value)} />
           </label>
         );
       })}
     </div>
   );
-  const worst = Math.max(show.from[2], show.to[2]);
+  if (!a || !b) return null;
+  const worst = Math.max(a[2], b[2]);
   return (
     <>
-      <label>카메라 {nat && <span className="dim">· 그림 {nat.w}×{nat.h}</span>}</label>
-      {row("from", "시작")}
-      {row("to", "끝")}
+      <label>{title} {nat && <span className="dim">· 그림 {nat.w}×{nat.h}</span>}</label>
+      {row(0, a, "시작")}
+      {row(1, b, "끝")}
       {maxZ !== null && worst > maxZ + 0.001 && <p className="iss 오류">확대 {worst.toFixed(2)}배 - 흐려짐 (이 그림은 {maxZ.toFixed(2)}배까지). 더 당기려면 확대 세트를 따로 캡처</p>}
     </>
   );
 }
 
 // ---------- 오른쪽 장면 탭 ----------
-function Inspector({ part, d, sel, cue, timing, issues, sounds, update, reorder, edit, removeCue }: {
-  part: "line" | "screen" | "sound"; d: Data; sel: number; cue: CueSel; timing: Timing; issues: Issue[]; sounds: Sounds;
+function Inspector({ part, d, sel, cue, timing, issues, sounds, update, reorder, edit, removeCue, onFix, focus }: {
+  part: "line" | "screen" | "sound"; d: Data; sel: number; cue: CueSel; timing: Timing; issues: Item[]; sounds: Sounds;
   update: (fn: (sc: EpScene) => void) => void; reorder: (fn: (s: EpScene[]) => number) => void; edit: (fn: (ep: Ep) => void) => void; removeCue: (c: NonNullable<CueSel>) => void;
+  onFix: (x: Item, s: string) => void; focus: Item | null;
 }) {
   const sc = d.ep.scenes[sel];
   const [showText, setShowText] = useState(JSON.stringify(sc.show));
@@ -947,7 +1063,18 @@ function Inspector({ part, d, sel, cue, timing, issues, sounds, update, reorder,
   }, [sel, sc.show]);
   const langs = timing.langs.filter((l) => l !== "en");
   const sceneSecs = timing.frames[sel] / FPS;
-  const iss = (re: RegExp) => issues.filter((x) => re.test(x.msg)).map((x, k) => <p key={k} className={"iss " + x.kind}>{x.msg}</p>);
+  // 칸마다 그 칸의 검사 결과 (lang·field로 붙임 - 글 앞머리로 고르지 않음)
+  const boxes = useRef<Record<string, HTMLTextAreaElement | null>>({});
+  const select = (x: Item) => {
+    const el = x.field ? boxes.current[x.field] : null;
+    if (!el) return;
+    el.focus();
+    if (x.span && el.value.slice(x.span[0], x.span[1]) === x.match) el.setSelectionRange(x.span[0], x.span[1]);
+  };
+  useEffect(() => { if (focus && focus.scene === sel) window.setTimeout(() => select(focus), 30); }, [focus, sel, part]);
+  const iss = (pick: (x: Item) => boolean, text?: (x: Item) => string | undefined) =>
+    issues.filter(pick).map((x, k) => <IssueRow key={k} x={x} text={text ? text(x) : x.field ? (getAt(sc, x.field) as string | undefined) : undefined} onFix={onFix} onShow={select} />);
+  const lineFields = new Set(["text", ...timing.langs.map((l) => `i18n.${l}`)]);
   const set = (k: string, v: unknown) => update((s) => { if (v === "" || v === undefined) delete s[k]; else s[k] = v; });
   const sfxVal = sc.sfx === null ? "__off" : (sc.sfx as string) || "";
   const charId = (sc.char as string) || ((sc.show as { type: string }).type === "line" ? charForSpeaker(sc.speaker) : "");
@@ -976,7 +1103,8 @@ function Inspector({ part, d, sel, cue, timing, issues, sounds, update, reorder,
   if (part === "screen") return (
     <div className="pane">
       <div className="box grow-box">
-        <h3>화면</h3>
+        <h3>화면 <span className="dim">· {TYPE_NAME[(sc.show as { type: string }).type] || (sc.show as { type: string }).type}</span></h3>
+        {iss((x) => !!x.field?.startsWith("show"))}
         <div className="two">
           <div><label>브금</label>
             <select value={(sc.music as string) || ""} onChange={(e) => set("music", e.target.value)}>
@@ -1013,11 +1141,20 @@ function Inspector({ part, d, sel, cue, timing, issues, sounds, update, reorder,
           </div>
         </div>
         </>}
-        {"from" in (sc.show as object) && "to" in (sc.show as object) && (
-          <Camera show={sc.show as CamShow} locked={locked} onChange={(key, idx, v) => update((s) => { const sh = s.show as CamShow; sh[key] = [...sh[key]] as V3; sh[key][idx] = v; })} />
-        )}
+        {(sc.show as { type: string }).type === "cutout" ? (() => {
+          const sh = sc.show as CutShow;
+          const set3 = (key: "from" | "to" | "mapFrom" | "mapTo", idx: number, v: number) => update((s) => { const x = s.show as CutShow; x[key] = [...x[key]] as V3; x[key][idx] = v; });
+          return <>
+            <Camera title="지도 카메라" img={sh.map} fit="map" a={sh.mapFrom} b={sh.mapTo} locked={locked} onChange={(w, idx, v) => set3(w ? "mapTo" : "mapFrom", idx, v)} />
+            <Camera title="오린 그림 카메라" img={sh.img} fit="box" box={sh.box} a={sh.from} b={sh.to} locked={locked} onChange={(w, idx, v) => set3(w ? "to" : "from", idx, v)} />
+          </>;
+        })() : "from" in (sc.show as object) && "to" in (sc.show as object) && (() => {
+          const sh = sc.show as CamShow;
+          return <Camera title="카메라" img={sh.img} fit={sh.type === "map" ? "map" : "contain"} a={sh.from} b={sh.to} locked={locked}
+            onChange={(w, idx, v) => update((s) => { const x = s.show as CamShow; const key = w ? "to" : "from"; x[key] = [...x[key]] as V3; x[key][idx] = v; })} />;
+        })()}
         <label>show</label>
-        <textarea className="mono fill" rows={4} readOnly={locked} value={showText} onChange={(e) => {
+        <textarea ref={(el) => { for (const x of issues) if (x.field?.startsWith("show")) boxes.current[x.field] = el; }} className="mono fill" rows={4} readOnly={locked} value={showText} onChange={(e) => {
           setShowText(e.target.value);
           try { const v = JSON.parse(e.target.value); setShowErr(""); update((s) => { s.show = v; }); } catch (err) { setShowErr((err as Error).message); }
         }} />
@@ -1029,11 +1166,11 @@ function Inspector({ part, d, sel, cue, timing, issues, sounds, update, reorder,
     <div className="pane">
       <div className="box">
         <div className="boxhead">
-          <h3>장면 {sel}</h3><span className="dim num">{sceneSecs.toFixed(1)}s</span><span className="grow" />
+          <h3>장면 {sel}</h3><span className="dim num">{sceneSecs.toFixed(1)}s</span><span className="dim">· {TYPE_NAME[(sc.show as { type: string }).type] || (sc.show as { type: string }).type}</span><span className="grow" />
           {!locked && <IconBtn n="up" label="위로" onClick={() => reorder((s) => { if (sel > 0) [s[sel - 1], s[sel]] = [s[sel], s[sel - 1]]; return Math.max(0, sel - 1); })} />}
           {!locked && <IconBtn n="down" label="아래로" onClick={() => reorder((s) => { if (sel < s.length - 1) [s[sel + 1], s[sel]] = [s[sel], s[sel + 1]]; return Math.min(s.length - 1, sel + 1); })} />}
           {!locked && <IconBtn n="copy" label="복제" onClick={() => reorder((s) => (s.splice(sel + 1, 0, structuredClone(s[sel])), sel + 1))} />}
-          {!locked && <IconBtn n="plus" label="새 장면" onClick={() => reorder((s) => (s.splice(sel + 1, 0, { role: "narrator", text: "", show: { type: "stamp", text: "" }, i18n: {} } as unknown as EpScene), sel + 1))} />}
+          {!locked && <IconBtn n="plus" label="새 장면" onClick={() => reorder((s) => (s.splice(sel + 1, 0, { role: "narrator", text: "", show: { type: "stamp", text: "✕" }, i18n: {} } as unknown as EpScene), sel + 1))} />}
           {!locked && <IconBtn n="trash" label="장면 삭제" onClick={() => window.confirm(`장면 ${sel}을 지울까요?`) && reorder((s) => (s.splice(sel, 1), Math.min(sel, s.length - 1)))} />}
         </div>
         <table><tbody>
@@ -1051,6 +1188,7 @@ function Inspector({ part, d, sel, cue, timing, issues, sounds, update, reorder,
         </tbody></table>
         <label>여유</label>
         <input type="number" step={0.1} min={0} disabled={locked} value={(sc.hold as number) ?? 0} onChange={(e) => set("hold", +e.target.value > 0 ? +e.target.value : undefined)} />
+        {iss((x) => !x.field || (!lineFields.has(x.field) && !x.field.startsWith("show")))}
       </div>
 
       <div className="box grow-box">
@@ -1063,13 +1201,13 @@ function Inspector({ part, d, sel, cue, timing, issues, sounds, update, reorder,
           <div><label>말하는 사람</label><input disabled={locked} value={(sc.speaker as string) || ""} onChange={(e) => set("speaker", e.target.value)} /></div>
         </div>
         <label>영어</label>
-        <textarea readOnly={locked} value={(sc.text as string) || ""} onChange={(e) => set("text", e.target.value)} />
-        {iss(/^en |화면/)}
+        <textarea ref={(el) => { boxes.current.text = el; }} readOnly={locked} value={(sc.text as string) || ""} onChange={(e) => set("text", e.target.value)} />
+        {iss((x) => x.field === "text")}
         {langs.map((l) => (
           <div key={l}>
             <label>{LANG_NAME[l] || l}</label>
-            <textarea value={sc.i18n?.[l] || ""} onChange={(e) => update((s) => { (s.i18n ??= {})[l] = e.target.value; })} />
-            {iss(new RegExp(`^${l} `))}
+            <textarea ref={(el) => { boxes.current[`i18n.${l}`] = el; }} value={sc.i18n?.[l] || ""} onChange={(e) => update((s) => { (s.i18n ??= {})[l] = e.target.value; })} />
+            {iss((x) => x.field === `i18n.${l}`)}
           </div>
         ))}
       </div>
@@ -1137,7 +1275,8 @@ function Studio({ onClose, initialId = "" }: { onClose: (changed: boolean) => vo
   const [t, setT] = useState(0);
   const [busy, setBusy] = useState(false);
   const [changed, setChanged] = useState(false);
-  const timer = useRef<number>();
+  const timers = useRef<Record<string, number>>({}); // 인물마다 따로 (다른 인물 고친 것을 지우지 않게)
+  const [err, setErr] = useState("");
   useEffect(() => {
     api<Record<string, CharSpec>>("/api/chars").then((c) => { setChars(c); setId(initialId && c[initialId] ? initialId : Object.keys(c)[0] || ""); });
     const h = setInterval(() => setT((x) => x + 1), 1000 / 30);
@@ -1149,12 +1288,18 @@ function Studio({ onClose, initialId = "" }: { onClose: (changed: boolean) => vo
     return () => window.removeEventListener("keydown", k);
   }, [changed, onClose]);
 
+  const pending = useRef(0);
   const push = (cid: string, spec: CharSpec) => {
-    window.clearTimeout(timer.current);
-    timer.current = window.setTimeout(async () => {
-      setBusy(true);
-      const r = await api<{ v: number }>(`/api/char?id=${cid}`, { method: "POST", body: JSON.stringify(spec) });
-      setV(r.v); setBusy(false); setChanged(true);
+    window.clearTimeout(timers.current[cid]);
+    timers.current[cid] = window.setTimeout(async () => {
+      delete timers.current[cid];
+      pending.current++;
+      setBusy(true); setErr("");
+      try {
+        const r = await api<{ v: number }>(`/api/char?id=${cid}`, { method: "POST", body: JSON.stringify(spec) });
+        setV(r.v); setChanged(true);
+      } catch (e) { setErr(`${cid}: ${(e as Error).message}`); }
+      if (--pending.current === 0) setBusy(false);
     }, 350);
   };
   const c = chars[id];
@@ -1170,6 +1315,7 @@ function Studio({ onClose, initialId = "" }: { onClose: (changed: boolean) => vo
       <div className="studioHead">
         <h2>캐릭터</h2>
         {busy && <span className="dim">그리는 중</span>}
+        {err && <span className="iss 오류" role="alert">그리기 실패 - {err}</span>}
         <span className="grow" />
         <IconBtn n="x" label="닫기" onClick={() => onClose(changed)} />
       </div>

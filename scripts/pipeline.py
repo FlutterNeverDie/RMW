@@ -56,6 +56,12 @@ class Ep:
         ids |= {cid for cid, c in spec.items() for s in self.scenes if s.get("speaker", "").upper() in [x.upper() for x in c.get("speakers", [])]}
         return {cid: spec.get(cid) for cid in sorted(ids)}
 
+    # 대사 인물인데 characters.json에 설계(speakers)가 없음 (인물이 0명인 편은 통과)
+    def chars_missing(self):
+        spec = json.loads((CODE / "characters.json").read_text())["characters"]
+        known = {x.upper() for c in spec.values() for x in c.get("speakers", [])}
+        return sorted({s["speaker"] for s in self.scenes if s.get("speaker") and s["speaker"].upper() not in known and s.get("char") != "none"})
+
     def stamped(self, stage, view):
         st = self.stamps.get(stage)
         return bool(st) and st.get("fp") == fp(view)
@@ -87,13 +93,32 @@ def gemini_forecast(e):
     return f"연기 {need}번 필요 · 오늘 남은 무료 {left}번 → 약 {days}일 (캐시된 줄은 빠짐)"
 
 
+# 대본 검사(check-text.py --json)를 규칙 무리별로 세고 + 검토 도장
+def text_check(p):
+    r = subprocess.run(["python3", "scripts/check-text.py", p, "--json"], cwd=CODE, capture_output=True, text=True)
+    try:
+        items = json.loads(r.stdout)
+    except ValueError:
+        return False, "대본 검사기 오류: " + ((r.stderr or r.stdout).strip().splitlines() or ["?"])[-1]
+    gate = [x for x in items if x["level"] == "error" and not x.get("nogate")]
+    count = {}
+    for x in items:
+        k = x.get("group") or x["rule"]
+        c = count.setdefault(k, [0, 0])
+        c[x["level"] != "error"] += 1
+    groups = " · ".join(f"{k} {a}" + (f"+{b}경고" if b else "") if a else f"{k} {b}경고" for k, (a, b) in sorted(count.items(), key=lambda kv: -kv[1][0]))
+    stamp = sh("python3", "scripts/locale-review.py", "gate", p)[0]
+    return not gate and stamp, f"오류 {len(gate)}{' (' + groups + ')' if groups else ''}, 검토 도장 {'있음' if stamp else '없음'}"
+
+
 # (단계, 이름, 담당, 확인 함수 → (통과?, 한 줄 설명), 할 일)
 def stages(e: Ep):
     p = str(e.path)
     return [
         ("plan", "기획: 잘된 영상 분석", "claude",
          lambda: ((e.dir / "plan.md").exists(), "plan.md"),
-         f"같은 주제 조회수 높은 영상(사용자가 준 것 + 별별역사: 도입부·전환·구성, 퍼퍼킴: 캐릭터 연출 - 01 모티브 채널)을 분석해 {e.dir}/plan.md에 구조·길이·훅·장면 리듬 정리"),
+         f"같은 주제 조회수 높은 영상(사용자가 준 것 + 별별역사: 도입부·전환·구성, 퍄퍄킴 역사 https://www.youtube.com/@퍄퍄킴: 캐릭터 연출, "
+         f"Epic History TV: 시리즈·지도 연출, MrBeast: 첫 1분·리텐션 - 01 모티브 채널, docs/guide/07-참고-채널-분석.md)을 분석해 {e.dir}/plan.md에 구조·길이·훅·장면 리듬 정리"),
         ("script", "대본 (영어)", "claude",
          lambda: (sum(1 for s in e.scenes if s.get("text")) > 20, f"대사 {sum(1 for s in e.scenes if s.get('text'))}줄"),
          f"plan.md를 바탕으로 {p} 장면표 작성 (03 만드는 법 4번 형식)"),
@@ -113,7 +138,7 @@ def stages(e: Ep):
          lambda: (all((s.get("i18n") or {}).get(l) for s in e.scenes if s.get("text") for l in e.langs), "모든 언어 대사"),
          "장면표 i18n에 언어별 대사 (번역 말고 현지화, docs/guide/locales)"),
         ("localize", "언어 다듬기", "claude",
-         lambda: (sh("python3", "scripts/check-text.py", p)[0] and sh("python3", "scripts/locale-review.py", "gate", p)[0], "대본 검사 + 검토 도장"),
+         lambda: text_check(p),
          f"/localize {p}"),
         ("length", "길이 맞추기", "claude",
          lambda: sh("python3", "scripts/check-length.py", p),
@@ -122,7 +147,8 @@ def stages(e: Ep):
          lambda: (e.stamped("sound", [e.en(), e.sound()]), "자리 정함"),
          f"장마다 music(분위기), 핵심 순간에만 cues(도장·반전·전투). 전환음은 코드 규칙. 끝나면: python3 scripts/pipeline.py ok {p} sound"),
         ("chars", "캐릭터 만들기", "claude+code",
-         lambda: (bool(e.chars_used()) and all(v and (CODE / "public/chars" / k / "front/head.svg").exists() for k, v in e.chars_used().items()) and sh("python3", "audio/characters.py", "list", p)[0], f"{len(e.chars_used())}명"),
+         lambda: (not e.chars_missing() and all(v and (CODE / "public/chars" / k / "front/head.svg").exists() for k, v in e.chars_used().items()) and sh("python3", "audio/characters.py", "list", p)[0],
+                  f"{len(e.chars_used())}명" + (f", 설계 없음: {', '.join(e.chars_missing())}" if e.chars_missing() else "") if e.chars_used() or e.chars_missing() else "인물 없음"),
          f"python3 audio/characters.py list {p} → 설계 없는 인물을 characters.json에(ko·about 포함) → python3 audio/characters.py build"),
         ("ok2", "확인 2: 캐릭터", "user",
          lambda: (e.stamped("ok2", e.chars_used()), "사용자 확인"),

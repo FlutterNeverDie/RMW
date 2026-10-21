@@ -1,12 +1,12 @@
 # 배역 목소리 오디션: cast.json의 배역마다 대표 대사를 읽혀서 높낮이·울림을 입힌다
 # .venv/bin/python -I audio/cast.py [배역키...]  ->  public/voices/cast/<키>.wav + hwm/tts/배역 목소리/<한글 이름>.wav
 # 목소리는 scripts/tts.mjs로 받는다(무료 한도 지킴이·캐시 그대로). Chirp 3 HD는 높낮이 조절이 안 돼서 여기서 직접 바꾼다
-import json, shutil, subprocess, sys, wave
+import json, os, shutil, subprocess, sys, wave
 from pathlib import Path
 import numpy as np
 
 CODE = Path(__file__).resolve().parent.parent
-HOME = CODE.parent
+HOME = Path(os.environ.get("HWM", Path.home() / "hwm"))  # 산출물 폴더 (저장소 위치와 상관없이)
 CAST = json.loads((CODE / "cast.json").read_text())["roles"]
 RAW = CODE / "audio/.cast-raw"
 OUT = CODE / "public/voices/cast"

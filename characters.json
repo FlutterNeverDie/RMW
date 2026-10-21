@@ -16,11 +16,13 @@
    "eyes": "narrow",
    "mood": "stern",
    "beard": "none",
-   "hat": "none",
+   "hat": "fur",
    "outfit": "deel",
    "cloth": "#4d6b8a",
    "trim": "#c9a24e",
-   "belt": "#8a5a2b"
+   "belt": "#8a5a2b",
+   "hat_color": "#7a2e22",
+   "fur": "#6b4a2e"
   },
   "genghis": {
    "ko": "칭기즈칸",

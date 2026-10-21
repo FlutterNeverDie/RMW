@@ -2,11 +2,12 @@
 // node scripts/deliver.mjs   (목록은 deliver.json, 원본이 더 새것일 때만 다시 복사)
 // 영상은 { src, thumb, dir: "영상", name } - 영상과 썸네일이 같은 이름으로 짝지어진다
 import { copyFile, mkdir, readFile, stat } from "node:fs/promises";
+import { homedir } from "node:os";
 import { extname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const CODE = fileURLToPath(new URL("..", import.meta.url));
-const HOME = resolve(CODE, "..");
+const HOME = process.env.HWM ?? join(homedir(), "hwm"); // 산출물 폴더 (저장소 위치와 상관없이)
 const { items } = JSON.parse(await readFile(join(CODE, "deliver.json"), "utf8"));
 
 const day = (d) => new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10);

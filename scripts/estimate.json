@@ -1,0 +1,10 @@
+{
+ "_설명": "목소리 만들기 전 길이 어림 계수 (내레이터 속도 1.07 기준). 편집기(editor/app.tsx)·check-length·check-pacing이 같이 읽음. gap은 대사 뒤 숨 고르기 - audio/voice_episode.py도 이 값을 읽음",
+ "gap": 0.18,
+ "pause": 0.18,
+ "pause_chars": ".,!?…;:",
+ "en_words_per_sec": 2.7,
+ "cjk_langs": ["ko", "ja", "zh"],
+ "cjk_chars_per_sec": 6.3,
+ "chars_per_sec": 14.5
+}

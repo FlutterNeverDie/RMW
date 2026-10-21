@@ -6,6 +6,7 @@
 #                                                                 목소리 크기 → 프레임별 입 모양(0·1·2) public/ep/<편>/ep/mouth.json
 # 겹은 모두 같은 600×720 판. 머리 겹(head·eyes·mouth)은 영상에서 같이 흔들리고 몸은 숨쉬기만 한다
 # 그림체: 먹선(#2b1d14) + 옛 지도 색(바랜 물감) + 큰 머리. 설계 칸은 characters.json 맨 위 _설명 참고
+# 2026-10-21 그림체 개편(사용자 시안 A): 손으로 그은 듯 흔들리는 먹선, 종이 질감, 지도 톤으로 바랜 색, 2단 그림자
 import json
 import sys
 from pathlib import Path
@@ -18,11 +19,27 @@ W, H = 600, 720
 HX, HY = 300, 285  # 얼굴 가운데
 
 
+# 겹마다 같은 필터(같은 seed)라 머리·눈·입 겹의 선 흔들림이 서로 맞는다
+LOOK = (
+    # 먹선을 손으로 그은 것처럼 살짝 흔들기
+    '<filter id="ink" x="-5%" y="-5%" width="110%" height="110%">'
+    '<feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="3" result="n"/>'
+    '<feDisplacementMap in="SourceGraphic" in2="n" scale="4"/></filter>'
+    # 종이 질감(그림 안쪽에만) + 지도 톤으로 바랜 색(채도 낮추고 따뜻하게)
+    '<filter id="paper" x="0" y="0" width="100%" height="100%">'
+    '<feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="7" result="t"/>'
+    '<feColorMatrix in="t" type="matrix" values="0 0 0 0 0.45  0 0 0 0 0.33  0 0 0 0 0.2  0 0 0 0.5 0" result="tc"/>'
+    '<feComposite in="tc" in2="SourceAlpha" operator="in" result="tx"/>'
+    '<feBlend in="SourceGraphic" in2="tx" mode="multiply" result="m"/>'
+    '<feColorMatrix in="m" type="matrix" values="0.86 0.12 0.02 0 0.02  0.06 0.88 0.06 0 0.01  0.04 0.1 0.8 0 0  0 0 0 1 0"/></filter>'
+)
+
+
 def svg(body, defs=""):
     return (
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}">'
-        f"<defs>{defs}</defs>"
-        f'<g stroke="{INK}" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">{body}</g></svg>'
+        f"<defs>{LOOK}{defs}</defs>"
+        f'<g filter="url(#paper)"><g filter="url(#ink)" stroke="{INK}" stroke-width="7" stroke-linejoin="round" stroke-linecap="round">{body}</g></g></svg>'
     )
 
 
@@ -45,10 +62,12 @@ def body_layer(c):
     torso = "M 70 720 C 80 560 150 488 228 470 L 372 470 C 450 488 520 560 530 720 Z"
     out.append(f'<path d="{torso}" fill="{cloth}"/>')
     out.append(f'<path d="M 470 520 C 505 570 520 640 528 720 L 440 720 C 445 640 450 580 470 520 Z" fill="{dark}" stroke="none"/>')
+    out.append(f'<path d="M 70 720 C 76 640 105 585 145 548 C 130 610 128 670 135 720 Z" fill="{shade(cloth, 1.25)}" stroke="none" opacity=".6"/>')
     # 목
     out.append(f'<path d="M 262 420 L 262 478 Q 300 500 338 478 L 338 420 Z" fill="{shade(c["skin"], 0.85)}"/>')
     if kind == "deel":  # 몽골 옷: 오른쪽으로 여미는 깃
         out.append(f'<path d="M 232 468 C 270 520 330 560 400 600 L 418 574 C 360 540 310 505 282 466 Z" fill="{trim}"/>')
+        out.append(f'<path d="M 296 522 C 336 552 372 576 408 594" fill="none" stroke="{shade(trim, 0.75)}" stroke-width="4"/>')
         out.append(f'<path d="M 368 468 C 360 500 340 525 318 540" fill="none"/>')
         out.append(f'<path d="M 120 690 L 480 690 L 485 720 L 115 720 Z" fill="{c.get("belt", "#c9822e")}"/>')
     elif kind == "armor":  # 비늘 갑옷
@@ -86,11 +105,11 @@ def hair_back(c):
             f'<path d="M {x} 230 C {x - d * 30} 330 {x - d * 30} 430 {x - d * 10} 500 L {x + d * 50} 500 C {x + d * 30} 420 {x + d * 20} 330 {x + d * 40} 260 Z" fill="{hair}"/>'
             for x, d in ((172, 1), (428, -1))
         )
-    if st == "braids":  # 몽골식: 정수리를 밀고 귀 뒤로 땋은 머리
+    if st == "braids":  # 몽골식: 정수리를 밀고 귀 뒤로 땋아 늘어뜨린 고리
         return "".join(
-            f'<path d="M {x} 330 C {x + d * 10} 380 {x + d * 6} 430 {x + d * 14} 470" fill="none" stroke="{hair}" stroke-width="26"/>'
-            f'<path d="M {x} 330 C {x + d * 10} 380 {x + d * 6} 430 {x + d * 14} 470" fill="none" stroke="{INK}" stroke-width="4" stroke-dasharray="8 14"/>'
-            for x, d in ((178, -1), (422, 1))
+            f'<path d="M {300 - d * 142} 300 C {300 - d * 172} 360 {300 - d * 172} 430 {300 - d * 150} 470 C {300 - d * 132} 498 {300 - d * 104} 486 {300 - d * 112} 452 C {300 - d * 120} 420 {300 - d * 122} 370 {300 - d * 104} 330 Z" fill="{hair}"/>'
+            f'<path d="M {300 - d * 150} 400 q {d * 18} 8 {d * 36} 0 M {300 - d * 148} 436 q {d * 16} 8 {d * 32} 0" fill="none" stroke="{shade(hair, 1.3)}" stroke-width="4"/>'
+            for d in (1, -1)
         )
     return ""
 
@@ -101,10 +120,12 @@ def hat(c):
     fur = c.get("fur", "#a07850")
     if kind == "fur":  # 몽골 털모자: 둥근 꼭대기 + 넓은 털 띠
         return (
-            f'<path d="M 200 190 C 200 90 400 90 400 190 Z" fill="{col}"/>'
-            f'<path d="M 300 92 L 300 70" stroke-width="8"/><circle cx="300" cy="64" r="10" fill="{c.get("trim", "#d9b45a")}"/>'
-            f'<path d="M 160 214 C 150 160 450 160 440 214 C 440 238 160 238 160 214 Z" fill="{fur}"/>'
-            + "".join(f'<path d="M {x} 196 l 6 22" stroke="{shade(fur, 0.7)}" stroke-width="4"/>' for x in range(180, 430, 22))
+            f'<path d="M 190 182 C 192 66 408 66 410 182 Z" fill="{col}"/>'
+            f'<path d="M 342 92 C 392 106 410 146 410 182 L 364 182 C 364 146 356 114 342 92 Z" fill="{shade(col, 0.72)}" stroke="none"/>'
+            f'<path d="M 300 72 L 300 48" stroke-width="8"/><circle cx="300" cy="42" r="11" fill="{c.get("trim", "#d9b45a")}"/>'
+            f'<path d="M 150 188 C 165 154 435 154 450 188 C 462 212 444 232 422 228 C 360 214 240 214 178 228 C 156 232 138 212 150 188 Z" fill="{fur}"/>'
+            f'<path d="M 380 168 C 420 172 450 182 450 188 C 462 212 444 232 422 228 C 410 222 395 220 380 218 Z" fill="{shade(fur, 0.75)}" stroke="none"/>'
+            + "".join(f'<path d="M {x} 196 l {6 + (x % 3)} -13" fill="none" stroke="{shade(fur, 1.35)}" stroke-width="4"/>' for x in range(172, 432, 30))
         )
     if kind == "helmet":  # 뾰족 투구 + 목 가리개
         steel = c.get("hat_color", "#8d8f8a")

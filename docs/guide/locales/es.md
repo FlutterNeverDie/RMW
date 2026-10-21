@@ -1,6 +1,7 @@
 # 스페인어 현지화 가이드 (더빙·제목·설명)
 
 사용자는 스페인어를 판단할 수 없다 → 이 문서 + `scripts/check-text.py` 규칙 + Claude 검토(`scripts/locale-review.py` 도장) + AI 음성 검수(`qa-voice.mjs`)로 대신한다.
+기계 규칙은 **`es.rules.json`** (스페인 표현·tú/usted·anglicismos·수동태·숫자·¿¡·발음, 예문 시험 `python3 scripts/check-text.py --selftest`). 이 문서에 새 금지 표현을 넣으면 규칙 파일에도 넣는다
 
 ## 대상
 - **중남미 중립 스페인어** (목소리가 es-US). 멕시코·콜롬비아·아르헨티나 시청자가 다 자연스럽게 듣는 말

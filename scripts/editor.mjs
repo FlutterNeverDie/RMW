@@ -1,24 +1,26 @@
 // 영상 편집기 (내 맥 브라우저에서, AI 없음): npm run editor → http://localhost:4600
 // 캡컷처럼 가운데 영상(실제 렌더와 같은 Episode를 Remotion Player로), 아래 트랙(화면·인물·효과음·브금·언어별 대사), 오른쪽 장면 속성
 // 화면은 editor/app.tsx를 esbuild로 묶어 보냄. 저장하면 ep.json에 바로 씀 (git으로 되돌릴 수 있음)
-// 대본 검사(check-text.py), 캐릭터 만들기(characters.py), 자막 파일(.srt), 장면 그림·영상 뽑기(/api/still·/api/clip)도 여기서
+// 검사(편집 중인 장면표를 그대로 check-text·pacing·length·screen·voice에 넣음), 캐릭터 만들기(characters.py), 자막 파일(.srt)도 여기서
+// 내 맥 브라우저 전용: 다른 사이트가 이 서버에 요청을 못 하게 Host·Origin을 확인
+import { createHash } from "node:crypto";
 import { createServer } from "node:http";
 import { readFile, writeFile, readdir, mkdir, stat, rm } from "node:fs/promises";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
+import { homedir } from "node:os";
 import { extname, join, normalize } from "node:path";
 import { fileURLToPath } from "node:url";
-import { bundle } from "@remotion/bundler";
-import { renderStill, renderMedia, selectComposition } from "@remotion/renderer";
 import { build } from "esbuild";
 
 const CODE = fileURLToPath(new URL("..", import.meta.url));
 const PORT = Number(process.env.PORT || 4600);
 const OUT = join(CODE, "out/editor");
 const run = promisify(execFile);
-const HOME = join(CODE, ".."); // ~/hwm (산출물 폴더)
+const HOME = process.env.HWM ?? join(homedir(), "hwm"); // 산출물 폴더 (저장소 위치와 상관없이)
 // 편의 영상 폴더 (meta.json video 경로의 폴더) + /편집. 없으면 영상/정리 안 됨/<편>/편집
 const editDir = async (e) => {
+  epId(e);
   const meta = JSON.parse(await readFile(join(CODE, "episodes", e, "meta.json"), "utf8").catch(() => "{}"));
   const parts = (meta.video || "").split("/");
   return (parts.length > 2 ? parts.slice(0, -1).join("/") : `영상/정리 안 됨/${e}`) + "/편집";
@@ -52,32 +54,38 @@ const wavSecs = async (file) => {
   }
   return null;
 };
-let serveUrl = null;
-let bundling = null;
-const getBundle = (fresh = false) => {
-  if (fresh) serveUrl = null;
-  if (serveUrl) return Promise.resolve(serveUrl);
-  bundling ??= bundle({ entryPoint: join(CODE, "src/preview.tsx"), publicDir: join(CODE, "public") }).then((u) => ((serveUrl = u), (bundling = null), u));
-  return bundling;
+const epId = (e) => {
+  if (!/^[\w-]+$/.test(e || "")) throw new Error("편 이름이 이상함");
+  return e;
 };
-
-const epPath = (e) => {
-  if (!/^[\w-]+$/.test(e)) throw new Error("편 이름이 이상함");
-  return join(CODE, "episodes", e, "ep.json");
-};
+const epPath = (e) => join(CODE, "episodes", epId(e), "ep.json");
 const timelineOf = async (e) => JSON.parse(await readFile(join(CODE, "public/ep", e, "ep/timeline.json"), "utf8").catch(() => "null"));
 const list = async (dir, ext) => (await readdir(join(CODE, dir)).catch(() => [])).filter((f) => f.endsWith(ext)).map((f) => f.slice(0, -ext.length)).sort();
 
-// 장면 하나 미리보기용: 실제 timeline.json이 있으면 그 길이·목소리, 없으면 대사 길이로 어림
-const sceneForRender = async (e, i, lang) => {
-  const ep = JSON.parse(await readFile(epPath(e), "utf8"));
-  const tl = await timelineOf(e);
-  const sc = ep.scenes[i];
-  const real = tl?.scenes?.[i];
-  const words = (sc.text || "").split(/\s+/).length;
-  const frames = real?.frames ?? Math.max(60, Math.round((words / 2.6) * 30) + 20);
-  const vo = real ? (lang === "en" ? real.vo : real.vo_i18n?.[lang]) ?? null : null;
-  return { scene: { ...sc, vo }, frames };
+// 검사기 하나 돌리기: 장면표를 표준 입력으로 넘기고 --json 결과를 받음. 검사기가 죽으면 "문제 없음"이 아니라 오류 한 줄로
+const PY_VENV = join(CODE, ".venv/bin/python");
+const checker = async (source, script, e, body, py = "python3") => {
+  try {
+    const p = run(py, ["-I", `scripts/${script}`, `episodes/${e}/ep.json`, "--stdin", "--json"], { cwd: CODE, maxBuffer: 64 << 20 });
+    p.child.stdin.end(body);
+    const r = await p;
+    return JSON.parse(r.stdout);
+  } catch (err) {
+    const why = String(err.stderr || err.message || err).trim().split("\n").pop();
+    return [{ scene: null, lang: null, field: null, rule: "crash", group: "검사기", level: "error", source, msg: `${script}가 멈춤: ${why}` }];
+  }
+};
+// 목소리 검사는 wav를 다 읽어 느림 → timeline이 그대로고 영어 대사 순서가 같으면 앞 결과를 씀
+const voiceCache = new Map();
+const voiceCheck = async (e, body, ep) => {
+  const tl = await stat(join(CODE, "public/ep", e, "ep/timeline.json")).catch(() => null);
+  if (!tl || !(await stat(PY_VENV).catch(() => null))) return [];
+  const key = tl.mtimeMs + ":" + createHash("sha1").update(JSON.stringify(ep.scenes.map((s) => s.text ?? null))).digest("hex");
+  const hit = voiceCache.get(e);
+  if (hit?.key === key) return hit.items;
+  const items = await checker("voice", "check-voice.py", e, body, PY_VENV);
+  if (!items.some((x) => x.rule === "crash")) voiceCache.set(e, { key, items });
+  return items;
 };
 
 const api = {
@@ -126,7 +134,7 @@ const api = {
     const ep = JSON.parse(body);
     if (!Array.isArray(ep.scenes)) throw new Error("scenes가 없음");
     // 업로드한 편: 더빙 대사(i18n)·효과음·브금만 바뀌었는지 서버에서도 확인
-    const meta = JSON.parse(await readFile(join(CODE, "episodes", q.e, "meta.json"), "utf8").catch(() => "{}"));
+    const meta = JSON.parse(await readFile(join(CODE, "episodes", epId(q.e), "meta.json"), "utf8").catch(() => "{}"));
     if (meta.uploaded) {
       const fixed = (e) => JSON.stringify(e.scenes.map(({ i18n, sfx, music, cues, ...rest }) => rest));
       const old = JSON.parse(await readFile(epPath(q.e), "utf8"));
@@ -136,7 +144,7 @@ const api = {
     const prev = await readFile(epPath(q.e), "utf8");
     const next = JSON.stringify(ep, null, 1) + "\n";
     if (prev !== next) {
-      const dir = join(CODE, "episodes", q.e, ".history");
+      const dir = join(CODE, "episodes", epId(q.e), ".history");
       await mkdir(dir, { recursive: true });
       const n = new Date(), z = (x) => String(x).padStart(2, "0");
       const stamp = `${n.getFullYear()}-${z(n.getMonth() + 1)}-${z(n.getDate())}T${z(n.getHours())}-${z(n.getMinutes())}-${z(n.getSeconds())}`;
@@ -164,12 +172,12 @@ const api = {
     return { dir, list: files.map((f) => { const m = f.match(/^(\d{2})(\d{2})(\d{2})(\d{2})-(.*)\.json$/); return { id: f, name: m ? m[5] : f, time: m ? `${m[1]}-${m[2]} ${m[3]}:${m[4]}` : "" }; }) };
   },
   "GET /api/edits/one": async (q) => {
-    if (/[\/\\]/.test(q.id || "") || !q.id.endsWith(".json")) throw new Error("편집본 이름이 이상함");
+    if (!q.id || /[\/\\]/.test(q.id) || q.id.startsWith(".") || !q.id.endsWith(".json")) throw new Error("편집본 이름이 이상함");
     return JSON.parse(await readFile(join(HOME, await editDir(q.e), q.id), "utf8"));
   },
   // 내역: 저장할 때마다 남긴 "저장 직전" 장면표 목록 (새것부터)
   "GET /api/history": async (q) => {
-    const dir = join(CODE, "episodes", q.e, ".history");
+    const dir = join(CODE, "episodes", epId(q.e), ".history");
     const files = (await readdir(dir).catch(() => [])).filter((f) => f.endsWith(".json")).sort().reverse();
     return files.map((f) => {
       const [d, t] = f.replace(".json", "").split("T");
@@ -178,47 +186,28 @@ const api = {
   },
   "GET /api/history/one": async (q) => {
     if (!/^[\w.-]+\.json$/.test(q.id || "")) throw new Error("내역 이름이 이상함");
-    return JSON.parse(await readFile(join(CODE, "episodes", q.e, ".history", q.id), "utf8"));
+    return JSON.parse(await readFile(join(CODE, "episodes", epId(q.e), ".history", q.id), "utf8"));
   },
   // 현지화 검토 도장 상태 (scripts/locale-review.py)
   "GET /api/review": async (q) => {
     const r = await run("python3", ["scripts/locale-review.py", "status", epPath(q.e), "--json"], { cwd: CODE }).catch(() => ({ stdout: "{}" }));
     return JSON.parse(r.stdout || "{}");
   },
-  "GET /api/check": async (q) => {
-    const r = await run("python3", ["scripts/check-text.py", epPath(q.e)], { cwd: CODE }).catch((err) => err);
-    const text = r.stdout || "";
-    const byScene = {};
-    const general = [];
-    let kind = "";
-    const lines = text.split("\n");
-    for (let k = 0; k < lines.length; k++) {
-      const h = lines[k].match(/^\[(오류|경고)/);
-      if (h) kind = h[1];
-      const m = lines[k].match(/^  #(\d+) /);
-      if (m) (byScene[m[1]] ??= []).push({ kind, msg: lines[k + 1]?.trim() });
-      else if (/^  \S/.test(lines[k]) && !/^    /.test(lines[k])) general.push({ kind, msg: lines[k].trim() });
-    }
-    return { summary: lines.filter(Boolean).pop(), byScene, general };
-  },
-  "GET /api/still": async (q) => {
-    const { scene, frames } = await sceneForRender(q.e, Number(q.i), q.lang || "en");
-    const serve = await getBundle();
-    const inputProps = { scene, frames };
-    const composition = await selectComposition({ serveUrl: serve, id: "Scene", inputProps });
-    const file = join(OUT, `${q.e}-${q.i}.png`);
-    await renderStill({ composition, serveUrl: serve, output: file, inputProps, frame: Math.min(frames - 1, Number(q.f ?? Math.round(frames * 0.6))), scale: 0.5 });
-    return { url: `/out/${q.e}-${q.i}.png?t=${Date.now()}`, frames };
-  },
-  "GET /api/clip": async (q) => {
-    const lang = q.lang || "en";
-    const { scene, frames } = await sceneForRender(q.e, Number(q.i), lang);
-    const serve = await getBundle();
-    const inputProps = { scene, frames };
-    const composition = await selectComposition({ serveUrl: serve, id: "Scene", inputProps });
-    const file = join(OUT, `${q.e}-${q.i}-${lang}.mp4`);
-    await renderMedia({ composition, serveUrl: serve, codec: "h264", outputLocation: file, inputProps, scale: 0.5, concurrency: 4 });
-    return { url: `/out/${q.e}-${q.i}-${lang}.mp4?t=${Date.now()}`, frames };
+  // 검사: 편집기가 지금 장면표(저장 안 한 것 포함)를 보내면 검사기들에 그대로 넣음. 몸통이 없으면 저장된 파일
+  // 결과는 한 목록 [{scene, lang, field, rule, group, level, msg, span, match, suggest, source}] - 장면 번호는 보낸 장면표 기준
+  "POST /api/check": async (q, body) => {
+    epId(q.e);
+    const text = body || (await readFile(epPath(q.e), "utf8"));
+    const ep = JSON.parse(text);
+    if (!Array.isArray(ep.scenes)) throw new Error("scenes가 없음");
+    const parts = await Promise.all([
+      checker("text", "check-text.py", q.e, text),
+      checker("pacing", "check-pacing.py", q.e, text),
+      checker("length", "check-length.py", q.e, text),
+      checker("zoom", "check-screen.py", q.e, text),
+      voiceCheck(q.e, text, ep),
+    ]);
+    return { items: parts.flat() };
   },
   // 소리 모음: 채널 효과음(sfx/ep) + 내 소리(sfx/my, 끌어다 넣은 것) + 브금(bgm)
   "GET /api/sounds": async () => {
@@ -241,28 +230,33 @@ const api = {
     for (let k = 2; await stat(join(dir, name + ".wav")).catch(() => null); k++) name = `${base}-${k}`;
     const tmp = join(OUT, "upload-" + Date.now());
     await writeFile(tmp, raw);
-    // Remotion에 든 ffmpeg (맥 M칩·인텔 모두), 없으면 설치된 ffmpeg
+    // Remotion에 든 ffmpeg (맥 M칩·인텔 모두), 없으면 설치된 ffmpeg. 실패해도 임시 파일은 지움
     const ff = join(CODE, `node_modules/@remotion/compositor-${process.platform}-${process.arch}`);
     const bin = (await stat(join(ff, "ffmpeg")).catch(() => null)) ? join(ff, "ffmpeg") : "ffmpeg";
-    await run(bin, ["-y", "-loglevel", "error", "-i", tmp, "-ar", "48000", "-ac", "2", "-c:a", "pcm_s16le", join(dir, name + ".wav")], { env: { ...process.env, DYLD_LIBRARY_PATH: ff } });
-    await rm(tmp);
+    try {
+      await run(bin, ["-y", "-loglevel", "error", "-i", tmp, "-ar", "48000", "-ac", "2", "-c:a", "pcm_s16le", join(dir, name + ".wav")], { env: { ...process.env, DYLD_LIBRARY_PATH: ff } });
+    } finally {
+      await rm(tmp, { force: true });
+    }
     return { src: `${kind}/${name}.wav`, name };
   },
   "GET /api/chars": async () => JSON.parse(await readFile(join(CODE, "characters.json"), "utf8")).characters,
-  "POST /api/rebundle": async () => (await buildApp(), await getBundle(true), { ok: true }),
-  // 캐릭터 하나 저장(설계 → characters.json) + 그 인물만 다시 그림. body가 {"_delete": true}면 지움
+  // 캐릭터 하나 저장(설계 → characters.json) + 그 인물만 다시 그림. 그리기가 실패하면 characters.json을 되돌림
   "POST /api/char": async (q, body) => {
     if (!/^[a-z0-9_]+$/.test(q.id || "")) throw new Error("id는 영어 소문자·숫자·_만");
     const file = join(CODE, "characters.json");
-    const all = JSON.parse(await readFile(file, "utf8"));
+    const prev = await readFile(file, "utf8");
+    const all = JSON.parse(prev);
     const spec = JSON.parse(body);
-    if (spec._delete) {
-      delete all.characters[q.id];
-      await rm(join(CODE, "public/chars", q.id), { recursive: true, force: true });
-    } else all.characters[q.id] = spec;
+    if (!spec || typeof spec !== "object" || Array.isArray(spec)) throw new Error("설계가 이상함");
+    all.characters[q.id] = spec;
     await writeFile(file, JSON.stringify(all, null, 1) + "\n");
-    if (!spec._delete) await run("python3", ["audio/characters.py", "build", q.id], { cwd: CODE });
-    serveUrl = null; // 그림·영상 뽑기용 묶음은 다음에 다시
+    try {
+      await run("python3", ["audio/characters.py", "build", q.id], { cwd: CODE });
+    } catch (err) {
+      await writeFile(file, prev);
+      throw new Error("그리기 실패: " + String(err.stderr || err.message).trim().split("\n").pop());
+    }
     await buildApp(); // 말하는 사람 → 캐릭터 연결이 화면 코드에 들어 있음
     return { ok: true, v: Date.now() };
   },
@@ -310,6 +304,14 @@ const api = {
   },
 };
 
+// 이 서버에 올 수 있는 곳: 이 맥의 편집기 화면만 (다른 웹 페이지가 장면표를 덮어쓰거나 파이썬을 돌리지 못하게, DNS 바꿔치기도 막음)
+const HOSTS = new Set([`localhost:${PORT}`, `127.0.0.1:${PORT}`]);
+const ORIGINS = new Set([...HOSTS].map((h) => `http://${h}`));
+const allowed = (req) =>
+  HOSTS.has(req.headers.host || "") &&
+  (!req.headers.origin || ORIGINS.has(req.headers.origin)) &&
+  !["cross-site", "same-site"].includes(req.headers["sec-fetch-site"] || "");
+
 createServer(async (req, res) => {
   const url = new URL(req.url, "http://x");
   const q = Object.fromEntries(url.searchParams);
@@ -317,6 +319,7 @@ createServer(async (req, res) => {
     res.writeHead(code, { "content-type": type });
     res.end(body);
   };
+  if (!allowed(req)) return send(403, JSON.stringify({ error: "이 맥의 편집기 화면에서만" }));
   try {
     const h = api[`${req.method} ${url.pathname}`];
     if (h) {
@@ -335,7 +338,4 @@ createServer(async (req, res) => {
   } catch (err) {
     send(err.code === "ENOENT" ? 404 : 500, JSON.stringify({ error: String(err.message || err) }));
   }
-}).listen(PORT, "127.0.0.1", () => {
-  console.log(`장면 편집기: http://localhost:${PORT}`);
-  getBundle().then(() => console.log("미리보기 준비 끝"));
-});
+}).listen(PORT, "127.0.0.1", () => console.log(`장면 편집기: http://localhost:${PORT}`));

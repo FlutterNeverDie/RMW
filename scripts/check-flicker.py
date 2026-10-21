@@ -1,48 +1,15 @@
 # 렌더 후 깜빡임 검사: 영상을 아주 작은 흑백으로 풀어 프레임마다 변화량을 재고,
 # 장면이 바뀌는 프레임(타임라인 기준 ±2)이 아닌데 화면이 확 바뀌는 곳을 찾는다
 # python3 scripts/check-flicker.py out/mongol-01.mp4 public/ep/mongol-01/ep/timeline.json
-import json, struct, subprocess, sys, zlib
+import json, subprocess, sys
+from pathlib import Path
 import numpy as np
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-def png_frames(stream):
-    """PNG 여러 장이 이어진 바이트(흑백 8비트)를 numpy 배열들로 (Pillow 없이)"""
-    out, i = [], 0
-    while True:
-        i = stream.find(b"\x89PNG\r\n\x1a\n", i)
-        if i < 0:
-            return out
-        j, idat, w = i + 8, b"", 0
-        while True:
-            n, kind = struct.unpack(">I4s", stream[j : j + 8])
-            body = stream[j + 8 : j + 8 + n]
-            if kind == b"IHDR":
-                w, h = struct.unpack(">II", body[:8])
-            elif kind == b"IDAT":
-                idat += body
-            j += 12 + n
-            if kind == b"IEND":
-                break
-        raw = zlib.decompress(idat)
-        img = np.zeros((h, w), np.int32)
-        prev = np.zeros(w, np.int32)
-        for y in range(h):
-            f, row = raw[y * (w + 1)], np.frombuffer(raw[y * (w + 1) + 1 : (y + 1) * (w + 1)], np.uint8).astype(np.int32)
-            cur = np.zeros(w, np.int32)
-            for x in range(w):
-                a = cur[x - 1] if x else 0
-                b, c = prev[x], (prev[x - 1] if x else 0)
-                if f == 0: p = 0
-                elif f == 1: p = a
-                elif f == 2: p = b
-                elif f == 3: p = (a + b) // 2
-                else:
-                    pa, pb, pc = abs(b - c), abs(a - c), abs(a + b - 2 * c)
-                    p = a if pa <= pb and pa <= pc else (b if pb <= pc else c)
-                cur[x] = (row[x] + p) & 255
-            img[y], prev = cur, cur
-        out.append(img.astype(np.float32))
-        i = j
+
+from pngframes import png_frames  # noqa: E402
+
 
 video, tl_path = sys.argv[1], sys.argv[2]
 W, H = 32, 18
@@ -85,4 +52,7 @@ for k, fs in sorted(by.items()):
 for f, d in bad[:8]:
     print(f"튐 {int(f // fps // 60)}:{int(f // fps % 60):02d} (프레임 {f}, 변화 {d:.1f})")
 print(f"검사 {len(frames)}프레임 - " + ("깜빡임 없음" if not bad else f"깜빡임 {len(bad)}곳"))
+# 통과하면 표시 파일을 남긴다 - 업로드(youtube.mjs episode)는 이게 영상보다 새로울 때만 허용
+if not bad:
+    Path(video + ".checked").write_text("ok")
 sys.exit(1 if bad else 0)

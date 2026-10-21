@@ -1,0 +1,129 @@
+{
+ "_설명": "한국어 대사 규칙 (ko.md를 기계가 잡을 수 있게). scripts/check-text.py가 씀, 편집기에 오류로 뜸. 형식은 scripts/langrules.py 머리말. 고치면 python3 scripts/check-text.py --selftest",
+ "lang": "ko",
+ "registers": {
+  "_설명": "문장 끝 말투 분류 - 인물 대사는 한 인물이 한 말투를 지키는지(장면 사이) 봄. 내레이션은 해요체 (02 결정)",
+  "narration": "해요",
+  "speaker_level": "warn",
+  "classes": {
+   "합쇼": {"pattern": "{ㅂ받침}니[다까]|십시오", "position": "sentence_end", "examples": ["초원에 섰습니다.", "어디로 갑니까?"]},
+   "하오": {"pattern": "(?:하오|이오|소|구려|시오|거요)", "position": "sentence_end", "examples": ["내 말을 들으시오!", "그대가 옳소.", "피는 흘리지 않을 거요."]},
+   "해요": {"pattern": "[요죠]", "position": "sentence_end", "examples": ["초원에 섰어요.", "그렇죠?"]},
+   "반말": {"pattern": "(?:다|냐|니|라|자|어|아|야|지|군|구나|네|거든)", "position": "sentence_end", "examples": ["우리가 이긴다!", "어디로 가냐?", "가자!", "내가 왕이야."]}
+  }
+ },
+ "rules": [
+  {
+   "id": "ko-hapsyo", "group": "말투", "kind": "style", "level": "error", "scope": "narration", "position": "anywhere",
+   "pattern": "([가-힣]?)({ㅂ받침})니(다|까)",
+   "fix": "ko_hapsyo",
+   "msg": "내레이션 합쇼체(~니다) - 채널 말투는 해요체(~요/~죠). 문장 중간(~습니다만, ~했습니다,)도 같이",
+   "bad": ["초원의 모든 부족 앞에 섰습니다.", "강했습니다만, 결국 졌어요.", "그것이 시작입니다.", "몽골군은 강했습니다, 그리고 빨랐어요."],
+   "good": ["초원의 모든 부족 앞에 섰어요.", "사람들은 그를 칭기즈칸이라 불렀죠.", "그가 다녔던 길이에요."],
+   "fixes": [["초원의 모든 부족 앞에 섰습니다.", "초원의 모든 부족 앞에 섰어요."], ["그것이 시작입니다.", "그것이 시작이에요."], ["다음은 나라입니다.", "다음은 나라예요."], ["모두가 도망칩니다.", "모두가 도망쳐요."], ["이것이 끝이 아닙니다.", "이것이 끝이 아니에요."], ["누가 이겼습니까?", "누가 이겼나요?"], ["이렇게 됩니다.", "이렇게 돼요."]]
+  },
+  {
+   "id": "ko-hapsyo-imperative", "group": "말투", "kind": "style", "level": "error", "scope": "narration", "position": "anywhere",
+   "pattern": "십시오", "suggest": ["세요"],
+   "msg": "내레이션 합쇼체 명령(~십시오) → ~세요",
+   "bad": ["지도를 보십시오."], "good": ["지도를 보세요."],
+   "fixes": [["지도를 보십시오.", "지도를 보세요."]]
+  },
+  {
+   "id": "ko-geosida", "group": "말투", "kind": "style", "level": "error", "scope": "narration", "position": "anywhere",
+   "pattern": "(것이|거)다(?=[\"'”’]*(?:[.!?…,]|\\s|$))",
+   "suggest": ["거예요"],
+   "msg": "내레이션 해라체(~것이다) - 해요체로 (~거예요/~거죠)",
+   "bad": ["그게 몽골의 힘이었던 것이다.", "이게 다 계획이었던 거다."],
+   "good": ["그게 몽골의 힘이었던 거예요.", "그것이 다른 길이었어요."],
+   "fixes": [["그게 몽골의 힘이었던 것이다.", "그게 몽골의 힘이었던 거예요."]]
+  },
+  {
+   "id": "ko-haera", "group": "말투", "kind": "style", "level": "error", "scope": "narration", "position": "sentence_end",
+   "pattern": "([가-힣]?)(았|었|였|했|겠|있|없|{ㄴ받침}|는|이)다",
+   "except": ["것이다", "거다", "우간다|르완다|판다|아만다|안다만"],
+   "fix": "ko_haera",
+   "msg": "내레이션 해라체(~다) 끝맺음 - 해요체(~요/~죠)로",
+   "bad": ["그는 칸이 되었다.", "아무도 돌아오지 못했다.", "몽골군이 몰려온다!", "이것이 끝이다."],
+   "good": ["그는 칸이 되었어요.", "1206년.", "그리고 바다.", "몽골군이 몰려와요!"],
+   "fixes": [["그는 칸이 되었다.", "그는 칸이 되었어요."], ["몽골군이 몰려온다!", "몽골군이 몰려와요!"], ["이것이 끝이다.", "이것이 끝이에요."], ["모두 그 길로 간다.", "모두 그 길로 가요."], ["아무도 살아남지 못한다.", "아무도 살아남지 못해요."]]
+  },
+  {
+   "id": "ko-da-end", "group": "말투", "kind": "style", "level": "warn", "scope": "narration", "position": "sentence_end",
+   "pattern": "[가-힣]다",
+   "except": ["바다", "{ㅂ받침}니다"],
+   "msg": "내레이션이 \"~다\"로 끝남 - 해요체가 맞는지",
+   "bad": ["그 땅은 넓고 춥다."], "good": ["끝없는 바다.", "그 땅은 넓고 추워요."]
+  },
+  {
+   "id": "ko-banmal", "group": "말투", "kind": "style", "level": "warn", "scope": "narration", "position": "sentence_end",
+   "pattern": "(?:거야|이야|잖아|{ㅆ받침}(?:어|지)|구나|는군|거든)",
+   "msg": "내레이션 반말 끝맺음 - 해요체(~요/~죠)로",
+   "bad": ["그게 바로 칭기즈칸이야.", "다들 도망쳤지."], "good": ["그게 바로 칭기즈칸이에요.", "다들 도망쳤죠."]
+  },
+  {
+   "id": "ko-iyeot-batchim", "group": "맞춤법", "kind": "style", "level": "error", "scope": "all", "position": "anywhere",
+   "pattern": "({받침})이였", "suggest": ["\\1이었"],
+   "msg": "\"이였\" → \"이었\" (받침 뒤)",
+   "bad": ["그는 칸이였어요."], "good": ["그는 칸이었어요."],
+   "fixes": [["그는 칸이였어요.", "그는 칸이었어요."]]
+  },
+  {
+   "id": "ko-iyeot-vowel", "group": "맞춤법", "kind": "style", "level": "error", "scope": "all", "position": "anywhere",
+   "pattern": "({무받침})이였", "suggest": ["\\1였"],
+   "msg": "\"이였\" → \"였\" (받침 없는 말 뒤)",
+   "bad": ["그건 함정이 아니라 미끼이였죠."], "good": ["그건 미끼였죠."],
+   "fixes": [["그건 미끼이였죠.", "그건 미끼였죠."]]
+  },
+  {
+   "id": "ko-geudeul", "group": "번역투", "kind": "style", "level": "warn", "scope": "all", "position": "anywhere",
+   "pattern": "그들[은는이의을에]",
+   "msg": "번역투 \"그들\" - 주어를 빼거나 \"몽골군은\"처럼 이름으로",
+   "bad": ["그들은 초원을 건넜어요."], "good": ["몽골군은 초원을 건넜어요."]
+  },
+  {
+   "id": "ko-uihae", "group": "번역투", "kind": "style", "level": "warn", "scope": "all", "position": "anywhere",
+   "pattern": "에 의해서?",
+   "msg": "번역투 \"~에 의해\" - 능동으로 (\"몽골군이 무너뜨렸어요\")",
+   "bad": ["성은 몽골군에 의해 무너졌어요."], "good": ["몽골군이 성을 무너뜨렸어요."]
+  },
+  {
+   "id": "ko-geosieot", "group": "번역투", "kind": "style", "level": "warn", "scope": "all", "position": "anywhere",
+   "pattern": "(?:{ㄴ받침}|던) 것이었",
+   "msg": "번역투 \"~하는 것이었\" - \"~했어요\"처럼 바로",
+   "bad": ["그가 원한 건 복수를 하는 것이었어요."], "good": ["그는 복수를 원했어요."]
+  },
+  {
+   "id": "ko-gajigo", "group": "번역투", "kind": "style", "level": "warn", "scope": "all", "position": "anywhere",
+   "pattern": "(?:을|를) 가지고 있",
+   "msg": "번역투 \"~을 가지고 있다\"(have) - \"~이 있었어요\"처럼",
+   "bad": ["몽골군은 활을 가지고 있었어요."], "good": ["몽골군에겐 활이 있었어요."]
+  },
+  {
+   "id": "ko-man", "group": "숫자", "kind": "style", "level": "warn", "scope": "all", "position": "anywhere",
+   "pattern": "(?<![\\d.,])\\d{1,3}(?:,\\d{3})+(?![\\d,])|(?<![\\d.,])\\d{5,}(?![\\d,])",
+   "fix": "ko_man",
+   "msg": "큰 숫자는 \"만\" 단위로 (100,000명 → 10만 명)",
+   "bad": ["100,000명이 죽었어요.", "군사는 25000명이었어요."], "good": ["10만 명이 죽었어요.", "5,000명이 남았어요.", "1206년이었어요."],
+   "fixes": [["100,000명이 죽었어요.", "10만 명이 죽었어요."], ["1,500,000명", "150만 명"], ["군사 25,000명", "군사 2만 5,000명"]]
+  },
+  {
+   "id": "ko-latin", "group": "발음", "kind": "pron", "level": "warn", "scope": "all", "position": "anywhere",
+   "pattern": "[A-Za-z]+",
+   "msg": "한국어 대사에 로마자 - TTS가 영어로 읽거나 철자로 읽음. 한글로 쓰거나 audio/pron.json에",
+   "bad": ["Khan이 됐어요."], "good": ["칸이 됐어요."]
+  },
+  {
+   "id": "ko-number", "group": "발음", "kind": "pron", "level": "warn", "scope": "all", "position": "anywhere",
+   "pattern": "(?<![\\d,.제])\\d+(?:[.,]\\d+)*(?!\\s*(?:[,.]?\\d|편|회|등|째|부|장|의|년|명|만|천|억|조|세기|세|살|월|일|개|번|킬로|km|미터|m\\b|배|척|%|퍼센트|대|기|권|차|위|호|층|채|마리|곳|가지|시간|분|초|리|달|주|여|부대|군데|겹|줄|칸|자루|발|필))",
+   "msg": "단위 없는 숫자 - TTS가 어떻게 읽을지 확인 (\"1206년\"처럼 단위를 붙이거나 한글로)",
+   "bad": ["숫자는 3."], "good": ["1206년이었어요.", "10만 명", "3배나 많았죠.", "제2의 알렉산드로스", "1편 보셨으면"]
+  },
+  {
+   "id": "ko-paren", "group": "발음", "kind": "pron", "level": "warn", "scope": "all", "position": "anywhere",
+   "pattern": "[()\\[\\]（）]|[~/&*#@]",
+   "msg": "괄호·기호는 TTS가 읽거나 이상하게 끊음 - 말로 풀어 쓰기",
+   "bad": ["테무친(칭기즈칸)이 왔어요.", "1만~2만 명"], "good": ["테무친, 훗날의 칭기즈칸이 왔어요."]
+  }
+ ]
+}

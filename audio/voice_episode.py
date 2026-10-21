@@ -11,7 +11,7 @@ FPS = 30
 # 언어별 TTS 지역 코드 (Chirp 3 HD는 같은 목소리 이름을 여러 언어로 쓸 수 있다)
 LOC = {"en": None, "ko": "ko-KR", "es": "es-US", "ja": "ja-JP", "pt": "pt-BR", "hi": "hi-IN", "fr": "fr-FR", "de": "de-DE", "id": "id-ID", "ar": "ar-XA", "zh": "cmn-CN"}
 LANG_NAME = {"en": "English", "ko": "Korean", "es": "Spanish", "ja": "Japanese", "pt": "Brazilian Portuguese", "hi": "Hindi", "fr": "French", "de": "German", "id": "Indonesian", "ar": "Arabic", "zh": "Mandarin Chinese"}
-GAP = 0.18  # 대사 사이 숨 고르기(초) - 빠른 유튜브 호흡
+GAP = json.loads((Path(__file__).resolve().parent.parent / "scripts/estimate.json").read_text())["gap"]  # 대사 사이 숨 고르기(초) - 편집기·길이 검사와 같은 값
 src = Path(sys.argv[1])
 ep = json.loads(src.read_text())
 out = C.CODE / "public/ep" / src.parent.name / src.stem
@@ -42,7 +42,7 @@ def ko_years(text):
 
 
 def voice_line(r, text, lang, raw, extra=""):
-    """배역 r이 text를 lang으로 말한 원본 wav를 raw에. 연기(Gemini)면 True"""
+    """배역 r이 text를 lang으로 말한 원본 wav를 raw에. 만든 모델 이름을 돌려준다 (Gemini 모델 이름 또는 "chirp")"""
     for word, sound in PRON.get(lang, {}).items():
         text = text.replace(word, sound)
     if lang == "ko":
@@ -53,15 +53,17 @@ def voice_line(r, text, lang, raw, extra=""):
         for model in ("gemini-3.8-flash-tts", "gemini-3.1-flash-tts-preview"):
             g = subprocess.run(["node", str(C.CODE / "scripts/gemini-tts.mjs"), "say", f"{r['direction']}{pace} Language: {LANG_NAME[lang]}. {extra}", text, str(raw), r["voice"].split("-")[-1], model], capture_output=True, text=True)
             if g.returncode == 0:
-                return True
+                return model
     subprocess.run(["node", str(C.CODE / "scripts/tts.mjs"), "say", text, str(raw), voice, str(r["rate"])], check=True, capture_output=True)
-    return False
+    return "chirp"
 
 
 scenes = []
 fallback = []  # 연기(Gemini)해야 하는데 한도로 Chirp가 대신한 줄
 for i, s in enumerate(ep["scenes"]):
-    sc = {**s, "vo": None, "vo_i18n": {}, "acted": False, "dur": {}}
+    sc = {**s, "vo": None, "vo_i18n": {}, "acted": False, "dur": {}, "engine": {}}
+    if s["show"]["type"] == "mapscene":  # 기울인 지도 장면: 찍은 연속 그림 폴더 (scripts/map-scene.mjs가 이 장면 frames만큼 찍음)
+        sc["show"] = {**s["show"], "dir": f"ep/{src.parent.name}/maps/{s['show']['scene']}"}  # engine = 언어별로 목소리를 만든 모델 (끝 지지직 등 모델별 문제 추적, 2026-10-21)
     secs = s["show"].get("seconds", 0)
     if s.get("text"):
         r = C.CAST[s["role"]]
@@ -70,7 +72,8 @@ for i, s in enumerate(ep["scenes"]):
             if not text:
                 raise SystemExit(f"장면 {i} {lang} 대사 없음")
             raw = raw_dir / f"{src.parent.name}-{src.stem}-{lang}-{i:02d}.wav"
-            acted = voice_line(r, text, lang, raw, s.get("direction", ""))
+            sc["engine"][lang] = voice_line(r, text, lang, raw, s.get("direction", ""))
+            acted = sc["engine"][lang] != "chirp"
             if r.get("direction") and not acted:
                 fallback.append(f"{i}{lang}")
             x, sr = C.read(raw)

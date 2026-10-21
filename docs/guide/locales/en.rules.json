@@ -1,0 +1,30 @@
+{
+ "_설명": "영어 대사 규칙 - 지금은 TTS 발음 위험만 (말투는 대본 단계에서 Claude가 봄). scripts/check-text.py가 씀",
+ "lang": "en",
+ "rules": [
+  {
+   "id": "en-paren", "group": "발음", "kind": "pron", "level": "warn", "scope": "all", "position": "anywhere",
+   "pattern": "[()\\[\\]]|[~/&*#@]",
+   "msg": "괄호·기호는 TTS가 읽거나 이상하게 끊음 - 말로 풀어 쓰기",
+   "bad": ["Temüjin (later Genghis Khan) rode out."], "good": ["Temüjin, the future Genghis Khan, rode out."]
+  },
+  {
+   "id": "en-abbr", "group": "발음", "kind": "pron", "level": "warn", "scope": "all", "position": "anywhere",
+   "pattern": "\\b(?:c\\.|ca\\.|approx\\.|vs\\.|etc\\.|e\\.g\\.|i\\.e\\.|St\\.|Mt\\.|Dr\\.)(?=\\s|$)",
+   "msg": "줄임말 - TTS가 철자로 읽을 수 있음, 풀어 쓰기 (c. → around)",
+   "bad": ["He was born c. 1162."], "good": ["He was born around 1162."]
+  },
+  {
+   "id": "en-caps", "group": "발음", "kind": "pron", "level": "warn", "scope": "all", "position": "anywhere",
+   "pattern": "\\b(?![IVXL]+\\b)(?!AD\\b|BC\\b)[A-Z]{2,}\\b",
+   "msg": "대문자 줄임말 - TTS가 철자로 읽음 (강조라면 소문자로)",
+   "bad": ["They did NOT stop."], "good": ["They did not stop.", "In 1223 AD."]
+  },
+  {
+   "id": "en-roman", "group": "발음", "kind": "pron", "level": "warn", "scope": "all", "position": "anywhere",
+   "pattern": "\\b[IVXL]{2,}\\b",
+   "msg": "로마 숫자 - TTS 읽기 확인, 필요하면 audio/pron.json",
+   "bad": ["Muhammad II fled."], "good": ["Muhammad the Second fled."]
+  }
+ ]
+}
