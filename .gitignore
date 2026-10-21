@@ -20,3 +20,11 @@ public/shots/
 episodes/*/.history/
 audio/.gemini-usage.json
 __pycache__/
+# 로컬 AI 모델 (setup.sh가 받음)
+models/
+# 지도 장면 지형 원본 자료(Natural Earth·ETOPO, 퍼블릭 도메인 - 크다, scripts/terrain.mjs가 받음)와 가공물
+data/geo/
+# 브금 wav는 audio/make_bgm.py로 다시 만든다 (14곡 약 200MB, setup.sh가 렌더)
+public/bgm/*.wav
+# 옛 그림 깊이 지도 캐시 (scripts/parallax.py)
+audio/.depth/

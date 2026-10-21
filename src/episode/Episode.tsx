@@ -14,7 +14,8 @@ type V3 = [number, number, number];
 type Label = { text: string; x: number; y: number; at?: number; big?: boolean; tone?: "accent" | "dark" };
 type Show =
   | { type: "map"; img: string; from: V3; to: V3; labels?: Label[]; pins?: Label[]; grade?: "dark" }
-  | { type: "art"; img: string; from: V3; to: V3; name?: string; sub?: string; grade?: "dark" }
+  // parallax(깊이 효과 세기, 예: 0.06)를 주면 옛 그림 2.5D - scripts/parallax.py가 찍은 연속 그림(dir)을 쓴다
+  | { type: "art"; img: string; from: V3; to: V3; name?: string; sub?: string; grade?: "dark"; parallax?: number; dir?: string }
   // 옛 그림을 찢은 종이처럼 오려 지도 위에 (2026-10-21 사용자: 캐릭터 A + 옛 그림 B 섞기). box = 화면 비율 [x, y, 너비, 높이]
   | { type: "cutout"; map: string; mapFrom: V3; mapTo: V3; img: string; from: V3; to: V3; box: [number, number, number, number]; rot?: number }
   | { type: "lapse"; set: string; years: number[] }
@@ -193,15 +194,17 @@ const Cutout = ({ s, frames }: { s: Extract<Show, { type: "cutout" }>; frames: n
   );
 };
 
-const MapScene = ({ s }: { s: Extract<Show, { type: "mapscene" }> }) => {
+// 미리 찍어 둔 연속 그림 (기울인 지도 장면·옛 그림 2.5D) - 프레임 번호 = 그림 번호
+const FrameSeq = ({ dir }: { dir?: string }) => {
   const f = useCurrentFrame();
   return (
     <AbsoluteFill style={{ background: "#0d0b08" }}>
-      <Img decoding="sync" src={staticFile(`${s.dir}/${String(f).padStart(5, "0")}.jpg`)} style={{ width: "100%", height: "100%" }} />
+      <Img decoding="sync" src={staticFile(`${dir}/${String(f).padStart(5, "0")}.jpg`)} style={{ width: "100%", height: "100%" }} />
       <Vignette dark />
     </AbsoluteFill>
   );
 };
+const MapScene = ({ s }: { s: Extract<Show, { type: "mapscene" }> }) => <FrameSeq dir={s.dir} />;
 
 const Lapse = ({ s, frames }: { s: Extract<Show, { type: "lapse" }>; frames: number }) => {
   const f = useCurrentFrame();
@@ -365,6 +368,7 @@ const Shot = ({ sc, vo }: { sc: Scene; vo?: string | null }) => {
 const ShotOnly = ({ sc, vo }: { sc: Scene; vo?: string | null }) => {
   const s = sc.show;
   if (s.type === "map") return <MapShot s={s} frames={sc.frames} />;
+  if (s.type === "art" && s.parallax && s.dir) return <FrameSeq dir={s.dir} />;
   if (s.type === "art") return <ArtShot s={s} frames={sc.frames} />;
   if (s.type === "cutout") return <Cutout s={s} frames={sc.frames} />;
   if (s.type === "mapscene") return <MapScene s={s} />;

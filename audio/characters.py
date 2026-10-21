@@ -302,6 +302,54 @@ def mouth_layer(level, c, view, expr):
     ))
 
 
+# 발음 입 모양 9개 (Rhubarb Lip Sync 기호, 2026-10-21): 목소리를 음소로 풀어 프레임마다 고른다
+#   X 쉼 · A 입술 닫힘(ㅁ·ㅂ·ㅍ, M·B·P) · B 살짝 벌림(대부분 자음) · C 벌림(에·애) · D 크게(아)
+#   E 둥글게(오·어) · F 오므림(우·W) · G 윗니가 아랫입술(F·V) · H 혀 올림(L)
+VISEMES = "XABCDEFGH"
+
+
+def viseme_layer(code, c, view, expr):
+    if code == "X":
+        return mouth_layer(0, c, view, expr)
+    if expr == "shocked":  # 놀람은 모양과 상관없이 둥근 입, 크기만 따라감
+        ry = {"A": 10, "B": 13, "F": 12, "G": 13}.get(code, 20)
+        return svg(feat(view, f'<ellipse cx="300" cy="{372 + ry * 0.3}" rx="{12 + ry * 0.2}" ry="{ry}" fill="#5a1f19"/>'))
+    lip = shade(c["skin"], 0.62)
+    up = -6 if expr == "happy" else (3 if expr == "sad" else 0)  # 입꼬리
+    top = 366
+    if code == "A":  # 닫힌 입술: 조금 도톰한 한 줄
+        return svg(feat(view, f'<path d="M 278 {370 + up} Q 300 374 322 {370 + up}" fill="none" stroke-width="7"/>'
+                              f'<path d="M 284 376 Q 300 381 316 376" fill="none" stroke="{lip}" stroke-width="4"/>'))
+    # 모양별 (반너비, 높이, 윗니, 아랫니, 혀, 둥글기)
+    w, h, teeth_t, teeth_b, tongue, rnd = {
+        "B": (22, 9, True, True, False, 0),
+        "C": (26, 18, True, False, False, 0),
+        "D": (28, 32, True, False, True, 0),
+        "E": (19, 22, False, False, True, 0.6),
+        "F": (11, 13, False, False, False, 1),
+        "G": (22, 10, True, False, False, 0),
+        "H": (24, 22, True, False, True, 0),
+    }[code]
+    if expr == "angry":
+        w, teeth_b = w + 4, True
+    cy = top + h / 2
+    if rnd:  # 둥근 입은 타원 + 두꺼운 입술 테
+        body = f'<ellipse cx="300" cy="{cy}" rx="{w}" ry="{h / 2 + 2}" fill="#5a1f19"/><ellipse cx="300" cy="{cy}" rx="{w + 5}" ry="{h / 2 + 6}" fill="none" stroke="{lip}" stroke-width="5"/>'
+    else:
+        body = f'<path d="M {300 - w} {top + up} Q 300 {top - 6} {300 + w} {top + up} Q {300 + w * 0.75} {top + h} 300 {top + 2 + h} Q {300 - w * 0.75} {top + h} {300 - w} {top + up} Z" fill="#5a1f19"/>'
+    if tongue:
+        body += f'<ellipse cx="300" cy="{top + h * 0.8}" rx="{w * 0.55}" ry="{max(4, h * 0.22)}" fill="#c5534a" stroke="none"/>'
+    if teeth_t:
+        body += f'<path d="M {300 - w + 6} {top + 1} L {300 + w - 6} {top + 1} L {300 + w - 8} {top + min(8, h * 0.45)} L {300 - w + 8} {top + min(8, h * 0.45)} Z" fill="#fbf4e4" stroke="none"/>'
+    if teeth_b:
+        body += f'<path d="M {300 - w + 9} {top + h - 4} L {300 + w - 9} {top + h - 4} L {300 + w - 11} {top + h} L {300 - w + 11} {top + h} Z" fill="#fbf4e4" stroke="none"/>'
+    if code == "G":  # 아랫입술을 윗니가 문다
+        body += f'<path d="M {300 - w + 2} {top + h} Q 300 {top + h + 8} {300 + w - 2} {top + h}" fill="none" stroke="{lip}" stroke-width="6"/>'
+    if not rnd:
+        body += f'<path d="M {300 - w} {top + up} Q 300 {top - 6} {300 + w} {top + up}" fill="none" stroke="{lip}" stroke-width="3"/>'
+    return svg(feat(view, body))
+
+
 def body_for(c, view):
     b = body_layer(c)
     # 옆모습은 몸을 살짝 돌린 느낌으로 (가로 0.94배, 오른쪽으로)
@@ -327,6 +375,7 @@ def build(ids=None):
                 "eyes0": eyes_layer(c, False, view, expr),
                 "eyes1": eyes_layer(c, True, view, expr),
                 **{f"mouth{k}": mouth_layer(k, c, view, expr) for k in range(3)},
+                **{f"mouth{v}": viseme_layer(v, c, view, expr) for v in VISEMES},
             }
             for name, text in files.items():
                 (pd / f"{name}.svg").write_text(text)
@@ -349,8 +398,35 @@ def needed(ep_path):
         print(f"  {n:24} {'→ ' + hit[0] if hit else '설계 없음'}")
 
 
+RHUBARB = Path.home() / "src/rhubarb/rhubarb"
+
+
+def visemes(wav, text, lang, fps):
+    """Rhubarb로 목소리 → 프레임마다 입 모양 글자(X·A~H). 영어는 대사 글로 음소를 맞추고, 다른 언어는 소리만으로(phonetic)"""
+    import subprocess, tempfile
+
+    with tempfile.TemporaryDirectory() as tmp:
+        cmd = [str(RHUBARB), "-q", "--machineReadable", "-f", "tsv", "--extendedShapes", "GHX"]
+        if lang == "en" and text:
+            dialog = Path(tmp) / "d.txt"
+            dialog.write_text(text)
+            cmd += ["-d", str(dialog)]
+        else:
+            cmd += ["-r", "phonetic"]
+        out = subprocess.run(cmd + [str(wav)], capture_output=True, text=True, check=True).stdout
+    cues = [(float(t), v) for t, v in (l.split("\t") for l in out.strip().splitlines())]
+    with __import__("wave").open(str(wav)) as w:
+        n = int(w.getnframes() / w.getframerate() * fps) + 1
+    res, k = [], 0
+    for f in range(n):
+        while k + 1 < len(cues) and cues[k + 1][0] <= f / fps:
+            k += 1
+        res.append(cues[k][1] if cues else "X")
+    return "".join(res)
+
+
 def mouth(ep_path):
-    """목소리 wav → 프레임마다 입 모양 0(닫힘)·1·2(크게). 장면 길이·fps는 timeline.json 기준"""
+    """목소리 wav → 프레임마다 입 모양. Rhubarb가 있으면 발음 입 모양 9개(X·A~H), 없으면 크기로 0(닫힘)·1·2(크게). 장면 길이·fps는 timeline.json 기준"""
     import wave
 
     import numpy as np
@@ -361,12 +437,19 @@ def mouth(ep_path):
     fps = tl["fps"]
     res = {}
     for sc in tl["scenes"]:
-        for path in [sc.get("vo"), *(sc.get("vo_i18n") or {}).values()]:
+        langs = [("en", sc.get("vo"), sc.get("text")), *((l, p, (sc.get("i18n") or {}).get(l)) for l, p in (sc.get("vo_i18n") or {}).items())]
+        for lang, path, text in langs:
             if not path or path in res:
                 continue
             f = ROOT / "public" / path
             if not f.exists():
                 continue
+            if RHUBARB.exists():
+                try:
+                    res[path] = visemes(f, text, lang, fps)
+                    continue
+                except Exception as e:  # noqa: BLE001 - 한 줄 실패는 크기 방식으로
+                    print(f"  입 모양(Rhubarb) 실패 {path}: {e}")
             with wave.open(str(f)) as w:
                 sr, ch, n = w.getframerate(), w.getnchannels(), w.getnframes()
                 x = np.frombuffer(w.readframes(n), dtype=np.int16).astype(np.float32)

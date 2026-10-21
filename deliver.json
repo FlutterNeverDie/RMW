@@ -224,6 +224,60 @@
    "nodate": true
   },
   {
+   "src": "public/bgm/hook.wav",
+   "dir": "브금",
+   "name": "첫 5초 훅",
+   "nodate": true
+  },
+  {
+   "src": "public/bgm/steppe.wav",
+   "dir": "브금",
+   "name": "초원 유목",
+   "nodate": true
+  },
+  {
+   "src": "public/bgm/discovery.wav",
+   "dir": "브금",
+   "name": "발견 경이",
+   "nodate": true
+  },
+  {
+   "src": "public/bgm/intrigue.wav",
+   "dir": "브금",
+   "name": "음모",
+   "nodate": true
+  },
+  {
+   "src": "public/bgm/march.wav",
+   "dir": "브금",
+   "name": "진군",
+   "nodate": true
+  },
+  {
+   "src": "public/bgm/chase.wav",
+   "dir": "브금",
+   "name": "추격",
+   "nodate": true
+  },
+  {
+   "src": "public/bgm/siege.wav",
+   "dir": "브금",
+   "name": "포위 공포",
+   "nodate": true
+  },
+  {
+   "src": "public/bgm/aftermath.wav",
+   "dir": "브금",
+   "name": "전쟁 뒤",
+   "nodate": true
+  },
+  {
+   "src": "public/bgm/outro.wav",
+   "dir": "브금",
+   "name": "엔딩 화면",
+   "nodate": true
+  },
+  {
    "src": "../../Documents/GitHub/chronomap/marketing/brand/youtube/banner-en-2560x1440.png",
    "dir": "배너",
    "name": "채널 배너 영어",

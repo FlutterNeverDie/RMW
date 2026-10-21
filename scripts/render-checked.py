@@ -87,6 +87,9 @@ for attempt in range(2):
     except subprocess.CalledProcessError:
         if attempt:
             raise
+# 소리 마감: -14 LUFS (scripts/loudness.py) - 더빙 트랙도 같은 기준
+run(sys.executable, "-I", "scripts/loudness.py", str(wav), str(frames_dir / "audio-mastered.wav"))
+wav = frames_dir / "audio-mastered.wav"
 run("npx", "remotion", "ffmpeg", "-v", "error", "-y", "-framerate", str(FPS), "-i", str(frames_dir / "element-%05d.jpeg"), "-i", str(wav),
     "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "18", "-preset", "medium", "-c:a", "aac", "-b:a", "320k", "-shortest", "-movflags", "+faststart", str(CODE / out))
 shutil.rmtree(frames_dir)

@@ -1,7 +1,7 @@
 // 인물 캐릭터: audio/characters.py가 만든 겹 SVG(public/chars/<id>/<포즈>/)를 쌓아서 움직인다
 // 포즈: front·side·angry·shocked·sad·happy (장면표 "pose"), 방향: 장면표 "facing": "left"면 좌우 뒤집기
 // 몸은 숨쉬기, 머리는 살짝 흔들림 + 말할 때 끄덕임, 눈은 3~4초마다 깜빡임,
-// 입은 mouth.json(목소리 크기 → 프레임별 0·1·2)이 있으면 그대로, 없으면 말하는 동안 비슷하게 흉내
+// 입은 mouth.json이 있으면 그대로 - 발음 입 모양 X·A~H(Rhubarb, 2026-10-21) 또는 예전 크기 0·1·2. 없으면 말하는 동안 비슷하게 흉내
 import { useEffect, useState } from "react";
 import { AbsoluteFill, continueRender, delayRender, Img, staticFile, useCurrentFrame } from "remotion";
 import spec from "../../characters.json";
@@ -56,8 +56,11 @@ export const Character = ({
   const f = useCurrentFrame();
   const seed = hash(id);
   // 입: 실제 목소리 크기 → 없으면 말하는 동안 음절처럼 열고 닫기(가끔 쉼)
-  let m = 0;
-  if (mouth) m = Number(mouth[Math.min(f, mouth.length - 1)] ?? 0);
+  let m: number | string = 0;
+  if (mouth) {
+    const k = mouth[Math.min(f, mouth.length - 1)] ?? "0";
+    m = /[0-9]/.test(k) ? Number(k) : k;
+  }
   else if (talking) {
     const syl = Math.sin(f * 0.9 + seed) * Math.sin(f * 0.37 + seed * 0.1);
     const pause = Math.sin(f * 0.11 + seed) > 0.75;
@@ -68,7 +71,7 @@ export const Character = ({
   const blink = (f + (seed % period)) % period < 4;
   const breathe = Math.sin(f / 18 + seed);
   const sway = Math.sin(f / 41 + seed) * 1.6;
-  const nod = m ? Math.sin(f / 3) * 1.2 : 0;
+  const nod = m && m !== "X" && m !== "A" ? Math.sin(f / 3) * 1.2 : 0;
   const w = (height * 600) / 720;
   const p = (POSES as readonly string[]).includes(pose) ? pose : "front";
   const layer = (name: string) => <Img src={staticFile(`chars/${id}/${p}/${name}.svg`)} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }} />;
