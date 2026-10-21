@@ -53,7 +53,7 @@ for i, sc in enumerate(tl["scenes"]):
     elif sh["type"] == "cinematic":  # Blender 시네마틱 (실제 지형 위 비행, blender/shots/<샷>.json)
         out = CODE / "public" / sh["dir"]
         shot = CODE / "blender/shots" / f"{sh['shot']}.json"
-        src = "".join((CODE / "blender" / f).read_text() for f in ("render_shot.py", "prep_terrain.py", "post.py", "geo.py"))
+        src = "".join((CODE / "blender" / f).read_text() for f in ("render_shot.py", "prep_terrain.py", "prep_sky.py", "post.py", "geo.py"))
         key = hashlib.sha1((shot.read_text() + str(n) + hashlib.sha1(src.encode()).hexdigest()).encode()).hexdigest()
         if stamp(out, key):
             continue

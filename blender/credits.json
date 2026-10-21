@@ -3,11 +3,25 @@
  "sources": [
   {
    "id": "terrain-tiles",
-   "used_by": ["steppe-flyover", "caucasus-pass"],
+   "used_by": [
+    "steppe-flyover",
+    "caucasus-pass"
+   ],
    "name": "Terrain Tiles (Mapzen/Tilezen joerd, AWS Open Data)",
    "url": "https://registry.opendata.aws/terrain-tiles/",
    "license": "공개 자료 - 출처 표기 필요",
-   "credit": "Terrain Tiles via AWS Open Data (Mapzen/Tilezen): SRTM and GMTED2010 courtesy of the U.S. Geological Survey; ETOPO1 courtesy of NOAA; EU-DEM produced using Copernicus data and information funded by the European Union; ArcticDEM DEMs created from DigitalGlobe imagery, funded by NSF awards 1043681, 1559691 and 1542736."
+   "credit": "Terrain Tiles via AWS Open Data (Mapzen/Tilezen): SRTM and GMTED2010 courtesy of the U.S. Geological Survey; ETOPO1 courtesy of NOAA; EU-DEM produced using Copernicus data and information funded by the European Union; ArcticDEM DEMs created from DigitalGlobe imagery, funded by NSF awards 1043681, 1559691 and 1542736.",
+   "note": "원경 z12 + 캅카스 근경 z13 (Copernicus 조각이 없는 곳)"
+  },
+  {
+   "id": "copernicus-glo30",
+   "used_by": [
+    "steppe-flyover"
+   ],
+   "name": "Copernicus DEM GLO-30 (근경 고도, AWS Open Data s3://copernicus-dem-30m)",
+   "url": "https://registry.opendata.aws/copernicus-dem/",
+   "license": "Copernicus DEM 라이선스 - 상업 이용 포함 무료, 출처 표기 필요 (아르메니아·아제르바이잔 등 일부 조각은 공개 안 됨 → 그곳은 Terrain Tiles z13)",
+   "credit": "Copernicus DEM GLO-30: produced using Copernicus WorldDEM-30 © DLR e.V. 2010-2014 and © Airbus Defence and Space GmbH 2014-2018 provided under COPERNICUS by the European Union and ESA; all rights reserved."
   },
   {
    "id": "etopo-2022",
@@ -18,8 +32,25 @@
    "credit": "NOAA National Centers for Environmental Information. 2022: ETOPO 2022 15 Arc-Second Global Relief Model. https://doi.org/10.25921/fd45-gt74"
   },
   {
+   "id": "polyhaven-hdri",
+   "used_by": {
+    "steppe-flyover": "evening_road_01_puresky",
+    "caucasus-pass": "kloppenheim_06_puresky"
+   },
+   "name": "Poly Haven HDRI - Evening Road 01 (Pure Sky): Sergej Majboroda, sky edit Jarod Guest / Kloppenheim 06 (Pure Sky): Greg Zaal, sky edit Jarod Guest",
+   "url": [
+    "https://polyhaven.com/a/evening_road_01_puresky",
+    "https://polyhaven.com/a/kloppenheim_06_puresky"
+   ],
+   "license": "CC0 (표기 의무 없음 - 감사 표기로 남김)",
+   "credit": "Skies: Poly Haven (CC0) - Evening Road 01 and Kloppenheim 06 pure-sky HDRIs."
+  },
+  {
    "id": "natural-earth",
-   "used_by": ["steppe-flyover", "caucasus-pass"],
+   "used_by": [
+    "steppe-flyover",
+    "caucasus-pass"
+   ],
    "name": "Natural Earth - Natural Earth I land cover (NE1_HR_LC), 10m land, lakes, rivers",
    "url": "https://www.naturalearthdata.com/",
    "license": "퍼블릭 도메인",
@@ -27,11 +58,14 @@
   },
   {
    "id": "blender",
-   "used_by": ["steppe-flyover", "caucasus-pass"],
+   "used_by": [
+    "steppe-flyover",
+    "caucasus-pass"
+   ],
    "name": "Blender (렌더 도구, GPL - 결과물에는 표기 의무 없음, 선택)",
    "url": "https://www.blender.org/",
    "credit": "Rendered with Blender."
   }
  ],
- "description_en": "Terrain: Terrain Tiles via AWS Open Data (USGS SRTM/GMTED2010, NOAA ETOPO1, Copernicus EU-DEM). Land cover, coastlines and rivers: Natural Earth (public domain)."
+ "description_en": "Terrain: Copernicus DEM GLO-30 (© DLR e.V. 2010-2014 and © Airbus Defence and Space GmbH 2014-2018, provided under COPERNICUS by the EU and ESA) and Terrain Tiles via AWS Open Data (USGS SRTM/GMTED2010, NOAA ETOPO1, Copernicus EU-DEM). Land cover, coastlines and rivers: Natural Earth. Skies: Poly Haven (CC0)."
 }

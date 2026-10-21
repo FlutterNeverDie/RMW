@@ -47,18 +47,20 @@ def north_angle(lon, lat, lon0, lat0):
 def grid(meta):
     """격자 픽셀 중심 좌표 (행 0 = 북쪽 끝)"""
     W, H = meta["extent_km"]
+    ox, oy = meta.get("origin_km", [0, 0])  # 근경 층은 가운데가 샷 중심에서 비켜 있다
     nx, ny = meta["size"]
-    xs = -W / 2 + (np.arange(nx) + 0.5) * W / nx
-    ys = H / 2 - (np.arange(ny) + 0.5) * H / ny
+    xs = ox - W / 2 + (np.arange(nx) + 0.5) * W / nx
+    ys = oy + H / 2 - (np.arange(ny) + 0.5) * H / ny
     return xs, ys
 
 
 def sample(arr, meta, x, y):
     """격자 배열을 평면 좌표 x, y(km)에서 쌍선형으로 읽기 (배열 해상도는 meta 격자의 정수 배 축소여도 됨)"""
     W, H = meta["extent_km"]
+    ox, oy = meta.get("origin_km", [0, 0])
     ny, nx = arr.shape[:2]
-    fx = np.clip((np.asarray(x) + W / 2) / W * nx - 0.5, 0, nx - 1.001)
-    fy = np.clip((H / 2 - np.asarray(y)) / H * ny - 0.5, 0, ny - 1.001)
+    fx = np.clip((np.asarray(x) - ox + W / 2) / W * nx - 0.5, 0, nx - 1.001)
+    fy = np.clip((H / 2 - (np.asarray(y) - oy)) / H * ny - 0.5, 0, ny - 1.001)
     i0, j0 = np.floor(fx).astype(int), np.floor(fy).astype(int)
     ax, ay = fx - i0, fy - j0
     return (arr[j0, i0] * (1 - ax) * (1 - ay) + arr[j0, i0 + 1] * ax * (1 - ay)

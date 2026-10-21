@@ -33,3 +33,6 @@ audio/sfx-src/
 # 시네마틱 지형 캐시 (blender/prep_terrain.py가 만듦 - data/geo/ 아래라 위 줄로 이미 빠짐: terrarium 조각·굽기 결과)
 data/geo/terrarium/
 data/geo/cinematic/
+# 시네마틱 근경 고도(Copernicus GLO-30 조각)·하늘 HDRI(Poly Haven CC0 원본) - blender/prep_terrain.py·prep_sky.py가 받음
+data/geo/copdem30/
+data/geo/hdri/

@@ -24,11 +24,16 @@
    15,
    30
   ],
-  "zmax": 12
+  "zmax": 12,
+  "near": {
+   "cell_m": 15,
+   "margin_km": 8,
+   "mesh_step": 1
+  }
  },
  "exaggeration": 1.5,
  "sun": {
-  "azimuth": 228,
+  "azimuth": 236,
   "elevation": 6,
   "strength": 4.0,
   "color": [
@@ -47,20 +52,34 @@
   ],
   "ambient_strength": 0.42,
   "glow_wide": 0.8,
-  "zenith_falloff": 4.5
+  "zenith_falloff": 4.5,
+  "sunset_grade": 0.95,
+  "stage_red": [
+   1.2,
+   0.82,
+   0.78
+  ],
+  "stage_gold": [
+   1.22,
+   0.98,
+   0.7
+  ],
+  "rim_gain": 1.3,
+  "hdri_glow": 0.15
  },
  "haze": {
   "color": "#cbbca3",
   "distance_km": 90,
   "scale_height_km": 2.2,
-  "strength": 1.0
+  "strength": 1.0,
+  "brightness": 0.85
  },
  "clouds": {
   "cover": 0.42,
   "height_km": 5.0,
   "size_km": 16,
   "softness": 0.06,
-  "shadow": 0.65,
+  "shadow": 0.45,
   "lit": "#fbe2c0",
   "shade": "#a69aa6"
  },
@@ -96,5 +115,15 @@
    "pitch": -1.2
   }
  ],
- "cubic": true
+ "cubic": true,
+ "hdri": {
+  "id": "evening_road_01_puresky",
+  "res": "8k",
+  "use_hdri_elevation": false
+ },
+ "grade": {
+  "contrast": 1.12,
+  "exposure": -0.25,
+  "saturation": 0.9
+ }
 }

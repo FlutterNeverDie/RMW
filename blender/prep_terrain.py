@@ -5,9 +5,11 @@
 #   clear.npy    카메라 안전 높이(m, 주변 최고점을 넓게 부드럽게) - 1/8 해상도
 #   lit.png      빛까지 구운 땅 색(16비트, 선형값 ÷ 2) - 해 그림자·하늘빛·골짜기 어둠 포함
 #   aux.png      R=물, G=햇빛 몫(구름 그림자가 지울 비율), B=강가
-#   meta.json    격자(extent_km·size·center), 고도 자료 출처
+#   meta.json    격자(extent_km·size·center·origin_km), 고도 자료 출처
+#   근경 층(near/): 카메라 길 둘레만 촘촘한 격자(기본 15 m) - 같은 파일 + aux2.png(R=바위 G=눈 B=풀 A=자갈, 미세 질감용)
+#     고도 = Copernicus DEM GLO-30(AWS 공개 COG, 없는 조각은 Terrain Tiles z13), 가장자리는 원경 높이로 녹여 이음매가 없다
 # 출처는 blender/credits.json (설명란용)
-# 자료: 고도 = AWS Terrain Tiles(terrarium, 공개 자료·로그인 없음, data/geo/terrarium/에 캐시) 또는 ETOPO 2022 15″(data/geo/etopo15)
+# 자료: 근경 고도 = Copernicus DEM GLO-30 (data/geo/copdem30/), 원경 고도 = AWS Terrain Tiles(terrarium, 공개 자료·로그인 없음, data/geo/terrarium/에 캐시) 또는 ETOPO 2022 15″(data/geo/etopo15)
 #       땅 색 = Natural Earth I 토지 피복(NE1_HR_LC), 해안·호수·강 = Natural Earth 10m
 # 같은 입력이면 같은 결과 (난수 씨앗 고정)
 import json
@@ -15,6 +17,7 @@ import math
 import struct
 import sys
 import time
+import urllib.error
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -172,57 +175,164 @@ def dem_etopo(lon, lat):
     return out
 
 
-# ── 값 잡음 (여러 크기) - 칠한 듯한 얼룩 ──
-def vnoise(shape, cell_px, rng):
-    h, w = shape
-    gh, gw = max(2, int(h / cell_px) + 3), max(2, int(w / cell_px) + 3)
-    g = rng.random((gh, gw), dtype=np.float32)
-    big = cv2.resize(g, (int(gw * cell_px), int(gh * cell_px)), interpolation=cv2.INTER_CUBIC)
-    return big[:h, :w]
+# ── Copernicus DEM GLO-30 (1°×1° COG, 로그인 없음). 아르메니아·아제르바이잔 등 공개 안 된 조각은 404 → None ──
+COP_URL = "https://copernicus-dem-30m.s3.amazonaws.com/{n}/{n}.tif"
 
 
-def fbm(shape, cell_px, rng, octaves=4):
-    acc, amp, tot = np.zeros(shape, np.float32), 1.0, 0.0
-    for _ in range(octaves):
-        if cell_px < 1.5:
+def cop_tile(lat, lon):
+    n = f"Copernicus_DSM_COG_10_{'N' if lat >= 0 else 'S'}{abs(lat):02d}_00_{'E' if lon >= 0 else 'W'}{abs(lon):03d}_00_DEM"
+    f = GEO / "copdem30" / f"{n}.tif"
+    miss = f.with_suffix(".missing")
+    if miss.exists():
+        return None
+    if not f.exists():
+        f.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            with urllib.request.urlopen(COP_URL.format(n=n), timeout=120) as r:
+                b = r.read()
+        except urllib.error.HTTPError as e:
+            if e.code in (403, 404):
+                miss.write_text("공개 안 된 조각")
+                return None
+            raise
+        tmp = f.with_suffix(".part")
+        tmp.write_bytes(b)
+        tmp.rename(f)
+    return cv2.imread(str(f), cv2.IMREAD_UNCHANGED)
+
+
+def dem_copernicus(lon, lat, cell_m, lat0):
+    out = np.full(lon.shape, np.nan, np.float32)
+    used, missing = [], []
+    for la in range(int(np.floor(lat.min())), int(np.floor(lat.max())) + 1):
+        for lo in range(int(np.floor(lon.min())), int(np.floor(lon.max())) + 1):
+            m = (lat >= la) & (lat < la + 1) & (lon >= lo) & (lon < lo + 1)
+            if not m.any():
+                continue
+            t = cop_tile(la, lo)
+            if t is None:
+                missing.append((la, lo))
+                continue
+            used.append((la, lo))
+            th, tw = t.shape
+            mx = ((lon - lo) * tw).astype(np.float32)
+            my = ((la + 1 - lat) * th).astype(np.float32)
+            out[m] = cv2.remap(t, mx, my, cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)[m]
+    src = []
+    if used:
+        src.append(f"copernicus glo-30 {len(used)}조각")
+    if np.isnan(out).any():  # 빈 곳은 Terrain Tiles z13 (SRTM 30 m 바탕)
+        fill, z = dem_terrarium(lon, lat, cell_m, lat0, 13)
+        out = np.where(np.isnan(out), fill, out)
+        src.append(f"terrarium z{z} (copernicus 없음 {missing})")
+    log("근경 고도", ", ".join(src))
+    return out, ", ".join(src)
+
+
+# ── 값 잡음: 평면 좌표(km)의 연속 함수 - 원경·근경 격자가 같은 얼룩을 갖게 ──
+def lattice(ix, iy, seed):
+    v = np.sin(ix * 127.1 + iy * 311.7 + seed * 74.7) * 43758.5453
+    return (v - np.floor(v)).astype(np.float32)
+
+
+def cnoise(X, Y, cell_km, seed):
+    gx0, gx1 = int(np.floor(X.min() / cell_km)) - 2, int(np.ceil(X.max() / cell_km)) + 3
+    gy0, gy1 = int(np.floor(Y.min() / cell_km)) - 2, int(np.ceil(Y.max() / cell_km)) + 3
+    iy, ix = np.mgrid[gy0:gy1, gx0:gx1].astype(np.float64)
+    L = lattice(ix, iy, seed)
+    return cv2.remap(L, (X / cell_km - gx0).astype(np.float32), (Y / cell_km - gy0).astype(np.float32),
+                     cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
+
+
+def cfbm(X, Y, cell_km, seed, octaves=4, min_km=0.0):
+    acc, amp, tot = np.zeros(X.shape, np.float32), 1.0, 0.0
+    for k in range(octaves):
+        if cell_km < min_km:
             break
-        acc += amp * vnoise(shape, cell_px, rng)
+        acc += amp * cnoise(X, Y, cell_km, seed * 31 + k)
         tot += amp
         amp *= 0.5
-        cell_px /= 2
-    return acc / tot
+        cell_km /= 2
+    return np.clip(acc / tot, 0, 1)
 
 
-def main():
-    shot_path, cache = Path(sys.argv[1]), Path(sys.argv[2])
-    shot = json.loads(shot_path.read_text())
+def edge_weight(meta, ramp_km):
+    """근경 격자 가장자리에서 0 → 안쪽 ramp_km 지나 1 (셰이더와 같은 식)"""
+    xs, ys = geo.grid(meta)
+    ox, oy = meta.get("origin_km", [0, 0])
+    W, H = meta["extent_km"]
+    dx = np.minimum(xs - (ox - W / 2), (ox + W / 2) - xs)
+    dy = np.minimum(ys - (oy - H / 2), (oy + H / 2) - ys)
+    return smooth(0, ramp_km, np.minimum(dx[None, :], dy[:, None])).astype(np.float32)
+
+
+def near_rect(shot, margin_km):
+    """카메라 길(키 사이 촘촘히)의 평면 상자 + 여유 → (가운데 x, y, 폭, 높이) km"""
+    lon0, lat0 = shot["terrain"]["center"]
+    ks = sorted(shot["camera"], key=lambda k: k["t"])
+    lo = np.array([k["lon"] for k in ks])
+    la = np.array([k["lat"] for k in ks])
+    t = np.linspace(0, 1, 50)
+    kt = np.array([k["t"] for k in ks])
+    x, y = geo.fwd(np.interp(t, kt, lo), np.interp(t, kt, la), lon0, lat0)
+    x0, x1, y0, y1 = x.min() - margin_km, x.max() + margin_km, y.min() - margin_km, y.max() + margin_km
+    return (x0 + x1) / 2, (y0 + y1) / 2, x1 - x0, y1 - y0
+
+
+def sky_overrides(shot):
+    """HDRI 하늘을 쓰는 샷이면 prep_sky.py가 잰 해 색·고도·하늘빛으로 바꾼다"""
+    h = shot.get("hdri")
+    if not h:
+        return shot
+    f = GEO / "hdri" / f"{h['id']}.json"
+    if not f.exists():
+        sys.exit(f"{f} 없음 - render_shot.py가 prep_sky.py를 먼저 부른다")
+    s = json.loads(f.read_text())
+    shot = json.loads(json.dumps(shot))
+    sun = shot.setdefault("sun", {})
+    sun["elevation"] = max(h.get("min_elevation", 3), s["sun_elevation"]) if h.get("use_hdri_elevation", True) else sun.get("elevation", 8)
+    sun["color"] = s["sun_color_srgb"]
+    sky = shot.setdefault("sky", {})
+    sky["ambient"] = s["ambient_srgb"]
+    return shot
+
+
+def bake(shot, meta, cache, layer, far=None):
+    """한 격자(원경 또는 근경)의 고도·색·빛을 굽는다. far = 원경 캐시 폴더(근경 굽기 때 그림자·큰 골짜기·가장자리 높이를 빌림)"""
     T = shot["terrain"]
-    lon0, lat0 = T["center"]
-    W, H = T["extent_km"]
-    cell = T.get("cell_m", 100)
-    nx, ny = int(round(W * 1000 / cell)), int(round(H * 1000 / cell))
-    meta = {"center": [lon0, lat0], "extent_km": [W, H], "size": [nx, ny], "cell_m": cell}
+    lon0, lat0 = meta["center"]
+    W, H = meta["extent_km"]
+    ox, oy = meta.get("origin_km", [0, 0])
+    nx, ny = meta["size"]
+    cell = meta["cell_m"]
     cache.mkdir(parents=True, exist_ok=True)
-    log(f"격자 {nx}×{ny} ({W}×{H} km, {cell} m)")
+    log(f"[{layer}] 격자 {nx}×{ny} ({W:.1f}×{H:.1f} km, {cell} m)")
 
     xs, ys = geo.grid(meta)
-    X, Y = np.meshgrid(xs.astype(np.float64), ys.astype(np.float64))
-    lon, lat = geo.inv(X, Y, lon0, lat0)
-    del X, Y
+    X, Y = np.meshgrid(xs.astype(np.float32), ys.astype(np.float32))
+    lon, lat = geo.inv(X.astype(np.float64), Y.astype(np.float64), lon0, lat0)
     lon, lat = lon.astype(np.float32), lat.astype(np.float32)
     bb = [float(lon.min()) - 0.3, float(lat.min()) - 0.3, float(lon.max()) + 0.3, float(lat.max()) + 0.3]
 
     # 고도
-    if T.get("dem", "terrarium") == "etopo15":
+    if layer == "near":
+        h, meta["dem"] = dem_copernicus(lon, lat, cell, lat0)
+    elif T.get("dem", "terrarium") == "etopo15":
         h = dem_etopo(lon, lat)
         meta["dem"] = "etopo15"
     else:
         h, z = dem_terrarium(lon, lat, cell, lat0, T.get("zmax", 11))
         meta["dem"] = f"terrarium z{z}"
     h = h.astype(np.float32)
+    if far is not None:  # 가장자리는 원경 높이로 (이음매 없이)
+        fmeta = json.loads((far / "meta.json").read_text())
+        hf = geo.sample(np.load(far / "height.npy"), fmeta, X, Y).astype(np.float32)
+        wgt = edge_weight(meta, T.get("near_ramp_km", 1.5))
+        h = hf + (h - hf) * wgt
+        del hf
 
     # 물: Natural Earth 땅 다각형 밖 + 호수 (경위도 격자에 칠한 뒤 평면 격자로 옮긴다)
-    res = cell / 111320 / 1.5
+    res = max(cell, 30) / 111320 / 1.5
     lw, ls, le, ln = bb
     lnx, lny = int((le - lw) / res) + 1, int((ln - ls) / res) + 1
     shift = 4
@@ -247,7 +357,7 @@ def main():
     del land
     # 물 높이 = 가장 가까운 물가 땅 높이 (카스피해처럼 해수면 아래 호수도 물가와 딱 맞게)
     wm = (water > 0.5).astype(np.uint8)
-    if wm.any():
+    if wm.any() and (wm == 0).any():
         _, lab = cv2.distanceTransformWithLabels(wm, cv2.DIST_L2, 5, labelType=cv2.DIST_LABEL_PIXEL)
         landpix = wm == 0
         lab_of_land = np.zeros(lab.max() + 1, np.float32)
@@ -268,10 +378,10 @@ def main():
             rk = ranks[rec] if rec < len(ranks) and ranks[rec] is not None else 8
             w_m = rcfg.get("width_m", 150) * (1.6 if rk <= 4 else 1.15 if rk <= 6 else 0.8)
             px, py = geo.fwd(p[:, 0], p[:, 1], lon0, lat0)
-            pts = np.round(np.stack([(px + W / 2) / W * nx - 0.5, (H / 2 - py) / H * ny - 0.5], 1) * rs).astype(np.int32)
+            pts = np.round(np.stack([(px - ox + W / 2) / W * nx - 0.5, (H / 2 - (py - oy)) / H * ny - 0.5], 1) * rs).astype(np.int32)
             cv2.polylines(river, [pts], False, 1.0, max(1, int(round(w_m / cell))), cv2.LINE_AA, shift)
-        river = blur(river, 0.6)
-    log("물·강 마스크")
+        river = blur(river, 0.6 * max(1, 80 / cell) ** 0.5)
+    log(f"[{layer}] 물·강 마스크")
 
     # ── 땅 색 (Natural Earth I 토지 피복 → 바랜 지도 팔레트) ──
     lc_full = cv2.imread(str(GEO / "ne/NE1_HR_LC/NE1_HR_LC.tif"), cv2.IMREAD_COLOR)
@@ -286,14 +396,14 @@ def main():
     lc = cv2.remap(lc, mx, my, cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
     del mx, my, lon, lat
     lc = np.clip(lc, 0, 1)  # sRGB 그대로 (NE1 토지 피복은 아주 옅은 지도색이라 차이만 읽는다)
-    log("토지 피복")
+    log(f"[{layer}] 토지 피복")
 
     pal = {**{
         "steppe": "#d9cf9a", "steppe_dry": "#d8c08e", "green": "#91a774", "forest": "#506b50",
         "rock": "#9a8a76", "rock_dark": "#6e6458", "snow": "#f2eee4", "water": "#7d9590", "shore": "#c9bf96",
     }, **shot.get("palette", {})}
     P = {k: hexlin(v) for k, v in pal.items()}
-    rng = np.random.default_rng(shot.get("seed", 7))
+    seed = shot.get("seed", 7)
     px_km = 1000 / cell  # 1 km 당 픽셀
 
     # 토지 피복 밝기·초록 정도를 팔레트 사이 보간 값으로 쓴다 (원본 색을 그대로 쓰지 않고 지도 톤으로 다시 칠함)
@@ -303,11 +413,14 @@ def main():
     dark = np.clip((222 - lc.mean(-1) * 255) / 28, 0, 1) * smooth(4, 12, gmr)  # 숲
     aridity = np.clip(-gmr / 8, 0, 1)
     ice = np.clip((lc[..., 2] - (lc[..., 0] + lc[..., 1]) / 2) * 255 / 8 + 1.2, 0, 1) * smooth(0.82, 0.88, lc.min(-1))  # 빙하·만년설 (회백색)
-    patch = fbm((ny, nx), 25 * px_km, rng, 3)  # 수십 km 얼룩 (풀 많은 곳·마른 곳)
-    fine = fbm((ny, nx), 1.2 * px_km, rng, 4)  # 1 km 이하 붓 자국
+    patch = cfbm(X, Y, 25, seed, 3)  # 수십 km 얼룩 (풀 많은 곳·마른 곳)
+    fine = cfbm(X, Y, 1.2, seed + 1, 4)  # 1 km 이하 붓 자국
+    if layer == "near":  # 근경만: 수십~수백 m 얼룩을 더해 원경 텍스처 칸보다 잘게
+        fine = np.clip(fine * 0.7 + cfbm(X, Y, 0.25, seed + 2, 4, 0.03) * 0.3, 0, 1)
     dry = np.clip(0.35 + aridity * 0.6 - green * 0.6 + (patch - 0.5) * 0.9, 0, 1)
     col = P["steppe"] * (1 - dry[..., None]) + P["steppe_dry"] * dry[..., None]
-    g = np.clip(green * 1.1 + (patch - 0.5) * 0.4, 0, 1)[..., None] * T.get("greenness", 0.75)
+    veg = np.clip(green * 1.1 + (patch - 0.5) * 0.4, 0, 1) * T.get("greenness", 0.75)
+    g = veg[..., None]
     col = col * (1 - g) + P["green"] * g
     f = np.clip(dark * 1.2, 0, 1)[..., None]
     col = col * (1 - f) + P["forest"] * f
@@ -317,11 +430,19 @@ def main():
     ex = shot.get("exaggeration", 1.5)
     gy, gx = np.gradient(h * ex, cell)  # 행이 남쪽으로 증가 → gy는 -∂/∂y
     slope = np.degrees(np.arctan(np.hypot(gx, gy) / ex))  # 실제 기울기 (과장 전)
-    # 골짜기·능선 (여러 크기의 높이 차이) - 색과 빛 둘 다에 쓴다
+    # 골짜기·능선 (여러 크기의 높이 차이) - 색과 빛 둘 다에 쓴다. 근경은 큰 크기 항을 원경에서 빌린다
     he = h * ex
     cav = np.zeros_like(h)
-    for km, wgt in ((0.6, 0.5), (3, 0.35), (12, 0.15)):
+    scales = ((0.12, 0.15), (0.6, 0.35), (3, 0.35)) if layer == "near" else ((0.6, 0.5), (3, 0.35))
+    for km, wgt in scales:
         cav += wgt * np.tanh((he - blur(he, km * px_km)) / (km * 120))
+    if far is not None:
+        cav += 0.15 * geo.sample(np.load(far / "cav12.npy").astype(np.float32), fmeta, X, Y)
+    else:
+        c12 = np.tanh((he - blur(he, 12 * px_km)) / (12 * 120)).astype(np.float32)
+        np.save(cache / "cav12.npy", c12.astype(np.float16))
+        cav += 0.15 * c12
+        del c12
     del he
     # 움푹한 곳은 풀이 짙고, 능선은 마르고 밝다
     hollow = np.clip(-cav * 1.6, 0, 1)[..., None] * T.get("hollow_green", 0.55)
@@ -337,13 +458,18 @@ def main():
         col = col * (1 - fa) + P["forest"] * (0.85 + 0.3 * fine[..., None]) * fa
     # 높은 산(수목한계 위)은 자갈·바위 빛 + 이끼 낀 툰드라 얼룩
     alp = T.get("alpine_m")
+    gravel = np.zeros_like(h)
     if alp:
-        az_ = (smooth(alp - 250, alp + 250, h + (patch - 0.5) * 400) * (0.55 + 0.45 * fine))[..., None]
+        gravel = smooth(alp - 250, alp + 250, h + (patch - 0.5) * 400) * (0.55 + 0.45 * fine)
+        az_ = gravel[..., None]
         tundra = smooth(0.45, 0.7, fine)[..., None] * 0.35
         alpc = P["rock"] * (1 - tundra) + P["green"] * 0.8 * tundra
         col = col * (1 - az_) + alpc * az_
     r0, r1 = T.get("rock_slope", [16, 32])
-    rock = smooth(r0, r1, slope + (fine - 0.5) * 12)[..., None]
+    if layer == "near":  # 촘촘한 고도는 기울기가 더 크게 잡힌다
+        r0, r1 = r0 + 4, r1 + 6
+    rockm = smooth(r0, r1, slope + (fine - 0.5) * 12)
+    rock = rockm[..., None]
     rockc = P["rock"] * (1 - fine[..., None] * 0.5) + P["rock_dark"] * (fine[..., None] * 0.5)
     col = col * (1 - rock) + rockc * rock
     snowline = T.get("snowline_m", 3400)
@@ -351,7 +477,8 @@ def main():
     sn = np.maximum(sn, ice * smooth(snowline - 900, snowline - 300, h))
     sn *= smooth(52, 32, slope)  # 가파른 벽엔 눈이 덜 붙음
     # 북사면(법선이 북쪽 = gy>0)에 눈이 더
-    sn = np.clip(sn * (1 + np.clip(gy * 2, -0.4, 0.4)), 0, 1)[..., None]
+    snm = np.clip(sn * (1 + np.clip(gy * 2, -0.4, 0.4)), 0, 1)
+    sn = snm[..., None]
     col = col * (1 - sn) + P["snow"] * sn
     # 강가 초록 (강 둘레 넓게)
     if river.any():
@@ -366,41 +493,55 @@ def main():
     shore = np.clip(blur(water, 0.15 * px_km) * 2 - wv, 0, 1)[..., None] * 0.6
     col = col * (1 - shore) + P["shore"] * shore
     col = col * (1 - wv[..., None]) + P["water"] * wv[..., None]
-    del shore, rock, rockc, sn
-    log("땅 색")
+    if layer == "near":
+        aux2 = np.stack([rockm, snm, np.clip(veg + hollow[..., 0], 0, 1) * (1 - rockm) * (1 - snm), gravel * (1 - snm)], -1)
+        aux2 *= (1 - wv)[..., None]
+        cv2.imwrite(str(cache / "aux2.png"), np.clip(aux2[..., [2, 1, 0, 3]] * 255 + 0.5, 0, 255).astype(np.uint8))
+        del aux2
+    del shore, rock, rockc, sn, X, Y
+    log(f"[{layer}] 땅 색")
 
     # ── 빛 굽기 ──
     sun = shot.get("sun", {})
     az, el = sun.get("azimuth", 250), sun.get("elevation", 8)
     L = np.array(geo.sun_vector(az, el), np.float32)
     nxv, nyv = -gx, gy  # x=동, y=북 (gy는 남쪽 방향 미분)
-    nz = np.ones_like(h)
     nrm = np.sqrt(nxv ** 2 + nyv ** 2 + 1)
-    ndl = (nxv * L[0] + nyv * L[1] + nz * L[2]) / nrm
+    ndl = (nxv * L[0] + nyv * L[1] + L[2]) / nrm
     upz = 1 / nrm
-    del gx, gy, nxv, nyv, nz, nrm
+    del gx, gy, nxv, nyv, nrm
 
-    # 그림자: 해 쪽으로 걸어가며 지형이 해를 가리는지 (반 해상도, 부드러운 반그림자)
-    hs = cv2.resize(h * ex, (nx // 2, ny // 2), interpolation=cv2.INTER_AREA)
-    cs = cell * 2
+    # 그림자: 해 쪽으로 걸어가며 지형이 해를 가리는지 (부드러운 반그림자). 근경은 가까운 그림자만 직접, 먼 산 그림자는 원경에서
+    dn = 2 if layer == "far" else 1
+    hs = cv2.resize(h * ex, (nx // dn, ny // dn), interpolation=cv2.INTER_AREA) if dn > 1 else h * ex
+    cs = cell * dn
     dirx, diry = L[0] / math.hypot(L[0], L[1]), -L[1] / math.hypot(L[0], L[1])  # 픽셀 좌표 (행은 남쪽)
     tan_e = math.tan(math.radians(el))
     soft = math.tan(math.radians(sun.get("softness_deg", 0.6)))
     occ = np.full(hs.shape, -1e9, np.float32)
-    d, maxd = 1.0, sun.get("shadow_km", 90) * 1000 / cs
+    d, maxd = 1.0, (sun.get("shadow_km", 90) if layer == "far" else T.get("near_shadow_km", 8)) * 1000 / cs
     while d < maxd:
         M = np.float32([[1, 0, dirx * d], [0, 1, diry * d]])
         hh = cv2.warpAffine(hs, M, (hs.shape[1], hs.shape[0]), flags=cv2.INTER_LINEAR | cv2.WARP_INVERSE_MAP,
                            borderMode=cv2.BORDER_REPLICATE)
         dm = d * cs
         occ = np.maximum(occ, (hh - hs - dm * tan_e) / (dm * soft + cs * 0.5))
-        d = d * 1.08 + 0.5
-    shadow = cv2.resize(np.clip(0.5 - occ, 0, 1), (nx, ny), interpolation=cv2.INTER_LINEAR)
+        d = d * 1.06 + 0.5
+    shadow = np.clip(0.5 - occ, 0, 1)
+    if dn > 1:
+        shadow = cv2.resize(shadow, (nx, ny), interpolation=cv2.INTER_LINEAR)
     del hs, occ
-    log("해 그림자")
+    if layer == "far":
+        np.save(cache / "shadow.npy", cv2.resize(shadow, (nx // 2, ny // 2), interpolation=cv2.INTER_AREA).astype(np.float16))
+    else:
+        X2, Y2 = np.meshgrid(*[a.astype(np.float32) for a in geo.grid(meta)])
+        fs = geo.sample(np.load(far / "shadow.npy").astype(np.float32), fmeta, X2, Y2)
+        shadow = np.minimum(shadow, fs).astype(np.float32)
+        del X2, Y2, fs
+    log(f"[{layer}] 해 그림자")
 
-    # 골짜기 어둠 (여러 크기의 높이 차이)
-    ao = np.clip(0.78 + 0.35 * cav, 0.45, 1.1)
+    # 골짜기 어둠
+    ao = np.clip(0.78 + 0.35 * cav, 0.45 if layer == "far" else 0.6, 1.1)  # 근경 골짜기가 새까맣게 꺼지지 않게
     del cav
 
     sunc = srgb2lin(sun.get("color", [1.0, 0.78, 0.55])) * sun.get("strength", 3.2)
@@ -408,25 +549,45 @@ def main():
     bounce = srgb2lin([0.75, 0.62, 0.48]) * 0.12  # 땅에서 튀는 따뜻한 빛
     direct = (np.clip(ndl, 0, 1) * shadow)[..., None] * sunc
     amb = (ao * (0.55 + 0.45 * upz))[..., None] * skyc + (ao * (1 - upz))[..., None] * bounce
-    # 물은 반사가 셰이더 몫 - 여기선 어둡게
     lit = col * (direct + amb)
     sunfrac = np.clip((direct.mean(-1)) / (direct.mean(-1) + amb.mean(-1) + 1e-5), 0, 1)
     del direct, amb, ndl, shadow, ao
-    log("빛 굽기")
+    log(f"[{layer}] 빛 굽기")
 
     # 저장
     cv2.imwrite(str(cache / "lit.png"), np.clip(lit[..., ::-1] / 2 * 65535, 0, 65535).astype(np.uint16))
     aux = np.stack([wv, sunfrac, np.clip(rb[..., 0], 0, 1)], -1)
     cv2.imwrite(str(cache / "aux.png"), np.clip(aux[..., ::-1] * 255 + 0.5, 0, 255).astype(np.uint8))
     np.save(cache / "height.npy", h.astype(np.float32))
-    # 카메라 안전 높이: 주변 1.5 km 최고점을 넓게 부드럽게, 1/8 해상도
-    hk = cv2.dilate(h, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (int(3 * px_km) | 1,) * 2))
-    hk = cv2.resize(hk, (max(2, nx // 8), max(2, ny // 8)), interpolation=cv2.INTER_AREA)
-    hk = blur(hk, 3 * px_km / 8)
-    np.save(cache / "clear.npy", hk.astype(np.float32))
+    if layer == "far":
+        # 카메라 안전 높이: 주변 1.5 km 최고점을 넓게 부드럽게, 1/8 해상도
+        hk = cv2.dilate(h, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (int(3 * px_km) | 1,) * 2))
+        hk = cv2.resize(hk, (max(2, nx // 8), max(2, ny // 8)), interpolation=cv2.INTER_AREA)
+        hk = blur(hk, 3 * px_km / 8)
+        np.save(cache / "clear.npy", hk.astype(np.float32))
     meta["height_range"] = [float(h.min()), float(h.max())]
     (cache / "meta.json").write_text(json.dumps(meta, indent=1))
-    log("저장", cache)
+    log(f"[{layer}] 저장", cache)
+
+
+def main():
+    shot_path, cache = Path(sys.argv[1]), Path(sys.argv[2])
+    shot = sky_overrides(json.loads(shot_path.read_text()))
+    T = shot["terrain"]
+    lon0, lat0 = T["center"]
+    W, H = T["extent_km"]
+    cell = T.get("cell_m", 100)
+    meta = {"center": [lon0, lat0], "extent_km": [W, H], "origin_km": [0, 0], "cell_m": cell,
+            "size": [int(round(W * 1000 / cell)), int(round(H * 1000 / cell))],
+            "sun": shot.get("sun", {})}
+    bake(shot, meta, cache, "far")
+    nr = T.get("near")
+    if nr:  # 근경 층: 카메라 길 둘레만
+        c = nr.get("cell_m", 15)
+        cx, cy, w, hgt = near_rect(shot, nr.get("margin_km", 8))
+        nmeta = {"center": [lon0, lat0], "extent_km": [w, hgt], "origin_km": [cx, cy], "cell_m": c,
+                 "size": [int(round(w * 1000 / c)), int(round(hgt * 1000 / c))], "ramp_km": T.get("near_ramp_km", 1.5)}
+        bake(shot, nmeta, cache / "near", "near", far=cache)
 
 
 if __name__ == "__main__":
