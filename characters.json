@@ -1,5 +1,5 @@
 {
- "_설명": "채널 인물 캐릭터 설계 (Claude가 편마다 추가, 같은 인물은 편이 바뀌어도 그대로 재사용). ko = 한국어 이름, about = 영상에서 하는 일(내부 확인용, 한두 줄), speakers = 장면표 speaker 값(대사 카드에 이 캐릭터가 나옴), names = names.json 이름. 칸: skin·hair·hair_style(braids|long|short)·eyes(almond|narrow)·eye_color·brow·mood(calm|stern|angry|worried|smug)·age(adult|old)·scar·beard(none|mustache|goatee|full)·beard_color·hat(none|fur|helmet|crown|turban|scarf|hood)·hat_color·fur·outfit(deel|armor|gown|robe)·cloth·trim·belt·cape·extra_head·extra_body(직접 그린 SVG 조각, 600×720 판, 얼굴 가운데 300,285). 고친 뒤: python3 audio/characters.py build <id>",
+ "_설명": "채널 인물 캐릭터 설계 (Claude가 편마다 추가, 같은 인물은 편이 바뀌어도 그대로 재사용). ko = 한국어 이름, about = 영상에서 하는 일(내부 확인용, 한두 줄), speakers = 장면표 speaker 값(대사 카드에 이 캐릭터가 나옴), names = names.json 이름. 칸: skin·hair·hair_style(braids|long|short)·face(oval|round|square)·eyes(almond|narrow|round)·eye_color·brow·mood(calm|stern|angry|worried|smug)·age(adult|old)·scar·beard(none|mustache|goatee|full|droop|short|long)·beard_color·hat(none|fur|fur_flaps|fur_peak|cuman|helmet|rus_helmet|crown|crown_cap|georgian_crown|boqta|turban|turban_helmet|scarf|hood)·hat_color·hat_mark(fur_peak 앞 십자 색)·fur·plume(helmet 술·turban 깃털 색)·veil(georgian_crown 면사포 색)·steel(turban_helmet 쇠 색)·outfit(deel|armor|lamellar|mail|gown|robe)·cloth·trim·belt·inner(robe 안쪽)·surcoat(mail 겉옷 띠)·sleeve·cuff(손짓 소매·소매 끝)·fur_collar·cape·cape_style(rus = 한쪽 어깨 브로치)·pendant(cross)·back([bow, quiver, spear])·quiver·extra_head·extra_body(직접 그린 SVG 조각, 600×720 판, 얼굴 가운데 300,285). 고친 뒤: python3 audio/characters.py build <id>",
  "characters": {
   "temujin": {
    "ko": "테무친",
@@ -157,6 +157,393 @@
    "trim": "#f2e6c8",
    "outfit": "robe",
    "cloth": "#c47a2a"
+  },
+  "subutai": {
+   "ko": "수부타이",
+   "about": "대장장이 집안 출신의 노장. 2편에서 제베와 2만 기병으로 카스피해를 돌아 칼카 강에서 루스·쿠만 연합군을 거짓 후퇴로 무너뜨림",
+   "speakers": [
+    "SUBUTAI"
+   ],
+   "names": [
+    "Subutai"
+   ],
+   "skin": "#d6a273",
+   "hair": "#4a4038",
+   "hair_style": "braids",
+   "face": "square",
+   "eyes": "narrow",
+   "mood": "stern",
+   "age": "old",
+   "scar": true,
+   "beard": "mustache",
+   "beard_color": "#9a9088",
+   "brow": "#6a6058",
+   "hat": "fur_flaps",
+   "hat_color": "#5a4a3a",
+   "fur": "#8e8a80",
+   "trim": "#b08a4a",
+   "outfit": "lamellar",
+   "cloth": "#6e5a44",
+   "belt": "#3a2a1e",
+   "sleeve": "#4a3a2c",
+   "cuff": "#8e8a80"
+  },
+  "jebe": {
+   "ko": "제베",
+   "about": "'화살'이란 이름을 받은 궁수 출신 장군. 2편에서 수부타이와 함께 서쪽 원정을 이끄는 젊고 날랜 기병 대장",
+   "speakers": [
+    "JEBE"
+   ],
+   "names": [
+    "Jebe"
+   ],
+   "skin": "#dfa978",
+   "hair": "#1e1610",
+   "hair_style": "braids",
+   "eyes": "narrow",
+   "mood": "smug",
+   "beard": "goatee",
+   "hat": "helmet",
+   "hat_color": "#8a8c86",
+   "plume": "#a8402e",
+   "fur": "#3e4a5a",
+   "trim": "#c9a24e",
+   "outfit": "lamellar",
+   "cloth": "#3e5a72",
+   "belt": "#7a4a2a",
+   "back": [
+    "bow",
+    "quiver"
+   ],
+   "quiver": "#6b3e22",
+   "sleeve": "#2f4458",
+   "cuff": "#c9a24e"
+  },
+  "ogedei": {
+   "ko": "우구데이",
+   "about": "칭기즈칸의 셋째 아들이자 후계자(2대 대칸). 너그럽고 술을 좋아한 사람 - 형제 다툼을 막으려고 고른 화합형 후계자",
+   "speakers": [
+    "ÖGEDEI",
+    "OGEDEI"
+   ],
+   "names": [
+    "Ögedei"
+   ],
+   "skin": "#e6b487",
+   "hair": "#241a12",
+   "hair_style": "braids",
+   "face": "round",
+   "eyes": "narrow",
+   "mood": "calm",
+   "beard": "mustache",
+   "beard_color": "#3a2c20",
+   "hat": "fur",
+   "hat_color": "#c9993a",
+   "fur": "#efe6d2",
+   "trim": "#8b2f22",
+   "outfit": "deel",
+   "cloth": "#3f5d8a",
+   "belt": "#d9a92e",
+   "cape": "#6a4a2a"
+  },
+  "jochi": {
+   "ko": "주치",
+   "about": "칭기즈칸의 맏아들. 출생(아버지가 누구냐)을 두고 차가타이와 크게 다툼, 서쪽 킵차크 땅을 받음 - 늘 그늘진 얼굴",
+   "speakers": [
+    "JOCHI"
+   ],
+   "names": [
+    "Jochi"
+   ],
+   "skin": "#dba878",
+   "hair": "#1c140e",
+   "hair_style": "braids",
+   "eyes": "narrow",
+   "mood": "worried",
+   "beard": "goatee",
+   "beard_color": "#2a2018",
+   "hat": "fur_flaps",
+   "hat_color": "#3d5e57",
+   "fur": "#7a6a58",
+   "trim": "#9ab0a0",
+   "outfit": "deel",
+   "cloth": "#6a7a4a",
+   "belt": "#4a3a2a"
+  },
+  "chagatai": {
+   "ko": "차가타이",
+   "about": "칭기즈칸의 둘째 아들. 법(야사)을 엄하게 지킨 고집 센 사람 - 주치의 출생을 문제 삼아 후계 다툼을 일으킴",
+   "speakers": [
+    "CHAGATAI"
+   ],
+   "names": [
+    "Chagatai"
+   ],
+   "skin": "#d8a070",
+   "hair": "#120c08",
+   "hair_style": "braids",
+   "face": "square",
+   "eyes": "narrow",
+   "mood": "angry",
+   "beard": "short",
+   "beard_color": "#1c140e",
+   "brow": "#120c08",
+   "hat": "fur_peak",
+   "hat_color": "#2e2a30",
+   "fur": "#4a3a30",
+   "trim": "#a8402e",
+   "outfit": "deel",
+   "cloth": "#5a3a50",
+   "belt": "#2a2020"
+  },
+  "tolui": {
+   "ko": "톨루이",
+   "about": "칭기즈칸의 막내아들. 전장에서 가장 빛난 장수 - 호라즘 원정에서 호라산 도시들을 무너뜨림",
+   "speakers": [
+    "TOLUI"
+   ],
+   "names": [
+    "Tolui"
+   ],
+   "skin": "#e2ae7e",
+   "hair": "#1e1610",
+   "hair_style": "braids",
+   "eyes": "round",
+   "mood": "calm",
+   "beard": "none",
+   "hat": "helmet",
+   "hat_color": "#a8823a",
+   "plume": "#2e2a30",
+   "fur": "#5a4030",
+   "trim": "#8b2f22",
+   "outfit": "armor",
+   "cloth": "#8a3a2a",
+   "sleeve": "#6a2a20",
+   "cuff": "#a8823a"
+  },
+  "muhammad": {
+   "ko": "무함마드 2세",
+   "about": "호라즘 제국의 샤. 몽골 사절을 죽여 전쟁을 부르고, 몽골군이 오자 도망치다 카스피해의 섬에서 죽음",
+   "speakers": [
+    "MUHAMMAD II",
+    "SHAH MUHAMMAD",
+    "SHAH"
+   ],
+   "names": [
+    "Muhammad II"
+   ],
+   "skin": "#d9a77a",
+   "hair": "#1a120c",
+   "hair_style": "short",
+   "eyes": "almond",
+   "mood": "smug",
+   "beard": "full",
+   "beard_color": "#1a120c",
+   "hat": "turban",
+   "hat_color": "#f2e8d2",
+   "trim": "#2e6b4f",
+   "plume": "#efe6d2",
+   "outfit": "robe",
+   "cloth": "#3f6b4f",
+   "inner": "#d9b45a",
+   "belt": "#d9a92e",
+   "cape": "#6b2a2a",
+   "cuff": "#d9a92e"
+  },
+  "jalal": {
+   "ko": "잘랄 앗딘",
+   "about": "무함마드 2세의 아들. 아버지와 달리 끝까지 싸운 젊은 왕자 - 인더스 강에서 말을 탄 채 절벽을 뛰어내려 칭기즈칸도 감탄함",
+   "speakers": [
+    "JALAL AL-DIN",
+    "JALAL"
+   ],
+   "names": [
+    "Jalal al-Din"
+   ],
+   "skin": "#d4a074",
+   "hair": "#1a120c",
+   "hair_style": "short",
+   "eyes": "round",
+   "mood": "stern",
+   "beard": "short",
+   "beard_color": "#1a120c",
+   "hat": "turban_helmet",
+   "hat_color": "#e8dcc0",
+   "steel": "#8e908a",
+   "trim": "#d9a92e",
+   "outfit": "mail",
+   "surcoat": "#2a4a6a",
+   "belt": "#5a3a22",
+   "cape": "#2a4a6a",
+   "sleeve": "#6a6c68",
+   "cuff": "#d9a92e"
+  },
+  "mstislav_bold": {
+   "ko": "용맹공 므스티슬라프",
+   "about": "할리치의 공작. 칼카 강에서 공을 독차지하려고 다른 공작들을 기다리지 않고 먼저 몽골을 쫓다가 함정에 빠짐",
+   "speakers": [
+    "MSTISLAV THE BOLD",
+    "MSTISLAV"
+   ],
+   "names": [
+    "Mstislav the Bold",
+    "Mstislav Mstislavich"
+   ],
+   "skin": "#efc9a4",
+   "hair": "#7a4a2a",
+   "hair_style": "short",
+   "eyes": "almond",
+   "eye_color": "#3a5a7a",
+   "mood": "angry",
+   "beard": "short",
+   "beard_color": "#8a5a32",
+   "brow": "#6a3e22",
+   "hat": "rus_helmet",
+   "hat_color": "#a2a49e",
+   "trim": "#d9a92e",
+   "outfit": "mail",
+   "belt": "#5a3a22",
+   "cape": "#a8402e",
+   "cape_style": "rus",
+   "sleeve": "#7a7c76",
+   "cuff": "#a8402e"
+  },
+  "mstislav_kiev": {
+   "ko": "키예프의 므스티슬라프",
+   "about": "키예프 대공(므스티슬라프 3세). 칼카 강에서 언덕 진영에 틀어박혔다가 항복한 뒤, 몽골군이 깔아 놓은 판자 밑에 깔려 죽음",
+   "speakers": [
+    "MSTISLAV OF KIEV",
+    "MSTISLAV ROMANOVICH"
+   ],
+   "names": [
+    "Mstislav of Kiev",
+    "Mstislav Romanovich"
+   ],
+   "skin": "#ecc7a2",
+   "hair": "#b8b0a4",
+   "hair_style": "short",
+   "eyes": "almond",
+   "eye_color": "#4a5a6a",
+   "mood": "worried",
+   "age": "old",
+   "beard": "long",
+   "beard_color": "#c8c0b2",
+   "brow": "#a8a094",
+   "hat": "crown_cap",
+   "hat_color": "#c99a3a",
+   "fur": "#3a2c22",
+   "trim": "#d9a92e",
+   "outfit": "gown",
+   "cloth": "#2e4a6e",
+   "belt": "#d9a92e",
+   "cape": "#5a2a4a",
+   "cuff": "#d9a92e"
+  },
+  "koten": {
+   "ko": "쿠텐 칸",
+   "about": "쿠만(킵차크) 족장. 몽골에 쫓겨 사위 므스티슬라프에게 도움을 청해 루스를 칼카 전투로 끌어들임 - 나중에 헝가리로 도망",
+   "speakers": [
+    "KÖTEN KHAN",
+    "KOTEN KHAN",
+    "KÖTEN"
+   ],
+   "names": [
+    "Köten"
+   ],
+   "skin": "#e3b588",
+   "hair": "#5a3e22",
+   "hair_style": "braids",
+   "eyes": "almond",
+   "mood": "worried",
+   "beard": "droop",
+   "beard_color": "#6a4a2a",
+   "hat": "cuman",
+   "hat_color": "#c99a2e",
+   "fur": "#7a5a3a",
+   "trim": "#8b2f22",
+   "outfit": "deel",
+   "cloth": "#b08a3a",
+   "belt": "#5a3a22",
+   "fur_collar": true
+  },
+  "rusudan": {
+   "ko": "루수단 여왕",
+   "about": "조지아(그루지야)의 여왕. 1221년 제베·수부타이에게 조지아 기사단이 무너지자 교황에게 십자군을 보내 달라는 편지를 씀",
+   "speakers": [
+    "QUEEN RUSUDAN",
+    "RUSUDAN"
+   ],
+   "names": [
+    "Rusudan"
+   ],
+   "skin": "#efc8a0",
+   "hair": "#1c120c",
+   "hair_style": "long",
+   "eyes": "almond",
+   "eye_color": "#3a2a1e",
+   "mood": "stern",
+   "hat": "georgian_crown",
+   "hat_color": "#d6a838",
+   "veil": "#efe6d2",
+   "outfit": "gown",
+   "cloth": "#7a2a3a",
+   "trim": "#d9b45a",
+   "cape": "#2e4a3e",
+   "cuff": "#d9b45a"
+  },
+  "toghrul": {
+   "ko": "토그릴 (옹 칸)",
+   "about": "케레이트의 칸, 아버지 예수게이의 의형제. 젊은 테무친을 돕다가 나중에 등을 돌려 무너짐 - 기독교(네스토리우스파)를 믿음",
+   "speakers": [
+    "TOGHRUL",
+    "ONG KHAN",
+    "WANG KHAN"
+   ],
+   "names": [
+    "Toghrul",
+    "Ong Khan"
+   ],
+   "skin": "#e0ad80",
+   "hair": "#d8d0c4",
+   "hair_style": "braids",
+   "eyes": "narrow",
+   "mood": "smug",
+   "age": "old",
+   "beard": "long",
+   "beard_color": "#e2dccf",
+   "brow": "#c8c0b2",
+   "hat": "fur_peak",
+   "hat_color": "#ece2cc",
+   "hat_mark": "#d9a92e",
+   "fur": "#8a6a48",
+   "trim": "#d9a92e",
+   "outfit": "deel",
+   "cloth": "#4a5a6a",
+   "belt": "#8a5a2b",
+   "pendant": "cross"
+  },
+  "borte": {
+   "ko": "보르테",
+   "about": "테무친의 아내. 메르키트에게 납치됐다가 구출됨 - 칭기즈칸이 가장 믿은 조언자, 주치·차가타이·우구데이·톨루이의 어머니",
+   "speakers": [
+    "BÖRTE",
+    "BORTE"
+   ],
+   "names": [
+    "Börte"
+   ],
+   "skin": "#ecbd90",
+   "hair": "#1a120c",
+   "hair_style": "long",
+   "eyes": "narrow",
+   "mood": "calm",
+   "hat": "boqta",
+   "hat_color": "#8b2f22",
+   "trim": "#d9b45a",
+   "outfit": "deel",
+   "cloth": "#2e6b5c",
+   "belt": "#d9b45a",
+   "cuff": "#d9b45a"
   }
  }
 }

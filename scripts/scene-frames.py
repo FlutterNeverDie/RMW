@@ -1,4 +1,4 @@
-# 렌더 전에 미리 찍는 장면: 옛 그림 2.5D(art + parallax)와 기울인 지도 장면(mapscene)을 목소리로 정해진 길이(frames)만큼
+# 렌더 전에 미리 찍는 장면: 옛 그림 2.5D(art + parallax), 기울인 지도 장면(mapscene), Blender 시네마틱(cinematic)을 목소리로 정해진 길이(frames)만큼
 # python3 scripts/scene-frames.py episodes/mongol-01/ep.json   (make-episode.sh가 목소리 다음에 부름)
 # 이미 같은 내용·길이로 찍혀 있으면 건너뛴다 (목소리를 다시 만들어 길이가 바뀌면 다시 찍음)
 import hashlib, json, subprocess, sys, urllib.request
@@ -47,4 +47,18 @@ for i, sc in enumerate(tl["scenes"]):
         subprocess.run(cmd, check=True, cwd=CODE)
         meta = json.loads((out / "meta.json").read_text()) if (out / "meta.json").exists() else {}
         (out / "meta.json").write_text(json.dumps({**meta, "key": key}))
+    elif sh["type"] == "cinematic":  # Blender 시네마틱 (실제 지형 위 비행, blender/shots/<샷>.json)
+        out = CODE / "public" / sh["dir"]
+        shot = CODE / "blender/shots" / f"{sh['shot']}.json"
+        src = "".join((CODE / "blender" / f).read_text() for f in ("render_shot.py", "prep_terrain.py", "post.py", "geo.py"))
+        key = hashlib.sha1((shot.read_text() + str(n) + hashlib.sha1(src.encode()).hexdigest()).encode()).hexdigest()
+        if stamp(out, key):
+            continue
+        blender = "/Applications/Blender.app/Contents/MacOS/Blender"
+        if not Path(blender).exists():
+            sys.exit("시네마틱 장면을 찍으려면 Blender 필요 - brew install --cask blender (setup.sh)")
+        print(f"장면 {i:02d} 시네마틱 {sh['shot']} ({n}장)", flush=True)
+        subprocess.run([blender, "-b", "--factory-startup", "-P", str(CODE / "blender/render_shot.py"), "--",
+                        "--shot", str(shot), "--out", str(out), "--frames", str(n)], check=True, cwd=CODE)
+        (out / "meta.json").write_text(json.dumps({"key": key, "frames": n, "shot": sh["shot"]}))
 print("미리 찍는 장면: 준비됨")

@@ -38,3 +38,8 @@ done
 ls public/bgm/*.wav >/dev/null 2>&1 || .venv/bin/python -I audio/make_bgm.py
 echo "지도 캡처가 필요하면 사이트 저장소(chronomap)를 받아 'npx next dev' 후 SITE=http://localhost:3000 으로 scripts/clean.mjs 실행"
 echo "준비 끝 - docs/guide/ 부터 읽기"
+# 시네마틱 장면(실제 지형 위 비행, blender/render_shot.py) - Blender (무료, GPL)
+[ -d /Applications/Blender.app ] || brew install --cask blender
+# 효과음 원본 녹음 (Kenney·OpenGameArt·NPS·Wikimedia Commons - CC0·퍼블릭 도메인·CC BY, 약 600MB, git 제외) - audio/make_sfx.py
+# 가공본 public/sfx/ep/*.wav 는 git에 있음. 원본은 소리를 다시 만들 때만 필요 (.venv/bin/python -I audio/make_sfx.py)
+.venv/bin/python -I audio/make_sfx.py fetch

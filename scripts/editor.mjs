@@ -261,45 +261,16 @@ const api = {
     return { ok: true, v: Date.now() };
   },
   "GET /api/srt": async (q) => {
-    // 유튜브 자막: 장면마다 그 언어 목소리 길이를 문장 글자 수 비율로 나눠 문장 하나씩 (실제 길이는 timeline.json)
+    // 유튜브 자막: scripts/subtitles.py (목소리의 실제 쉼에 문장 경계를 맞추고 긴 문장은 두 줄로, 편 폴더에도 복사)
     const ep = JSON.parse(await readFile(epPath(q.e), "utf8"));
-    const tl = await timelineOf(q.e);
-    if (!tl) throw new Error("목소리를 먼저 만들어야 자막 시간을 앎 (timeline.json 없음)");
-    const ts = (sec) => {
-      const ms = Math.max(0, Math.round(sec * 1000));
-      const p = (n, w = 2) => String(n).padStart(w, "0");
-      return `${p(Math.floor(ms / 3600000))}:${p(Math.floor(ms / 60000) % 60)}:${p(Math.floor(ms / 1000) % 60)},${p(ms % 1000, 3)}`;
-    };
+    if (!(await timelineOf(q.e))) throw new Error("목소리를 먼저 만들어야 자막 시간을 앎 (timeline.json 없음)");
+    const { stdout } = await run(join(CODE, ".venv/bin/python"), ["-I", join(CODE, "scripts/subtitles.py"), epPath(q.e)], { cwd: CODE });
     const files = [];
-    const stale = [];
     for (const lang of ep.langs || ["en"]) {
-      let at = 0;
-      let n = 0;
-      const rows = [];
-      for (const [i, sc] of ep.scenes.entries()) {
-        const t = tl.scenes[i];
-        const sceneSecs = (t?.frames ?? 0) / tl.fps;
-        const text = lang === "en" ? sc.text : sc.i18n?.[lang];
-        const voiced = lang === "en" ? t?.text : t?.i18n?.[lang];
-        if (text && voiced !== text) stale.push(`${i} ${lang}`); // 목소리 만든 뒤 대사가 바뀜 → 시간이 어긋남
-        if (text) {
-          const dur = Math.min(sceneSecs, t?.dur?.[lang] ?? (await wavSecs(join(CODE, "public", (lang === "en" ? t?.vo : t?.vo_i18n?.[lang]) || "x"))) ?? sceneSecs);
-          const sents = text.split(/(?<=[.!?…。？！])\s+/).map((x) => x.trim()).filter(Boolean);
-          const weight = sents.map((x) => x.replace(/\s/g, "").length || 1);
-          const sum = weight.reduce((a, b) => a + b, 0);
-          let s0 = at;
-          sents.forEach((line, k) => {
-            const len = (dur * weight[k]) / sum;
-            const end = k === sents.length - 1 ? at + Math.max(dur, 0.8) : s0 + len;
-            rows.push(`${++n}\n${ts(s0)} --> ${ts(Math.min(end, at + sceneSecs - 0.05))}\n${line}\n`);
-            s0 = end;
-          });
-        }
-        at += sceneSecs;
-      }
-      await writeFile(join(OUT, `${q.e}.${lang}.srt`), rows.join("\n"));
+      await writeFile(join(OUT, `${q.e}.${lang}.srt`), await readFile(join(CODE, "out", `${q.e}.${lang}.srt`)));
       files.push(`/out/${q.e}.${lang}.srt`);
     }
+    const stale = (stdout.match(/^STALE (.*)$/m)?.[1] ?? "").split(",").filter(Boolean).map((x) => x.replace(":", " "));
     return { files, stale };
   },
 };

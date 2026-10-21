@@ -31,4 +31,6 @@ for lang in $(python3 -c "import json,sys; print(' '.join(l for l in json.load(o
   # 영상 소리와 같은 크기(-14 LUFS)로
   .venv/bin/python -I scripts/loudness.py "${3%.mp4}.$lang.raw.wav" "${3%.mp4}.$lang.wav" && rm "${3%.mp4}.$lang.raw.wav"
 done
+# 언어별 유튜브 자막(.srt) - 편 폴더에 같이
+.venv/bin/python -I scripts/subtitles.py "$1"
 node scripts/deliver.mjs

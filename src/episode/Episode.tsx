@@ -1,7 +1,8 @@
 // 해설 영상 한 편: audio/voice_episode.py가 만든 timeline.json(장면 + 목소리 + 길이)을 그대로 그린다
 // 장면 종류는 episodes/<편>/*.json 머리말 참고. 화면은 장면마다 계속 움직인다(채널 규칙 8)
 import { AbsoluteFill, Audio, Img, interpolate, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig, Easing } from "remotion";
-import { Character, charForSpeaker, hasChar, useMouth } from "./Character";
+import { EndCardArt, TitleCard } from "./Cards";
+import { Beat, Character, charForSpeaker, Enter, Exit, hasChar, useMouth } from "./Character";
 
 const SERIF = "Baskerville, 'Big Caslon', 'Hoefler Text', serif";
 const SANS = "-apple-system, 'Helvetica Neue', Arial, sans-serif";
@@ -21,12 +22,16 @@ type Show =
   | { type: "lapse"; set: string; years: number[] }
   // 사이트 장면 층으로 찍은 기울인 지도 + 부대 애니메이션 (scripts/map-scene.mjs → public/<dir>/00000.jpg…). dir은 voice_episode.py가 채운다
   | { type: "mapscene"; scene: string; dir?: string }
-  | { type: "title"; title: string; sub: string; seconds: number }
+  // Blender 시네마틱(실제 지형 위를 날아가는 장면): blender/shots/<shot>.json → scripts/scene-frames.py가 찍음. dir은 voice_episode.py가 채운다
+  | { type: "cinematic"; shot: string; dir?: string }
+  // 장 카드 (2026-10-21 글자 없는 판): 시리즈 상징 + 연도(year) 또는 편 번호(part → 로마 숫자) + 시리즈 지도. 예전 title·sub 낱말은 그리지 않고 숫자만 뽑아 씀
+  | { type: "title"; title?: string; sub?: string; seconds: number; year?: number | string; part?: number; years?: string; series?: string; focus?: V3 }
   | { type: "stamp"; text: string }
   | { type: "line" }
   | { type: "units" }
-  | { type: "endcard"; seconds: number; next?: string };
-export type Scene = { role?: string; speaker?: string; text?: string; vo: string | null; vo_i18n?: Record<string, string>; frames: number; show: Show; music?: string; sfx?: string | null; char?: string; pose?: string; facing?: "left" | "right"; charAt?: "left" | "center" | "right"; cues?: Cue[]; hold?: number; dur?: Record<string, number>; i18n?: Record<string, string> };
+  // 최종 화면: 낱말 없이 아이콘만. nextPart(다음 편 번호)가 없으면 예전 next 글에서 "Part 3" 숫자만 뽑음
+  | { type: "endcard"; seconds: number; next?: string; nextPart?: number; series?: string };
+export type Scene = { role?: string; speaker?: string; text?: string; vo: string | null; vo_i18n?: Record<string, string>; frames: number; show: Show; music?: string; sfx?: string | null; char?: string; pose?: string; facing?: "left" | "right"; charAt?: "left" | "center" | "right"; gesture?: string; gestureAt?: number; enter?: Enter; exit?: Exit; beat?: Beat; beatAt?: number; cues?: Cue[]; hold?: number; dur?: Record<string, number>; i18n?: Record<string, string> };
 // 장면 안 원하는 시점에 넣는 소리 (편집기에서 끌어다 놓음). src = public 아래 경로, at = 장면 시작부터 초, vol = 0~1
 export type Cue = { src: string; at: number; vol?: number };
 export type Timeline = { fps: number; bgm?: string; langs?: string[]; scenes: Scene[] };
@@ -226,19 +231,8 @@ const Lapse = ({ s, frames }: { s: Extract<Show, { type: "lapse" }>; frames: num
   );
 };
 
-const Title = ({ s }: { s: Extract<Show, { type: "title" }> }) => {
-  const f = useCurrentFrame();
-  const p = spring({ frame: f, fps: 30, config: { damping: 16, stiffness: 120 } });
-  const sub = spring({ frame: f - 10, fps: 30, config: { damping: 16 } });
-  return (
-    <AbsoluteFill style={{ background: "#0d0b08", alignItems: "center", justifyContent: "center", textAlign: "center" }}>
-      <Img decoding="sync" src={staticFile("clean/mg-wide/1280.jpg")} style={{ ...zoomBox(0.5, 0.5, 1.1 - 0.05 * p), filter: "sepia(1) brightness(0.28) contrast(1.4)" }} />
-      <Vignette dark />
-      <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: fitSize(s.title, 140, 1700, 10), letterSpacing: 10, color: GOLD, transform: `scale(${1.15 - 0.15 * p})`, opacity: p, textShadow: "0 8px 30px rgba(0,0,0,0.8)" }}>{s.title}</div>
-      <div style={{ fontFamily: SERIF, fontSize: 48, letterSpacing: 14, color: "#efe6d2", marginTop: 18, opacity: sub }}>{s.sub}</div>
-    </AbsoluteFill>
-  );
-};
+// 장 카드는 Cards.tsx (글자 없는 판: 시리즈 상징 + 연도·편 번호 + 지도 실루엣)
+const Title = ({ s, frames }: { s: Extract<Show, { type: "title" }>; frames: number }) => <TitleCard s={s} frames={frames} />;
 
 const Stamp = ({ s }: { s: Extract<Show, { type: "stamp" }> }) => {
   const f = useCurrentFrame();
@@ -268,14 +262,15 @@ const Line = ({ sc, frames, vo }: { sc: Scene; frames: number; vo?: string | nul
   );
   return (
     <AbsoluteFill style={{ background: "#0d0b08", alignItems: "center", justifyContent: "center" }}>
-      <Img decoding="sync" src={staticFile("clean/mg-zoom/1160.jpg")} style={{ ...zoomBox(0.6, 0.43, 1.6 + 0.1 * (f / frames)), filter: "sepia(0.8) brightness(0.3)" }} />
+      {/* 뒤 지도는 이름 없는 판 (화면 글자 금지) */}
+      <Img decoding="sync" src={staticFile("clean/banner3/1279-nonames.jpg")} style={{ ...zoomBox(0.56, 0.4, 1.8 + 0.1 * (f / frames)), filter: "sepia(0.8) brightness(0.3)" }} />
       <Vignette dark />
       {hasChar(char) ? (
         <>
-          {/* 인물이 아래에서 올라와 말한다 + 오른쪽에 소리 막대 */}
-          <div style={{ position: "absolute", left: 230, bottom: 0, transform: `translateY(${(1 - p) * 160}px)`, opacity: Math.min(1, p * 1.5) }}>
-            <div style={{ position: "absolute", left: "8%", right: "8%", bottom: 40, height: 120, borderRadius: "50%", background: "radial-gradient(rgba(233,201,127,0.35), transparent 70%)" }} />
-            <Character id={char!} talking={talking} mouth={mouth} height={760} pose={sc.pose} flip={sc.facing === "left"} />
+          {/* 인물이 아래에서 올라와 말한다(등장·반응·손짓은 Character) + 오른쪽에 소리 막대 */}
+          <div style={{ position: "absolute", left: 230, bottom: 0 }}>
+            <div style={{ position: "absolute", left: "8%", right: "8%", bottom: 40, height: 120, borderRadius: "50%", background: "radial-gradient(rgba(233,201,127,0.35), transparent 70%)", opacity: p }} />
+            <Character id={char!} talking={talking} mouth={mouth} height={760} pose={sc.pose} flip={sc.facing === "left"} {...motion(sc)} />
           </div>
           <div style={{ position: "absolute", left: 1000, right: 80, top: 0, bottom: 0, display: "flex", flexDirection: "column", justifyContent: "center", opacity: p, transform: `translateX(${(1 - p) * 40}px)` }}>
             <div style={{ fontFamily: SERIF, fontSize: 150, lineHeight: 0.6, color: "rgba(226,85,58,0.5)" }}>“</div>
@@ -292,16 +287,25 @@ const Line = ({ sc, frames, vo }: { sc: Scene; frames: number; vo?: string | nul
   );
 };
 
-// 지도·그림 장면에 인물을 세운다 (장면표 char: "<id>"). 오른쪽 아래에서 올라와 숨쉬고 깜빡인다
-const CharOverlay = ({ id, pose, flip, at = "right" }: { id: string; pose?: string; flip?: boolean; at?: "left" | "center" | "right" }) => {
-  const f = useCurrentFrame();
-  const p = spring({ frame: f, fps: 30, config: { damping: 16, stiffness: 140 } });
+// 장면표의 인물 움직임 필드 → Character 속성 (초 → 프레임)
+const motion = (sc: Scene) => ({
+  gesture: sc.gesture,
+  gestureAt: sc.gestureAt === undefined ? undefined : Math.round(sc.gestureAt * 30),
+  enter: sc.enter,
+  exit: sc.exit,
+  beat: sc.beat,
+  beatAt: sc.beatAt === undefined ? undefined : Math.round(sc.beatAt * 30),
+  frames: sc.frames,
+});
+
+// 지도·그림 장면에 인물을 세운다 (장면표 char: "<id>"). 아래에서 올라와(기본 enter "up") 숨쉬고 깜빡인다
+const CharOverlay = ({ sc, flip, at = "right" }: { sc: Scene; flip?: boolean; at?: "left" | "center" | "right" }) => {
   const h = 620;
   const w = (h * 600) / 720;
   const x = at === "left" ? 90 : at === "center" ? (1920 - w) / 2 : 1920 - w - 90;
   return (
-    <div style={{ position: "absolute", left: x, bottom: 0, width: w, height: h, opacity: Math.min(1, p * 1.6), transform: `translateY(${(1 - p) * 120}px)`, filter: "drop-shadow(0 18px 30px rgba(0,0,0,0.55))" }}>
-      <Character id={id} height={h} pose={pose} flip={flip} />
+    <div style={{ position: "absolute", left: x, bottom: 0, width: w, height: h, filter: "drop-shadow(0 18px 30px rgba(0,0,0,0.55))" }}>
+      <Character id={sc.char!} height={h} pose={sc.pose} flip={flip} delay={4} {...motion(sc)} />
     </div>
   );
 };
@@ -335,22 +339,8 @@ const Units = ({ frames }: { frames: number }) => {
   );
 };
 
-// 유튜브 최종 화면(20초): 왼쪽 다음 영상 칸 · 오른쪽 구독 칸 자리는 비워 두고 안내만
-const EndCard = ({ next }: { next?: string }) => {
-  const f = useCurrentFrame();
-  const p = spring({ frame: f, fps: 30, config: { damping: 16 } });
-  const box = { position: "absolute" as const, border: "4px dashed rgba(233,201,127,0.55)", borderRadius: 24 };
-  return (
-    <AbsoluteFill style={{ background: "#0d0b08" }}>
-      <Img decoding="sync" src={staticFile("clean/mg-wide/1280.jpg")} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", filter: "sepia(1) brightness(0.25) contrast(1.4)" }} />
-      <div style={{ position: "absolute", top: 110, width: "100%", textAlign: "center", fontFamily: SERIF, fontWeight: 700, fontSize: 84, letterSpacing: 6, color: GOLD, opacity: p }}>THANKS FOR WATCHING</div>
-      <div style={{ ...box, left: 150, top: 330, width: 900, height: 506 }} />
-      <div style={{ position: "absolute", left: 150, top: 860, width: 900, textAlign: "center", fontFamily: SANS, fontWeight: 700, fontSize: 34, color: "#e8dfcb" }}>{next ?? "Next: Part 2 · The First Clash with Europe"}</div>
-      <div style={{ ...box, left: 1310, top: 430, width: 300, height: 300, borderRadius: 150 }} />
-      <div style={{ position: "absolute", left: 1210, top: 760, width: 500, textAlign: "center", fontFamily: SANS, fontWeight: 700, fontSize: 34, color: "#e8dfcb" }}>Subscribe</div>
-    </AbsoluteFill>
-  );
-};
+// 유튜브 최종 화면(20초): Cards.tsx - 칸 자리는 그대로, 낱말 없이 아이콘만 (다음 편 ▶ + 편 번호, 구독 종)
+const EndCard = ({ s }: { s: Extract<Show, { type: "endcard" }> }) => <EndCardArt s={s} />;
 
 const Shot = ({ sc, vo }: { sc: Scene; vo?: string | null }) => {
   const shot = <ShotOnly sc={sc} vo={vo} />;
@@ -358,7 +348,7 @@ const Shot = ({ sc, vo }: { sc: Scene; vo?: string | null }) => {
     <AbsoluteFill>
       {shot}
       {/* 오른쪽에 서면 기본으로 화면 안쪽(왼쪽)을 봄 */}
-      <CharOverlay id={sc.char} pose={sc.pose} at={sc.charAt} flip={sc.facing ? sc.facing === "left" : (sc.charAt ?? "right") === "right"} />
+      <CharOverlay sc={sc} at={sc.charAt} flip={sc.facing ? sc.facing === "left" : (sc.charAt ?? "right") === "right"} />
     </AbsoluteFill>
   ) : (
     shot
@@ -372,11 +362,12 @@ const ShotOnly = ({ sc, vo }: { sc: Scene; vo?: string | null }) => {
   if (s.type === "art") return <ArtShot s={s} frames={sc.frames} />;
   if (s.type === "cutout") return <Cutout s={s} frames={sc.frames} />;
   if (s.type === "mapscene") return <MapScene s={s} />;
+  if (s.type === "cinematic") return <FrameSeq dir={s.dir} />;
   if (s.type === "lapse") return <Lapse s={s} frames={sc.frames} />;
-  if (s.type === "title") return <Title s={s} />;
+  if (s.type === "title") return <Title s={s} frames={sc.frames} />;
   if (s.type === "stamp") return <Stamp s={s} />;
   if (s.type === "units") return <Units frames={sc.frames} />;
-  if (s.type === "endcard") return <EndCard next={s.next} />;
+  if (s.type === "endcard") return <EndCard s={s} />;
   return <Line sc={sc} frames={sc.frames} vo={vo} />;
 };
 
@@ -388,6 +379,7 @@ export const SFX: Record<string, [string, number]> = {
   map: ["swish", 0.1],
   cutout: ["swish", 0.1],
   mapscene: ["swish", 0.1],
+  cinematic: ["swish", 0.1],
   art: ["swish", 0.1],
   lapse: ["swish", 0.12],
   title: ["boom", 0.55],
@@ -395,7 +387,7 @@ export const SFX: Record<string, [string, number]> = {
   line: ["hit", 0.4],
   units: ["drum", 0.45],
 };
-const MOVE = new Set(["map", "art", "lapse", "cutout", "mapscene"]);
+const MOVE = new Set(["map", "art", "lapse", "cutout", "mapscene", "cinematic"]);
 
 // 장면마다 실제로 낼 효과음 [이름, 크기] 또는 null
 export const sceneSfx = (scenes: Scene[], _fps?: number) => {

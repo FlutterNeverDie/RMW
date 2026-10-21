@@ -30,6 +30,9 @@
 //              "spread":0.25(도), "size":1, "path":[{"t":0,"at":[35.3,47.9],"state":"march"}, …], "show":[0,1], "fade":[0.9,1]}]
 //       kind: cavalry | horse-archer | infantry | archer | camp | siege | ship | tank | artillery | plane
 //       state(그 키부터 다음 키까지): march | charge(앞으로 기울고 먼지) | flee | hold. 줄어드는 수는 바깥 것부터 쓰러진다
+//       대군: "swarm": {"n": 2000, "radius": 0.3(도)} - 작은 실루엣 n개가 앞이 넓은 무리로 흐른다(뒷줄은 경로를 조금 늦게 따라와
+//       방향을 틀면 줄지어 휜다). charge = 앞줄이 늘어나며 쏠림, flee = 각자 흩어짐. count 시간표는 실제 수(2000 → 400)로, 정한
+//       차례대로 쓰러져 자리에 남아 흐려진다. 그림 크기는 무리 안 간격에 맞춰져 멀리서는 점, 다가가면 실루엣(radius가 작으면 빽빽한 점)
 //   "arrows": [{"side":"mongol", "style":"advance|retreat|pincer", "path":[[…],[…]], "grow":[0.7,0.85], "width":1}]
 //   "lines":  [{"style":"front|trench|river|line", "side":"rus", "path":[…], "grow":[…], "show":[…]}]
 //   "areas":  [{"side":"mongol", "polygon":[…], "show":[0.8,1], "opacity":0.25}]

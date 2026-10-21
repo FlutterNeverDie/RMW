@@ -4,6 +4,7 @@ import html, json, os, sys
 from pathlib import Path
 
 CODE = Path(__file__).resolve().parent.parent
+LANG_KO = {"ko": "한국어", "es": "스페인어"}  # 업로드 정보에 보이는 언어 이름
 HOME = Path(os.environ.get("HWM", Path.home() / "hwm"))  # 산출물 폴더 (저장소 위치와 상관없이)
 meta_path = Path(sys.argv[1])
 meta = json.loads(meta_path.read_text())
@@ -63,7 +64,8 @@ li{{margin:4px 0}}</style></head><body><main>
 <li>썸네일: <code>{html.escape(meta['thumbs'][0])}</code> 기본, 나머지 2개는 "테스트 및 비교"</li>
 <li>변경되거나 합성된 콘텐츠: <b>예</b> (인물 목소리가 AI)</li>
 <li>재생목록: The Mongol Empire</li>
-<li>업로드 후 → 언어 → 한국어·스페인어 추가: 제목·설명은 아래, 더빙은 이 폴더의 <code>_한국어 더빙.wav</code> · <code>_스페인어 더빙.wav</code></li>
+<li>업로드 후 → 언어 → 한국어·스페인어 추가: 제목·설명은 아래, 더빙은 이 폴더의 <code>_한국어 더빙.wav</code> · <code>_스페인어 더빙.wav</code>, 자막은 <code>_언어 자막.srt</code></li>
+{''.join(f'<li>언어별 썸네일: 언어 → {html.escape(LANG_KO.get(l, l))} 줄의 썸네일 칸에 <code>{html.escape(t[0])}</code> (더빙을 올린 뒤에 칸이 열림)</li>' for l, t in meta.get('thumbs_i18n', {}).items())}
 <li>최종 화면: 마지막 20초 점선 자리에 다음 영상 + 구독</li></ol>
 {''.join(rows)}
 </main><script>document.querySelectorAll(".copy button").forEach(b=>b.addEventListener("click",()=>{{const x=b.parentElement.cloneNode(true);x.querySelector("button").remove();navigator.clipboard.writeText(x.textContent.trim()).then(()=>{{b.textContent="복사됨";setTimeout(()=>b.textContent="복사",1500)}})}}))</script></body></html>"""

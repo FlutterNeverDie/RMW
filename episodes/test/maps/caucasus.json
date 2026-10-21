@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "_설명": "산악 음영 시험 - 1222 제베·수부타이가 캅카스를 넘어 데르벤트 고개로. 몽골 기병이 남쪽에서 고개를 지나 북쪽 초원으로",
+  "year": 1222,
+  "theme": "film",
+  "terrain": true,
+  "relief": 0.9,
+  "camera": [
+    { "t": 0, "at": [47.6, 41.6], "zoom": 30, "tilt": 40, "heading": -25 },
+    { "t": 1, "at": [48.1, 42.1], "zoom": 55, "tilt": 50, "heading": 0, "ease": "inOut" }
+  ],
+  "sides": { "mongol": { "color": "#7a2e22", "flag": "tug" } },
+  "units": [
+    { "id": "jebe", "side": "mongol", "kind": "cavalry", "swarm": { "n": 600, "radius": 0.18 },
+      "path": [ { "t": 0, "at": [47.6, 41.2], "state": "march" }, { "t": 0.6, "at": [48.25, 41.95], "state": "march" }, { "t": 1, "at": [48.2, 42.45], "state": "charge" } ] }
+  ],
+  "arrows": [ { "side": "mongol", "style": "advance", "path": [[47.5, 41.0], [48.2, 41.9], [48.15, 42.6]], "grow": [0.1, 0.9] } ]
+}

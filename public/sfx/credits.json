@@ -1,0 +1,995 @@
+{
+ "swish": {
+  "ko": "부드러운 바람 휙 (지도·그림 전환)",
+  "file": "sfx/ep/swish.wav",
+  "seconds": 1.27,
+  "loop": false,
+  "sources": [
+   {
+    "key": "oga-swishes",
+    "page": "https://opengameart.org/content/swishes-sound-pack",
+    "license": "CC0 1.0",
+    "author": "artisticdude",
+    "attribution": false
+   },
+   {
+    "key": "oga-airmove",
+    "page": "https://opengameart.org/content/air-woosh-move",
+    "license": "CC0 1.0",
+    "author": "Almitory",
+    "attribution": false
+   }
+  ]
+ },
+ "whoosh": {
+  "ko": "큰 바람 휘익 (장소·시대가 크게 바뀔 때)",
+  "file": "sfx/ep/whoosh.wav",
+  "seconds": 3.1,
+  "loop": false,
+  "sources": [
+   {
+    "key": "snm-textures1",
+    "page": "https://opengameart.org/content/medieval-sound-effects-weapon-textures",
+    "license": "CC0 1.0",
+    "author": "Still North Media",
+    "attribution": false
+   },
+   {
+    "key": "oga-swishes",
+    "page": "https://opengameart.org/content/swishes-sound-pack",
+    "license": "CC0 1.0",
+    "author": "artisticdude",
+    "attribution": false
+   }
+  ]
+ },
+ "boom": {
+  "ko": "제목 쾅: 오케스트라 큰북·팀파니·징 + 브람 + 낮은 울림",
+  "file": "sfx/ep/boom.wav",
+  "seconds": 4.6,
+  "loop": false,
+  "sources": [
+   {
+    "key": "vsco",
+    "page": "https://github.com/sgossner/VSCO-2-CE",
+    "license": "CC0 1.0",
+    "author": "Versilian Studios (VSCO 2 Community Edition)",
+    "attribution": false
+   },
+   {
+    "key": "wc-braam",
+    "page": "https://commons.wikimedia.org/wiki/File:647712_unfa_braam.flac",
+    "license": "CC0 1.0",
+    "author": "unfa (freesound 647712)",
+    "attribution": false
+   }
+  ]
+ },
+ "impact": {
+  "ko": "도장·충격 쿵 (짧고 단단함)",
+  "file": "sfx/ep/impact.wav",
+  "seconds": 1.79,
+  "loop": false,
+  "sources": [
+   {
+    "key": "vsco",
+    "page": "https://github.com/sgossner/VSCO-2-CE",
+    "license": "CC0 1.0",
+    "author": "Versilian Studios (VSCO 2 Community Edition)",
+    "attribution": false
+   },
+   {
+    "key": "kenney-impact",
+    "page": "https://kenney.nl/assets/impact-sounds",
+    "license": "CC0 1.0",
+    "author": "Kenney (kenney.nl)",
+    "attribution": false
+   },
+   {
+    "key": "oga-wood",
+    "page": "https://opengameart.org/content/35-wooden-crackshitsdestructions",
+    "license": "CC0 1.0",
+    "author": "qubodup / independent.nu ljudbank",
+    "attribution": false
+   }
+  ]
+ },
+ "hit": {
+  "ko": "인물 등장 탁 (낮고 짧은 북)",
+  "file": "sfx/ep/hit.wav",
+  "seconds": 0.87,
+  "loop": false,
+  "sources": [
+   {
+    "key": "vsco",
+    "page": "https://github.com/sgossner/VSCO-2-CE",
+    "license": "CC0 1.0",
+    "author": "Versilian Studios (VSCO 2 Community Edition)",
+    "attribution": false
+   }
+  ]
+ },
+ "drum": {
+  "ko": "전쟁 북 한 번 (큰북 + 통나무 북 + 팀파니)",
+  "file": "sfx/ep/drum.wav",
+  "seconds": 2.14,
+  "loop": false,
+  "sources": [
+   {
+    "key": "vsco",
+    "page": "https://github.com/sgossner/VSCO-2-CE",
+    "license": "CC0 1.0",
+    "author": "Versilian Studios (VSCO 2 Community Edition)",
+    "attribution": false
+   }
+  ]
+ },
+ "tick": {
+  "ko": "나무 토막 똑 (연도 넘김)",
+  "file": "sfx/ep/tick.wav",
+  "seconds": 0.5,
+  "loop": false,
+  "sources": [
+   {
+    "key": "vsco",
+    "page": "https://github.com/sgossner/VSCO-2-CE",
+    "license": "CC0 1.0",
+    "author": "Versilian Studios (VSCO 2 Community Edition)",
+    "attribution": false
+   }
+  ]
+ },
+ "gallop": {
+  "ko": "말 한 마리 달리는 소리 (반복 가능 6초)",
+  "file": "sfx/ep/gallop.wav",
+  "seconds": 6.0,
+  "loop": true,
+  "sources": [
+   {
+    "key": "oga-gallop",
+    "page": "https://opengameart.org/content/horse-gallop-loop",
+    "license": "CC BY 3.0",
+    "author": "Alan McKinney (alanmcki), loop by AntumDeluge",
+    "attribution": true
+   }
+  ]
+ },
+ "cavalry": {
+  "ko": "기병 돌격 - 말 떼 질주 + 땅 울림 (반복 가능 8초)",
+  "file": "sfx/ep/cavalry.wav",
+  "seconds": 8.0,
+  "loop": true,
+  "sources": [
+   {
+    "key": "oga-gallop",
+    "page": "https://opengameart.org/content/horse-gallop-loop",
+    "license": "CC BY 3.0",
+    "author": "Alan McKinney (alanmcki), loop by AntumDeluge",
+    "attribution": true
+   },
+   {
+    "key": "oga-gallops",
+    "page": "https://opengameart.org/content/horse-gallop-on-different-surfaces",
+    "license": "CC BY 4.0",
+    "author": "congusbongus (원본: D4XX·StephenSaldanha CC0 등 freesound)",
+    "attribution": true
+   }
+  ]
+ },
+ "hooves": {
+  "ko": "편자 박은 말이 돌길을 달려 지나감",
+  "file": "sfx/ep/hooves.wav",
+  "seconds": 6.3,
+  "loop": false,
+  "sources": [
+   {
+    "key": "wc-horseshoes",
+    "page": "https://commons.wikimedia.org/wiki/File:WWS_Clatterofhorseshoesonthepavement.ogg",
+    "license": "CC BY 4.0",
+    "author": "Work With Sounds / Museum of Municipal Engineering (Kraków)",
+    "attribution": true
+   }
+  ]
+ },
+ "neigh": {
+  "ko": "말 울음 (히히힝)",
+  "file": "sfx/ep/neigh.wav",
+  "seconds": 2.87,
+  "loop": false,
+  "sources": [
+   {
+    "key": "wc-neigh",
+    "page": "https://commons.wikimedia.org/wiki/File:Wiehern.ogg",
+    "license": "Public domain",
+    "author": "Hü. (Wikimedia Commons)",
+    "attribution": false
+   }
+  ]
+ },
+ "arrows": {
+  "ko": "화살 일제 사격 - 시위 소리 + 화살 떼 휘익",
+  "file": "sfx/ep/arrows.wav",
+  "seconds": 4.14,
+  "loop": false,
+  "sources": [
+   {
+    "key": "oga-archers",
+    "page": "https://opengameart.org/content/archers-shooting",
+    "license": "CC BY 3.0",
+    "author": "copyc4t (Paolo D'Emilio), from OpenGameArt",
+    "attribution": true
+   },
+   {
+    "key": "snm-textures1",
+    "page": "https://opengameart.org/content/medieval-sound-effects-weapon-textures",
+    "license": "CC0 1.0",
+    "author": "Still North Media",
+    "attribution": false
+   }
+  ]
+ },
+ "arrow_hit": {
+  "ko": "화살이 나무 방패·땅에 퍽 꽂힘",
+  "file": "sfx/ep/arrow_hit.wav",
+  "seconds": 0.7,
+  "loop": false,
+  "sources": [
+   {
+    "key": "oga-wood",
+    "page": "https://opengameart.org/content/35-wooden-crackshitsdestructions",
+    "license": "CC0 1.0",
+    "author": "qubodup / independent.nu ljudbank",
+    "attribution": false
+   },
+   {
+    "key": "kenney-impact",
+    "page": "https://kenney.nl/assets/impact-sounds",
+    "license": "CC0 1.0",
+    "author": "Kenney (kenney.nl)",
+    "attribution": false
+   }
+  ]
+ },
+ "arrow_rain": {
+  "ko": "화살 비 - 여러 발이 사방에 꽂힘",
+  "file": "sfx/ep/arrow_rain.wav",
+  "seconds": 3.77,
+  "loop": false,
+  "sources": [
+   {
+    "key": "oga-wood",
+    "page": "https://opengameart.org/content/35-wooden-crackshitsdestructions",
+    "license": "CC0 1.0",
+    "author": "qubodup / independent.nu ljudbank",
+    "attribution": false
+   },
+   {
+    "key": "kenney-impact",
+    "page": "https://kenney.nl/assets/impact-sounds",
+    "license": "CC0 1.0",
+    "author": "Kenney (kenney.nl)",
+    "attribution": false
+   },
+   {
+    "key": "snm-textures1",
+    "page": "https://opengameart.org/content/medieval-sound-effects-weapon-textures",
+    "license": "CC0 1.0",
+    "author": "Still North Media",
+    "attribution": false
+   }
+  ]
+ },
+ "sword": {
+  "ko": "칼 부딪힘 챙 (한 번)",
+  "file": "sfx/ep/sword.wav",
+  "seconds": 0.69,
+  "loop": false,
+  "sources": [
+   {
+    "key": "snm-weapons1",
+    "page": "https://opengameart.org/content/medieval-sound-effects-weapon-impacts",
+    "license": "CC0 1.0",
+    "author": "Still North Media",
+    "attribution": false
+   },
+   {
+    "key": "snm-weapons2",
+    "page": "https://opengameart.org/content/medieval-sound-effects-weapon-impacts",
+    "license": "CC0 1.0",
+    "author": "Still North Media",
+    "attribution": false
+   }
+  ]
+ },
+ "swords": {
+  "ko": "칼싸움 - 여러 번 챙챙 (3초)",
+  "file": "sfx/ep/swords.wav",
+  "seconds": 3.44,
+  "loop": false,
+  "sources": [
+   {
+    "key": "snm-weapons1",
+    "page": "https://opengameart.org/content/medieval-sound-effects-weapon-impacts",
+    "license": "CC0 1.0",
+    "author": "Still North Media",
+    "attribution": false
+   },
+   {
+    "key": "snm-weapons2",
+    "page": "https://opengameart.org/content/medieval-sound-effects-weapon-impacts",
+    "license": "CC0 1.0",
+    "author": "Still North Media",
+    "attribution": false
+   }
+  ]
+ },
+ "shield": {
+  "ko": "방패로 밀어 치기 쿵 (나무 + 쇠 테)",
+  "file": "sfx/ep/shield.wav",
+  "seconds": 1.03,
+  "loop": false,
+  "sources": [
+   {
+    "key": "oga-wood",
+    "page": "https://opengameart.org/content/35-wooden-crackshitsdestructions",
+    "license": "CC0 1.0",
+    "author": "qubodup / independent.nu ljudbank",
+    "attribution": false
+   },
+   {
+    "key": "kenney-impact",
+    "page": "https://kenney.nl/assets/impact-sounds",
+    "license": "CC0 1.0",
+    "author": "Kenney (kenney.nl)",
+    "attribution": false
+   },
+   {
+    "key": "vsco",
+    "page": "https://github.com/sgossner/VSCO-2-CE",
+    "license": "CC0 1.0",
+    "author": "Versilian Studios (VSCO 2 Community Edition)",
+    "attribution": false
+   }
+  ]
+ },
+ "battle": {
+  "ko": "가까운 백병전 - 함성 + 칼·방패 + 화살 (반복 가능 10초)",
+  "file": "sfx/ep/battle.wav",
+  "seconds": 10.0,
+  "loop": true,
+  "sources": [
+   {
+    "key": "oga-crowd",
+    "page": "https://opengameart.org/content/crowd-shoutingspeaking-ambience",
+    "license": "CC0 1.0",
+    "author": "StarNinjas",
+    "attribution": false
+   },
+   {
+    "key": "snm-weapons1",
+    "page": "https://opengameart.org/content/medieval-sound-effects-weapon-impacts",
+    "license": "CC0 1.0",
+    "author": "Still North Media",
+    "attribution": false
+   },
+   {
+    "key": "snm-weapons2",
+    "page": "https://opengameart.org/content/medieval-sound-effects-weapon-impacts",
+    "license": "CC0 1.0",
+    "author": "Still North Media",
+    "attribution": false
+   },
+   {
+    "key": "oga-wood",
+    "page": "https://opengameart.org/content/35-wooden-crackshitsdestructions",
+    "license": "CC0 1.0",
+    "author": "qubodup / independent.nu ljudbank",
+    "attribution": false
+   },
+   {
+    "key": "snm-textures1",
+    "page": "https://opengameart.org/content/medieval-sound-effects-weapon-textures",
+    "license": "CC0 1.0",
+    "author": "Still North Media",
+    "attribution": false
+   },
+   {
+    "key": "vsco",
+    "page": "https://github.com/sgossner/VSCO-2-CE",
+    "license": "CC0 1.0",
+    "author": "Versilian Studios (VSCO 2 Community Edition)",
+    "attribution": false
+   }
+  ]
+ },
+ "battle_far": {
+  "ko": "멀리서 들리는 전투 (낮고 흐릿하게, 반복 가능 10초)",
+  "file": "sfx/ep/battle_far.wav",
+  "seconds": 10.0,
+  "loop": true,
+  "sources": [
+   {
+    "key": "oga-crowd",
+    "page": "https://opengameart.org/content/crowd-shoutingspeaking-ambience",
+    "license": "CC0 1.0",
+    "author": "StarNinjas",
+    "attribution": false
+   },
+   {
+    "key": "snm-weapons1",
+    "page": "https://opengameart.org/content/medieval-sound-effects-weapon-impacts",
+    "license": "CC0 1.0",
+    "author": "Still North Media",
+    "attribution": false
+   },
+   {
+    "key": "snm-weapons2",
+    "page": "https://opengameart.org/content/medieval-sound-effects-weapon-impacts",
+    "license": "CC0 1.0",
+    "author": "Still North Media",
+    "attribution": false
+   },
+   {
+    "key": "oga-wood",
+    "page": "https://opengameart.org/content/35-wooden-crackshitsdestructions",
+    "license": "CC0 1.0",
+    "author": "qubodup / independent.nu ljudbank",
+    "attribution": false
+   },
+   {
+    "key": "snm-textures1",
+    "page": "https://opengameart.org/content/medieval-sound-effects-weapon-textures",
+    "license": "CC0 1.0",
+    "author": "Still North Media",
+    "attribution": false
+   },
+   {
+    "key": "vsco",
+    "page": "https://github.com/sgossner/VSCO-2-CE",
+    "license": "CC0 1.0",
+    "author": "Versilian Studios (VSCO 2 Community Edition)",
+    "attribution": false
+   }
+  ]
+ },
+ "battle_musket": {
+  "ko": "화약 시대 전투 재현 (소총 일제 사격·함성)",
+  "file": "sfx/ep/battle_musket.wav",
+  "seconds": 6.29,
+  "loop": false,
+  "sources": [
+   {
+    "key": "nps-battle",
+    "page": "https://www.nps.gov/subjects/sound/sounds-battle.htm",
+    "license": "Public domain (미국 연방정부 저작물 - NPS)",
+    "author": "NPS (Cedar Creek 전투 재현)",
+    "attribution": false
+   }
+  ]
+ },
+ "war_cry": {
+  "ko": "군대 함성 와아 (5초)",
+  "file": "sfx/ep/war_cry.wav",
+  "seconds": 7.68,
+  "loop": false,
+  "sources": [
+   {
+    "key": "oga-crowd",
+    "page": "https://opengameart.org/content/crowd-shoutingspeaking-ambience",
+    "license": "CC0 1.0",
+    "author": "StarNinjas",
+    "attribution": false
+   }
+  ]
+ },
+ "crowd": {
+  "ko": "큰 군중 웅성웅성 (도시·궁정, 반복 가능 20초)",
+  "file": "sfx/ep/crowd.wav",
+  "seconds": 20.0,
+  "loop": true,
+  "sources": [
+   {
+    "key": "wc-crowd",
+    "page": "https://commons.wikimedia.org/wiki/File:360703_eguobyte_large-crowd-medium-distance-stereo.wav",
+    "license": "CC0 1.0",
+    "author": "eguobyte (freesound 360703)",
+    "attribution": false
+   }
+  ]
+ },
+ "war_horn": {
+  "ko": "전쟁 뿔나팔 부우- (낮은 호른·트롬본·튜바 녹음을 겹침)",
+  "file": "sfx/ep/war_horn.wav",
+  "seconds": 5.5,
+  "loop": false,
+  "sources": [
+   {
+    "key": "vsco",
+    "page": "https://github.com/sgossner/VSCO-2-CE",
+    "license": "CC0 1.0",
+    "author": "Versilian Studios (VSCO 2 Community Edition)",
+    "attribution": false
+   }
+  ]
+ },
+ "war_drums": {
+  "ko": "전쟁 북 장단 (큰북·통나무 북·팀파니, 반복 가능 약 6.3초)",
+  "file": "sfx/ep/war_drums.wav",
+  "seconds": 6.32,
+  "loop": true,
+  "sources": [
+   {
+    "key": "vsco",
+    "page": "https://github.com/sgossner/VSCO-2-CE",
+    "license": "CC0 1.0",
+    "author": "Versilian Studios (VSCO 2 Community Edition)",
+    "attribution": false
+   }
+  ]
+ },
+ "march": {
+  "ko": "군대 행군 발소리 (수십 명, 반복 가능 4초)",
+  "file": "sfx/ep/march.wav",
+  "seconds": 4.0,
+  "loop": true,
+  "sources": [
+   {
+    "key": "oga-footsteps",
+    "page": "https://opengameart.org/content/footsteps-on-different-surfaces",
+    "license": "CC BY 3.0",
+    "author": "congusbongus (gravel: Ali_6868 CC0)",
+    "attribution": true
+   },
+   {
+    "key": "kenney-rpg",
+    "page": "https://kenney.nl/assets/rpg-audio",
+    "license": "CC0 1.0",
+    "author": "Kenney (kenney.nl)",
+    "attribution": false
+   }
+  ]
+ },
+ "gate": {
+  "ko": "성문 부수기 - 공성추 쾅 + 나무 쪼개짐 + 파편",
+  "file": "sfx/ep/gate.wav",
+  "seconds": 3.78,
+  "loop": false,
+  "sources": [
+   {
+    "key": "vsco",
+    "page": "https://github.com/sgossner/VSCO-2-CE",
+    "license": "CC0 1.0",
+    "author": "Versilian Studios (VSCO 2 Community Edition)",
+    "attribution": false
+   },
+   {
+    "key": "oga-wood",
+    "page": "https://opengameart.org/content/35-wooden-crackshitsdestructions",
+    "license": "CC0 1.0",
+    "author": "qubodup / independent.nu ljudbank",
+    "attribution": false
+   },
+   {
+    "key": "oga-breaking",
+    "page": "https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx",
+    "license": "CC0 1.0",
+    "author": "rubberduck",
+    "attribution": false
+   }
+  ]
+ },
+ "catapult": {
+  "ko": "투석기 발사 - 나무 삐걱 + 탁 풀림 + 돌이 날아감",
+  "file": "sfx/ep/catapult.wav",
+  "seconds": 4.29,
+  "loop": false,
+  "sources": [
+   {
+    "key": "kenney-rpg",
+    "page": "https://kenney.nl/assets/rpg-audio",
+    "license": "CC0 1.0",
+    "author": "Kenney (kenney.nl)",
+    "attribution": false
+   },
+   {
+    "key": "oga-wood",
+    "page": "https://opengameart.org/content/35-wooden-crackshitsdestructions",
+    "license": "CC0 1.0",
+    "author": "qubodup / independent.nu ljudbank",
+    "attribution": false
+   },
+   {
+    "key": "snm-textures1",
+    "page": "https://opengameart.org/content/medieval-sound-effects-weapon-textures",
+    "license": "CC0 1.0",
+    "author": "Still North Media",
+    "attribution": false
+   }
+  ]
+ },
+ "catapult_hit": {
+  "ko": "투석기 돌이 성벽에 쾅 - 돌 깨짐·무너짐",
+  "file": "sfx/ep/catapult_hit.wav",
+  "seconds": 4.29,
+  "loop": false,
+  "sources": [
+   {
+    "key": "vsco",
+    "page": "https://github.com/sgossner/VSCO-2-CE",
+    "license": "CC0 1.0",
+    "author": "Versilian Studios (VSCO 2 Community Edition)",
+    "attribution": false
+   },
+   {
+    "key": "oga-breaking",
+    "page": "https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx",
+    "license": "CC0 1.0",
+    "author": "rubberduck",
+    "attribution": false
+   }
+  ]
+ },
+ "fire": {
+  "ko": "불타는 도시 - 큰불 + 장작 튀는 소리 + 무너짐 + 먼 비명 (반복 가능 16초)",
+  "file": "sfx/ep/fire.wav",
+  "seconds": 16.0,
+  "loop": true,
+  "sources": [
+   {
+    "key": "nps-fire",
+    "page": "https://www.nps.gov/yell/learn/photosmultimedia/sounds-fire.htm",
+    "license": "Public domain (미국 연방정부 저작물 - NPS)",
+    "author": "NPS / Yellowstone (Maple Fire 2016)",
+    "attribution": false
+   },
+   {
+    "key": "oga-fireplace",
+    "page": "https://opengameart.org/content/fireplace-sound-loop",
+    "license": "CC0 1.0",
+    "author": "PagDev",
+    "attribution": false
+   },
+   {
+    "key": "oga-breaking",
+    "page": "https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx",
+    "license": "CC0 1.0",
+    "author": "rubberduck",
+    "attribution": false
+   },
+   {
+    "key": "oga-crowd",
+    "page": "https://opengameart.org/content/crowd-shoutingspeaking-ambience",
+    "license": "CC0 1.0",
+    "author": "StarNinjas",
+    "attribution": false
+   }
+  ]
+ },
+ "campfire": {
+  "ko": "모닥불 타닥타닥 (반복 가능 20초)",
+  "file": "sfx/ep/campfire.wav",
+  "seconds": 20.0,
+  "loop": true,
+  "sources": [
+   {
+    "key": "oga-fireplace",
+    "page": "https://opengameart.org/content/fireplace-sound-loop",
+    "license": "CC0 1.0",
+    "author": "PagDev",
+    "attribution": false
+   }
+  ]
+ },
+ "wind": {
+  "ko": "초원 바람 (반복 가능 24초)",
+  "file": "sfx/ep/wind.wav",
+  "seconds": 24.0,
+  "loop": true,
+  "sources": [
+   {
+    "key": "wc-wind",
+    "page": "https://commons.wikimedia.org/wiki/File:Joseph_SARDIN_-_Vent.ogg",
+    "license": "CC0 1.0",
+    "author": "Joseph SARDIN (LaSonotheque.org / BigSoundBank)",
+    "attribution": false
+   }
+  ]
+ },
+ "wolf": {
+  "ko": "늑대 한 마리 울음 (아우우-)",
+  "file": "sfx/ep/wolf.wav",
+  "seconds": 9.5,
+  "loop": false,
+  "sources": [
+   {
+    "key": "nps-wolf",
+    "page": "https://www.nps.gov/subjects/sound/sounds-wolf.htm",
+    "license": "Public domain (미국 연방정부 저작물 - NPS)",
+    "author": "NPS",
+    "attribution": false
+   }
+  ]
+ },
+ "wolves": {
+  "ko": "늑대 무리 울음 (밤, 12초)",
+  "file": "sfx/ep/wolves.wav",
+  "seconds": 14.35,
+  "loop": false,
+  "sources": [
+   {
+    "key": "wc-wolf",
+    "page": "https://commons.wikimedia.org/wiki/File:Wolf_howls.ogg",
+    "license": "Public domain",
+    "author": "Wikimedia Commons",
+    "attribution": false
+   }
+  ]
+ },
+ "thunder": {
+  "ko": "천둥 우르릉 쾅",
+  "file": "sfx/ep/thunder.wav",
+  "seconds": 10.21,
+  "loop": false,
+  "sources": [
+   {
+    "key": "nps-thunder",
+    "page": "https://www.nps.gov/subjects/sound/sounds-thunder.htm",
+    "license": "Public domain (미국 연방정부 저작물 - NPS)",
+    "author": "NPS",
+    "attribution": false
+   }
+  ]
+ },
+ "rain_thunder": {
+  "ko": "비 + 먼 천둥 (14초)",
+  "file": "sfx/ep/rain_thunder.wav",
+  "seconds": 14.0,
+  "loop": false,
+  "sources": [
+   {
+    "key": "oga-rainthunder",
+    "page": "https://opengameart.org/content/rain-long-thunder",
+    "license": "CC0 1.0",
+    "author": "WuxiaScrub",
+    "attribution": false
+   }
+  ]
+ },
+ "rumble": {
+  "ko": "땅 울림 (지진·대군 접근 긴장)",
+  "file": "sfx/ep/rumble.wav",
+  "seconds": 11.98,
+  "loop": false,
+  "sources": [
+   {
+    "key": "nps-thunder",
+    "page": "https://www.nps.gov/subjects/sound/sounds-thunder.htm",
+    "license": "Public domain (미국 연방정부 저작물 - NPS)",
+    "author": "NPS",
+    "attribution": false
+   }
+  ]
+ },
+ "bell": {
+  "ko": "큰 교회 종 뎅- 뎅- (조종)",
+  "file": "sfx/ep/bell.wav",
+  "seconds": 8.35,
+  "loop": false,
+  "sources": [
+   {
+    "key": "wc-glocke",
+    "page": "https://commons.wikimedia.org/wiki/File:Gro%C3%9Fe-Glocke-nm.flac",
+    "license": "CC0 1.0",
+    "author": "Rockhunt2000",
+    "attribution": false
+   }
+  ]
+ },
+ "bells": {
+  "ko": "여러 종이 울림 - 노트르담 (축제·대관, 반복 가능 20초)",
+  "file": "sfx/ep/bells.wav",
+  "seconds": 20.0,
+  "loop": true,
+  "sources": [
+   {
+    "key": "wc-notredame",
+    "page": "https://commons.wikimedia.org/wiki/File:2011_Christmas_bells_at_Notre-Dame_de_Paris_(excerpt).wav",
+    "license": "CC0 1.0",
+    "author": "Mxsmanic",
+    "attribution": false
+   }
+  ]
+ },
+ "gong": {
+  "ko": "큰 징 - 동아시아 궁정·의식",
+  "file": "sfx/ep/gong.wav",
+  "seconds": 5.2,
+  "loop": false,
+  "sources": [
+   {
+    "key": "wc-gong",
+    "page": "https://commons.wikimedia.org/wiki/File:240382_the-very-real-horst_chinese-gong-finish-session-2014-06-10-29-143.wav",
+    "license": "CC0 1.0",
+    "author": "the_very_Real_Horst (freesound 240382)",
+    "attribution": false
+   }
+  ]
+ },
+ "musket": {
+  "ko": "머스킷 소총 일제 사격 (화약 시대)",
+  "file": "sfx/ep/musket.wav",
+  "seconds": 5.58,
+  "loop": false,
+  "sources": [
+   {
+    "key": "nps-musket",
+    "page": "https://www.nps.gov/subjects/sound/sounds-musket.htm",
+    "license": "Public domain (미국 연방정부 저작물 - NPS)",
+    "author": "NPS",
+    "attribution": false
+   }
+  ]
+ },
+ "cannon": {
+  "ko": "대포 한 발 쾅",
+  "file": "sfx/ep/cannon.wav",
+  "seconds": 2.98,
+  "loop": false,
+  "sources": [
+   {
+    "key": "oga-cannon",
+    "page": "https://opengameart.org/content/cannon-fire",
+    "license": "CC0 1.0",
+    "author": "Thimras",
+    "attribution": false
+   }
+  ]
+ },
+ "explosion": {
+  "ko": "폭발 (근현대)",
+  "file": "sfx/ep/explosion.wav",
+  "seconds": 5.0,
+  "loop": false,
+  "sources": [
+   {
+    "key": "oga-explosions",
+    "page": "https://opengameart.org/content/2-high-quality-explosions",
+    "license": "CC BY 3.0",
+    "author": "Michel Baradari (apollo-music.de), via qubodup",
+    "attribution": true
+   },
+   {
+    "key": "vsco",
+    "page": "https://github.com/sgossner/VSCO-2-CE",
+    "license": "CC0 1.0",
+    "author": "Versilian Studios (VSCO 2 Community Edition)",
+    "attribution": false
+   },
+   {
+    "key": "oga-breaking",
+    "page": "https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx",
+    "license": "CC0 1.0",
+    "author": "rubberduck",
+    "attribution": false
+   }
+  ]
+ },
+ "gunfire_far": {
+  "ko": "멀리서 총격전 - 소총·기관단총 (2차 대전, 반복 가능 12초)",
+  "file": "sfx/ep/gunfire_far.wav",
+  "seconds": 12.0,
+  "loop": true,
+  "sources": [
+   {
+    "key": "firearms",
+    "page": "https://opengameart.org/content/the-free-firearm-sound-library",
+    "license": "CC0 1.0",
+    "author": "The Free Firearm Sound Library (Still North Media)",
+    "attribution": false
+   }
+  ]
+ },
+ "artillery_far": {
+  "ko": "먼 포격 - 쿵쿵 울리는 포성 + 총격 (반복 가능 12초)",
+  "file": "sfx/ep/artillery_far.wav",
+  "seconds": 12.0,
+  "loop": true,
+  "sources": [
+   {
+    "key": "oga-cannon",
+    "page": "https://opengameart.org/content/cannon-fire",
+    "license": "CC0 1.0",
+    "author": "Thimras",
+    "attribution": false
+   },
+   {
+    "key": "wc-war",
+    "page": "https://commons.wikimedia.org/wiki/File:Dragout_-_War_sounds_(cc0)_(freesound).ogg",
+    "license": "CC0 1.0",
+    "author": "Dragout (freesound)",
+    "attribution": false
+   }
+  ]
+ },
+ "tank": {
+  "ko": "전차 엔진 + 궤도 철컥철컥 (반복 가능)",
+  "file": "sfx/ep/tank.wav",
+  "seconds": 3.99,
+  "loop": true,
+  "sources": [
+   {
+    "key": "oga-engine",
+    "page": "https://opengameart.org/content/engine-loop-heavy-vehicletank",
+    "license": "CC BY 3.0",
+    "author": "Nayckron",
+    "attribution": true
+   },
+   {
+    "key": "vsco",
+    "page": "https://github.com/sgossner/VSCO-2-CE",
+    "license": "CC0 1.0",
+    "author": "Versilian Studios (VSCO 2 Community Edition)",
+    "attribution": false
+   }
+  ]
+ },
+ "page": {
+  "ko": "책장 넘김 사락",
+  "file": "sfx/ep/page.wav",
+  "seconds": 1.09,
+  "loop": false,
+  "sources": [
+   {
+    "key": "oga-books",
+    "page": "https://opengameart.org/content/10-book-page-flips",
+    "license": "CC0 1.0",
+    "author": "StarNinjas",
+    "attribution": false
+   }
+  ]
+ },
+ "map": {
+  "ko": "지도 펼침 - 종이 바스락",
+  "file": "sfx/ep/map.wav",
+  "seconds": 1.35,
+  "loop": false,
+  "sources": [
+   {
+    "key": "oga-paper",
+    "page": "https://opengameart.org/content/paper-pages-sounds",
+    "license": "CC BY 3.0",
+    "author": "Vinrax",
+    "attribution": true
+   },
+   {
+    "key": "kenney-rpg",
+    "page": "https://kenney.nl/assets/rpg-audio",
+    "license": "CC0 1.0",
+    "author": "Kenney (kenney.nl)",
+    "attribution": false
+   }
+  ]
+ },
+ "coins": {
+  "ko": "금화 짤랑 (보물·세금·교역)",
+  "file": "sfx/ep/coins.wav",
+  "seconds": 1.94,
+  "loop": false,
+  "sources": [
+   {
+    "key": "oga-goldsack",
+    "page": "https://opengameart.org/content/sack-of-gold",
+    "license": "CC0 1.0",
+    "author": "Amarikah",
+    "attribution": false
+   },
+   {
+    "key": "kenney-rpg",
+    "page": "https://kenney.nl/assets/rpg-audio",
+    "license": "CC0 1.0",
+    "author": "Kenney (kenney.nl)",
+    "attribution": false
+   }
+  ]
+ }
+}

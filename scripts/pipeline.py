@@ -111,6 +111,22 @@ def text_check(p):
     return not gate and stamp, f"오류 {len(gate)}{' (' + groups + ')' if groups else ''}, 검토 도장 {'있음' if stamp else '없음'}"
 
 
+# 썸네일·업로드 정보: 언어별 썸네일(thumbs.json → meta.json thumbs·thumbs_i18n) + 언어별 자막(out/<편>.<언어>.srt) + uploads/<편>.json
+def thumb_check(e):
+    mp = e.dir / "meta.json"
+    meta = json.loads(mp.read_text()) if mp.exists() else {}
+    miss = []
+    if not (e.dir / "thumbs.json").exists():
+        miss.append("thumbs.json")
+    if not meta.get("thumbs"):
+        miss.append("썸네일 en")
+    miss += [f"썸네일 {l}" for l in e.langs if not (meta.get("thumbs_i18n") or {}).get(l)]
+    miss += [f"자막 {l}" for l in ["en", *e.langs] if not (CODE / "out" / f"{e.id}.{l}.srt").exists()]
+    if not (CODE / "uploads" / f"{e.id}.json").exists():
+        miss.append(f"uploads/{e.id}.json")
+    return not miss, "없음: " + ", ".join(miss) if miss else f"썸네일 {len(meta['thumbs'])}개 × {1 + len(e.langs)}언어, 자막, uploads/{e.id}.json"
+
+
 # (단계, 이름, 담당, 확인 함수 → (통과?, 한 줄 설명), 할 일)
 def stages(e: Ep):
     p = str(e.path)
@@ -125,9 +141,16 @@ def stages(e: Ep):
         ("fun", "재미 보강", "claude",
          lambda: sh("python3", "scripts/check-pacing.py", p),
          "check-pacing.py에 걸린 곳만 고침: 첫 5초 훅·빠른 줌아웃, 멈춘 화면 나누기, 질문·반전 넣기"),
+        ("facts", "사실 검증", "claude",
+         lambda: sh("python3", "scripts/factcheck.py", "gate", p),
+         f"/factcheck {p} - 장면마다 숫자·연도·이름·지명·[기록] 인용·병력·사상자를 출처로 확인해 {e.dir}/facts.json (바뀐 장면만, 틀림·미확인 0, 논란은 \"chroniclers claimed\"처럼)"),
+        ("cmp1", "비교 검토: 대본", "claude",
+         lambda: sh("python3", "scripts/compare.py", "gate", p, "script"),
+         f"같은 주제 조회수 높은 영상 2~3개(07)와 7개 축(훅·쉬움·리듬·화면·소리·감정·정확성) 비교 → {e.dir}/compare.json refs + script.axes, "
+         f"우리가 못한 축은 대본을 고치거나 fix 적기 → python3 scripts/compare.py stamp {p} script"),
         ("ok1", "확인 1: 대본", "user",
          lambda: (e.stamped("ok1", e.en()), "사용자 확인"),
-         f"사용자에게 대본 요약(한국어)과 재미 포인트를 보여 주고 OK 받으면: python3 scripts/pipeline.py ok {p} ok1"),
+         f"python3 scripts/compare.py report {p} → 비교 검토 HTML을 열어 주고, 대본 요약(한국어)·재미 포인트·사실 검증 결과(논란 숫자)와 함께 보여 줌. OK 받으면: python3 scripts/pipeline.py ok {p} ok1"),
         ("assets", "화면 재료", "code+claude",
          lambda: sh("python3", "scripts/check-screen.py", p) if all((CODE / "public" / s["show"]["img"]).exists() for s in e.scenes if s["show"].get("img")) else (False, "없는 그림 있음"),
          "그림(위키미디어 퍼블릭 도메인·오픈 이미지, credits.json) 받기 + 지도 캡처(clean.mjs, 2560x1440, NAMES=off 검토)"),
@@ -159,12 +182,16 @@ def stages(e: Ep):
         ("render", "렌더", "code",
          lambda: ((CODE / "out" / f"{e.id}.mp4").exists() and e.tl_path.exists() and (CODE / "out" / f"{e.id}.mp4").stat().st_mtime > e.path.stat().st_mtime, f"out/{e.id}.mp4"),
          f"scripts/make-episode.sh {p} {e.comp} out/{e.id}.mp4  (src/Root.tsx에 {e.comp} 등록 필요)"),
+        ("cmp3", "비교 검토: 렌더", "claude+code",
+         lambda: sh("python3", "scripts/compare.py", "gate", p, "render"),
+         f"python3 scripts/compare.py report {p} (우리 렌더 같은 시각 프레임) → 프레임 보고 compare.json render.axes 7개 축 평가, 못한 축은 고치고 렌더 다시 또는 fix → python3 scripts/compare.py stamp {p} render"),
         ("ok3", "확인 3: 편집기", "user",
          lambda: (e.stamped("ok3", e.data), "사용자 확인"),
-         f"사용자가 편집기에서 보고 고침(고치면 렌더 다시) → OK면 python3 scripts/pipeline.py ok {p} ok3"),
+         f"python3 scripts/compare.py report {p} → 비교 검토 HTML 열어 주고, 사용자가 편집기에서 보고 고침(고치면 렌더 다시) → OK면 python3 scripts/pipeline.py ok {p} ok3"),
         ("thumb", "썸네일·업로드 정보", "claude+code",
-         lambda: ((CODE / "uploads" / f"{e.id}.json").exists(), f"uploads/{e.id}.json"),
-         f"썸네일 3개(src/episode/Thumb.tsx) + {e.dir}/meta.json → python3 scripts/upload-info.py {e.dir}/meta.json"),
+         lambda: thumb_check(e),
+         f"{e.dir}/thumbs.json(변형 3개 × 언어별 현지화 문구) → node scripts/thumbs.mjs {e.dir}/thumbs.json, 자막 없으면 {PY} -I scripts/subtitles.py {p}, "
+         f"meta.json sources에 python3 scripts/factcheck.py sources {p} --merge → python3 scripts/upload-info.py {e.dir}/meta.json"),
         ("upload", "업로드 (API)", "code",
          lambda: (bool(json.loads((e.dir / "meta.json").read_text()).get("uploaded")) if (e.dir / "meta.json").exists() else False, "meta.json uploaded"),
          f"node scripts/youtube.mjs upload out/{e.id}.mp4 uploads/{e.id}.json  (API 감사 통과 전엔 비공개로 잠김) → meta.json에 \"uploaded\": 날짜"),
@@ -196,6 +223,13 @@ elif cmd == "ok":
     views = {"ok1": e.en(), "sound": [e.en(), e.sound()], "ok2": e.chars_used(), "ok3": e.data}
     if stage not in views:
         sys.exit(f"도장을 찍는 단계가 아님: {stage} (가능: {', '.join(views)})")
+    # 확인 1·3은 사실 검증·비교 검토가 통과해야 도장 (사용자가 비교표를 보고 판단)
+    need = {"ok1": [("scripts/factcheck.py", "gate", path), ("scripts/compare.py", "gate", path, "script")],
+            "ok3": [("scripts/compare.py", "gate", path, "render")]}.get(stage, [])
+    for c in need:
+        ok, note = sh("python3", *c)
+        if not ok:
+            sys.exit(f"{stage} 도장 못 찍음 - {note} (python3 {' '.join(c)})")
     e.stamp(stage, views[stage])
     print(f"→ {stage} 도장")
 elif cmd == "run":

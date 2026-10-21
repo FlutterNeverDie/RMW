@@ -49,6 +49,8 @@ export const Root = () => (
     <Still id="AuditUserFlow" component={UserFlow} width={1600} height={900} />
     <Composition id="Mongol01Pilot" component={Episode} durationInFrames={timelineFrames(mongol01pilot as Timeline)} fps={30} width={1920} height={1080} defaultProps={{ timeline: mongol01pilot as Timeline }} />
     <Composition id="Mongol01" component={Episode} durationInFrames={timelineFrames(mongol01 as Timeline)} fps={30} width={1920} height={1080} defaultProps={{ timeline: mongol01 as Timeline }} />
+    {/* 언어별 썸네일은 이 하나로 --props를 바꿔 찍는다 (scripts/thumbs.mjs) */}
+    <Still id="Thumb" component={Thumb} width={1280} height={720} defaultProps={{ map: "clean/mg-wide/1260.png", face: "art/mongol/genghis-portrait.jpg", faceFocus: "50% 25%", top: "From hunted orphan", big: "To world conqueror", look: "red" as const }} />
     <Still id="Mongol01-ThumbA" component={Thumb} width={1280} height={720} defaultProps={{ map: "clean/mg-wide/1260.png", face: "art/mongol/genghis-portrait.jpg", faceFocus: "50% 25%", top: "From hunted orphan", big: "To world conqueror", look: "red" as const }} />
     <Still id="Mongol01-ThumbB" component={Thumb} width={1280} height={720} defaultProps={{ map: "clean/mg-wide/1260.png", face: "art/mongol/genghis-portrait.jpg", faceFocus: "50% 25%", top: "1 million vs 100 million", big: "How did he win?", look: "red" as const }} />
     <Still id="Mongol01-ThumbC" component={Thumb} width={1280} height={720} defaultProps={{ map: "clean/mg-wide/1260.png", face: "art/mongol/genghis-portrait.jpg", faceFocus: "50% 25%", top: "Left to die at 9", big: "Genghis Khan", look: "red" as const }} />

@@ -28,3 +28,8 @@ data/geo/
 public/bgm/*.wav
 # 옛 그림 깊이 지도 캐시 (scripts/parallax.py)
 audio/.depth/
+# 효과음 원본 녹음(Kenney·OpenGameArt·NPS·Wikimedia Commons - CC0·퍼블릭 도메인·CC BY, 크다, setup.sh가 받음). 가공본은 public/sfx/ep
+audio/sfx-src/
+# 시네마틱 지형 캐시 (blender/prep_terrain.py가 만듦 - data/geo/ 아래라 위 줄로 이미 빠짐: terrarium 조각·굽기 결과)
+data/geo/terrarium/
+data/geo/cinematic/

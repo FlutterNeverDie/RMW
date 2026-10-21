@@ -1,0 +1,431 @@
+{
+  "version": 1,
+  "_설명": "칼카강 시험 - 대군(swarm) 버전",
+  "year": 1223,
+  "theme": "film",
+  "terrain": true,
+  "relief": 0.85,
+  "marks": {
+    "turn": 0.55,
+    "close": 0.72
+  },
+  "camera": [
+    {
+      "t": 0,
+      "at": [
+        35.9,
+        47.65
+      ],
+      "zoom": 80,
+      "tilt": 30,
+      "heading": 0
+    },
+    {
+      "t": "turn",
+      "at": [
+        36.9,
+        47.5
+      ],
+      "zoom": 105,
+      "tilt": 38,
+      "heading": -10
+    },
+    {
+      "t": 1,
+      "at": [
+        37.3,
+        47.45
+      ],
+      "zoom": 150,
+      "tilt": 50,
+      "heading": -20,
+      "ease": "out"
+    }
+  ],
+  "sides": {
+    "mongol": {
+      "color": "#7a2e22",
+      "flag": "tug"
+    },
+    "rus": {
+      "color": "#3f5878",
+      "flag": "cross",
+      "armor": true,
+      "horse": "#5e4632"
+    },
+    "cuman": {
+      "color": "#c29a46",
+      "flag": "pennant",
+      "horse": [
+        "#e8e0cc",
+        "#d9cdb4",
+        "#a07a52"
+      ]
+    }
+  },
+  "lines": [
+    {
+      "style": "river",
+      "path": [
+        [
+          35.05,
+          48.45
+        ],
+        [
+          35.1,
+          47.85
+        ],
+        [
+          34.6,
+          47.45
+        ],
+        [
+          33.6,
+          46.85
+        ]
+      ]
+    },
+    {
+      "style": "river",
+      "path": [
+        [
+          37.6,
+          47.8
+        ],
+        [
+          37.48,
+          47.55
+        ],
+        [
+          37.55,
+          47.3
+        ],
+        [
+          37.6,
+          47.1
+        ]
+      ]
+    }
+  ],
+  "arrows": [
+    {
+      "side": "mongol",
+      "style": "retreat",
+      "path": [
+        [
+          35.6,
+          47.8
+        ],
+        [
+          36.5,
+          47.6
+        ],
+        [
+          37.4,
+          47.48
+        ]
+      ],
+      "grow": [
+        0.03,
+        "turn-0.05"
+      ],
+      "fade": [
+        "turn",
+        "turn+0.08"
+      ]
+    },
+    {
+      "side": "rus",
+      "style": "advance",
+      "path": [
+        [
+          35.3,
+          47.72
+        ],
+        [
+          36.2,
+          47.55
+        ],
+        [
+          37.0,
+          47.46
+        ]
+      ],
+      "grow": [
+        0.08,
+        "turn"
+      ],
+      "fade": [
+        "close",
+        "close+0.1"
+      ]
+    },
+    {
+      "side": "mongol",
+      "style": "pincer",
+      "path": [
+        [
+          37.65,
+          47.85
+        ],
+        [
+          37.3,
+          47.78
+        ],
+        [
+          37.0,
+          47.55
+        ]
+      ],
+      "grow": [
+        "close-0.04",
+        "close+0.12"
+      ]
+    },
+    {
+      "side": "mongol",
+      "style": "pincer",
+      "path": [
+        [
+          37.65,
+          47.1
+        ],
+        [
+          37.3,
+          47.18
+        ],
+        [
+          37.0,
+          47.38
+        ]
+      ],
+      "grow": [
+        "close-0.02",
+        "close+0.14"
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "m-center",
+      "side": "mongol",
+      "kind": "cavalry",
+      "spread": 0.22,
+      "path": [
+        {
+          "t": 0,
+          "at": [
+            35.7,
+            47.78
+          ],
+          "state": "march"
+        },
+        {
+          "t": "turn",
+          "at": [
+            37.45,
+            47.47
+          ],
+          "state": "charge"
+        },
+        {
+          "t": "close+0.1",
+          "at": [
+            37.12,
+            47.46
+          ],
+          "state": "hold"
+        }
+      ],
+      "swarm": {
+        "n": 400,
+        "radius": 0.3
+      }
+    },
+    {
+      "id": "m-north",
+      "side": "mongol",
+      "kind": "horse-archer",
+      "spread": 0.17,
+      "path": [
+        {
+          "t": 0,
+          "at": [
+            35.65,
+            47.9
+          ],
+          "state": "march"
+        },
+        {
+          "t": "turn",
+          "at": [
+            37.6,
+            47.82
+          ],
+          "state": "charge"
+        },
+        {
+          "t": "close+0.12",
+          "at": [
+            37.05,
+            47.6
+          ],
+          "state": "hold"
+        }
+      ],
+      "swarm": {
+        "n": 250,
+        "radius": 0.22
+      }
+    },
+    {
+      "id": "m-south",
+      "side": "mongol",
+      "kind": "horse-archer",
+      "spread": 0.17,
+      "path": [
+        {
+          "t": 0,
+          "at": [
+            35.65,
+            47.66
+          ],
+          "state": "march"
+        },
+        {
+          "t": "turn",
+          "at": [
+            37.6,
+            47.25
+          ],
+          "state": "charge"
+        },
+        {
+          "t": "close+0.14",
+          "at": [
+            37.05,
+            47.34
+          ],
+          "state": "hold"
+        }
+      ],
+      "swarm": {
+        "n": 250,
+        "radius": 0.22
+      }
+    },
+    {
+      "id": "rus",
+      "side": "rus",
+      "kind": "infantry",
+      "count": [
+        {
+          "t": 0,
+          "n": 500
+        },
+        {
+          "t": "close",
+          "n": 500
+        },
+        {
+          "t": 1,
+          "n": 130
+        }
+      ],
+      "spread": 0.2,
+      "path": [
+        {
+          "t": 0.03,
+          "at": [
+            35.25,
+            47.74
+          ],
+          "state": "march"
+        },
+        {
+          "t": "turn",
+          "at": [
+            36.95,
+            47.46
+          ],
+          "state": "hold"
+        }
+      ],
+      "swarm": {
+        "n": 500,
+        "radius": 0.28
+      }
+    },
+    {
+      "id": "cuman",
+      "side": "cuman",
+      "kind": "cavalry",
+      "count": [
+        {
+          "t": 0,
+          "n": 300
+        },
+        {
+          "t": "close",
+          "n": 300
+        },
+        {
+          "t": 0.95,
+          "n": 50
+        }
+      ],
+      "spread": 0.17,
+      "path": [
+        {
+          "t": 0.02,
+          "at": [
+            35.35,
+            47.6
+          ],
+          "state": "march"
+        },
+        {
+          "t": "turn",
+          "at": [
+            37.1,
+            47.42
+          ],
+          "state": "hold"
+        },
+        {
+          "t": "close",
+          "at": [
+            37.08,
+            47.42
+          ],
+          "state": "flee"
+        },
+        {
+          "t": 1,
+          "at": [
+            36.55,
+            47.4
+          ],
+          "state": "flee"
+        }
+      ],
+      "swarm": {
+        "n": 300,
+        "radius": 0.24
+      }
+    }
+  ],
+  "markers": [
+    {
+      "kind": "battle",
+      "at": [
+        37.25,
+        47.45
+      ],
+      "show": [
+        "close",
+        1
+      ]
+    }
+  ]
+}

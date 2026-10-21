@@ -61,11 +61,13 @@ def voice_line(r, text, lang, raw, extra=""):
 scenes = []
 fallback = []  # 연기(Gemini)해야 하는데 한도로 Chirp가 대신한 줄
 for i, s in enumerate(ep["scenes"]):
-    sc = {**s, "vo": None, "vo_i18n": {}, "acted": False, "dur": {}, "engine": {}}
+    sc = {**s, "vo": None, "vo_i18n": {}, "acted": False, "dur": {}, "engine": {}}  # engine = 언어별로 목소리를 만든 모델 (끝 지지직 등 모델별 문제 추적, 2026-10-21)
     if s["show"]["type"] == "mapscene":  # 기울인 지도 장면: 찍은 연속 그림 폴더 (scripts/map-scene.mjs가 이 장면 frames만큼 찍음)
         sc["show"] = {**s["show"], "dir": f"ep/{src.parent.name}/maps/{s['show']['scene']}"}
+    if s["show"]["type"] == "cinematic":  # Blender 시네마틱 장면
+        sc["show"] = {**s["show"], "dir": f"ep/{src.parent.name}/{src.stem}/cinematic/{i:02d}"}
     if s["show"]["type"] == "art" and s["show"].get("parallax"):  # 옛 그림 2.5D: scripts/scene-frames.py가 찍음
-        sc["show"] = {**s["show"], "dir": f"ep/{src.parent.name}/{src.stem}/parallax/{i:02d}"}  # engine = 언어별로 목소리를 만든 모델 (끝 지지직 등 모델별 문제 추적, 2026-10-21)
+        sc["show"] = {**s["show"], "dir": f"ep/{src.parent.name}/{src.stem}/parallax/{i:02d}"}
     secs = s["show"].get("seconds", 0)
     if s.get("text"):
         r = C.CAST[s["role"]]
