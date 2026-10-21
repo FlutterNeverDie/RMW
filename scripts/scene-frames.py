@@ -1,10 +1,13 @@
 # 렌더 전에 미리 찍는 장면: 옛 그림 2.5D(art + parallax), 기울인 지도 장면(mapscene), Blender 시네마틱(cinematic)을 목소리로 정해진 길이(frames)만큼
-# python3 scripts/scene-frames.py episodes/mongol-01/ep.json   (make-episode.sh가 목소리 다음에 부름)
+# python3 scripts/scene-frames.py episodes/mongol-01/ep.json   (make-episode.mjs가 목소리 다음에 부름)
 # 이미 같은 내용·길이로 찍혀 있으면 건너뛴다 (목소리를 다시 만들어 길이가 바뀌면 다시 찍음)
 import hashlib, json, subprocess, sys, urllib.request
 from pathlib import Path
 
 CODE = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(CODE / "scripts"))
+import tools  # noqa: E402 - 외부 프로그램 위치 (맥·윈도우)
+
 ep = Path(sys.argv[1])
 tl = json.loads((CODE / "public/ep" / ep.parent.name / ep.stem / "timeline.json").read_text())
 SITE = "http://localhost:3000"
@@ -54,9 +57,9 @@ for i, sc in enumerate(tl["scenes"]):
         key = hashlib.sha1((shot.read_text() + str(n) + hashlib.sha1(src.encode()).hexdigest()).encode()).hexdigest()
         if stamp(out, key):
             continue
-        blender = "/Applications/Blender.app/Contents/MacOS/Blender"
+        blender = str(tools.blender())  # 맥 /Applications, 윈도우 Program Files의 가장 새 Blender, BLENDER 환경 변수
         if not Path(blender).exists():
-            sys.exit("시네마틱 장면을 찍으려면 Blender 필요 - brew install --cask blender (setup.sh)")
+            sys.exit(f"시네마틱 장면을 찍으려면 Blender 필요 ({blender}) - " + ("winget install BlenderFoundation.Blender (setup.ps1)" if tools.WIN else "brew install --cask blender (setup.sh)"))
         print(f"장면 {i:02d} 시네마틱 {sh['shot']} ({n}장)", flush=True)
         subprocess.run([blender, "-b", "--factory-startup", "-P", str(CODE / "blender/render_shot.py"), "--",
                         "--shot", str(shot), "--out", str(out), "--frames", str(n)], check=True, cwd=CODE)

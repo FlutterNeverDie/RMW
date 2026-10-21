@@ -9,12 +9,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 
 from pngframes import png_frames  # noqa: E402
+import tools  # noqa: E402 - 외부 프로그램 위치 (맥·윈도우), npx 대신 노드로 remotion
 
 
 video, tl_path = sys.argv[1], sys.argv[2]
 W, H = 32, 18
 raw = subprocess.run(
-    ["npx", "remotion", "ffmpeg", "-v", "error", "-i", video, "-vf", f"scale={W}:{H},format=gray", "-c:v", "png", "-f", "image2pipe", "-"],
+    [*tools.remotion(), "ffmpeg", "-v", "error", "-i", video, "-vf", f"scale={W}:{H},format=gray", "-c:v", "png", "-f", "image2pipe", "-"],
     capture_output=True, check=True,
 ).stdout
 frames = np.stack(png_frames(raw))

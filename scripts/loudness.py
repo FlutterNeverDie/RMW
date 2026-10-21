@@ -5,11 +5,13 @@ import json, re, subprocess, sys
 from pathlib import Path
 
 CODE = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(CODE / "scripts"))
+import tools  # noqa: E402 - 외부 프로그램 위치 (맥·윈도우), npx 대신 노드로 remotion
 TARGET = "I=-14:TP=-1.0:LRA=11"
 
 
 def ffmpeg(*a):
-    return subprocess.run(["npx", "remotion", "ffmpeg", "-hide_banner", "-nostats", *a], cwd=CODE, capture_output=True, text=True, check=True)
+    return subprocess.run([*tools.remotion(), "ffmpeg", "-hide_banner", "-nostats", *a], cwd=CODE, capture_output=True, text=True, check=True)
 
 
 src, dst = sys.argv[1], sys.argv[2]

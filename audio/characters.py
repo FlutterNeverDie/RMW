@@ -658,7 +658,10 @@ def needed(ep_path):
         print(f"  {n:24} {'→ ' + hit[0] if hit else '설계 없음'}")
 
 
-RHUBARB = Path.home() / "src/rhubarb/rhubarb"
+sys.path.insert(0, str(ROOT / "scripts"))
+import tools  # noqa: E402 - 외부 프로그램 위치 (맥·윈도우)
+
+RHUBARB = tools.rhubarb()
 
 
 def visemes(wav, text, lang, fps):

@@ -19,7 +19,7 @@ import { fileURLToPath } from "node:url";
 import { homedir } from "node:os";
 import { join } from "node:path";
 import { readFile, rm, stat, writeFile } from "node:fs/promises";
-import { execFile } from "node:child_process";
+import { openPath } from "./tools.mjs";
 
 const SECRETS = new URL("../secrets/", import.meta.url);
 const SCOPES = ["https://www.googleapis.com/auth/youtube.upload", "https://www.googleapis.com/auth/youtube.readonly"];
@@ -64,7 +64,7 @@ async function auth() {
       res.end(q.get("code") ? "<h2>완료 - 이 창은 닫아도 됩니다</h2>" : `<h2>실패: ${q.get("error")}</h2>`);
       q.get("code") ? resolve(q.get("code")) : reject(new Error(q.get("error") ?? "코드 없음"));
     });
-    execFile("open", [url]);
+    openPath(url); // 맥 open, 윈도우 start
     console.log("브라우저에서 허용해 주세요. 창이 안 뜨면 이 주소를 여세요:\n" + url);
   });
   server.close();

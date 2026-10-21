@@ -3,9 +3,10 @@
 // 실행: node scripts/desk.mjs   (SITE=http://localhost:3000 이면 로컬)
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import puppeteer from "puppeteer-core";
+import { ANGLE, chrome } from "./tools.mjs";
 
 const SITE = process.env.SITE ?? "https://historymapworld.com";
-const CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+const CHROME = chrome(); // 맥 /Applications, 윈도우 Program Files (scripts/tools.mjs)
 const EVENT = "normandy-landings";
 const W = 1440;
 const H = 810;
@@ -13,7 +14,7 @@ const dir = new URL("../public/desk/", import.meta.url);
 await rm(dir, { recursive: true, force: true });
 await mkdir(dir, { recursive: true });
 
-const browser = await puppeteer.launch({ executablePath: CHROME, headless: true, protocolTimeout: 60000, args: ["--use-angle=metal", "--ignore-gpu-blocklist"] });
+const browser = await puppeteer.launch({ executablePath: CHROME, headless: true, protocolTimeout: 60000, args: [ANGLE, "--ignore-gpu-blocklist"] });
 const page = await browser.newPage();
 await page.emulateTimezone("Europe/London");
 // 1440×810 × 4/3 = 1920×1080

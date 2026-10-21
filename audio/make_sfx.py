@@ -1,5 +1,5 @@
 # 해설 영상 효과음: 실제 녹음(CC0·퍼블릭 도메인·CC BY)을 다듬어 public/sfx/ep/<이름>.wav 로 만든다
-#   .venv/bin/python -I audio/make_sfx.py fetch      원본 받기 (audio/sfx-src/, git 제외 - setup.sh가 부름)
+#   .venv/bin/python -I audio/make_sfx.py fetch      원본 받기 (audio/sfx-src/, git 제외 - setup.sh·setup.ps1이 부름)
 #   .venv/bin/python -I audio/make_sfx.py            전부 다시 만들기 (같은 입력이면 같은 결과 - 난수 씨앗 고정)
 #   .venv/bin/python -I audio/make_sfx.py gallop boom   몇 개만
 #   .venv/bin/python -I audio/make_sfx.py takes <파일>  녹음 안의 조각(테이크) 위치 보기 - 레시피 고를 때
@@ -17,7 +17,10 @@ CACHE = SRC / "_cache"    # 48k로 푼 wav
 VSCO = ROOT / "audio/sf/vsco2"
 OUT = ROOT / "public/sfx/ep"
 CREDITS = ROOT / "public/sfx/credits.json"
-FF = ROOT / "node_modules/@remotion/compositor-darwin-arm64"  # Remotion에 딸린 ffmpeg (scripts/loudness.py와 같은 것)
+sys.path.insert(0, str(ROOT / "scripts"))
+import tools  # noqa: E402 - 외부 프로그램 위치 (맥·윈도우)
+
+FF = tools.ffmpeg_dir()  # Remotion에 딸린 ffmpeg (scripts/loudness.py와 같은 것)
 SR = 48000
 PEAK_DB, RMS_DB, BED_RMS_DB = -3.0, -16.0, -20.0
 
@@ -118,7 +121,11 @@ def _extract(key):
     d = EXT / key
     if not d.exists():
         d.mkdir(parents=True)
-        subprocess.run(["tar", "-xf", str(p), "-C", str(d)], check=True)  # macOS bsdtar는 zip·7z 모두 품
+        z = tools.sevenzip() if p.suffix.lower() == ".7z" else None  # 윈도우 10 tar.exe는 7z를 못 풀 수 있어 7-Zip으로
+        if z:
+            subprocess.run([str(z), "x", "-y", f"-o{d}", str(p)], check=True, stdout=subprocess.DEVNULL)
+        else:
+            subprocess.run([tools.tar(), "-xf", str(p), "-C", str(d)], check=True)  # macOS bsdtar는 zip·7z 모두 품
     return d
 
 
@@ -145,7 +152,7 @@ def load_path(p):
     h = hashlib.sha1(f"{p}:{p.stat().st_size}".encode()).hexdigest()[:16]
     c = CACHE / f"{h}.wav"
     if not c.exists():
-        subprocess.run(["./ffmpeg", "-v", "error", "-y", "-i", str(p), "-c:a", "pcm_s24le", "-ac", "2", "-ar", str(SR), str(c)], cwd=FF, check=True)
+        subprocess.run([str(tools.ffmpeg()), "-v", "error", "-y", "-i", str(p), "-c:a", "pcm_s24le", "-ac", "2", "-ar", str(SR), str(c)], cwd=FF, check=True)
     with wave.open(str(c)) as w:
         b = np.frombuffer(w.readframes(w.getnframes()), np.uint8).reshape(-1, 3).astype(np.int32)
     v = b[:, 0] | (b[:, 1] << 8) | (b[:, 2] << 16)

@@ -3,10 +3,11 @@
 import { fileURLToPath } from "node:url";
 import { mkdir } from "node:fs/promises";
 import puppeteer from "puppeteer-core";
+import { ANGLE, chrome } from "./tools.mjs";
 import { SITE_PATH, TIMEZONE } from "./locales.mjs";
 
 const SITE = "https://historymapworld.com";
-const CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+const CHROME = chrome(); // 맥 /Applications, 윈도우 Program Files (scripts/tools.mjs)
 
 const [locale, ...years] = process.argv.slice(2);
 const dir = new URL(`../public/shots/${locale}/`, import.meta.url);
@@ -15,7 +16,7 @@ await mkdir(dir, { recursive: true });
 const browser = await puppeteer.launch({
   executablePath: CHROME,
   headless: true,
-  args: ["--use-angle=metal", "--enable-webgl", "--ignore-gpu-blocklist"],
+  args: [ANGLE, "--enable-webgl", "--ignore-gpu-blocklist"],
 });
 const page = await browser.newPage();
 await page.emulateTimezone(TIMEZONE[locale]);

@@ -5,16 +5,17 @@
 import { fileURLToPath } from "node:url";
 import { mkdir } from "node:fs/promises";
 import puppeteer from "puppeteer-core";
+import { ANGLE, chrome } from "./tools.mjs";
 
 const SITE = process.env.SITE ?? "https://historymapworld.com";
-const CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+const CHROME = chrome(); // 맥 /Applications, 윈도우 Program Files (scripts/tools.mjs)
 const [set, size, view, ...years] = process.argv.slice(2);
 const [W, H] = size.split("x").map(Number);
 const [, steps, cx, cy, drag] = view.match(/^(-?\d+)\^(\d+),(\d+)(?:@(-?\d+,-?\d+))?$/);
 const dir = new URL(`../public/clean/${set}/`, import.meta.url);
 await mkdir(dir, { recursive: true });
 
-const browser = await puppeteer.launch({ executablePath: CHROME, headless: true, protocolTimeout: 60000, args: ["--use-angle=metal", "--ignore-gpu-blocklist"] });
+const browser = await puppeteer.launch({ executablePath: CHROME, headless: true, protocolTimeout: 60000, args: [ANGLE, "--ignore-gpu-blocklist"] });
 const page = await browser.newPage();
 // 시간대가 첫 화면 위치를 정한다: 런던 = 유럽이 가운데(기본), TZ_NAME=Asia/Seoul = 동아시아
 await page.emulateTimezone(process.env.TZ_NAME ?? "Europe/London");

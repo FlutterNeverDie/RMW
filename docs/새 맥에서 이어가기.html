@@ -17,6 +17,10 @@ cd 코드 && ./setup.sh</pre>
 <li>받은 <code>claude-memory/*.md</code> → <code>~/.claude/projects/-Users-&lt;사용자이름&gt;/memory/</code></li>
 <li><code>./setup.sh</code>를 다시 돌려 "열쇠 있음" 4줄 확인</li>
 <li><code>cd ~/hwm && claude</code> → CLAUDE.md와 <code>docs/guide/</code>를 읽고 이어감</li></ol>
+<h2>윈도우 PC라면</h2>
+<ol><li>Git 설치(<code>winget install Git.Git</code>) → <code>git clone https://github.com/FlutterNeverDie/RMW.git</code> → 저장소 폴더의 <code>setup.cmd</code> (맥의 setup.sh와 같은 일, WSL 없이)</li>
+<li>받은 <code>secrets</code> 파일 → 저장소의 <code>secrets\</code>, Claude 기억 → <code>%USERPROFILE%\.claude\projects\C--Users-&lt;사용자이름&gt;\memory\</code></li>
+<li>렌더는 <code>node scripts/make-episode.mjs …</code>, 편집기는 <code>npm run editor</code>. 처음 확인할 목록은 <code>todo/2026-10-20-남은-확인.md</code></li></ol>
 <h2>3. 쇼츠만 만들 때 필요한 것</h2>
 <ul><li>지도 캡처는 저장소에 들어 있음 (<code>public/clean</code>). 새 연도·지역이 필요하면 사이트(chronomap) 로컬 서버를 켜고 <code>scripts/clean.mjs</code></li>
 <li>브금·효과음은 저장소에 들어 있음. 목소리는 처음 만들 때 TTS를 다시 부름 (무료 한도 안)</li>

@@ -4,17 +4,18 @@
 // 실행: node scripts/record.mjs en normandy-landings 1940
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import puppeteer from "puppeteer-core";
+import { ANGLE, chrome } from "./tools.mjs";
 import { SITE_PATH, TIMEZONE } from "./locales.mjs";
 
 // SITE=http://localhost:3000 처럼 주면 로컬 개발 서버를 녹화한다 (배포 전 확인용)
 const SITE = process.env.SITE ?? "https://historymapworld.com";
-const CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+const CHROME = chrome(); // 맥 /Applications, 윈도우 Program Files (scripts/tools.mjs)
 const [locale, eventId, year] = process.argv.slice(2);
 const dir = new URL(`../public/demo/${locale}/`, import.meta.url);
 await rm(dir, { recursive: true, force: true });
 await mkdir(dir, { recursive: true });
 
-const browser = await puppeteer.launch({ executablePath: CHROME, headless: true, protocolTimeout: 60000, args: ["--use-angle=metal", "--ignore-gpu-blocklist"] });
+const browser = await puppeteer.launch({ executablePath: CHROME, headless: true, protocolTimeout: 60000, args: [ANGLE, "--ignore-gpu-blocklist"] });
 const page = await browser.newPage();
 await page.emulateTimezone(TIMEZONE[locale]);
 await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 3, isMobile: true, hasTouch: true });

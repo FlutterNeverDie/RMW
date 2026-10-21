@@ -1,5 +1,5 @@
 #!/bin/bash
-# 새 맥에서 한 번: 도구 설치 → 패키지 → 파이썬 → 악기 소리 모음 → 열쇠 확인
+# 새 맥에서 한 번: 도구 설치 → 패키지 → 파이썬 → 악기 소리 모음 → 열쇠 확인 (윈도우는 setup.cmd → setup.ps1, 같은 순서)
 # 공장 초기 맥이면: 터미널에서 xcode-select --install (git) → git clone → ./setup.sh (Homebrew·Chrome·Rosetta까지 여기서 설치, 중간에 맥 암호를 물어봄)
 # 저장소는 어디에 둬도 된다 (이 맥: ~/Documents/GitHub/RMW). 산출물은 ~/hwm/영상 등으로 복사됨 (HWM 환경 변수로 바꿀 수 있음)
 set -e

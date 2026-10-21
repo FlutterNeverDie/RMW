@@ -9,8 +9,8 @@ argument-hint: <편 id, 예: mongol-03> [하고 싶은 말]
 2. 편 폴더 `episodes/<편>/`가 없으면 만들고 ep.json 뼈대(`{"_설명": ..., "bgm": "bgm/main.wav", "langs": ["en","ko","es"], "scenes": []}`)와 meta.json을 둔다 (기존 편 형식 참고)
 3. `python3 scripts/pipeline.py run episodes/<편>/ep.json` → 코드 단계는 알아서 돌고, Claude나 사용자 차례에서 멈춘다
 4. 멈춘 단계가 **Claude** 차례면 그 단계의 "할 일"을 한다. 게이트 검사에 걸린 곳만 고치고(전체를 다시 쓰지 않음), 다시 `run`. 통과하면 다음 단계로 계속
-5. 멈춘 단계가 **사용자**(확인 1·2·3)면 **편집기를 그 편으로 열어 주고**(`curl -s localhost:4600 >/dev/null || (npm run editor &)` 후 `open "http://localhost:4600/?e=<편>"`) 반드시 멈추고 보고한다. 사용자가 OK하면 그때 `python3 scripts/pipeline.py ok episodes/<편>/ep.json <단계>` 후 계속
-   - 확인 1: 대본 한국어 요약(장면 흐름 · 첫 30초 · 재미 포인트 · 길이) + 사실 검증 결과(고친 곳·논란 숫자) + `python3 scripts/compare.py report <장면표>`로 만든 비교 검토 HTML을 `open`으로 열어 줌. 편집기 대사 탭에서 언어별로 볼 수 있다고 안내
+5. 멈춘 단계가 **사용자**(확인 1·2·3)면 **편집기를 그 편으로 열어 주고**(`curl -s localhost:4600 >/dev/null || (npm run editor &)` 후 `node scripts/tools.mjs open "http://localhost:4600/?e=<편>"` - 맥·윈도우 공용) 반드시 멈추고 보고한다. 사용자가 OK하면 그때 `python3 scripts/pipeline.py ok episodes/<편>/ep.json <단계>` 후 계속
+   - 확인 1: 대본 한국어 요약(장면 흐름 · 첫 30초 · 재미 포인트 · 길이) + 사실 검증 결과(고친 곳·논란 숫자) + `python3 scripts/compare.py report <장면표>`로 만든 비교 검토 HTML을 `node scripts/tools.mjs open <파일>`로 열어 줌. 편집기 대사 탭에서 언어별로 볼 수 있다고 안내
    - 확인 2: 편집기 인물 탭에서 캐릭터 보기·모습 고치기
    - 확인 3: 편집기에서 렌더본 보고 고치기 (이름 붙여 저장) + 비교 검토 HTML(우리 렌더 프레임 포함) 다시 만들어 열어 줌. 사용자가 고쳤으면 렌더 다시 → 비교 검토 다시
    - `ok1`·`ok3`는 사실 검증·비교 검토 게이트가 통과해야 찍힌다 (pipeline.py가 막음)

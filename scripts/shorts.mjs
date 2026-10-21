@@ -6,10 +6,11 @@
 import { fileURLToPath } from "node:url";
 import { mkdir } from "node:fs/promises";
 import puppeteer from "puppeteer-core";
+import { ANGLE, chrome } from "./tools.mjs";
 
 const SITE = process.env.SITE ?? "https://historymapworld.com";
 const LANG = process.env.LANG_PATH ?? "/en";
-const CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+const CHROME = chrome(); // 맥 /Applications, 윈도우 Program Files (scripts/tools.mjs)
 const [set, tz, steps, center, drag, ...years] = process.argv.slice(2);
 const W = 540, H = 960;
 const [cx, cy] = center.split(",").map(Number);
@@ -17,7 +18,7 @@ const [dx, dy] = drag.split(",").map(Number);
 const dir = new URL(`../public/clean/${set}/`, import.meta.url);
 await mkdir(dir, { recursive: true });
 
-const browser = await puppeteer.launch({ executablePath: CHROME, headless: true, protocolTimeout: 90000, args: ["--use-angle=metal", "--ignore-gpu-blocklist"] });
+const browser = await puppeteer.launch({ executablePath: CHROME, headless: true, protocolTimeout: 90000, args: [ANGLE, "--ignore-gpu-blocklist"] });
 const page = await browser.newPage();
 await page.emulateTimezone(tz);
 await page.setViewport({ width: W, height: H + 110, deviceScaleFactor: 2 });

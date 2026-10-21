@@ -17,11 +17,13 @@ import sys
 from pathlib import Path
 
 CODE = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(CODE / "scripts"))
+import tools  # noqa: E402 - 외부 프로그램 위치 (맥·윈도우)
+
 HOME = Path(os.environ.get("HWM", Path.home() / "hwm"))
 AXES = [("hook", "훅 (첫 5초·30초)"), ("clarity", "알아듣기 쉬움"), ("pacing", "리듬 (화면 바뀜)"), ("visuals", "화면"),
         ("sound", "소리 (브금·효과음·목소리)"), ("emotion", "감정·몰입"), ("accuracy", "정확성")]
 RATES = {"better": "우리가 나음", "equal": "같음", "worse": "우리가 못함"}
-FF = CODE / "node_modules/@remotion/compositor-darwin-arm64"  # Remotion에 든 ffmpeg, 없으면 npx remotion ffmpeg
 GRID = [0, 2, 5, 10, 15, 20, 30]  # 첫 30초는 촘촘히, 그 뒤는 1분마다 + 참고 영상 moments 시각
 
 
@@ -30,10 +32,10 @@ def fp(obj):
 
 
 def ff(tool, *a):
-    b = FF / tool
-    if b.exists():  # 옆의 libav*.dylib를 상대 경로로 찾아서 그 폴더에서 돌린다
-        return subprocess.run([str(b), *a], cwd=FF, capture_output=True)
-    return subprocess.run(["npx", "remotion", tool, *a], cwd=CODE, capture_output=True)
+    b = tools.ffmpeg(tool)  # Remotion에 든 ffmpeg, 없으면 remotion ffmpeg
+    if b:  # 옆의 libav*.dylib를 상대 경로로 찾아서 그 폴더에서 돌린다
+        return subprocess.run([str(b), *a], cwd=b.parent, capture_output=True)
+    return subprocess.run(tools.remotion(tool, *a), cwd=CODE, capture_output=True)
 
 
 class Ep:

@@ -11,6 +11,7 @@ import { homedir } from "node:os";
 import { basename, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
+import { remotion } from "./tools.mjs"; // npx 대신 노드로 (윈도우 npx.cmd는 --props 따옴표가 깨짐)
 
 const run = promisify(execFile);
 const CODE = fileURLToPath(new URL("..", import.meta.url));
@@ -30,7 +31,7 @@ for (const [k, v] of spec.variants.entries()) {
   for (const [lang, words] of Object.entries(v).filter(([l]) => l in LANG)) {
     const props = { look: spec.look ?? "red", map: v.map ?? spec.map, face: v.face ?? spec.face, faceFocus: v.faceFocus ?? spec.faceFocus, ...words };
     const out = join(CODE, "out/thumbs", `${ep}-${k + 1}-${lang}.png`);
-    await run("npx", ["remotion", "still", "src/index.ts", "Thumb", out, `--props=${JSON.stringify(props)}`], { cwd: CODE });
+    await run(...remotion("still", "src/index.ts", "Thumb", out, `--props=${JSON.stringify(props)}`), { cwd: CODE });
     const rel = join(meta.folder, `${meta.name}_썸네일 ${k + 1} ${LANG[lang]}.png`);
     await mkdir(join(HOME, meta.folder), { recursive: true });
     await copyFile(out, join(HOME, rel));

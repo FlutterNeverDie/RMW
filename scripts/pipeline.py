@@ -15,8 +15,13 @@ import sys
 from pathlib import Path
 
 CODE = Path(__file__).resolve().parent.parent
-PY = str(CODE / ".venv/bin/python")
+sys.path.insert(0, str(CODE / "scripts"))
+import tools  # noqa: E402 - 외부 프로그램 위치 (맥·윈도우)
 
+PY = str(tools.python())
+PY = f'"{PY}"' if " " in PY else PY  # 아래 할 일 글은 셸로 돌리니 경로에 빈칸이 있으면 따옴표 (맥·윈도우 셸 모두)
+# 검사기·도장은 지금 이 파이썬으로 (맥 python3 그대로). 할 일 글에 적는 명령: 윈도우는 python3가 스토어 바로가기라 .venv 파이썬
+PY3 = PY if tools.WIN else "python3"
 
 def sh(*cmd, show=False):
     r = subprocess.run(cmd, cwd=CODE, capture_output=not show, text=True)
@@ -95,7 +100,7 @@ def gemini_forecast(e):
 
 # 대본 검사(check-text.py --json)를 규칙 무리별로 세고 + 검토 도장
 def text_check(p):
-    r = subprocess.run(["python3", "scripts/check-text.py", p, "--json"], cwd=CODE, capture_output=True, text=True)
+    r = subprocess.run([sys.executable, "scripts/check-text.py", p, "--json"], cwd=CODE, capture_output=True, text=True)
     try:
         items = json.loads(r.stdout)
     except ValueError:
@@ -107,7 +112,7 @@ def text_check(p):
         c = count.setdefault(k, [0, 0])
         c[x["level"] != "error"] += 1
     groups = " · ".join(f"{k} {a}" + (f"+{b}경고" if b else "") if a else f"{k} {b}경고" for k, (a, b) in sorted(count.items(), key=lambda kv: -kv[1][0]))
-    stamp = sh("python3", "scripts/locale-review.py", "gate", p)[0]
+    stamp = sh(sys.executable, "scripts/locale-review.py", "gate", p)[0]
     return not gate and stamp, f"오류 {len(gate)}{' (' + groups + ')' if groups else ''}, 검토 도장 {'있음' if stamp else '없음'}"
 
 
@@ -139,23 +144,23 @@ def stages(e: Ep):
          lambda: (sum(1 for s in e.scenes if s.get("text")) > 20, f"대사 {sum(1 for s in e.scenes if s.get('text'))}줄"),
          f"plan.md를 바탕으로 {p} 장면표 작성 (03 만드는 법 4번 형식)"),
         ("fun", "재미 보강", "claude",
-         lambda: sh("python3", "scripts/check-pacing.py", p),
+         lambda: sh(sys.executable, "scripts/check-pacing.py", p),
          "check-pacing.py에 걸린 곳만 고침: 첫 5초 훅·빠른 줌아웃, 멈춘 화면 나누기, 질문·반전 넣기"),
         ("facts", "사실 검증", "claude",
-         lambda: sh("python3", "scripts/factcheck.py", "gate", p),
+         lambda: sh(sys.executable, "scripts/factcheck.py", "gate", p),
          f"/factcheck {p} - 장면마다 숫자·연도·이름·지명·[기록] 인용·병력·사상자를 출처로 확인해 {e.dir}/facts.json (바뀐 장면만, 틀림·미확인 0, 논란은 \"chroniclers claimed\"처럼)"),
         ("cmp1", "비교 검토: 대본", "claude",
-         lambda: sh("python3", "scripts/compare.py", "gate", p, "script"),
+         lambda: sh(sys.executable, "scripts/compare.py", "gate", p, "script"),
          f"같은 주제 조회수 높은 영상 2~3개(07)와 7개 축(훅·쉬움·리듬·화면·소리·감정·정확성) 비교 → {e.dir}/compare.json refs + script.axes, "
-         f"우리가 못한 축은 대본을 고치거나 fix 적기 → python3 scripts/compare.py stamp {p} script"),
+         f"우리가 못한 축은 대본을 고치거나 fix 적기 → {PY3} scripts/compare.py stamp {p} script"),
         ("ok1", "확인 1: 대본", "user",
          lambda: (e.stamped("ok1", e.en()), "사용자 확인"),
-         f"python3 scripts/compare.py report {p} → 비교 검토 HTML을 열어 주고, 대본 요약(한국어)·재미 포인트·사실 검증 결과(논란 숫자)와 함께 보여 줌. OK 받으면: python3 scripts/pipeline.py ok {p} ok1"),
+         f"{PY3} scripts/compare.py report {p} → 비교 검토 HTML을 열어 주고, 대본 요약(한국어)·재미 포인트·사실 검증 결과(논란 숫자)와 함께 보여 줌. OK 받으면: {PY3} scripts/pipeline.py ok {p} ok1"),
         ("assets", "화면 재료", "code+claude",
-         lambda: sh("python3", "scripts/check-screen.py", p) if all((CODE / "public" / s["show"]["img"]).exists() for s in e.scenes if s["show"].get("img")) else (False, "없는 그림 있음"),
+         lambda: sh(sys.executable, "scripts/check-screen.py", p) if all((CODE / "public" / s["show"]["img"]).exists() for s in e.scenes if s["show"].get("img")) else (False, "없는 그림 있음"),
          "그림(위키미디어 퍼블릭 도메인·오픈 이미지, credits.json) 받기 + 지도 캡처(clean.mjs, 2560x1440, NAMES=off 검토)"),
         ("screen", "화면 연출", "claude",
-         lambda: sh("python3", "scripts/check-screen.py", p),
+         lambda: sh(sys.executable, "scripts/check-screen.py", p),
          "카메라·라벨·도장 정하기. 확대 한도 안, 화면 글자는 이름·지명·연도만"),
         ("langs", "나라별 언어", "claude",
          lambda: (all((s.get("i18n") or {}).get(l) for s in e.scenes if s.get("text") for l in e.langs), "모든 언어 대사"),
@@ -164,34 +169,34 @@ def stages(e: Ep):
          lambda: text_check(p),
          f"/localize {p}"),
         ("length", "길이 맞추기", "claude",
-         lambda: sh("python3", "scripts/check-length.py", p),
+         lambda: sh(sys.executable, "scripts/check-length.py", p),
          "check-length.py에 걸린 더빙만 영어 110% 안으로 줄이기 → 바뀐 언어는 /localize 도장 다시"),
         ("sound", "효과음·브금 자리", "claude",
          lambda: (e.stamped("sound", [e.en(), e.sound()]), "자리 정함"),
-         f"장마다 music(분위기), 핵심 순간에만 cues(도장·반전·전투). 전환음은 코드 규칙. 끝나면: python3 scripts/pipeline.py ok {p} sound"),
+         f"장마다 music(분위기), 핵심 순간에만 cues(도장·반전·전투). 전환음은 코드 규칙. 끝나면: {PY3} scripts/pipeline.py ok {p} sound"),
         ("chars", "캐릭터 만들기", "claude+code",
-         lambda: (not e.chars_missing() and all(v and (CODE / "public/chars" / k / "front/head.svg").exists() for k, v in e.chars_used().items()) and sh("python3", "audio/characters.py", "list", p)[0],
+         lambda: (not e.chars_missing() and all(v and (CODE / "public/chars" / k / "front/head.svg").exists() for k, v in e.chars_used().items()) and sh(sys.executable, "audio/characters.py", "list", p)[0],
                   f"{len(e.chars_used())}명" + (f", 설계 없음: {', '.join(e.chars_missing())}" if e.chars_missing() else "") if e.chars_used() or e.chars_missing() else "인물 없음"),
-         f"python3 audio/characters.py list {p} → 설계 없는 인물을 characters.json에(ko·about 포함) → python3 audio/characters.py build"),
+         f"{PY3} audio/characters.py list {p} → 설계 없는 인물을 characters.json에(ko·about 포함) → {PY3} audio/characters.py build"),
         ("ok2", "확인 2: 캐릭터", "user",
          lambda: (e.stamped("ok2", e.chars_used()), "사용자 확인"),
-         f"사용자가 편집기 인물 탭에서 확인 (모습 고치기 가능) → python3 scripts/pipeline.py ok {p} ok2"),
+         f"사용자가 편집기 인물 탭에서 확인 (모습 고치기 가능) → {PY3} scripts/pipeline.py ok {p} ok2"),
         ("voice", "목소리", "code",
          lambda: (e.tl_path.exists() and [s.get("text") for s in json.loads(e.tl_path.read_text())["scenes"]] == e.en() and sh(PY, "-I", "scripts/check-voice.py", p)[0], gemini_forecast(e)),
          f"{PY} -I audio/voice_episode.py {p} && {PY} -I scripts/check-voice.py {p} && {PY} -I audio/characters.py mouth {p}"),
         ("render", "렌더", "code",
          lambda: ((CODE / "out" / f"{e.id}.mp4").exists() and e.tl_path.exists() and (CODE / "out" / f"{e.id}.mp4").stat().st_mtime > e.path.stat().st_mtime, f"out/{e.id}.mp4"),
-         f"scripts/make-episode.sh {p} {e.comp} out/{e.id}.mp4  (src/Root.tsx에 {e.comp} 등록 필요)"),
+         f"node scripts/make-episode.mjs {p} {e.comp} out/{e.id}.mp4  (src/Root.tsx에 {e.comp} 등록 필요)"),
         ("cmp3", "비교 검토: 렌더", "claude+code",
-         lambda: sh("python3", "scripts/compare.py", "gate", p, "render"),
-         f"python3 scripts/compare.py report {p} (우리 렌더 같은 시각 프레임) → 프레임 보고 compare.json render.axes 7개 축 평가, 못한 축은 고치고 렌더 다시 또는 fix → python3 scripts/compare.py stamp {p} render"),
+         lambda: sh(sys.executable, "scripts/compare.py", "gate", p, "render"),
+         f"{PY3} scripts/compare.py report {p} (우리 렌더 같은 시각 프레임) → 프레임 보고 compare.json render.axes 7개 축 평가, 못한 축은 고치고 렌더 다시 또는 fix → {PY3} scripts/compare.py stamp {p} render"),
         ("ok3", "확인 3: 편집기", "user",
          lambda: (e.stamped("ok3", e.data), "사용자 확인"),
-         f"python3 scripts/compare.py report {p} → 비교 검토 HTML 열어 주고, 사용자가 편집기에서 보고 고침(고치면 렌더 다시) → OK면 python3 scripts/pipeline.py ok {p} ok3"),
+         f"{PY3} scripts/compare.py report {p} → 비교 검토 HTML 열어 주고, 사용자가 편집기에서 보고 고침(고치면 렌더 다시) → OK면 {PY3} scripts/pipeline.py ok {p} ok3"),
         ("thumb", "썸네일·업로드 정보", "claude+code",
          lambda: thumb_check(e),
          f"{e.dir}/thumbs.json(변형 3개 × 언어별 현지화 문구) → node scripts/thumbs.mjs {e.dir}/thumbs.json, 자막 없으면 {PY} -I scripts/subtitles.py {p}, "
-         f"meta.json sources에 python3 scripts/factcheck.py sources {p} --merge → python3 scripts/upload-info.py {e.dir}/meta.json"),
+         f"meta.json sources에 {PY3} scripts/factcheck.py sources {p} --merge → {PY3} scripts/upload-info.py {e.dir}/meta.json"),
         ("upload", "업로드 (API)", "code",
          lambda: (bool(json.loads((e.dir / "meta.json").read_text()).get("uploaded")) if (e.dir / "meta.json").exists() else False, "meta.json uploaded"),
          f"node scripts/youtube.mjs upload out/{e.id}.mp4 uploads/{e.id}.json  (API 감사 통과 전엔 비공개로 잠김) → meta.json에 \"uploaded\": 날짜"),
@@ -227,9 +232,9 @@ elif cmd == "ok":
     need = {"ok1": [("scripts/factcheck.py", "gate", path), ("scripts/compare.py", "gate", path, "script")],
             "ok3": [("scripts/compare.py", "gate", path, "render")]}.get(stage, [])
     for c in need:
-        ok, note = sh("python3", *c)
+        ok, note = sh(sys.executable, *c)
         if not ok:
-            sys.exit(f"{stage} 도장 못 찍음 - {note} (python3 {' '.join(c)})")
+            sys.exit(f"{stage} 도장 못 찍음 - {note} ({PY3} {' '.join(c)})")
     e.stamp(stage, views[stage])
     print(f"→ {stage} 도장")
 elif cmd == "run":

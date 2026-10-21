@@ -7,7 +7,8 @@
 - 산출물은 `~/hwm`(영상/재생목록/편 폴더 등, 저장소 위치와 상관없음)에 `scripts/deliver.mjs`로 복사. 사용자는 산출물만 본다
 - **영상 한 편 만들기는 단계표대로** (`docs/guide/06-제작-단계.md`): 먼저 `python3 scripts/pipeline.py status episodes/<편>/ep.json`, 다음 단계만 진행, 게이트에 걸린 곳만 고친다. **확인 1·2·3(사용자)에서는 반드시 멈추고** 사용자 OK 후 `pipeline.py ok`. 사용자가 `/episode <편>`이라고 하면 이 흐름 그대로
 - 더빙 대사를 쓰거나 고치면 `/localize`로 검토 도장 (없으면 한 편 만들기가 멈춤)
-- 렌더: `scripts/make-episode.sh` (잘림·깜빡임 검사에 걸리면 멈춤 - 우회하지 말 것)
+- 렌더: `node scripts/make-episode.mjs` (맥은 `scripts/make-episode.sh`도 같음, 잘림·깜빡임 검사에 걸리면 멈춤 - 우회하지 말 것)
+- 맥·윈도우 둘 다 돈다: 외부 프로그램 경로는 `scripts/tools.mjs`·`tools.py`에서만, 코드에서 `npx`·`open`·`/Applications` 직접 쓰지 않기 (03 윈도우, 윈도우에선 문서의 `python3` 대신 `.venv\Scripts\python`)
 - **2026-10-21 결정 (다시 만드는 1·2편부터)**: 화면 글자는 숫자·연도·기호만(이름·낱말 금지, 대사 카드도 캐릭터 + 소리 막대만), 빨간 도장 글자 폐지, 전환 효과음 최소, 캐릭터는 A(코드로 그린 새 그림체) + B(옛 그림을 찢은 종이처럼 `cutout`), 한국어 내레이션 해요체 - 대본 검사·편집기가 오류로 잡는다. 근거는 `docs/guide/02`·`07-참고-채널-분석.md`
 - **기울인 지도 장면 (`mapscene`)**: 사이트(`~/Documents/GitHub/chronomap`) 개발 서버의 장면 층으로 기울이기·360° 회전 지도 위에 부대·화살표를 움직여 한 장씩 찍는다(`scripts/map-scene.mjs`, 장면 파일 `episodes/<편>/maps/<장면>.json`). 사이트 쪽은 `[map]` 세션 담당 - 형식·기능 바꿀 일은 그 세션과 SendMessage로 맞춘다. 횟수 제한 없이 필요한 만큼 - 품질이 가장 중요 (2026-10-21 사용자)
 - 사이트 공개 배포·커밋은 사용자가 직접 확인한 뒤에만 (`[map]` 세션에 대신 승인하지 않는다)

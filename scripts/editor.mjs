@@ -12,6 +12,7 @@ import { homedir } from "node:os";
 import { extname, join, normalize } from "node:path";
 import { fileURLToPath } from "node:url";
 import { build } from "esbuild";
+import { ffmpeg, ffmpegDir, python, sysPython } from "./tools.mjs"; // 외부 프로그램 위치 (맥·윈도우)
 
 const CODE = fileURLToPath(new URL("..", import.meta.url));
 const PORT = Number(process.env.PORT || 4600);
@@ -63,8 +64,8 @@ const timelineOf = async (e) => JSON.parse(await readFile(join(CODE, "public/ep"
 const list = async (dir, ext) => (await readdir(join(CODE, dir)).catch(() => [])).filter((f) => f.endsWith(ext)).map((f) => f.slice(0, -ext.length)).sort();
 
 // 검사기 하나 돌리기: 장면표를 표준 입력으로 넘기고 --json 결과를 받음. 검사기가 죽으면 "문제 없음"이 아니라 오류 한 줄로
-const PY_VENV = join(CODE, ".venv/bin/python");
-const checker = async (source, script, e, body, py = "python3") => {
+const PY_VENV = python();
+const checker = async (source, script, e, body, py = sysPython()) => {
   try {
     const p = run(py, ["-I", `scripts/${script}`, `episodes/${e}/ep.json`, "--stdin", "--json"], { cwd: CODE, maxBuffer: 64 << 20 });
     p.child.stdin.end(body);
@@ -190,7 +191,7 @@ const api = {
   },
   // 현지화 검토 도장 상태 (scripts/locale-review.py)
   "GET /api/review": async (q) => {
-    const r = await run("python3", ["scripts/locale-review.py", "status", epPath(q.e), "--json"], { cwd: CODE }).catch(() => ({ stdout: "{}" }));
+    const r = await run(sysPython(), ["scripts/locale-review.py", "status", epPath(q.e), "--json"], { cwd: CODE }).catch(() => ({ stdout: "{}" }));
     return JSON.parse(r.stdout || "{}");
   },
   // 검사: 편집기가 지금 장면표(저장 안 한 것 포함)를 보내면 검사기들에 그대로 넣음. 몸통이 없으면 저장된 파일
@@ -232,11 +233,10 @@ const api = {
     for (let k = 2; await stat(join(dir, name + ".wav")).catch(() => null); k++) name = `${base}-${k}`;
     const tmp = join(OUT, "upload-" + Date.now());
     await writeFile(tmp, raw);
-    // Remotion에 든 ffmpeg (맥 M칩·인텔 모두), 없으면 설치된 ffmpeg. 실패해도 임시 파일은 지움
-    const ff = join(CODE, `node_modules/@remotion/compositor-${process.platform}-${process.arch}`);
-    const bin = (await stat(join(ff, "ffmpeg")).catch(() => null)) ? join(ff, "ffmpeg") : "ffmpeg";
+    // Remotion에 든 ffmpeg (맥 M칩·인텔, 윈도우 x64), 없으면 설치된 ffmpeg. 실패해도 임시 파일은 지움
+    const ff = ffmpegDir() ?? "";
     try {
-      await run(bin, ["-y", "-loglevel", "error", "-i", tmp, "-ar", "48000", "-ac", "2", "-c:a", "pcm_s16le", join(dir, name + ".wav")], { env: { ...process.env, DYLD_LIBRARY_PATH: ff } });
+      await run(ffmpeg(), ["-y", "-loglevel", "error", "-i", tmp, "-ar", "48000", "-ac", "2", "-c:a", "pcm_s16le", join(dir, name + ".wav")], { env: { ...process.env, DYLD_LIBRARY_PATH: ff } });
     } finally {
       await rm(tmp, { force: true });
     }
@@ -249,7 +249,7 @@ const api = {
     if (meta.uploaded && req.lang === "en") throw new Error("업로드한 편의 영어 목소리는 바꿀 수 없음");
     if (!Number.isInteger(req.tl) || !/^[a-z]{2}$/.test(req.lang || "") || !req.text?.trim()) throw new Error("요청이 이상함");
     const out = await new Promise((resolve, reject) => {
-      const p = spawn(join(CODE, ".venv/bin/python"), ["-I", join(CODE, "audio/revoice.py"), epPath(q.e)], { cwd: CODE });
+      const p = spawn(PY_VENV, ["-I", join(CODE, "audio/revoice.py"), epPath(q.e)], { cwd: CODE });
       let so = "", se = "";
       p.stdout.on("data", (c) => (so += c));
       p.stderr.on("data", (c) => (se += c));
@@ -270,7 +270,7 @@ const api = {
     all.characters[q.id] = spec;
     await writeFile(file, JSON.stringify(all, null, 1) + "\n");
     try {
-      await run("python3", ["audio/characters.py", "build", q.id], { cwd: CODE });
+      await run(sysPython(), ["audio/characters.py", "build", q.id], { cwd: CODE });
     } catch (err) {
       await writeFile(file, prev);
       throw new Error("그리기 실패: " + String(err.stderr || err.message).trim().split("\n").pop());
@@ -282,7 +282,7 @@ const api = {
     // 유튜브 자막: scripts/subtitles.py (목소리의 실제 쉼에 문장 경계를 맞추고 긴 문장은 두 줄로, 편 폴더에도 복사)
     const ep = JSON.parse(await readFile(epPath(q.e), "utf8"));
     if (!(await timelineOf(q.e))) throw new Error("목소리를 먼저 만들어야 자막 시간을 앎 (timeline.json 없음)");
-    const { stdout } = await run(join(CODE, ".venv/bin/python"), ["-I", join(CODE, "scripts/subtitles.py"), epPath(q.e)], { cwd: CODE });
+    const { stdout } = await run(PY_VENV, ["-I", join(CODE, "scripts/subtitles.py"), epPath(q.e)], { cwd: CODE });
     const files = [];
     for (const lang of ep.langs || ["en"]) {
       await writeFile(join(OUT, `${q.e}.${lang}.srt`), await readFile(join(CODE, "out", `${q.e}.${lang}.srt`)));

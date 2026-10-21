@@ -48,9 +48,10 @@ import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import puppeteer from "puppeteer-core";
+import { ANGLE, chrome } from "./tools.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+const CHROME = chrome(); // 맥 /Applications, 윈도우 Program Files (scripts/tools.mjs)
 
 const args = Object.fromEntries(
   process.argv
@@ -87,7 +88,7 @@ const browser = await puppeteer.launch({
   executablePath: CHROME,
   headless: true,
   protocolTimeout: 120000,
-  args: ["--use-angle=metal", "--ignore-gpu-blocklist", "--hide-scrollbars"],
+  args: [ANGLE, "--ignore-gpu-blocklist", "--hide-scrollbars"],
 });
 try {
   const page = await browser.newPage();

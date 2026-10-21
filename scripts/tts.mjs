@@ -69,8 +69,8 @@ async function say(text, out, voice = "en-US-Chirp3-HD-Charon", rate = "1") {
 
 // 클립보드의 키를 검사해서 secrets/tts_key.txt에 저장 (키를 화면·대화에 안 남기려고)
 async function savekey(name = "tts") {
-  const { execFileSync } = await import("node:child_process");
-  const k = execFileSync("pbpaste").toString().trim();
+  const { paste } = await import("./tools.mjs"); // 맥 pbpaste, 윈도우 Get-Clipboard
+  const k = paste().trim();
   if (!/^(AIza[0-9A-Za-z_-]{35}|AQ\.[0-9A-Za-z_.-]{30,})$/.test(k)) throw new Error("클립보드에 API 키가 없음 - 콘솔에서 키 값을 복사한 직후에 실행하세요");
   await writeFile(new URL(`secrets/${name}_key.txt`, ROOT), k, { mode: 0o600 });
   console.log(`secrets/${name}_key.txt 저장`);

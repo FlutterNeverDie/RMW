@@ -4,7 +4,7 @@
 #   음표 길이로 주법을 고른다(짧으면 스피카토·스타카토, 길면 비브라토 지속음). 음역으로 바이올린·비올라·첼로를 나눈다
 #   VSCO에 없는 합창·타이코·샤쿠하치만 fluidsynth + MuseScore_General.sf2(MIT)
 #   악기마다 따로 찍어 자리(팬)·크기를 잡고, 합친 뒤 공연장 울림(컨볼루션)을 건다
-# 준비: setup.sh (fluid-synth, MuseScore_General.sf2, vsco2, sfizz_render)
+# 준비: setup.sh·setup.ps1 (fluid-synth, MuseScore_General.sf2, vsco2, sfizz_render)
 import random, re, struct, subprocess, sys, wave
 from pathlib import Path
 import numpy as np
@@ -12,7 +12,10 @@ import numpy as np
 ROOT = Path(__file__).resolve().parent.parent
 SF2 = ROOT / "audio/sf/MuseScore_General.sf2"
 VSCO = ROOT / "audio/sf/vsco2"
-SFIZZ = Path.home() / "src/sfizz/build/library/bin/sfizz_render"
+sys.path.insert(0, str(ROOT / "scripts"))
+import tools  # noqa: E402 - 외부 프로그램 위치 (맥·윈도우)
+
+SFIZZ = tools.sfizz_render()
 RATE = 48000
 OUT = ROOT / "public/bgm"
 TMP = ROOT / "audio/.bgm"
@@ -1041,7 +1044,7 @@ def render(name):
     if fluid.tracks:
         mid, raw = TMP / f"{name}-fluid.mid", TMP / f"{name}-fluid.wav"
         fluid.write(mid)
-        subprocess.run(["fluidsynth", "-ni", "-q", "-r", str(RATE), "-g", "0.5", "-o", "synth.reverb.active=0", "-o", "synth.chorus.active=0",
+        subprocess.run([tools.fluidsynth(), "-ni", "-q", "-r", str(RATE), "-g", "0.5", "-o", "synth.reverb.active=0", "-o", "synth.chorus.active=0",
                         "-F", str(raw), str(SF2), str(mid)], check=True)
         stems.append((read_wav(raw) * 0.9, 64, 0.25))
         print(f"  fluidsynth {sorted(p for p, _ in fluid.tracks.values())}  RMS {20 * np.log10(np.sqrt((stems[-1][0] ** 2).mean()) + 1e-9):6.1f} dB")

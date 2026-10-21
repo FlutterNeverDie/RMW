@@ -1,0 +1,5 @@
+# 줄 끝: 기본은 git이 알아서(맥 LF, 윈도우는 Git 설정 따라). 셸 스크립트는 LF여야 bash가 돌고, 윈도우 스크립트는 CRLF
+* text=auto
+*.sh text eol=lf
+*.ps1 text eol=crlf
+*.cmd text eol=crlf
