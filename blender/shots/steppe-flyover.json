@@ -1,0 +1,100 @@
+{
+ "about": "몽골 서부 대호수 분지의 가을 초원 위를 낮게 날다가 떠오르며, 눈 덮인 알타이(참바가라브 산괴, 4208 m)를 마주하는 해 질 녘 비행",
+ "terrain": {
+  "center": [
+   91.3,
+   48.45
+  ],
+  "extent_km": [
+   260,
+   200
+  ],
+  "cell_m": 50,
+  "mesh_step": 3,
+  "snowline_m": 3000,
+  "greenness": 0.55,
+  "hollow_green": 0.5,
+  "forest": {
+   "min_m": 1900,
+   "max_m": 2500,
+   "amount": 0.55
+  },
+  "alpine_m": 2500,
+  "rock_slope": [
+   15,
+   30
+  ],
+  "zmax": 12
+ },
+ "exaggeration": 1.5,
+ "sun": {
+  "azimuth": 228,
+  "elevation": 6,
+  "strength": 4.0,
+  "color": [
+   1.0,
+   0.74,
+   0.5
+  ]
+ },
+ "sky": {
+  "zenith": "#7b9bc2",
+  "glow": "#f0a868",
+  "ambient": [
+   0.56,
+   0.62,
+   0.78
+  ],
+  "ambient_strength": 0.42,
+  "glow_wide": 0.8,
+  "zenith_falloff": 4.5
+ },
+ "haze": {
+  "color": "#cbbca3",
+  "distance_km": 90,
+  "scale_height_km": 2.2,
+  "strength": 1.0
+ },
+ "clouds": {
+  "cover": 0.42,
+  "height_km": 5.0,
+  "size_km": 16,
+  "softness": 0.06,
+  "shadow": 0.65,
+  "lit": "#fbe2c0",
+  "shade": "#a69aa6"
+ },
+ "rivers": {
+  "highlight": 0.6,
+  "green": 0.6
+ },
+ "lens": 32,
+ "ease": 0.4,
+ "camera": [
+  {
+   "t": 0.0,
+   "lon": 91.7,
+   "lat": 48.48,
+   "agl": 150,
+   "heading": 293,
+   "pitch": -3.5
+  },
+  {
+   "t": 0.55,
+   "lon": 91.55,
+   "lat": 48.515,
+   "agl": 420,
+   "heading": 289,
+   "pitch": -2.0
+  },
+  {
+   "t": 1.0,
+   "lon": 91.42,
+   "lat": 48.545,
+   "agl": 1000,
+   "heading": 284,
+   "pitch": -1.2
+  }
+ ],
+ "cubic": true
+}

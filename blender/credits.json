@@ -1,0 +1,37 @@
+{
+ "about": "시네마틱 장면(blender/)에 쓰는 자료 출처 - 영상 설명란에 그대로 옮긴다. 쓰인 샷에 맞는 항목만 (dem 값: terrarium = Terrain Tiles, etopo15 = ETOPO)",
+ "sources": [
+  {
+   "id": "terrain-tiles",
+   "used_by": ["steppe-flyover", "caucasus-pass"],
+   "name": "Terrain Tiles (Mapzen/Tilezen joerd, AWS Open Data)",
+   "url": "https://registry.opendata.aws/terrain-tiles/",
+   "license": "공개 자료 - 출처 표기 필요",
+   "credit": "Terrain Tiles via AWS Open Data (Mapzen/Tilezen): SRTM and GMTED2010 courtesy of the U.S. Geological Survey; ETOPO1 courtesy of NOAA; EU-DEM produced using Copernicus data and information funded by the European Union; ArcticDEM DEMs created from DigitalGlobe imagery, funded by NSF awards 1043681, 1559691 and 1542736."
+  },
+  {
+   "id": "etopo-2022",
+   "used_by": [],
+   "name": "NOAA NCEI ETOPO 2022 15 Arc-Second Global Relief Model",
+   "doi": "10.25921/fd45-gt74",
+   "license": "퍼블릭 도메인 (미국 정부 자료)",
+   "credit": "NOAA National Centers for Environmental Information. 2022: ETOPO 2022 15 Arc-Second Global Relief Model. https://doi.org/10.25921/fd45-gt74"
+  },
+  {
+   "id": "natural-earth",
+   "used_by": ["steppe-flyover", "caucasus-pass"],
+   "name": "Natural Earth - Natural Earth I land cover (NE1_HR_LC), 10m land, lakes, rivers",
+   "url": "https://www.naturalearthdata.com/",
+   "license": "퍼블릭 도메인",
+   "credit": "Made with Natural Earth. Free vector and raster map data @ naturalearthdata.com."
+  },
+  {
+   "id": "blender",
+   "used_by": ["steppe-flyover", "caucasus-pass"],
+   "name": "Blender (렌더 도구, GPL - 결과물에는 표기 의무 없음, 선택)",
+   "url": "https://www.blender.org/",
+   "credit": "Rendered with Blender."
+  }
+ ],
+ "description_en": "Terrain: Terrain Tiles via AWS Open Data (USGS SRTM/GMTED2010, NOAA ETOPO1, Copernicus EU-DEM). Land cover, coastlines and rivers: Natural Earth (public domain)."
+}

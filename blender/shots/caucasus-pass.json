@@ -1,0 +1,103 @@
+{
+ "about": "1222년 제베·수베에테이의 길 - 카스피해와 눈 덮인 대캅카스(샤흐다그·바자르뒤쥐) 사이 해안 길을 따라 데르벤트 관문 쪽으로 북상하는 해 뜰 녘 비행 (그 너머가 북쪽 초원)",
+ "terrain": {
+  "center": [
+   48.2,
+   41.7
+  ],
+  "extent_km": [
+   240,
+   220
+  ],
+  "cell_m": 50,
+  "mesh_step": 3,
+  "snowline_m": 2700,
+  "greenness": 0.9,
+  "hollow_green": 0.45,
+  "alpine_m": 2300,
+  "rock_slope": [
+   16,
+   32
+  ],
+  "forest": {
+   "min_m": 700,
+   "max_m": 1900,
+   "amount": 0.5
+  },
+  "zmax": 12
+ },
+ "exaggeration": 1.4,
+ "sun": {
+  "azimuth": 108,
+  "elevation": 6,
+  "strength": 4.0,
+  "color": [
+   1.0,
+   0.8,
+   0.6
+  ]
+ },
+ "sky": {
+  "zenith": "#7b9bc2",
+  "glow": "#f2ae70",
+  "ambient": [
+   0.56,
+   0.62,
+   0.78
+  ],
+  "ambient_strength": 0.42,
+  "glow_wide": 0.8,
+  "zenith_falloff": 4.5
+ },
+ "haze": {
+  "color": "#d4c4a6",
+  "distance_km": 100,
+  "scale_height_km": 2.0,
+  "strength": 0.8
+ },
+ "clouds": {
+  "cover": 0.42,
+  "height_km": 5.5,
+  "size_km": 16,
+  "softness": 0.06,
+  "shadow": 0.65,
+  "lit": "#fbe2c0",
+  "shade": "#a69aa6"
+ },
+ "rivers": {
+  "highlight": 0.6,
+  "green": 0.5
+ },
+ "lens": 28,
+ "ease": 0.4,
+ "camera": [
+  {
+   "t": 0.0,
+   "lon": 48.31,
+   "lat": 41.47,
+   "agl": 2300,
+   "heading": 244,
+   "pitch": -5
+  },
+  {
+   "t": 0.5,
+   "lon": 48.28,
+   "lat": 41.52,
+   "agl": 2600,
+   "heading": 296,
+   "pitch": -5
+  },
+  {
+   "t": 1.0,
+   "lon": 48.24,
+   "lat": 41.575,
+   "agl": 3000,
+   "heading": 348,
+   "pitch": -5.5
+  }
+ ],
+ "palette": {
+  "water": "#4f6a6c"
+ },
+ "cubic": true
+}
