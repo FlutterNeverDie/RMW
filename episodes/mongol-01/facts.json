@@ -1,0 +1,2693 @@
+{
+ "checked": {
+  "b66d71a80b8a": "2026-10-22",
+  "b3d8c432e865": "2026-10-22",
+  "c13d1b0ae351": "2026-10-22",
+  "d2089aedd16e": "2026-10-22",
+  "517083060ae8": "2026-10-22",
+  "39932115b099": "2026-10-22",
+  "7fd924f579cd": "2026-10-22",
+  "7deffbc63347": "2026-10-22",
+  "7a91aa0eb208": "2026-10-22",
+  "26542135937b": "2026-10-22",
+  "e2fc41d99687": "2026-10-22",
+  "c85d13b2d39f": "2026-10-22",
+  "de0300a3a0f0": "2026-10-22",
+  "f45f8ba0cead": "2026-10-22",
+  "996eb2a06486": "2026-10-22",
+  "6c31b6e3f1fa": "2026-10-22",
+  "d88df3a3b983": "2026-10-22",
+  "8e0dc1c4fed5": "2026-10-22",
+  "5d852a036a2c": "2026-10-22",
+  "7634eab6d956": "2026-10-22",
+  "19ee0c1baff9": "2026-10-22",
+  "59f2413db977": "2026-10-22",
+  "6f7187f715d9": "2026-10-22",
+  "5e64df15737b": "2026-10-22",
+  "292a3cf771ef": "2026-10-22",
+  "67e5a065bd57": "2026-10-22",
+  "19f8f04e3c57": "2026-10-22",
+  "8a1f4f376233": "2026-10-22",
+  "6aa3c8834556": "2026-10-22",
+  "faf21426d406": "2026-10-22",
+  "444bd1d2f869": "2026-10-22",
+  "759b5302489f": "2026-10-22",
+  "64e90bd001f4": "2026-10-22",
+  "26c4c182dad0": "2026-10-22",
+  "5cc6d7386e45": "2026-10-22",
+  "bb6081941ec7": "2026-10-22",
+  "f0ff3a392c1e": "2026-10-22",
+  "bd27d1e93560": "2026-10-22",
+  "3fdde9b25724": "2026-10-22",
+  "06405409a433": "2026-10-22",
+  "3e168467caa0": "2026-10-22",
+  "1b9f099c5e5c": "2026-10-22",
+  "248701febd13": "2026-10-22",
+  "ac0979e11280": "2026-10-22",
+  "1d83ef440ce5": "2026-10-22",
+  "c682bed07dd0": "2026-10-22",
+  "f7710cb7515f": "2026-10-22",
+  "fc922ad46b1f": "2026-10-22",
+  "40ede7a7fdaf": "2026-10-22",
+  "4a3e1ed94265": "2026-10-22",
+  "fdcda520d14a": "2026-10-22",
+  "d4fdf53e39f1": "2026-10-22",
+  "af6c58a299ac": "2026-10-22",
+  "641fa5a822b5": "2026-10-22",
+  "f94df64d43af": "2026-10-22",
+  "e80d67a7e7ba": "2026-10-22",
+  "b71168460c25": "2026-10-22",
+  "b5be813ecc1d": "2026-10-22",
+  "7c09996e37b6": "2026-10-22",
+  "796ae4d82d7c": "2026-10-22",
+  "cdbad768dd69": "2026-10-22",
+  "d6b33a3451e6": "2026-10-22",
+  "a17bfbb03f54": "2026-10-22",
+  "415b124dec14": "2026-10-22",
+  "7ecd9bc598a5": "2026-10-22",
+  "1c73682fcceb": "2026-10-22",
+  "0d0249cc7914": "2026-10-22",
+  "798483dcd063": "2026-10-22",
+  "3b99eec2696c": "2026-10-22",
+  "5b8b67de5872": "2026-10-22",
+  "82a1ee55de35": "2026-10-22",
+  "e35887ccc059": "2026-10-22",
+  "0545c9a4c07a": "2026-10-22",
+  "2ca8e1f7bc43": "2026-10-22",
+  "459a22059f55": "2026-10-22",
+  "d857cd6d0646": "2026-10-22",
+  "564ea1a35269": "2026-10-22",
+  "a63c9d747867": "2026-10-22",
+  "2ebebdb869f8": "2026-10-22",
+  "823027858aa6": "2026-10-22",
+  "4e45cdca2979": "2026-10-22",
+  "2827edc96cc3": "2026-10-22",
+  "781963e7c873": "2026-10-22",
+  "7c1594a406e2": "2026-10-22",
+  "f40dbfa50d41": "2026-10-22",
+  "ee96aeeeab57": "2026-10-22",
+  "38ad106f335e": "2026-10-22",
+  "e78eb46bac51": "2026-10-22",
+  "a9a70f4911d7": "2026-10-22",
+  "68c885e5d1b2": "2026-10-22",
+  "fa84a3e48faf": "2026-10-22",
+  "1186bc54e789": "2026-10-22",
+  "c6c397086335": "2026-10-22",
+  "d2f45a50d006": "2026-10-22",
+  "0b2537f31de3": "2026-10-22",
+  "4e21727890dc": "2026-10-22",
+  "374126bb0774": "2026-10-22",
+  "c968d9f35368": "2026-10-22",
+  "c92fc852b4d1": "2026-10-22",
+  "a1a87e2748c7": "2026-10-22",
+  "7469080620c4": "2026-10-22",
+  "05b271a4dbcb": "2026-10-22",
+  "7df4f7073700": "2026-10-22",
+  "fe727d95bd62": "2026-10-22",
+  "2cff70de646e": "2026-10-22",
+  "03acfa70178f": "2026-10-22",
+  "7b73c4c68a74": "2026-10-22",
+  "f08350f697b4": "2026-10-22"
+ },
+ "claims": [
+  {
+   "scene": 0,
+   "claim": "Temüjin as a boy was abandoned on the steppe with his family and faced starvation",
+   "kind": "event",
+   "value": "abandoned, starving",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§74 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "The Tayiči'ut kinsmen had moved away, leaving the widowed Lady Hö'elün with her small sons, the mothers and the children, in the camp"
+    },
+    {
+     "title": "Wikipedia: Genghis Khan",
+     "ref": "https://en.wikipedia.org/wiki/Genghis_Khan",
+     "quote": "The Tayichiud faction ... soon abandoned her camp (fn: Ratchnevsky 1991 p.22; May 2018 p.25; de Rachewiltz 2015 §§71-73)"
+    }
+   ],
+   "note": "",
+   "fix": "",
+   "fp": "b66d71a80b8a"
+  },
+  {
+   "scene": 1,
+   "claim": "About seventy years after the abandonment (c.1171), his family ruled from the Pacific to the Black Sea",
+   "kind": "date",
+   "value": "~70 years; Pacific to Black Sea",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Mongol Empire",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_Empire",
+     "quote": "[at Genghis's death the empire] ruled from the Pacific Ocean to the Caspian Sea ... the largest contiguous state in history (fn: Atwood 2004, p.369)"
+    },
+    {
+     "title": "Wikipedia: Mongol Empire",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_Empire",
+     "quote": "stretched from the Sea of Japan to Eastern Europe"
+    }
+   ],
+   "note": "Abandonment c.1171 (born c.1162, aged ~9) + 70 = c.1241. By then Jochid armies held the Pontic-Caspian steppe and Crimea (1237-40) and the empire held Manchuria to the Sea of Japan. Consistent.",
+   "fix": "",
+   "fp": "b3d8c432e865"
+  },
+  {
+   "scene": 2,
+   "claim": "The Mongol Empire was the largest land empire in history",
+   "kind": "event",
+   "value": "largest (contiguous) land empire",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Mongol Empire",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_Empire",
+     "quote": "The Mongol Empire was the largest contiguous empire in history."
+    },
+    {
+     "title": "Wikipedia: Mongol Empire",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_Empire",
+     "quote": "Area: 23,500,000 km2 (1294) - Taagepera"
+    }
+   ],
+   "note": "'Land empire' is the usual way to say contiguous; British Empire was larger in total, so commenters may object. Optional safer wording: 'The largest connected land empire in history.'",
+   "fix": "",
+   "fp": "c13d1b0ae351"
+  },
+  {
+   "scene": 3,
+   "claim": "Mongols numbered maybe a million; their enemies had tens of millions of people",
+   "kind": "number",
+   "value": "~1 million Mongols vs tens of millions",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Universitat Pompeu Fabra course notes (Mongol Empire)",
+     "ref": "https://www.upf.edu/documents/88317877/88450043/2.3.1_EN.pdf/a5452c67-2e61-315f-bbe2-d32e2d7902c5",
+     "quote": "by the 1206 kurultai Genghis controlled Mongolia ... with a population of hardly a million"
+    },
+    {
+     "title": "Wikipedia: Jin dynasty (1115-1234), citing Twitchett & Fairbank, Cambridge History of China vol. 6 (1994)",
+     "ref": "https://en.wikipedia.org/wiki/Jin_dynasty_(1115%E2%80%931234)",
+     "quote": "Population 1186 est.: 53,000,000"
+    }
+   ],
+   "note": "Scholarly estimates for the Mongols run roughly 0.7-1 million; Jin alone ~50 million, Song larger. Line is hedged with 'maybe', so it passes.",
+   "fix": "",
+   "fp": "d2089aedd16e"
+  },
+  {
+   "scene": 4,
+   "claim": "A hunted orphan ended up ruling half the known world",
+   "kind": "event",
+   "value": "rhetorical",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Mongol Empire",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_Empire",
+     "quote": "[at his death] ruled from the Pacific Ocean to the Caspian Sea ... twice the size of the Roman Empire (Atwood 2004 p.369)"
+    }
+   ],
+   "note": "Rhetorical question; 'half the known world' is hyperbole but framed as a teaser. Strictly Temüjin was not an orphan (mother alive) but 'fatherless' usage of orphan is accepted.",
+   "fix": "",
+   "fp": "517083060ae8"
+  },
+  {
+   "scene": 7,
+   "claim": "Temüjin's father Yesügei was a chief, not a great one",
+   "kind": "name",
+   "value": "Yesügei, minor chief",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Genghis Khan",
+     "ref": "https://en.wikipedia.org/wiki/Genghis_Khan",
+     "quote": "a chieftain who claimed descent from the legendary warlord Bodonchar Munkhag (fn: Ratchnevsky 1991 pp.14-15; May 2018 pp.20-21)"
+    },
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§67 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "'Yesügei the Kiyan has come,' they said"
+    }
+   ],
+   "note": "Yesügei held the title ba'atur, never khan; 'not a great one' is fair.",
+   "fix": "",
+   "fp": "39932115b099"
+  },
+  {
+   "scene": 8,
+   "claim": "At about nine, after leaving Temüjin with his future in-laws, Yesügei stopped at a Tatar camp and shared their food",
+   "kind": "event",
+   "value": "age ~9; Tatar feast",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§66 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "When Temüjin was nine years old, Yesügei Ba'atur set out to go to the Olqunu'ut people"
+    },
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§67 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "On the way back, Yesügei Ba'atur met some Tatars who were having a feast ... he got off his horse and joined them at the feast"
+    }
+   ],
+   "note": "Wikipedia says eight for the betrothal; SH says nine. 'About nine' covers both. | 영어 다듬기(원어민 검토, 사실 내용 같음)",
+   "fix": "",
+   "fp": "374126bb0774"
+  },
+  {
+   "scene": 9,
+   "claim": "Three days later he died of poison",
+   "kind": "date",
+   "value": "3 days; poisoned",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§67 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "they gave him poison mixing it with his food ... when after three days he reached his tent"
+    },
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§68 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "'...Go quickly and bring back my son Temüjin, Mönglik my boy!' He spoke and passed away."
+    },
+    {
+     "title": "Wikipedia: Genghis Khan",
+     "ref": "https://en.wikipedia.org/wiki/Genghis_Khan",
+     "quote": "Yesügei gradually sickened but managed to return home ... He died soon after (fn: Ratchnevsky 1991 pp.21-22)"
+    }
+   ],
+   "note": "SH: reached home after three days and died on arrival. Rachewiltz notes the Mongol may mean 'grievously injured' rather than poison, but poisoning is the standard reading.",
+   "fix": "",
+   "fp": "7fd924f579cd"
+  },
+  {
+   "scene": 10,
+   "claim": "Without a chief, the clan packed up and rode away, leaving the family",
+   "kind": "event",
+   "value": "Tayichiud desertion",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§72 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "the following day Tarqutai Kiriltuq of the Tayiči'ut ... began to move downstream along the Onan River ... leaving behind Lady Hö'elün, the mothers and the children"
+    }
+   ],
+   "note": "",
+   "fix": "",
+   "fp": "7deffbc63347"
+  },
+  {
+   "scene": 12,
+   "claim": "A widow and seven children were left alone; they dug roots, fished, hunted marmots and field mice",
+   "kind": "number",
+   "value": "1 widow, 7 children",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§60 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "Yesügei Ba'atur had these four sons born of Lady Hö'elün ... One daughter ... From Yesügei Ba'atur's second wife, Mother Sočigil, Bekter and Belgütei were born"
+    },
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§74 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "leaving the widowed Lady Hö'elün with her small sons, the mothers and the children ... She dug for roots of the great burnet"
+    },
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§75 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "They prepared their hooks and fished"
+    },
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§89 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "Here they stayed, killing marmots and field-mice for food."
+    }
+   ],
+   "note": "Seven children is right (Hö'elün's 4 sons + daughter Temülün + Sochigel's Begter and Belgütei), but that only works if Sochigel is counted too: two widows, not one. The SH says 'the mothers'. Roots, fish, marmots and field mice all check out (marmots/mice at §89, slightly later in the same years). | 대본 고침: \"A widow and seven children, alone on the steppe. They dug for roots. They fished. They hunted marmots and field mice.\" → \"Two widows and seven children, alone on the steppe. They dug for roots. They fished. They hunted marmots and field mice.\"",
+   "fix": "",
+   "fp": "26542135937b"
+  },
+  {
+   "scene": 13,
+   "claim": "Temüjin and Khasar killed half-brother Begter after he stole their food",
+   "kind": "event",
+   "value": "Begter killed by Temüjin + Khasar",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§77 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "Temüjin and Qasar, one from the front and one from the rear, shot at him at close range and went away"
+    },
+    {
+     "title": "Wikipedia: Genghis Khan",
+     "ref": "https://en.wikipedia.org/wiki/Genghis_Khan",
+     "quote": "Temüjin and his younger brother Qasar ambushed and killed Behter (fn: Ratchnevsky 1991 pp.23-24; de Rachewiltz 2015 §§76-78)"
+    }
+   ],
+   "note": "Stolen items: a shiny dace (fish) and earlier a lark. | 표기만 바꿈(Begter→Bekter, Muhammad II→the Second), 내용 같음",
+   "fix": "",
+   "fp": "d2f45a50d006"
+  },
+  {
+   "scene": 15,
+   "claim": "The Tayichiud came back to seize the boy before he grew into a rival",
+   "kind": "event",
+   "value": "Tayichiud raid",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§79 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "Tarqutai Kiriltuq of the Tayiči'ut came at the head of his bodyguard and said, 'The little rascals have shed their down, The snotty ones have grown up!'"
+    }
+   ],
+   "note": "",
+   "fix": "",
+   "fp": "c85d13b2d39f"
+  },
+  {
+   "scene": 16,
+   "claim": "The Tayichiud chief had Temüjin put in a cangue",
+   "kind": "event",
+   "value": "capture, cangue",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§79 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "'Send out your elder brother Temüjin; we have no need for the rest of you!'"
+    },
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§81 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "Buqa'u: a heavy wooden board worn round the neck by prisoners"
+    }
+   ],
+   "note": "Dramatized wording; event attested.",
+   "fix": "",
+   "fp": "de0300a3a0f0"
+  },
+  {
+   "scene": 17,
+   "claim": "Locked in a wooden yoke, passed from tent to tent",
+   "kind": "event",
+   "value": "cangue; rotated among camps",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§81 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "Tarqutai Kiriltuq gave the order to his people that he should spend one night in each ayil in rotation"
+    }
+   ],
+   "note": "",
+   "fix": "",
+   "fp": "f45f8ba0cead"
+  },
+  {
+   "scene": 18,
+   "claim": "During a feast, he knocked out his guard and fled to the river",
+   "kind": "event",
+   "value": "escape at feast",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§81 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "the Tayiči'ut held a feast on the bank of the Onan ... Temüjin pulled the leash of his cangue away from that weakling, hit him once on the head and ran away ... he reclined on his back in the water's stream"
+    },
+    {
+     "title": "Wikipedia: Genghis Khan",
+     "ref": "https://en.wikipedia.org/wiki/Genghis_Khan",
+     "quote": "Captured by the Tayichiuds, he escaped during a feast (fn: Ratchnevsky 1991 pp.26-27; May 2018 pp.26-27)"
+    }
+   ],
+   "note": "SH says he hit the guard on the head with the cangue; 'knocked out' is fine.",
+   "fix": "",
+   "fp": "996eb2a06486"
+  },
+  {
+   "scene": 19,
+   "claim": "Sorkan-shira saw him in the water, said nothing, then hid him in a cart of wool",
+   "kind": "event",
+   "value": "who hid him in the wool cart",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§82 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "Sorqan Sira of the Suldus happened to pass by and he saw Temüjin lying in the stream ... 'Lie just so; I shall not tell them.'"
+    },
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§85 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "Sorqan Sira said, 'Didn't I tell you to go and look for your mother and younger brothers? Why did you come here?' But his two sons Čimbai and Čila'un ..."
+    },
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§87 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "they smashed open Temüjin's cangue, burnt it in the fire and put him into a cart loaded with wool"
+    }
+   ],
+   "note": "First half correct. But in the SH it was Sorqan-shira's sons Chimbai and Chila'un (and daughter Qada'an) who hid him in the wool, against their reluctant father; Sorqan-shira then bluffed the searchers away. Wikipedia's looser 'sheltered him' is fine but the line as written credits the wrong person. | 대본 고침: \"A man named Sorkan-shira saw him hiding in the water. He said nothing. Then he hid the boy in a cart of wool.\" → \"A man named Sorkan-shira saw him hiding in the water. He said nothing. Then Sorkan-shira's sons hid the boy in a cart of wool.\" | 영어 다듬기(원어민 검토, 사실 내용 같음)",
+   "fix": "",
+   "fp": "c968d9f35368"
+  },
+  {
+   "scene": 22,
+   "claim": "He married Börte, to whom he had been betrothed as a boy",
+   "kind": "event",
+   "value": "marriage to Börte",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Genghis Khan",
+     "ref": "https://en.wikipedia.org/wiki/Genghis_Khan",
+     "quote": "returned to marry Börte when he reached the age of majority at fifteen (fn: May 2018 p.28; Ratchnevsky 1991 p.31)"
+    },
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§66 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "'I shall ask his maternal uncles for a girl in marriage for him.'"
+    }
+   ],
+   "note": "",
+   "fix": "",
+   "fp": "d88df3a3b983"
+  },
+  {
+   "scene": 23,
+   "claim": "Before dawn, three hundred Merkit riders attacked the camp",
+   "kind": "army",
+   "value": "300 Merkit; dawn raid",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§98 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "early one morning - the light was yellowish as day began to dawn - ... 'The earth is shaking and one can hear the sound of trampling hoofs'"
+    },
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§112 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "The three hundred Merkit who had once circled Mount Burqan Were exterminated"
+    },
+    {
+     "title": "Wikipedia: Genghis Khan",
+     "ref": "https://en.wikipedia.org/wiki/Genghis_Khan",
+     "quote": "around 300 Merkits raided Temüjin's camp (fn: Ratchnevsky 1991 pp.34-35)"
+    }
+   ],
+   "note": "300 is the SH's own figure, followed by Ratchnevsky. No year given in the line, so the disputed raid date (c.1180s) is not an issue.",
+   "fix": "",
+   "fp": "8e0dc1c4fed5"
+  },
+  {
+   "scene": 24,
+   "claim": "Temüjin escaped to the mountains; Börte was taken",
+   "kind": "event",
+   "value": "escape to Burkhan Khaldun; Börte captured",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§99 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "There was no horse left for Lady Börte ... Temüjin and his brothers set out in the direction of Mount Burqan"
+    },
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§101 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "they found a lady sitting inside. They dragged her out of the cart ... they took them away"
+    }
+   ],
+   "note": "",
+   "fix": "",
+   "fp": "5d852a036a2c"
+  },
+  {
+   "scene": 25,
+   "claim": "He went to Toghrul, khan of the Keraites, his father's sworn brother",
+   "kind": "name",
+   "value": "Toghrul, Keraite, anda of Yesügei",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§104 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "Temüjin, with Qasar and Belgütei, went to To'oril Ong Qan of the Kereyit ... 'Since in my father's time you two declared yourselves sworn friends, you are, indeed, like a father to me.'"
+    }
+   ],
+   "note": "'Owed his father' is fair: Yesügei had helped Toghrul regain his throne (SH §177).",
+   "fix": "",
+   "fp": "7634eab6d956"
+  },
+  {
+   "scene": 26,
+   "claim": "Temüjin asked Toghrul for help citing the sworn brotherhood",
+   "kind": "quote",
+   "value": "request to Toghrul",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§104 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "'We have come now to ask you, O Qan my father, to rescue my wife and return her to me.'"
+    }
+   ],
+   "note": "Dramatized wording; event attested.",
+   "fix": "",
+   "fp": "19ee0c1baff9"
+  },
+  {
+   "scene": 27,
+   "claim": "He also turned to his childhood sworn brother Jamukha",
+   "kind": "name",
+   "value": "Jamukha, anda",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§105 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "Temüjin sent both Qasar and Belgütei to Jamuqa saying, 'Give my sworn friend Jamuqa this message'"
+    },
+    {
+     "title": "Wikipedia: Genghis Khan",
+     "ref": "https://en.wikipedia.org/wiki/Genghis_Khan",
+     "quote": "Temüjin appealed for aid from Toghrul and his childhood anda Jamukha (fn: May 2018 p.30)"
+    }
+   ],
+   "note": "",
+   "fix": "",
+   "fp": "59f2413db977"
+  },
+  {
+   "scene": 28,
+   "claim": "Together they defeated the Merkit and recovered Börte",
+   "kind": "event",
+   "value": "Merkit defeated, Börte rescued",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§110 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "She heard the voice of Temüjin and, recognizing it, she got off the cart and came running towards him"
+    },
+    {
+     "title": "Wikipedia: Genghis Khan",
+     "ref": "https://en.wikipedia.org/wiki/Genghis_Khan",
+     "quote": "Both chiefs were willing to field armies of 20,000 warriors (fn: May 2018 p.30)"
+    }
+   ],
+   "note": "",
+   "fix": "",
+   "fp": "6f7187f715d9"
+  },
+  {
+   "scene": 29,
+   "claim": "Hoelun shouted 'Besides your shadows you will have no friends' at the departing clan",
+   "kind": "quote",
+   "value": "shadow saying at abandonment",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§73 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "she held the standard and, riding off all on her own, brought back half the people. But even those people who were brought back did not stay"
+    },
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§76 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "Just when We have no friend but our shadow, We have no whip but our horse's tail ... how can you be at odds with each other"
+    },
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§78 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "Just when We have no friend but our shadow, We have no whip but our horse's tail ... you behave [in this way] to each other"
+    }
+   ],
+   "note": "Misplaced quote. In the SH the 'no friend but our shadow' saying is Hö'elün scolding her OWN sons (§76 over the fish, §78 after Begter's killing), describing the family's isolation, not a curse at the deserters. At the desertion (§73) she rode after them holding Yesügei's standard and brought half back for a while. A historian commenter will catch this. Suggest moving the shadow line to scene 14. | 대본 고침: \"Go, then! Besides your shadows, you will have no friends!\" → \"Two blood brothers, side by side. Nobody could have guessed how this friendship would end.\"",
+   "fix": "",
+   "fp": "5e64df15737b"
+  },
+  {
+   "scene": 30,
+   "claim": "Jamukha favoured the old aristocratic families; this drove the split",
+   "kind": "event",
+   "value": "aristocracy vs merit",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Genghis Khan",
+     "ref": "https://en.wikipedia.org/wiki/Genghis_Khan (cites Ratchnevsky 1991 pp.67-70; May 2018 pp.36-37)",
+     "quote": "Jamukha objected that Temüjin's promotion of commoners threatened the traditional steppe aristocracy"
+    },
+    {
+     "title": "Wikipedia: Jamukha",
+     "ref": "https://en.wikipedia.org/wiki/Jamukha",
+     "quote": "Jamukha tended to rely on traditional tribal aristocracy"
+    }
+   ],
+   "note": "Modern interpretation (Vladimirtsov/Ratchnevsky line). The Secret History §118 gives only a cryptic camping remark; the stated cause is ostensibly that remark. Acceptable as narration, but note Temüjin's own early backers (Altan, Quchar, Sacha Beki, §123) were aristocrats. | 영어 다듬기(원어민 검토, 사실 내용 같음)",
+   "fix": "",
+   "fp": "c92fc852b4d1"
+  },
+  {
+   "scene": 31,
+   "claim": "Jamukha held that herders should follow nobles (dramatized)",
+   "kind": "event",
+   "value": "Jamukha's aristocratic stance",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Genghis Khan",
+     "ref": "https://en.wikipedia.org/wiki/Genghis_Khan",
+     "quote": "split ostensibly on account of a cryptic remark made by Jamukha on the subject of camping (Ratchnevsky 1991 pp.37-41)"
+    }
+   ],
+   "note": "Dramatized paraphrase of the interpretation of SH §118; no such recorded words. Fine as dialogue.",
+   "fix": "",
+   "fp": "292a3cf771ef"
+  },
+  {
+   "scene": 32,
+   "claim": "Temüjin promoted men for loyalty and ability regardless of birth",
+   "kind": "event",
+   "value": "merit promotion",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Genghis Khan",
+     "ref": "https://en.wikipedia.org/wiki/Genghis_Khan (Ratchnevsky 1991 p.92)",
+     "quote": "commoners such as Jelme and Subutai, sons of blacksmiths, were appointed"
+    }
+   ],
+   "note": "Hyperbole ('didn't care who your father was') but matches scholarly consensus on merit-based promotion.",
+   "fix": "",
+   "fp": "67e5a065bd57"
+  },
+  {
+   "scene": 33,
+   "claim": "Battle of Dalan Baljut around 1187, Jamukha defeated Temüjin",
+   "kind": "date",
+   "value": "c.1187, Jamukha won",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "de Rachewiltz (trans.), The Secret History of the Mongols (shorter ed., 2015)",
+     "ref": "§129",
+     "quote": "They fought at Dalan Baljut: Cinggis Qa'an was repulsed there by Jamuqa and sought refuge in the Jerene Gorge"
+    },
+    {
+     "title": "Wikipedia: Genghis Khan",
+     "ref": "https://en.wikipedia.org/wiki/Genghis_Khan (Ratchnevsky 1991 pp.44-47)",
+     "quote": "forces were evenly matched but Temüjin suffered a clear defeat"
+    }
+   ],
+   "note": "Date uncertain; line already hedges with 'around'. Rashid al-Din claims a Temüjin win, but the SH and Ratchnevsky give Jamukha the victory. 'Crushed' is a touch strong (SH: 'repulsed'), acceptable.",
+   "fix": "",
+   "fp": "19f8f04e3c57"
+  },
+  {
+   "scene": 34,
+   "claim": "Jamukha boiled prisoners alive (Secret History)",
+   "kind": "event",
+   "value": "70 cauldrons",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "de Rachewiltz (trans.), The Secret History of the Mongols (shorter ed., 2015)",
+     "ref": "§129",
+     "quote": "Jamuqa had the princes of the Cinos boiled alive in seventy cauldrons"
+    },
+    {
+     "title": "Wikipedia: Genghis Khan",
+     "ref": "https://en.wikipedia.org/wiki/Genghis_Khan (Ratchnevsky 1991 pp.46-47; May 2018 p.32)",
+     "quote": "Jamukha allegedly boiled seventy prisoners alive"
+    }
+   ],
+   "note": "Hedged with 'the Secret History says' - passes. Victims were specifically the Chinos princes.",
+   "fix": "",
+   "fp": "8a1f4f376233"
+  },
+  {
+   "scene": 35,
+   "claim": "After Dalan Baljut whole clans defected from Jamukha to Temüjin; the victory 'cost him everything'",
+   "kind": "event",
+   "value": "defections after Dalan Baljut",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "de Rachewiltz (trans.), The Secret History of the Mongols (shorter ed., 2015)",
+     "ref": "§130",
+     "quote": "Jurchedei of the Uru'ut ... and Quyuldar of the Mangqut deserted Jamuqa and came over to Cinggis Qa'an. Father Monglik with his seven sons also deserted"
+    },
+    {
+     "title": "Wikipedia: Jamukha",
+     "ref": "https://en.wikipedia.org/wiki/Jamukha (cites Stone 2017)",
+     "quote": "leaders of thirteen tribes hostile to Temüjin met in a kurultai and elected Jamukha Gur-khan [1201]"
+    }
+   ],
+   "note": "Defections are correct (Uru'ut, Mangqut, Monglik). But 'cost him everything' is wrong as stated: Jamukha stayed a major rival, was elected Gur-khan in 1201 and fought on until 1205. | 대본 고침: \"It was a victory that cost him everything. Whole clans walked away from him... and over to Temüjin.\" → \"It was a victory that backfired. Whole clans walked away from him... and over to Temüjin.\" | 고친 문장(\"backfired\" / \"only a fraction of his army\")은 논란 숫자·과장을 빼서 출처와 맞음",
+   "fix": "",
+   "fp": "6aa3c8834556"
+  },
+  {
+   "scene": 37,
+   "claim": "An enemy archer shot Temüjin's horse from under him",
+   "kind": "event",
+   "value": "horse shot (SH) vs neck wound tradition",
+   "verdict": "disputed",
+   "sources": [
+    {
+     "title": "de Rachewiltz (trans.), The Secret History of the Mongols (shorter ed., 2015)",
+     "ref": "§147",
+     "quote": "Who, from the top of the mountain, shot an arrow so as to sever the neckbone of my tawny war horse with the white mouth?"
+    },
+    {
+     "title": "Wikipedia: Jebe",
+     "ref": "https://en.wikipedia.org/wiki/Jebe",
+     "quote": "This was a euphemism for his own injury in an attempt to conceal his injury"
+    },
+    {
+     "title": "de Rachewiltz (trans.), The Secret History of the Mongols (shorter ed., 2015)",
+     "ref": "§145",
+     "quote": "Temüjin was wounded in the neck at the same battle; Jelme sucked the clotting blood from my wound"
+    }
+   ],
+   "note": "SH §147 says Jebe's arrow hit the horse (battle of Köyiten, c.1201). Temüjin's own neck wound in the same fight (§145) is not attributed to Jebe in the SH, but some writers read the horse as a cover story. The plan requires the hedge, and the line states it flatly. | 대본 고침: \"In one battle, an enemy archer shot Temüjin's horse out from under him.\" → \"In one battle, the Secret History says, an enemy archer shot Temüjin's horse out from under him.\"",
+   "fix": "",
+   "fp": "faf21426d406"
+  },
+  {
+   "scene": 38,
+   "claim": "Afterwards Temüjin asked who had shot the arrow",
+   "kind": "event",
+   "value": "inquiry after Tayichi'ut defeat",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "de Rachewiltz (trans.), The Secret History of the Mongols (shorter ed., 2015)",
+     "ref": "§147",
+     "quote": "When we fought at Koyiten ... from the top of those ridges an arrow came. Who ... shot an arrow ...?"
+    }
+   ],
+   "note": "",
+   "fix": "",
+   "fp": "444bd1d2f869"
+  },
+  {
+   "scene": 39,
+   "claim": "The archer admitted it and offered to serve or die (dramatized)",
+   "kind": "event",
+   "value": "Jebe's confession",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "de Rachewiltz (trans.), The Secret History of the Mongols (shorter ed., 2015)",
+     "ref": "§147",
+     "quote": "It was I who shot the arrow from the top of the mountain. If now I am put to death by the Qa'an, I shall be left to rot ... but if I be favoured, For the Qa'an I will charge forward"
+    }
+   ],
+   "note": "",
+   "fix": "",
+   "fp": "759b5302489f"
+  },
+  {
+   "scene": 40,
+   "claim": "Temüjin valued the archer's honesty (dramatized)",
+   "kind": "event",
+   "value": "praise for not hiding it",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "de Rachewiltz (trans.), The Secret History of the Mongols (shorter ed., 2015)",
+     "ref": "§147",
+     "quote": "he does not hide his killings and hostile actions; on the contrary, he makes them known. He is a man to have as a companion"
+    }
+   ],
+   "note": "",
+   "fix": "",
+   "fp": "64e90bd001f4"
+  },
+  {
+   "scene": 41,
+   "claim": "Renamed Jebe, meaning 'the Arrow'",
+   "kind": "name",
+   "value": "Jebe = arrow/weapon",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "de Rachewiltz (trans.), The Secret History of the Mongols (shorter ed., 2015)",
+     "ref": "§147 + n.",
+     "quote": "I shall call him Jebe and I will use him as my jebe arrow. [n.] Jebe means 'weapon', but it also designated a particular type of arrow"
+    },
+    {
+     "title": "Wikipedia: Jebe",
+     "ref": "https://en.wikipedia.org/wiki/Jebe",
+     "quote": "Jebe, which means both 'arrow' and 'weapon' in Mongolian"
+    }
+   ],
+   "note": "Former name Jirqo'adai.",
+   "fix": "",
+   "fp": "26c4c182dad0"
+  },
+  {
+   "scene": 42,
+   "claim": "About 20 years later Jebe rode further west than any Mongol before",
+   "kind": "event",
+   "value": "1221-23 Caucasus/Kalka raid",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Jebe",
+     "ref": "https://en.wikipedia.org/wiki/Jebe (Hautala 2015 p.8; Golden 2000 p.31)",
+     "quote": "a legendary raid around the Caspian Sea ... went on to defeat the Kievan Rus' and Cumans at the Battle of the Kalka River"
+    }
+   ],
+   "note": "c.1201 + ~20 = 1221-23. He shared the raid with Subutai; claim still holds. | 영어 다듬기(원어민 검토, 사실 내용 같음)",
+   "fix": "",
+   "fp": "a1a87e2748c7"
+  },
+  {
+   "scene": 43,
+   "claim": "Temüjin crushed the Tatars, who had poisoned his father",
+   "kind": "event",
+   "value": "Tatars destroyed 1202",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Genghis Khan",
+     "ref": "https://en.wikipedia.org/wiki/Genghis_Khan (Ratchnevsky 1991 pp.63-67)",
+     "quote": "in 1202, the Tatars ... executing their clan leaders"
+    },
+    {
+     "title": "de Rachewiltz (trans.), The Secret History of the Mongols (shorter ed., 2015)",
+     "ref": "§154",
+     "quote": "Tatar males taller than the linchpin of a cart were put to death"
+    }
+   ],
+   "note": "Poisoning of Yesügei by Tatars: SH §67.",
+   "fix": "",
+   "fp": "5cc6d7386e45"
+  },
+  {
+   "scene": 45,
+   "claim": "Temüjin fled with a handful of men to muddy Lake Baljuna",
+   "kind": "army",
+   "value": "handful of men",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "de Rachewiltz (trans.), The Secret History of the Mongols (shorter ed., 2015)",
+     "ref": "§175",
+     "quote": "counted his forces. When numbered, there were two thousand six hundred men"
+    },
+    {
+     "title": "Wikipedia: Baljuna Covenant",
+     "ref": "https://en.wikipedia.org/wiki/Baljuna_Covenant (Ratchnevsky 1991 pp.71,73; Cleaves 1955 p.397)",
+     "quote": "amounting to either 2,600 or 4,600 warriors ... 'only nineteen followers' might well refer only to the company leaders"
+    }
+   ],
+   "note": "The Yuan shi's 19 companions vs SH's 2,600 (Rashid: 4,600). The line flatly says 'handful'. | 대본 고침: \"Temüjin fled with a handful of men to a muddy lake called Baljuna.\" → \"Temüjin fled east to a muddy lake called Baljuna, with only a fraction of his army left.\" | 고친 문장(\"backfired\" / \"only a fraction of his army\")은 논란 숫자·과장을 빼서 출처와 맞음",
+   "fix": "",
+   "fp": "bb6081941ec7"
+  },
+  {
+   "scene": 46,
+   "claim": "At Baljuna they drank the muddy water and swore to share their fate",
+   "kind": "event",
+   "value": "Baljuna covenant",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Baljuna Covenant",
+     "ref": "https://en.wikipedia.org/wiki/Baljuna_Covenant (Cleaves 1955 p.397)",
+     "quote": "If I finish 'the Great Work' then I shall share with you men the sweet and the bitter"
+    },
+    {
+     "title": "Wikipedia: Baljuna Covenant",
+     "ref": "https://en.wikipedia.org/wiki/Baljuna_Covenant (Cleaves 1955; Ratchnevsky 1991 p.73)",
+     "quote": "omitted completely from the Secret History ... Cleaves repudiated this [doubt] in 1955, and his view is now general"
+    }
+   ],
+   "note": "Not in the SH but accepted by historians (Yuan shi source).",
+   "fix": "",
+   "fp": "f0ff3a392c1e"
+  },
+  {
+   "scene": 47,
+   "claim": "Weeks later they caught the Keraites feasting and destroyed them",
+   "kind": "event",
+   "value": "Jeje'er Heights, late 1203",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "de Rachewiltz (trans.), The Secret History of the Mongols (shorter ed., 2015)",
+     "ref": "§§184-185",
+     "quote": "Ong Qan is off his guard; he has pitched his golden tent and is feasting ... They fought for three nights and three days"
+    },
+    {
+     "title": "Wikipedia: Baljuna Covenant",
+     "ref": "https://en.wikipedia.org/wiki/Baljuna_Covenant",
+     "quote": "oath sworn in mid-1203 ... In late 1203, Temüjin defeated the Kereit in a hard-fought three-day battle at the Jeje'er Heights"
+    }
+   ],
+   "note": "Feasting surprise is right (SH). But mid-1203 to late 1203 is months, not 'weeks'; exact interval uncertain. | 대본 고침: \"Weeks later, they caught the Keraites feasting... and destroyed them.\" → \"Not long after, they caught the Keraites feasting... and destroyed them.\" | 고친 문장은 논란 부분을 빼서 출처와 맞음",
+   "fix": "",
+   "fp": "bd27d1e93560"
+  },
+  {
+   "scene": 48,
+   "claim": "Only the Naimans of the west remained, and Jamukha had joined them",
+   "kind": "event",
+   "value": "Naiman coalition with Jamukha",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "de Rachewiltz (trans.), The Secret History of the Mongols (shorter ed., 2015)",
+     "ref": "§196",
+     "quote": "The Jadaran, Qatagin, Salji'ut ... and other people who had been with Jamuqa also submitted on that occasion"
+    },
+    {
+     "title": "Wikipedia: Battle of Chakirmaut",
+     "ref": "https://en.wikipedia.org/wiki/Battle_of_Chakirmaut (Sverdrup 2017 p.83)",
+     "quote": "coalition led by the Naimans under Tayang Khan, with his son Kuchlug and rival Khan claimant Jamukha"
+    }
+   ],
+   "note": "Merkits were also still unsubdued (beaten autumn 1204), so 'only' simplifies; tolerable.",
+   "fix": "",
+   "fp": "3fdde9b25724"
+  },
+  {
+   "scene": 50,
+   "claim": "The night before the battle every Mongol rider lit five fires to look endless",
+   "kind": "event",
+   "value": "five fires ruse",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "de Rachewiltz (trans.), The Secret History of the Mongols (shorter ed., 2015)",
+     "ref": "§193",
+     "quote": "spreading over the Sa'ari Steppe here until our geldings have eaten their fill. Let every single one of us each light fires in five different places"
+    },
+    {
+     "title": "de Rachewiltz (trans.), The Secret History of the Mongols (shorter ed., 2015)",
+     "ref": "§§194-196",
+     "quote": "the battle came later, after the Mongols advanced from the Sa'ari Steppe to Chakirma'ut"
+    }
+   ],
+   "note": "Five fires per man is right (SH, Dödei Cherbi's plan). But it happened while camped on the Sa'ari Steppe to buy time for the horses, before the advance; not the night before the battle. Source is the SH only, so hedge. | 대본 고침: \"The night before the battle, every Mongol rider lit five fires, so the Naimans would think the army was endless.\" → \"So the Naimans would think the army was endless.\"",
+   "fix": "",
+   "fp": "06405409a433"
+  },
+  {
+   "scene": 51,
+   "claim": "By the next evening the Naiman army was broken",
+   "kind": "event",
+   "value": "Chakirmaut 1204 outcome",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "de Rachewiltz (trans.), The Secret History of the Mongols (shorter ed., 2015)",
+     "ref": "§196",
+     "quote": "Late in the day Cinggis Qa'an surrounded the mountain of Naqu Cliff ... That night the Naiman ... tried to escape. Tumbling down ... The following morning Cinggis Qa'an finished off Tayang Qan"
+    },
+    {
+     "title": "Wikipedia: Genghis Khan",
+     "ref": "https://en.wikipedia.org/wiki/Genghis_Khan (Sverdrup 2017 pp.81-83)",
+     "quote": "At Chakirmaut in May 1204, the Naimans were decisively defeated"
+    }
+   ],
+   "note": "'Next evening' depends on the false 'night before' timing in #49. The battle was one day, with the rout overnight and Tayang finished the next morning. | 대본 고침: \"By the next evening, the Naiman army was broken.\" → \"After one day of fighting, the Naiman army was broken.\"",
+   "fix": "",
+   "fp": "3e168467caa0"
+  },
+  {
+   "scene": 52,
+   "claim": "Jamukha's own men seized him and handed him over",
+   "kind": "event",
+   "value": "betrayal by companions",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "de Rachewiltz (trans.), The Secret History of the Mongols (shorter ed., 2015)",
+     "ref": "§200",
+     "quote": "With only five companions he became an outcast ... [they] laid hands on Jamuqa"
+    },
+    {
+     "title": "Wikipedia: Jamukha",
+     "ref": "https://en.wikipedia.org/wiki/Jamukha (Man 2014)",
+     "quote": "Jamukha's own men captured and handed him to Temüjin"
+    }
+   ],
+   "note": "'Hoping for a reward' is not stated in the SH, but it is a fair inference.",
+   "fix": "",
+   "fp": "1b9f099c5e5c"
+  },
+  {
+   "scene": 53,
+   "claim": "Temüjin executed the traitors; he hated men who betrayed their lord",
+   "kind": "event",
+   "value": "execution of betrayers",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "de Rachewiltz (trans.), The Secret History of the Mongols (shorter ed., 2015)",
+     "ref": "§200",
+     "quote": "How could we let men live who have raised their hands against their rightful lord? ... had the people who had laid hands on Jamuqa cut down in his very presence"
+    }
+   ],
+   "note": "",
+   "fix": "",
+   "fp": "248701febd13"
+  },
+  {
+   "scene": 54,
+   "claim": "Jamukha asked to die without bloodshed and be buried on high ground",
+   "kind": "quote",
+   "value": "last wish",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "de Rachewiltz (trans.), The Secret History of the Mongols (shorter ed., 2015)",
+     "ref": "§201",
+     "quote": "let them kill me without shedding blood. When I lie dead, my bones buried in a high place, for ever and ever I shall protect you"
+    }
+   ],
+   "note": "Matches SH §201 closely.",
+   "fix": "",
+   "fp": "ac0979e11280"
+  },
+  {
+   "scene": 55,
+   "claim": "Temüjin granted his last wish",
+   "kind": "event",
+   "value": "bloodless execution and burial",
+   "verdict": "disputed",
+   "sources": [
+    {
+     "title": "de Rachewiltz (trans.), The Secret History of the Mongols (shorter ed., 2015)",
+     "ref": "§201",
+     "quote": "He ordered that Jamuqa be put to death without his blood being shed ... and had his body buried as arranged"
+    },
+    {
+     "title": "Wikipedia: Genghis Khan",
+     "ref": "https://en.wikipedia.org/wiki/Genghis_Khan (Ratchnevsky 1991 pp.86-88)",
+     "quote": "Other accounts state that he was killed by dismemberment"
+    }
+   ],
+   "note": "SH version; Rashid al-Din has him cut limb from limb by Eljigidei. Line states the SH version as fact. | 대본 고침: \"Temüjin granted his last wish.\" → \"The Secret History says Temüjin granted his last wish.\"",
+   "fix": "",
+   "fp": "1d83ef440ce5"
+  },
+  {
+   "scene": 55,
+   "claim": "Toghrul, fearing Temüjin's growth, turned on him in a surprise attack (1203)",
+   "kind": "event",
+   "value": "1203 Kerait attack",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Genghis Khan",
+     "ref": "https://en.wikipedia.org/wiki/Genghis_Khan (Atwood 2004 p.98; Ratchnevsky 1991 pp.67-70)",
+     "quote": "Toghrul came to view Temüjin as a threat and launched a surprise attack in 1203"
+    },
+    {
+     "title": "Wikipedia: Baljuna Covenant",
+     "ref": "https://en.wikipedia.org/wiki/Baljuna_Covenant (Ratchnevsky 1991 pp.68-69)",
+     "quote": "conspirators had planned to ambush and kill him"
+    }
+   ],
+   "note": "SH §§166-170 puts the push on Senggum and Jamukha, with Toghrul reluctant; Temüjin was warned by two herdsmen, so the ambush only partly surprised him. Simplification acceptable.",
+   "fix": "",
+   "fp": "1d83ef440ce5"
+  },
+  {
+   "scene": 57,
+   "claim": "1206 assembly on the Onon River, tribes united under one banner",
+   "kind": "date",
+   "value": "1206, source of the Onon",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "de Rachewiltz (trans.), The Secret History of the Mongols (shorter ed., 2015)",
+     "ref": "§202",
+     "quote": "in the Year of the Tiger (1206) they all gathered at the source of the Onan River. They hoisted the white standard with nine tails"
+    },
+    {
+     "title": "Wikipedia: Genghis Khan",
+     "ref": "https://en.wikipedia.org/wiki/Genghis_Khan (Fitzhugh et al. 2009 p.103)",
+     "quote": "at the source of the Onon River in 1206"
+    }
+   ],
+   "note": "",
+   "fix": "",
+   "fp": "c682bed07dd0"
+  },
+  {
+   "scene": 58,
+   "claim": "They gave Temüjin the name Genghis Khan",
+   "kind": "name",
+   "value": "title Chinggis Khan 1206",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Genghis Khan",
+     "ref": "https://en.wikipedia.org/wiki/Genghis_Khan (Pelliot 1959; Ratchnevsky 1991 p.89)",
+     "quote": "1206 kurultai ... theories on the meaning of 'Genghis'"
+    }
+   ],
+   "note": "Mainstream dating. Note: the SH (§123) already uses the title at his first election c.1189; most historians put the formal title in 1206.",
+   "fix": "",
+   "fp": "f7710cb7515f"
+  },
+  {
+   "scene": 59,
+   "claim": "No steppe ruler had ever dared break up the tribes; he did",
+   "kind": "event",
+   "value": "tribal reorganisation",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Genghis Khan",
+     "ref": "https://en.wikipedia.org/wiki/Genghis_Khan (May 2018 pp.39-40; Fitzhugh et al. 2009 p.104)",
+     "quote": "Warriors from defeated tribes were dispersed among different minqad to weaken tribal loyalty"
+    },
+    {
+     "title": "de Rachewiltz (trans.), The Secret History of the Mongols (shorter ed., 2015)",
+     "ref": "§202",
+     "quote": "(89, 90) Butu Guregen leading the two Ikires thousands ... Alaqus of the Onggut leading the five Onggut thousands ... the commanders of a thousand ... were ninety-five"
+    }
+   ],
+   "note": "Scattering applied mainly to conquered tribes; loyal allied tribes stayed together. 'No steppe ruler had ever dared' is unprovable: decimal units go back to the Xiongnu, and earlier khans also resettled conquered peoples. | 대본 고침: \"Then he did something no steppe ruler had ever dared. He broke up the tribes. Why tear apart your own people?\" → \"Then he did something few steppe rulers had dared. He broke up the defeated tribes instead of letting them rule themselves. Why?\" | 고친 문장은 논란 부분을 빼서 출처와 맞음",
+   "fix": "",
+   "fp": "fc922ad46b1f"
+  },
+  {
+   "scene": 60,
+   "claim": "Population organized into decimal units of 10, 100, 1,000 and 10,000",
+   "kind": "number",
+   "value": "10/100/1,000/10,000",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Mongol Empire (citing May 2018 p.77, Dunnell 2023 pp.28-29; Ratchnevsky 1991 p.92)",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_Empire",
+     "quote": "allocated to command ninety-five minqad ... units of a thousand ... subdivided into hundreds and tens [May 2018 p.77]"
+    }
+   ],
+   "note": "Tumen (10,000) units are standard in May/Atwood; arban/jaghun/mingghan/tumen.",
+   "fix": "",
+   "fp": "40ede7a7fdaf"
+  },
+  {
+   "scene": 60,
+   "claim": "Tribes were mixed together on purpose (everyone)",
+   "kind": "event",
+   "value": "all tribes deliberately mixed",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "EBSCO Research Starters: Genghis Khan Founds Mongol Empire",
+     "ref": "https://www.ebsco.com/research-starters/history/genghis-khan-founds-mongol-empire",
+     "quote": "Groups that had sided with the Mongols kept their identities to a degree, while resisting groups such as Naiman and Merkit were broken up and distributed."
+    }
+   ],
+   "note": "Hostile tribes (Naiman, Merkit, Tatar, Kereit) were broken up; allied groups that submitted early (e.g. Onggirat, Ikires, Onggud) largely kept their own units under their own leaders. 'Everyone ... mixed' overstates it. | 대본 고침: \"Everyone was sorted into units of 10, 100, 1,000 and 10,000, with tribes mixed together on purpose.\" → \"Everyone was sorted into units of 10, 100, 1,000 and 10,000.\" | 고친 문장은 논란 부분을 빼서 출처와 맞음",
+   "fix": "",
+   "fp": "40ede7a7fdaf"
+  },
+  {
+   "scene": 62,
+   "claim": "He named 95 commanders of a thousand",
+   "kind": "number",
+   "value": "95",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Mongol Empire (citing May 2018 p.77, Dunnell 2023 pp.28-29; Ratchnevsky 1991 p.92)",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_Empire",
+     "quote": "ninety-five minqad (sing. minkan), or units of a thousand [May 2018 p.77; Dunnell 2023 pp.28-29]"
+    },
+    {
+     "title": "Secret History of the Mongols §202 (trans. de Rachewiltz)",
+     "ref": "§202",
+     "quote": "Lists the 95 commanders of thousands appointed at the 1206 quriltai."
+    }
+   ],
+   "note": "",
+   "fix": "",
+   "fp": "4a3e1ed94265"
+  },
+  {
+   "scene": 62,
+   "claim": "Many commanders were born herders, not nobles",
+   "kind": "event",
+   "value": "many of low birth",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Mongol Empire (citing May 2018 p.77, Dunnell 2023 pp.28-29; Ratchnevsky 1991 p.92)",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_Empire",
+     "quote": "His favoured followers - some of whom were of low birth [Ratchnevsky 1991 p.92]"
+    }
+   ],
+   "note": "Sources say SOME favoured companions were of low birth (e.g. Jelme, son of a smith; Muqali, from a hereditary servant lineage). 'Many' overstates, and 'herders' is not the contrast (nobles were herders too). | 대본 고침: \"He named 95 commanders of a thousand. Many were born herders, not nobles.\" → \"He named 95 commanders of a thousand. Several were men of humble birth, not nobles.\" | 고친 문장은 논란 부분을 빼서 출처와 맞음",
+   "fix": "",
+   "fp": "4a3e1ed94265"
+  },
+  {
+   "scene": 63,
+   "claim": "Loyalty shifted from clan to khan",
+   "kind": "event",
+   "value": "loyalty to khan over clan",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Mongol Empire (citing May 2018 p.77, Dunnell 2023 pp.28-29; Ratchnevsky 1991 p.92)",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_Empire",
+     "quote": "Units given to loyal companions far outnumbered those assigned to his own family (Ratchnevsky/May context)."
+    }
+   ],
+   "note": "Standard interpretation (May, Ratchnevsky); interpretive generalization, acceptable as narration.",
+   "fix": "",
+   "fp": "d4fdf53e39f1"
+  },
+  {
+   "scene": 67,
+   "claim": "Jin played the steppe tribes against each other for generations",
+   "kind": "event",
+   "value": "Jin divide-and-rule",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Mongol conquest of the Jin dynasty",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_conquest_of_the_Jin_dynasty",
+     "quote": "the Jurchen rulers collected tribute from some steppe tribes and encouraged rivalries among them; backed the Tatars against the Mongols under Khabul"
+    },
+    {
+     "title": "Secret History of the Mongols §53, §132-134",
+     "ref": "§53, §132-134",
+     "quote": "Ambaghai handed by the Tatars to the Jin and executed; in 1196 the Jin enlisted Temujin and Toghril against the Tatars."
+    }
+   ],
+   "note": "Wikipedia sentence uncited; supported by Secret History episodes (Ambaghai, 1196 Jin campaign). | 영어 다듬기(원어민 검토, 사실 내용 같음)",
+   "fix": "",
+   "fp": "fe727d95bd62"
+  },
+  {
+   "scene": 68,
+   "claim": "In 1211 Genghis crossed into Jin through the passes of the Great Wall",
+   "kind": "date",
+   "value": "1211",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Mongol conquest of the Jin dynasty",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_conquest_of_the_Jin_dynasty",
+     "quote": "Mongol troops broke through the Jin's Great Wall at Wushabao in 1211 and attacked border fortresses."
+    }
+   ],
+   "note": "The 'Great Wall' here is the Jin frontier wall/fortification line (not the later Ming brick wall). Juyong Pass itself was forced later (1213). Acceptable; visuals should not show the Ming wall.",
+   "fix": "",
+   "fp": "641fa5a822b5"
+  },
+  {
+   "scene": 69,
+   "claim": "At Wild Fox Ridge (Yehuling) a far larger Jin army waited",
+   "kind": "army",
+   "value": "Jin far larger",
+   "verdict": "disputed",
+   "sources": [
+    {
+     "title": "Wikipedia: Battle of Yehuling",
+     "ref": "https://en.wikipedia.org/wiki/Battle_of_Yehuling",
+     "quote": "Ratchnevsky estimated the Mongol army in 1211 at 65,000 with 10,000 allies, Jin 500,000 infantry and 120,000 cavalry [Ratchnevsky 1991 p.108]; Sverdrup: Jin had only 30,000-50,000 [Sverdrup 2010 p.116]"
+    },
+    {
+     "title": "Yuan shi, ch. 119 (biography of Muqali)",
+     "ref": "https://zh.wikisource.org/wiki/元史/卷119",
+     "quote": "金兵號四十萬，陣野狐嶺北。木華黎曰：「彼眾我寡…」 (The Jin army was CLAIMED to be 400,000, drawn up north of Yehuling. Muqali said: 'They are many, we are few.')"
+    }
+   ],
+   "note": "Chinese chronicle says the Jin army was 'claimed' (號) at 400,000; modern estimates differ widely (Ratchnevsky high, Sverdrup low). Stated flatly here. | 대본 고침: \"At Wild Fox Ridge, a far larger Jin army was waiting for him.\" → \"At Wild Fox Ridge, a Jin army said to be far larger was waiting for him.\"",
+   "fix": "",
+   "fp": "f94df64d43af"
+  },
+  {
+   "scene": 70,
+   "claim": "Jin army several times the Mongols' size",
+   "kind": "army",
+   "value": "several times larger",
+   "verdict": "disputed",
+   "sources": [
+    {
+     "title": "Wikipedia: Battle of Yehuling",
+     "ref": "https://en.wikipedia.org/wiki/Battle_of_Yehuling",
+     "quote": "Ratchnevsky 65,000 vs 620,000; Sverdrup 2010 p.116 gives much lower Jin figures"
+    },
+    {
+     "title": "Yuan shi, ch. 119 (biography of Muqali)",
+     "ref": "https://zh.wikisource.org/wiki/元史/卷119",
+     "quote": "彼眾我寡 (they are many, we are few)"
+    }
+   ],
+   "note": "Numbers disputed; line states the ratio flatly. | 대본 고침: \"How do you beat an army several times your size? The Mongols charged straight at its center.\" → \"How do you beat an army the chroniclers said was several times your size? The Mongols charged straight into its lines.\" | 영어 다듬기(원어민 검토, 사실 내용 같음)",
+   "fix": "",
+   "fp": "2cff70de646e"
+  },
+  {
+   "scene": 70,
+   "claim": "Mongols charged straight at its center",
+   "kind": "event",
+   "value": "charge on the center",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Yuan shi, ch. 119 (biography of Muqali)",
+     "ref": "https://zh.wikisource.org/wiki/元史/卷119",
+     "quote": "率敢死士，策馬橫戈，大呼陷陣，帝麾諸軍並進 (Muqali led picked men, spurred and with levelled lances, shouting, broke into the enemy ranks; the emperor sent all the armies forward)"
+    },
+    {
+     "title": "Wikipedia: Battle of Yehuling",
+     "ref": "https://en.wikipedia.org/wiki/Battle_of_Yehuling",
+     "quote": "Muqali led a surprise cavalry charge... defeated the central Jin forces (uncited paragraph)"
+    }
+   ],
+   "note": "Primary source attests a headlong charge into the Jin line led by Muqali, but not specifically 'the center'; the 'center' detail is only in an uncited Wikipedia paragraph. | 대본 고침: \"How do you beat an army several times your size? The Mongols charged straight at its center.\" → \"How do you beat an army the chroniclers said was several times your size? The Mongols charged straight into its lines.\" | 영어 다듬기(원어민 검토, 사실 내용 같음)",
+   "fix": "",
+   "fp": "2cff70de646e"
+  },
+  {
+   "scene": 71,
+   "claim": "Chroniclers wrote that the dead lay scattered for miles",
+   "kind": "casualty",
+   "value": "corpses over 100 li",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Yuan shi, ch. 119 (biography of Muqali)",
+     "ref": "https://zh.wikisource.org/wiki/元史/卷119",
+     "quote": "大敗金兵，追至澮河，殭尸百里 (routed the Jin army, pursued it to the Hui river; corpses lay for a hundred li)"
+    },
+    {
+     "title": "Wikipedia: Battle of Yehuling",
+     "ref": "https://en.wikipedia.org/wiki/Battle_of_Yehuling",
+     "quote": "leaving dead corpses for over a hundred miles (uncited)"
+    }
+   ],
+   "note": "Attested in Yuan shi Muqali biography: 100 li (about 50 km). Line is hedged as a chronicle claim. Note Wikipedia's 'hundred miles' is a mistranslation of li; 'for miles' is safe.",
+   "fix": "",
+   "fp": "e80d67a7e7ba"
+  },
+  {
+   "scene": 72,
+   "claim": "Zhongdu, Jin capital, fell in 1215; it is today's Beijing",
+   "kind": "date",
+   "value": "1215 (June)",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Mongol conquest of the Jin dynasty",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_conquest_of_the_Jin_dynasty",
+     "quote": "Zhongdu fell to the Mongols on June 1, 1215; Zhongdu (present-day Beijing)"
+    }
+   ],
+   "note": "Four years after 1211 = 1215, consistent.",
+   "fix": "",
+   "fp": "b71168460c25"
+  },
+  {
+   "scene": 73,
+   "claim": "The herders now held the north of China",
+   "kind": "event",
+   "value": "Mongols held N. China after 1215",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Mongol conquest of the Jin dynasty",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_conquest_of_the_Jin_dynasty",
+     "quote": "The Jin moved the capital to Kaifeng in 1214; Mongols rooted out resistance in Shanxi, Hebei and Shandong 1217-1223; the Jin dynasty ended February 9, 1234."
+    }
+   ],
+   "note": "Overstated: after 1215 the Jin still held Henan (Kaifeng) and fought on until 1234, and much of Hebei/Shandong/Shanxi was only pacified 1217-1223. | 대본 고침: \"The herders from the steppe now held the north of China.\" → \"The herders from the steppe now held much of northern China, though the Jin would hold out in the south for years.\" | 영어 다듬기(원어민 검토, 사실 내용 같음)",
+   "fix": "",
+   "fp": "03acfa70178f"
+  },
+  {
+   "scene": 75,
+   "claim": "Khwarazmian Empire to the west, ruled by Sultan Muhammad II",
+   "kind": "name",
+   "value": "Muhammad II (Ala ad-Din Muhammad)",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Otrar Catastrophe (citing Atwood 2004 p.431; Jackson 2017 p.61)",
+     "ref": "https://en.wikipedia.org/wiki/Otrar_Catastrophe",
+     "quote": "By 1218, the Khwarazmian Empire controlled most of Central Asia and Persia [May 2018]"
+    },
+    {
+     "title": "V. V. Barthold, Turkestan Down to the Mongol Invasion (2nd ed. 1968)",
+     "ref": "https://archive.org/details/barthold-1968-turkestan-down-to-the-mongol-invasion",
+     "quote": "Muhammad dispatched an embassy to Chingiz-Khan on a pure mission of investigation (p.399)"
+    }
+   ],
+   "note": "표기만 바꿈(Begter→Bekter, Muhammad II→the Second), 내용 같음",
+   "fix": "",
+   "fp": "0b2537f31de3"
+  },
+  {
+   "scene": 76,
+   "claim": "Genghis sent a message of peace and a caravan of merchants, around 450",
+   "kind": "number",
+   "value": "~450",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, trans. J. A. Boyle, vol. 1 (1958)",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp, pp.78-79",
+     "quote": "each dispatching two or three people from his retinue, so that in this way four hundred and fifty Moslems were assembled. (p.78-79)"
+    },
+    {
+     "title": "V. V. Barthold, Turkestan Down to the Mongol Invasion (2nd ed. 1968)",
+     "ref": "https://archive.org/details/barthold-1968-turkestan-down-to-the-mongol-invasion",
+     "quote": "According to Juwayni there were in all 450 men in the caravan, all of them Muslims; with them, as Juzjani relates, were about 500 camels (p.398)"
+    },
+    {
+     "title": "Juzjani, Tabaqat-i Nasiri, trans. H. G. Raverty, vol. 2",
+     "ref": "https://archive.org/details/in.ernet.dli.2015.283794, pp. 966-967",
+     "quote": "With us also he despatched five hundred camels laden with gold, silver, silks... along with merchants of his own (p.966)"
+    }
+   ],
+   "note": "450 is Juvaini's figure; Juzjani counts 500 camels, not men. Hedged with 'around' - passes.",
+   "fix": "",
+   "fp": "b5be813ecc1d"
+  },
+  {
+   "scene": 77,
+   "claim": "Genghis: 'master of the lands of the rising sun'",
+   "kind": "quote",
+   "value": "Juzjani",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juzjani, Tabaqat-i Nasiri, trans. H. G. Raverty, vol. 2",
+     "ref": "https://archive.org/details/in.ernet.dli.2015.283794, pp. 966-967",
+     "quote": "Say ye unto Khwarazm Shah, 'I am the sovereign of the sun-rise, and thou the sovereign of the sun-set. Let there be between us a firm treaty of friendship, amity, and peace...' (p.966)"
+    }
+   ],
+   "note": "Attested only in Juzjani (Tabaqat-i Nasiri), via the envoy Baha ad-Din Razi. Nasawi's version instead has Genghis offering to treat the Sultan 'on a level with the dearest of his sons' (Barthold p.397). Dramatized line is faithful to Juzjani.",
+   "fix": "",
+   "fp": "7c09996e37b6"
+  },
+  {
+   "scene": 78,
+   "claim": "Genghis: 'You, of the setting sun. Let us live in peace.'",
+   "kind": "quote",
+   "value": "Juzjani",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juzjani, Tabaqat-i Nasiri, trans. H. G. Raverty, vol. 2",
+     "ref": "https://archive.org/details/in.ernet.dli.2015.283794, pp. 966-967",
+     "quote": "...and thou the sovereign of the sun-set. Let there be between us a firm treaty of friendship, amity, and peace, and let traders and karwans on both sides come and go (p.966)"
+    }
+   ],
+   "note": "",
+   "fix": "",
+   "fp": "796ae4d82d7c"
+  },
+  {
+   "scene": 79,
+   "claim": "At Otrar governor Inalchuq had them arrested",
+   "kind": "name",
+   "value": "Inalchuq (title Ghayir-Khan)",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, trans. J. A. Boyle, vol. 1 (1958)",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp",
+     "quote": "the governor of that town was one Inalchuq, who was a kinsman of the Sultan's mother, Terken Khatun, and had received the title of Ghayir-Khan... He therefore placed them under arrest (p.79)"
+    },
+    {
+     "title": "V. V. Barthold, Turkestan Down to the Mongol Invasion (2nd ed. 1968)",
+     "ref": "https://archive.org/details/barthold-1968-turkestan-down-to-the-mongol-invasion",
+     "quote": "All these merchants were detained in Utrar as spies by order of the governor Inalchik, who bore the title of Qayir-Khan (Nasawi calls him Inal-Khan) (p.398)"
+    }
+   ],
+   "note": "Juzjani calls him Qadir Khan.",
+   "fix": "",
+   "fp": "cdbad768dd69"
+  },
+  {
+   "scene": 80,
+   "claim": "Inalchuq accused them of spying, seized goods, had them killed",
+   "kind": "event",
+   "value": "massacre at Otrar",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "V. V. Barthold, Turkestan Down to the Mongol Invasion (2nd ed. 1968)",
+     "ref": "https://archive.org/details/barthold-1968-turkestan-down-to-the-mongol-invasion",
+     "quote": "According to Nasawi the governor acted solely from cupidity... It was the governor who determined on the massacre on his own initiative (p.398)"
+    },
+    {
+     "title": "Juvaini, History of the World-Conqueror, trans. J. A. Boyle, vol. 1 (1958)",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp",
+     "quote": "Without pausing to think the Sultan sanctioned the shedding of their blood... Ghayir-Khan in executing his command deprived these men of their lives and possessions (p.79-80)"
+    }
+   ],
+   "note": "Dramatized. Event happened; sources disagree who ordered the killing: Nasawi says Inalchuq on his own, Juvaini and Ibn al-Athir say the Sultan ordered it. Juvaini: one man escaped.",
+   "fix": "",
+   "fp": "d6b33a3451e6"
+  },
+  {
+   "scene": 81,
+   "claim": "That one order would cost the Sultan his empire",
+   "kind": "event",
+   "value": "interpretive",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "V. V. Barthold, Turkestan Down to the Mongol Invasion (2nd ed. 1968)",
+     "ref": "https://archive.org/details/barthold-1968-turkestan-down-to-the-mongol-invasion",
+     "quote": "Chingiz-Khan's expedition into the Khwarazm-shah's territories was thus rendered inevitable (p.399)"
+    }
+   ],
+   "note": "Interpretive. Note per Juvaini/Ibn al-Athir the killing order was the Sultan's own sanction, which fits 'cost the Sultan'.",
+   "fix": "",
+   "fp": "a17bfbb03f54"
+  },
+  {
+   "scene": 82,
+   "claim": "Chroniclers say Genghis climbed a mountain and prayed three days",
+   "kind": "quote",
+   "value": "Juvaini",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, trans. J. A. Boyle, vol. 1 (1958)",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp",
+     "quote": "In this fever Chingiz-Khan went up alone to the summit of a hill, bared his head, turned his face towards the earth and for three days and nights offered up prayer (p.80)"
+    }
+   ],
+   "note": "Attested in Juvaini (a 'hill'). Hedged with 'chroniclers say'.",
+   "fix": "",
+   "fp": "415b124dec14"
+  },
+  {
+   "scene": 82,
+   "claim": "Sequence: prayer came after the envoy was killed",
+   "kind": "event",
+   "value": "order of events",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, trans. J. A. Boyle, vol. 1 (1958)",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp",
+     "quote": "[after news of the merchants' massacre] ...went up alone to the summit of a hill... Thereupon he descended... He then dispatched envoys to the Sultan (p.80-81)"
+    }
+   ],
+   "note": "In Juvaini the hilltop prayer follows news of the MERCHANTS' massacre and comes before the envoys are sent. Placing it after scene 81 (envoy killed) implies the wrong order. Either move scenes 82-83 before scene 80, or reword. | 대본 고침: \"The chroniclers say Genghis Khan climbed a mountain and prayed for three days.\" → \"The chroniclers say that when he heard of the massacre, Genghis Khan climbed a mountain and prayed for three days.\"",
+   "fix": "",
+   "fp": "415b124dec14"
+  },
+  {
+   "scene": 83,
+   "claim": "'I did not start this. Grant me the strength to finish it.'",
+   "kind": "quote",
+   "value": "Juvaini",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, trans. J. A. Boyle, vol. 1 (1958)",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp",
+     "quote": "'I was not the author of this trouble; grant me strength to exact vengeance.' (p.80-81)"
+    }
+   ],
+   "note": "Dramatized but closely matches Juvaini's recorded prayer.",
+   "fix": "",
+   "fp": "7ecd9bc598a5"
+  },
+  {
+   "scene": 84,
+   "claim": "Genghis sent envoys demanding justice",
+   "kind": "event",
+   "value": "envoys demand surrender of Inalchuq",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "V. V. Barthold, Turkestan Down to the Mongol Invasion (2nd ed. 1968)",
+     "ref": "https://archive.org/details/barthold-1968-turkestan-down-to-the-mongol-invasion",
+     "quote": "Ibn Kafraj Bughra, accompanied by two Tatars, was sent as his envoy... to demand the surrender of Inalchik (p.399)"
+    }
+   ],
+   "note": "",
+   "fix": "",
+   "fp": "1c73682fcceb"
+  },
+  {
+   "scene": 85,
+   "claim": "Sultan executed one envoy and humiliated the rest",
+   "kind": "event",
+   "value": "1 killed, 2 beards shaved",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "V. V. Barthold, Turkestan Down to the Mongol Invasion (2nd ed. 1968)",
+     "ref": "https://archive.org/details/barthold-1968-turkestan-down-to-the-mongol-invasion",
+     "quote": "The Khwarazm-shah not only refused to meet this demand, but ordered the envoy to be killed; his companions were liberated after their beards had been shaved off (p.399)"
+    },
+    {
+     "title": "Wikipedia: Mongol invasion of the Khwarazmian Empire",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_invasion_of_the_Khwarazmian_Empire",
+     "quote": "killing one Mongol envoy and humiliating the other two [cites Juvaini]"
+    }
+   ],
+   "note": "Beard-shaving is from Nasawi/Ibn al-Athir per Barthold. Juvaini's own account of this embassy is a declaration of war and does not describe the killing.",
+   "fix": "",
+   "fp": "0d0249cc7914"
+  },
+  {
+   "scene": 87,
+   "claim": "Estimates range from about 100,000 to 200,000 riders",
+   "kind": "army",
+   "value": "100,000-200,000",
+   "verdict": "disputed",
+   "sources": [
+    {
+     "title": "Wikipedia: Mongol invasion of the Khwarazmian Empire",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_invasion_of_the_Khwarazmian_Empire",
+     "quote": "Secret History implies 100,000-135,000; Sverdrup minimum 75,000 [Sverdrup 2010]; McLynn ~120,000; Smith 130,000 [Smith 1975]; Stubbs and Rossabi no more than 200,000; Rashid al-Din 600,000, Juzjani 800,000"
+    }
+   ],
+   "note": "Hedged ('estimates range') - passes. Lowest modern estimate (Sverdrup) is ~75,000; medieval chroniclers give 600,000-800,000.",
+   "fix": "",
+   "fp": "798483dcd063"
+  },
+  {
+   "scene": 87,
+   "claim": "Mongols invaded in 1219",
+   "kind": "date",
+   "value": "1219",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Mongol invasion of the Khwarazmian Empire",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_invasion_of_the_Khwarazmian_Empire",
+     "quote": "led his main army over 1,000 miles to invade the Khwarazmian Empire in 1219 [May 2016 p.162]"
+    },
+    {
+     "title": "Juvaini, History of the World-Conqueror, trans. J. A. Boyle, vol. 1 (1958)",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp",
+     "quote": "in the year 615/1218-19 commenced the march (p.81)"
+    }
+   ],
+   "note": "Otrar siege began late 1219.",
+   "fix": "",
+   "fp": "798483dcd063"
+  },
+  {
+   "scene": 88,
+   "claim": "He spread his troops out in city garrisons",
+   "kind": "event",
+   "value": "garrison strategy",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Mongol invasion of the Khwarazmian Empire",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_invasion_of_the_Khwarazmian_Empire",
+     "quote": "decided to place his forces as garrisons in key towns such as Samarkand, Merv and Nishapur [May 2018 pp.58-61]"
+    },
+    {
+     "title": "Juvaini, History of the World-Conqueror, trans. J. A. Boyle, vol. 1 (1958)",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp",
+     "quote": "the Sultan had given Ghayir-Khan fifty thousand men from his auxiliary army and had sent Qaracha Khass-Hajib to his aid with another ten thousand (p.82-83)"
+    }
+   ],
+   "note": "'Every city' is rhetorical but fair.",
+   "fix": "",
+   "fp": "3b99eec2696c"
+  },
+  {
+   "scene": 88,
+   "claim": "The Sultan had more men",
+   "kind": "army",
+   "value": "Khwarazm larger",
+   "verdict": "disputed",
+   "sources": [
+    {
+     "title": "Wikipedia: Mongol invasion of the Khwarazmian Empire",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_invasion_of_the_Khwarazmian_Empire",
+     "quote": "Rashid al-Din: 400,000 Khwarazmians; McLynn 200,000; Sverdrup about 40,000 excluding town militias [Sverdrup 2010]"
+    }
+   ],
+   "note": "Traditional view (Barthold, Juvaini's big garrison figures) says yes; Sverdrup argues the Khwarazmian field forces were smaller. Stated flatly. | 대본 고침: \"The Sultan had more men. But he spread them out, one garrison in every city.\" → \"The Sultan probably had more men. But he spread them out, one garrison in every city.\"",
+   "fix": "",
+   "fp": "3b99eec2696c"
+  },
+  {
+   "scene": 89,
+   "claim": "Mongols split into four armies; one besieged Otrar",
+   "kind": "army",
+   "value": "4 columns",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, trans. J. A. Boyle, vol. 1 (1958)",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp",
+     "quote": "His eldest son he sent to Jand and Barjligh-Kent... a number of his commanders were sent to Khojend and Fanakat. He himself proceeded against Bokhara, leaving Ogetei and Chaghatai in command of the army... charged with the investment of Otrar. (p.83)"
+    }
+   ],
+   "note": "Four columns per Juvaini (Otrar: Chaghatai+Ogedei; Jochi down the Syr Darya; Alaq Noyan to Banakat/Khojend; Genghis+Tolui to Bukhara). Wikipedia counts five groups by adding later moves - Juvaini's four is the standard reading.",
+   "fix": "",
+   "fp": "5b8b67de5872"
+  },
+  {
+   "scene": 90,
+   "claim": "Fourth army led by Genghis himself 'vanished' (desert crossing)",
+   "kind": "event",
+   "value": "Genghis+Tolui across Kyzylkum",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Mongol invasion of the Khwarazmian Empire",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_invasion_of_the_Khwarazmian_Empire",
+     "quote": "Genghis and Tolui, with about 50,000 men, went to Bukhara across the Kyzyl Kum (uncited)"
+    },
+    {
+     "title": "Juvaini, History of the World-Conqueror, trans. J. A. Boyle, vol. 1 (1958)",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp",
+     "quote": "from thence Chingiz-Khan proceeded to Bokhara, and in the beginning of Muharram, 617 [March, 1220], he encamped before the gates (p.103)"
+    }
+   ],
+   "note": "Rhetorical 'vanished' = unexpected route through the Kyzylkum via Zarnuq/Nur. Bukhara arrival: Juvaini March 1220 (Barthold gives February) - 'early 1220' is safe if used.",
+   "fix": "",
+   "fp": "82a1ee55de35"
+  },
+  {
+   "scene": 90,
+   "claim": "Two more swept along the rivers",
+   "kind": "place",
+   "value": "Syr Darya",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, trans. J. A. Boyle, vol. 1 (1958)",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp",
+     "quote": "Jochi sent to Jand (on the Syr Darya); Alaq Noyan, Sogetu and Taqai with five thousand men dispatched to Fanakat (p.83, p.91)"
+    }
+   ],
+   "note": "Both columns operated along ONE river, the Syr Darya - Jochi downstream, Alaq upstream. 'Rivers' plural is inaccurate (minor). | 대본 고침: \"Two more swept along the rivers. And the fourth, led by Genghis Khan himself, vanished.\" → \"Two more swept up and down the Syr Darya. And the fourth, led by Genghis Khan himself, vanished.\"",
+   "fix": "",
+   "fp": "82a1ee55de35"
+  },
+  {
+   "scene": 91,
+   "claim": "Genghis led his army across the Kyzylkum desert",
+   "kind": "place",
+   "value": "Kyzylkum crossing to Bukhara",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Mongol invasion of the Khwarazmian Empire",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_invasion_of_the_Khwarazmian_Empire",
+     "quote": "traversed 300 miles of the seemingly impassable Kyzyl Kum desert by hopping through the various oases, guided most of the way by captured nomads (fn 33)"
+    },
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 1",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp p.78 (Persian [78])",
+     "quote": "A guide, one of the Turcomans of that region... led them on by a little frequented road; which road has ever since been called the Khan's Road."
+    }
+   ],
+   "note": "Route via Zarnuq and Nur on a little-used road is supported.",
+   "fix": "",
+   "fp": "e35887ccc059"
+  },
+  {
+   "scene": 91,
+   "claim": "The Sultan's generals thought no army could cross the Kyzylkum",
+   "kind": "event",
+   "value": "generals' belief",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Mongol invasion of the Khwarazmian Empire",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_invasion_of_the_Khwarazmian_Empire",
+     "quote": "Only says 'seemingly impassable'; no source attributes this belief to the Sultan's generals."
+    }
+   ],
+   "note": "The 'generals thought' framing is popular-history inference (no primary source). Juvaini says only that a Turkmen guide led them by a little-used road. | 대본 고침: \"He took it straight across the Kyzylkum, a desert the Sultan's generals thought no army could cross.\" → \"He took it straight across the Kyzylkum, a desert nobody expected an army to cross.\"",
+   "fix": "",
+   "fp": "e35887ccc059"
+  },
+  {
+   "scene": 92,
+   "claim": "Genghis reached Bukhara in early 1220, behind the Khwarazmian defense lines",
+   "kind": "date",
+   "value": "early 1220 (Feb-Mar 1220)",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 1",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp p.103",
+     "quote": "in the beginning of Muharram, 617 [March, 1220], he encamped before the gates of the citadel."
+    },
+    {
+     "title": "Wikipedia: Mongol invasion of the Khwarazmian Empire",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_invasion_of_the_Khwarazmian_Empire",
+     "quote": "arrived at the gates of Bukhara virtually unnoticed"
+    }
+   ],
+   "note": "Barthold (Turkestan) puts arrival in February 1220; either way 'early 1220' is safe.",
+   "fix": "",
+   "fp": "0545c9a4c07a"
+  },
+  {
+   "scene": 93,
+   "claim": "Bukhara fell",
+   "kind": "event",
+   "value": "Bukhara surrendered 1220",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 1",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp p.103",
+     "quote": "the people of Bokhara opened their gates and closed the door of strife and battle."
+    }
+   ],
+   "note": "",
+   "fix": "",
+   "fp": "2ca8e1f7bc43"
+  },
+  {
+   "scene": 93,
+   "claim": "Genghis rode into Bukhara's great mosque and spoke to the richest men there",
+   "kind": "event",
+   "value": "mosque + speech location",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 1",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp p.103",
+     "quote": "He rode into the Friday mosque and pulled up before the maqsura... 'The countryside is empty of fodder; fill our horses' bellies.'"
+    },
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 1",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp p.104",
+     "quote": "When Chingiz-Khan left the town he went to the festival musalla and mounted the pulpit; and, the people having been assembled, he asked which were the wealthy amongst them. Two hundred and eighty persons were designated"
+    }
+   ],
+   "note": "Two separate scenes in Juvaini: in the Friday mosque he demanded fodder; the 'punishment of God' speech to the 280 rich men was given later from the pulpit of the festival prayer ground (musalla) outside the town, not in the mosque. Popular retellings merge them. | 대본 고침: \"Bukhara fell. Genghis Khan rode into its great mosque and spoke to the city's richest men.\" → \"Bukhara fell. Genghis Khan rode into its great mosque... then summoned the city's richest men to hear him speak.\"",
+   "fix": "",
+   "fp": "2ca8e1f7bc43"
+  },
+  {
+   "scene": 94,
+   "claim": "Genghis's 'punishment of God' speech to Bukhara's wealthy",
+   "kind": "quote",
+   "value": "Juvaini, Boyle tr. vol.1 p.105",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 1",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp p.105 (Persian text [81]-[82])",
+     "quote": "'O people, know that you have committed great sins, and that the great ones among you have committed these sins. If you ask me what proof I have for these words, I say it is because I am the punishment of God. If you had not committed great sins, God would not have sent a punishment like me upon you.'"
+    }
+   ],
+   "note": "Wording matches Boyle almost verbatim; page 105 confirmed. Only source is Juvaini (written c.1252-60, a generation later), so label as recorded by Juvaini. Location was the festival musalla, see #91.",
+   "fix": "",
+   "fp": "459a22059f55"
+  },
+  {
+   "scene": 95,
+   "claim": "Samarkand surrendered within days (1220)",
+   "kind": "event",
+   "value": "Samarkand, March 1220, surrendered after ~5 days",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Mongol invasion of the Khwarazmian Empire",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_invasion_of_the_Khwarazmian_Empire",
+     "quote": "Genghis ... arrived in March 1220 ... On the fifth day, all but a handful of soldiers surrendered."
+    },
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 1",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp ch. XVIII, pp.115ff",
+     "quote": "Juvaini: assault began on the third day; the townspeople surrendered soon after; the citadel was then stormed."
+    }
+   ],
+   "note": "'Jewel of the empire' is rhetorical; Samarkand had become Muhammad II's main city, fine.",
+   "fix": "",
+   "fp": "d857cd6d0646"
+  },
+  {
+   "scene": 96,
+   "claim": "Inalchuq held out at Otrar for months",
+   "kind": "event",
+   "value": "5 months + about 1 month in citadel",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 1",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp pp.83-85",
+     "quote": "the garrison kept up a continuous battle and resisted for a space of five months... And so the battle went on for a whole month until only Ghayir and two others were left"
+    }
+   ],
+   "note": "Inalchuq = Ghayir-Khan in Juvaini.",
+   "fix": "",
+   "fp": "564ea1a35269"
+  },
+  {
+   "scene": 97,
+   "claim": "Inalchuq died with molten silver poured into his eyes and ears",
+   "kind": "event",
+   "value": "molten silver execution",
+   "verdict": "disputed",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 1",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp p.85",
+     "quote": "As for Ghayir, they caused him in the Kok-Sarai to drink the cup of annihilation and don the garb of eternity."
+    },
+    {
+     "title": "Wikipedia: Inalchuq",
+     "ref": "https://en.wikipedia.org/wiki/Inalchuq",
+     "quote": "reportedly executed by molten silver being poured into his eyes and ears, though this may be apocryphal (fn: John Man, Genghis Khan: Life, Death and Resurrection, 2007, p.163)"
+    }
+   ],
+   "note": "Not in Juvaini, who only says he was executed at the Kok-Sarai in Samarkand. The molten silver detail turns up in modern popular histories (John Man), and no primary source for it was found. The line already says 'Legend says', so it passes.",
+   "fix": "",
+   "fp": "a63c9d747867"
+  },
+  {
+   "scene": 98,
+   "claim": "The Sultan fled",
+   "kind": "event",
+   "value": "Muhammad II fled west",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 2",
+     "ref": "https://archive.org/details/historyoftheworl011648mbp pp.380-386",
+     "quote": "Juvaini traces Muhammad's flight via Nishapur, Ray, Mazandaran to the Caspian islands."
+    }
+   ],
+   "note": "",
+   "fix": "",
+   "fp": "2ebebdb869f8"
+  },
+  {
+   "scene": 99,
+   "claim": "Genghis sent Subutai and Jebe after the Sultan",
+   "kind": "name",
+   "value": "Jebe and Subutai",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 1",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp p.142",
+     "quote": "So he chose from the chief of his commanders Yeme and Subetei to pursue the Sultan"
+    }
+   ],
+   "note": "Jebe = 'weapon' or perhaps 'arrow' (Boyle's note citing Pelliot-Hambis), so 'The Arrow' is acceptable.",
+   "fix": "",
+   "fp": "823027858aa6"
+  },
+  {
+   "scene": 99,
+   "claim": "The pursuit force was about 20,000 riders",
+   "kind": "army",
+   "value": "about 20,000",
+   "verdict": "disputed",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 1",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp p.142",
+     "quote": "from the troops that were with him he selected proportionately thirty thousand men"
+    },
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 1",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp (Samarkand chapter, c. p.118)",
+     "quote": "he dispatched Yeme and Subetei... in pursuit of the Sultan together with thirty thousand men"
+    },
+    {
+     "title": "Wikipedia: Mongol invasions of Georgia / Battle of the Kalka River",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_invasions_of_Georgia",
+     "quote": "approximately 20,000 Mongols led by Subutai and Jebe (two tumens)"
+    },
+    {
+     "title": "Encyclopaedia Iranica, 'Jebe'",
+     "ref": "https://www.iranicaonline.org/",
+     "quote": "cites Juvaini for 30,000 men in 1220"
+    }
+   ],
+   "note": "Juvaini, the main primary source, says 30,000 twice. 20,000 (two tumens) is a common modern figure. The word 'about' hedges, but it hedges the low figure only, so better to give the range. | 대본 고침: \"Genghis Khan sent two generals after him with about 20,000 riders: Subutai... and Jebe. The Arrow.\" → \"Genghis Khan sent two generals after him with twenty or thirty thousand riders: Subutai... and Jebe. The Arrow.\"",
+   "fix": "",
+   "fp": "823027858aa6"
+  },
+  {
+   "scene": 100,
+   "claim": "Jebe and Subutai chased him across Persia city after city",
+   "kind": "event",
+   "value": "pursuit through Khorasan, Iraq-i Ajam, Mazandaran",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 1",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp pp.142-149",
+     "quote": "Yeme making for Juvain and Subetei proceeding... Yeme then turned his reins towards Mazandaran... When Yeme came to Hamadan"
+    }
+   ],
+   "note": "",
+   "fix": "",
+   "fp": "4e45cdca2979"
+  },
+  {
+   "scene": 102,
+   "claim": "He died in rags (destitute)",
+   "kind": "event",
+   "value": "died in poverty",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 2",
+     "ref": "https://archive.org/details/historyoftheworl011648mbp p.386",
+     "quote": "O thou who didst die of penury on the top of treasure!"
+    },
+    {
+     "title": "Wikipedia: Mongol invasion of the Khwarazmian Empire",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_invasion_of_the_Khwarazmian_Empire",
+     "quote": "he died destitute on an island in the Caspian Sea"
+    }
+   ],
+   "note": "Poverty is in Juvaini's elegy. 'In rags' is a dramatization of it. The well-known story that he was buried in a servant's shirt for lack of a shroud goes back to Nasawi (not checked here). | 표기만 바꿈(Begter→Bekter, Muhammad II→the Second), 내용 같음",
+   "fix": "",
+   "fp": "4e21727890dc"
+  },
+  {
+   "scene": 102,
+   "claim": "Muhammad II died on a small island in the Caspian",
+   "kind": "place",
+   "value": "island in the Sea of Abaskun (Caspian), Dec 1220/early 1221",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 2",
+     "ref": "https://archive.org/details/historyoftheworl011648mbp pp.385-386",
+     "quote": "They thought it best for him to seek asylum in one of the islands of the Sea of Abaskun [i.e. the Caspian]... He was buried at the time upon that very island"
+    },
+    {
+     "title": "Wikipedia: Mongol invasion of the Khwarazmian Empire",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_invasion_of_the_Khwarazmian_Empire",
+     "quote": "he died destitute on an island in the Caspian Sea ... in December 1220 (date marked citation needed)"
+    }
+   ],
+   "note": "Date not stated in line (sources vary: Dec 1220 to Jan 1221), fine. | 표기만 바꿈(Begter→Bekter, Muhammad II→the Second), 내용 같음",
+   "fix": "",
+   "fp": "4e21727890dc"
+  },
+  {
+   "scene": 103,
+   "claim": "Resisting cities paid a terrible price; chroniclers claimed over a million dead at Nishapur",
+   "kind": "casualty",
+   "value": "1,747,000 (Mirkhwand, 15th c.)",
+   "verdict": "disputed",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 1",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp pp.176-177",
+     "quote": "it was commanded that the town should be laid waste... not even cats and dogs should be left alive... they slew all the survivors save only four hundred persons"
+    },
+    {
+     "title": "Indian Antiquary vol.13 (summarizing Mirkhond)",
+     "ref": "https://www.jainqq.org/pagetext/Indian_Antiquary_Vol_13/032505/340",
+     "quote": "Twelve days were spent in counting the dead, which Mirkhond tells us numbered 1,747,000."
+    },
+    {
+     "title": "Wikipedia: Siege of Nishapur (1221)",
+     "ref": "https://en.wikipedia.org/wiki/Siege_of_Nishapur_(1221)",
+     "quote": "report death tolls exceeding 1,747,000 (Weatherford; Morgan 1986 pp.74-75); modern estimates far lower"
+    }
+   ],
+   "note": "Juvaini (Boyle) gives total destruction but no number for Nishapur. His 'more than one million' is a count for Merv, p.163. The 1,747,000 figure comes from later Persian chronicles (Mirkhond, 15th c.). Wikipedia's attribution of it to Juvaini isn't supported by the Boyle text. The line hedges ('chroniclers claimed'), so it passes. Writers should not credit Juvaini with this number.",
+   "fix": "",
+   "fp": "781963e7c873"
+  },
+  {
+   "scene": 104,
+   "claim": "The number is impossible/exaggerated",
+   "kind": "casualty",
+   "value": "modern scholars reject",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Siege of Nishapur (1221)",
+     "ref": "https://en.wikipedia.org/wiki/Siege_of_Nishapur_(1221)",
+     "quote": "some modern scholars consider these figures exaggerated"
+    }
+   ],
+   "note": "Consistent with Morgan, The Mongols (1986) on chroniclers' inflated figures.",
+   "fix": "",
+   "fp": "7c1594a406e2"
+  },
+  {
+   "scene": 106,
+   "claim": "Jalal al-Din, the Sultan's son, kept fighting",
+   "kind": "name",
+   "value": "Jalal al-Din Mingburnu",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 1",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp pp.133-134",
+     "quote": "whilst he himself pursued Jalal-ad-Din like the wind... until he came up with him on the banks of the Indus"
+    }
+   ],
+   "note": "",
+   "fix": "",
+   "fp": "f40dbfa50d41"
+  },
+  {
+   "scene": 107,
+   "claim": "In 1221 Genghis caught him at the Indus",
+   "kind": "date",
+   "value": "24 Nov 1221 (Battle of the Indus)",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 1",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp p.134",
+     "quote": "until he came up with him on the banks of the Indus"
+    },
+    {
+     "title": "Wikipedia: Battle of the Indus",
+     "ref": "https://en.wikipedia.org/wiki/Battle_of_the_Indus",
+     "quote": "fought on the banks of the Indus River, on 24 November 1221"
+    }
+   ],
+   "note": "",
+   "fix": "",
+   "fp": "ee96aeeeab57"
+  },
+  {
+   "scene": 108,
+   "claim": "His army was surrounded with its back to the river",
+   "kind": "event",
+   "value": "encircled against Indus",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 1",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp p.134",
+     "quote": "The Mongol army cut off the Sultan's front and rear and encompassed him on every side; they stood ... in the shape of a bow and made the Indus like a bowstring."
+    }
+   ],
+   "note": "",
+   "fix": "",
+   "fp": "38ad106f335e"
+  },
+  {
+   "scene": 109,
+   "claim": "He rode his horse off the bank into the river",
+   "kind": "event",
+   "value": "horse leap into Indus",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 1",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp p.134",
+     "quote": "Like the lightning he struck upon the water and like the wind he departed."
+    },
+    {
+     "title": "Wikipedia: Battle of the Indus",
+     "ref": "https://en.wikipedia.org/wiki/Battle_of_the_Indus",
+     "quote": "rode his horse off the edge of the 30-foot cliff (Buniyatov 2015 p.128)"
+    }
+   ],
+   "note": "Height not stated in line, which is good: figures vary. | 영어 다듬기(원어민 검토, 사실 내용 같음)",
+   "fix": "",
+   "fp": "7b73c4c68a74"
+  },
+  {
+   "scene": 110,
+   "claim": "He swam across and climbed out on the far side",
+   "kind": "event",
+   "value": "crossed the Indus",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 1",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp p.134",
+     "quote": "he descried him on the dry land on the far side of the stream."
+    }
+   ],
+   "note": "",
+   "fix": "",
+   "fp": "e78eb46bac51"
+  },
+  {
+   "scene": 111,
+   "claim": "Genghis stopped his men (archers) from pursuing/shooting",
+   "kind": "event",
+   "value": "Genghis restrained his troops",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 1",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp p.134",
+     "quote": "When the Mongols saw him cast himself in the river they were about to plunge in after him. But Chingiz-Khan prevented them."
+    },
+    {
+     "title": "Wikipedia: Battle of the Indus",
+     "ref": "https://en.wikipedia.org/wiki/Battle_of_the_Indus",
+     "quote": "forbade his archers to shoot the Shah (Buniyatov 2015 p.128)"
+    }
+   ],
+   "note": "Juvaini has him stopping men from plunging in after Jalal al-Din. Buniyatov says he forbade the archers to shoot. Both agree he held them back, so this is OK.",
+   "fix": "",
+   "fp": "a9a70f4911d7"
+  },
+  {
+   "scene": 112,
+   "claim": "Genghis: 'Such a son a father should have'",
+   "kind": "quote",
+   "value": "Juvaini, Boyle tr. vol.1 p.134",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 1",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp p.134 (Persian text [107])",
+     "quote": "From excess of astonishment he put his hand to his mouth and kept saying to his sons, 'Such a son must a father have!'"
+    }
+   ],
+   "note": "Dramatized wording is close to Boyle; page 134 confirmed. | 영어 다듬기(원어민 검토, 사실 내용 같음)",
+   "fix": "",
+   "fp": "f08350f697b4"
+  },
+  {
+   "scene": 112,
+   "claim": "Hoelun rebuked them for killing over a fish, comparing them to wild beasts",
+   "kind": "quote",
+   "value": "rebuke with animal similes",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§78 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "Like a wolf stalking its prey under cover of a blizzard; Like a mandarin duck eating its chicks ... You have destroyed!"
+    }
+   ],
+   "note": "Dramatized but faithful in substance: a fish (§76) and the beast similes (§78). This is where the 'no friend but our shadow' line actually belongs; consider using it here, e.g. 'Over a fish? We have no friends but our shadows!' | 영어 다듬기(원어민 검토, 사실 내용 같음)",
+   "fix": "",
+   "fp": "f08350f697b4"
+  },
+  {
+   "scene": 114,
+   "claim": "He never forgave betrayal",
+   "kind": "event",
+   "value": "punished traitors",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 1",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp p.84 n.9",
+     "quote": "Qaracha executed for deserting his master: 'This was typical of the Mongols' attitude in such cases' (Boyle's note, citing Secret History 188, 200)"
+    }
+   ],
+   "note": "Rhetorical generalization, but it's well supported.",
+   "fix": "",
+   "fp": "fa84a3e48faf"
+  },
+  {
+   "scene": 115,
+   "claim": "Jebe and Subutai rode around the Caspian into lands no Mongol had seen (Caucasus) after the Sultan's death",
+   "kind": "event",
+   "value": "1220-1223 Caucasus/Kipchak raid",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Mongol invasions of Georgia",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_invasions_of_Georgia",
+     "quote": "returned in force in January 1221... through the Caucasus into Alania and the South Russian steppes... Kalka River in 1223"
+    },
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 1",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp p.149 n.36 (Boyle quoting Gibbon)",
+     "quote": "penetrated through the gates of Derbend, traversed the Volga and the desert and accomplished the circuit of the Caspian Sea"
+    }
+   ],
+   "note": "Chronology: the raid began in winter 1220-21, before the Indus battle (Nov 1221). 'Never turned back' after the Sultan's death works, but the editor shouldn't suggest it came after the Indus.",
+   "fix": "",
+   "fp": "1186bc54e789"
+  },
+  {
+   "scene": 116,
+   "claim": "Europe still had no idea who they were",
+   "kind": "event",
+   "value": "European knowledge c.1221-22",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Relatio de Davide, Jacques de Vitry letter from Damietta, 18 Apr 1221 (USC Prester John project)",
+     "ref": "https://scalar.usc.edu/works/prester-john/king-david",
+     "quote": "Crusaders heard of a 'King David of India' destroying Muslim armies, a garbled report of the Mongols."
+    },
+    {
+     "title": "Wikipedia: Mongol invasions of Georgia",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_invasions_of_Georgia",
+     "quote": "Queen Rusudan's 1223 letter to Pope Honorius III: the Georgians had presumed the Mongols were Christians... they had turned out to be pagans"
+    }
+   ],
+   "note": "Fair as stated: Europeans had only rumors and took the Mongols for a Christian king, David, son of Prester John. They didn't know who the Mongols were. Optional sharper line: 'Europe had heard only wild rumors... and had no idea who they really were.'",
+   "fix": "",
+   "fp": "c6c397086335"
+  }
+ ],
+ "stale": [
+  {
+   "scene": 8,
+   "claim": "At about nine, after leaving Temüjin with his future in-laws, Yesügei stopped at a Tatar camp and shared their food",
+   "kind": "event",
+   "value": "age ~9; Tatar feast",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§66 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "When Temüjin was nine years old, Yesügei Ba'atur set out to go to the Olqunu'ut people"
+    },
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§67 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "On the way back, Yesügei Ba'atur met some Tatars who were having a feast ... he got off his horse and joined them at the feast"
+    }
+   ],
+   "note": "Wikipedia says eight for the betrothal; SH says nine. 'About nine' covers both.",
+   "fix": "",
+   "fp": "0b1424873206"
+  },
+  {
+   "scene": 19,
+   "claim": "Sorkan-shira saw him in the water, said nothing, then hid him in a cart of wool",
+   "kind": "event",
+   "value": "who hid him in the wool cart",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§82 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "Sorqan Sira of the Suldus happened to pass by and he saw Temüjin lying in the stream ... 'Lie just so; I shall not tell them.'"
+    },
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§85 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "Sorqan Sira said, 'Didn't I tell you to go and look for your mother and younger brothers? Why did you come here?' But his two sons Čimbai and Čila'un ..."
+    },
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§87 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "they smashed open Temüjin's cangue, burnt it in the fire and put him into a cart loaded with wool"
+    }
+   ],
+   "note": "First half correct. But in the SH it was Sorqan-shira's sons Chimbai and Chila'un (and daughter Qada'an) who hid him in the wool, against their reluctant father; Sorqan-shira then bluffed the searchers away. Wikipedia's looser 'sheltered him' is fine but the line as written credits the wrong person. | 대본 고침: \"A man named Sorkan-shira saw him hiding in the water. He said nothing. Then he hid the boy in a cart of wool.\" → \"A man named Sorkan-shira saw him hiding in the water. He said nothing. Then Sorkan-shira's sons hid the boy in a cart of wool.\"",
+   "fix": "",
+   "fp": "b91707acb9b7"
+  },
+  {
+   "scene": 30,
+   "claim": "Jamukha favoured the old aristocratic families; this drove the split",
+   "kind": "event",
+   "value": "aristocracy vs merit",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Genghis Khan",
+     "ref": "https://en.wikipedia.org/wiki/Genghis_Khan (cites Ratchnevsky 1991 pp.67-70; May 2018 pp.36-37)",
+     "quote": "Jamukha objected that Temüjin's promotion of commoners threatened the traditional steppe aristocracy"
+    },
+    {
+     "title": "Wikipedia: Jamukha",
+     "ref": "https://en.wikipedia.org/wiki/Jamukha",
+     "quote": "Jamukha tended to rely on traditional tribal aristocracy"
+    }
+   ],
+   "note": "Modern interpretation (Vladimirtsov/Ratchnevsky line). The Secret History §118 gives only a cryptic camping remark; the stated cause is ostensibly that remark. Acceptable as narration, but note Temüjin's own early backers (Altan, Quchar, Sacha Beki, §123) were aristocrats.",
+   "fix": "",
+   "fp": "c7ebbf899fb3"
+  },
+  {
+   "scene": 42,
+   "claim": "About 20 years later Jebe rode further west than any Mongol before",
+   "kind": "event",
+   "value": "1221-23 Caucasus/Kalka raid",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Jebe",
+     "ref": "https://en.wikipedia.org/wiki/Jebe (Hautala 2015 p.8; Golden 2000 p.31)",
+     "quote": "a legendary raid around the Caspian Sea ... went on to defeat the Kievan Rus' and Cumans at the Battle of the Kalka River"
+    }
+   ],
+   "note": "c.1201 + ~20 = 1221-23. He shared the raid with Subutai; claim still holds.",
+   "fix": "",
+   "fp": "434a14248976"
+  },
+  {
+   "scene": 67,
+   "claim": "Jin played the steppe tribes against each other for generations",
+   "kind": "event",
+   "value": "Jin divide-and-rule",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Mongol conquest of the Jin dynasty",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_conquest_of_the_Jin_dynasty",
+     "quote": "the Jurchen rulers collected tribute from some steppe tribes and encouraged rivalries among them; backed the Tatars against the Mongols under Khabul"
+    },
+    {
+     "title": "Secret History of the Mongols §53, §132-134",
+     "ref": "§53, §132-134",
+     "quote": "Ambaghai handed by the Tatars to the Jin and executed; in 1196 the Jin enlisted Temujin and Toghril against the Tatars."
+    }
+   ],
+   "note": "Wikipedia sentence uncited; supported by Secret History episodes (Ambaghai, 1196 Jin campaign).",
+   "fix": "",
+   "fp": "59d31cef723d"
+  },
+  {
+   "scene": 70,
+   "claim": "Jin army several times the Mongols' size",
+   "kind": "army",
+   "value": "several times larger",
+   "verdict": "disputed",
+   "sources": [
+    {
+     "title": "Wikipedia: Battle of Yehuling",
+     "ref": "https://en.wikipedia.org/wiki/Battle_of_Yehuling",
+     "quote": "Ratchnevsky 65,000 vs 620,000; Sverdrup 2010 p.116 gives much lower Jin figures"
+    },
+    {
+     "title": "Yuan shi, ch. 119 (biography of Muqali)",
+     "ref": "https://zh.wikisource.org/wiki/元史/卷119",
+     "quote": "彼眾我寡 (they are many, we are few)"
+    }
+   ],
+   "note": "Numbers disputed; line states the ratio flatly. | 대본 고침: \"How do you beat an army several times your size? The Mongols charged straight at its center.\" → \"How do you beat an army the chroniclers said was several times your size? The Mongols charged straight into its lines.\"",
+   "fix": "",
+   "fp": "89998ec78ebd"
+  },
+  {
+   "scene": 70,
+   "claim": "Mongols charged straight at its center",
+   "kind": "event",
+   "value": "charge on the center",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Yuan shi, ch. 119 (biography of Muqali)",
+     "ref": "https://zh.wikisource.org/wiki/元史/卷119",
+     "quote": "率敢死士，策馬橫戈，大呼陷陣，帝麾諸軍並進 (Muqali led picked men, spurred and with levelled lances, shouting, broke into the enemy ranks; the emperor sent all the armies forward)"
+    },
+    {
+     "title": "Wikipedia: Battle of Yehuling",
+     "ref": "https://en.wikipedia.org/wiki/Battle_of_Yehuling",
+     "quote": "Muqali led a surprise cavalry charge... defeated the central Jin forces (uncited paragraph)"
+    }
+   ],
+   "note": "Primary source attests a headlong charge into the Jin line led by Muqali, but not specifically 'the center'; the 'center' detail is only in an uncited Wikipedia paragraph. | 대본 고침: \"How do you beat an army several times your size? The Mongols charged straight at its center.\" → \"How do you beat an army the chroniclers said was several times your size? The Mongols charged straight into its lines.\"",
+   "fix": "",
+   "fp": "89998ec78ebd"
+  },
+  {
+   "scene": 73,
+   "claim": "The herders now held the north of China",
+   "kind": "event",
+   "value": "Mongols held N. China after 1215",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Mongol conquest of the Jin dynasty",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_conquest_of_the_Jin_dynasty",
+     "quote": "The Jin moved the capital to Kaifeng in 1214; Mongols rooted out resistance in Shanxi, Hebei and Shandong 1217-1223; the Jin dynasty ended February 9, 1234."
+    }
+   ],
+   "note": "Overstated: after 1215 the Jin still held Henan (Kaifeng) and fought on until 1234, and much of Hebei/Shandong/Shanxi was only pacified 1217-1223. | 대본 고침: \"The herders from the steppe now held the north of China.\" → \"The herders from the steppe now held much of northern China, though the Jin would hold out in the south for years.\"",
+   "fix": "",
+   "fp": "ec84db558dbb"
+  },
+  {
+   "scene": 109,
+   "claim": "He rode his horse off the bank into the river",
+   "kind": "event",
+   "value": "horse leap into Indus",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 1",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp p.134",
+     "quote": "Like the lightning he struck upon the water and like the wind he departed."
+    },
+    {
+     "title": "Wikipedia: Battle of the Indus",
+     "ref": "https://en.wikipedia.org/wiki/Battle_of_the_Indus",
+     "quote": "rode his horse off the edge of the 30-foot cliff (Buniyatov 2015 p.128)"
+    }
+   ],
+   "note": "Height not stated in line, which is good: figures vary.",
+   "fix": "",
+   "fp": "83f0be653b68"
+  },
+  {
+   "scene": 112,
+   "claim": "Genghis: 'Such a son a father should have'",
+   "kind": "quote",
+   "value": "Juvaini, Boyle tr. vol.1 p.134",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 1",
+     "ref": "https://archive.org/details/historyoftheworl011691mbp p.134 (Persian text [107])",
+     "quote": "From excess of astonishment he put his hand to his mouth and kept saying to his sons, 'Such a son must a father have!'"
+    }
+   ],
+   "note": "Dramatized wording is close to Boyle; page 134 confirmed.",
+   "fix": "",
+   "fp": "39157baf3218"
+  },
+  {
+   "scene": 112,
+   "claim": "Hoelun rebuked them for killing over a fish, comparing them to wild beasts",
+   "kind": "quote",
+   "value": "rebuke with animal similes",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§78 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "Like a wolf stalking its prey under cover of a blizzard; Like a mandarin duck eating its chicks ... You have destroyed!"
+    }
+   ],
+   "note": "Dramatized but faithful in substance: a fish (§76) and the beast similes (§78). This is where the 'no friend but our shadow' line actually belongs; consider using it here, e.g. 'Over a fish? We have no friends but our shadows!'",
+   "fix": "",
+   "fp": "39157baf3218"
+  },
+  {
+   "scene": 13,
+   "claim": "Temüjin and Khasar killed half-brother Begter after he stole their food",
+   "kind": "event",
+   "value": "Begter killed by Temüjin + Khasar",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "The Secret History of the Mongols, trans. Igor de Rachewiltz (shorter ed., 2015, Western Washington Univ. CEDAR)",
+     "ref": "§77 - https://cedar.wwu.edu/cedarbooks/4 (text checked via archive.org copy)",
+     "quote": "Temüjin and Qasar, one from the front and one from the rear, shot at him at close range and went away"
+    },
+    {
+     "title": "Wikipedia: Genghis Khan",
+     "ref": "https://en.wikipedia.org/wiki/Genghis_Khan",
+     "quote": "Temüjin and his younger brother Qasar ambushed and killed Behter (fn: Ratchnevsky 1991 pp.23-24; de Rachewiltz 2015 §§76-78)"
+    }
+   ],
+   "note": "Stolen items: a shiny dace (fish) and earlier a lark.",
+   "fix": "",
+   "fp": "ae63ae2ace6f"
+  },
+  {
+   "scene": 75,
+   "claim": "Khwarazmian Empire to the west, ruled by Sultan Muhammad II",
+   "kind": "name",
+   "value": "Muhammad II (Ala ad-Din Muhammad)",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Wikipedia: Otrar Catastrophe (citing Atwood 2004 p.431; Jackson 2017 p.61)",
+     "ref": "https://en.wikipedia.org/wiki/Otrar_Catastrophe",
+     "quote": "By 1218, the Khwarazmian Empire controlled most of Central Asia and Persia [May 2018]"
+    },
+    {
+     "title": "V. V. Barthold, Turkestan Down to the Mongol Invasion (2nd ed. 1968)",
+     "ref": "https://archive.org/details/barthold-1968-turkestan-down-to-the-mongol-invasion",
+     "quote": "Muhammad dispatched an embassy to Chingiz-Khan on a pure mission of investigation (p.399)"
+    }
+   ],
+   "note": "",
+   "fix": "",
+   "fp": "59855c53cdff"
+  },
+  {
+   "scene": 102,
+   "claim": "He died in rags (destitute)",
+   "kind": "event",
+   "value": "died in poverty",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 2",
+     "ref": "https://archive.org/details/historyoftheworl011648mbp p.386",
+     "quote": "O thou who didst die of penury on the top of treasure!"
+    },
+    {
+     "title": "Wikipedia: Mongol invasion of the Khwarazmian Empire",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_invasion_of_the_Khwarazmian_Empire",
+     "quote": "he died destitute on an island in the Caspian Sea"
+    }
+   ],
+   "note": "Poverty is in Juvaini's elegy. 'In rags' is a dramatization of it. The well-known story that he was buried in a servant's shirt for lack of a shroud goes back to Nasawi (not checked here).",
+   "fix": "",
+   "fp": "e48b313f3ebf"
+  },
+  {
+   "scene": 102,
+   "claim": "Muhammad II died on a small island in the Caspian",
+   "kind": "place",
+   "value": "island in the Sea of Abaskun (Caspian), Dec 1220/early 1221",
+   "verdict": "ok",
+   "sources": [
+    {
+     "title": "Juvaini, History of the World-Conqueror, tr. J.A. Boyle (1958), vol. 2",
+     "ref": "https://archive.org/details/historyoftheworl011648mbp pp.385-386",
+     "quote": "They thought it best for him to seek asylum in one of the islands of the Sea of Abaskun [i.e. the Caspian]... He was buried at the time upon that very island"
+    },
+    {
+     "title": "Wikipedia: Mongol invasion of the Khwarazmian Empire",
+     "ref": "https://en.wikipedia.org/wiki/Mongol_invasion_of_the_Khwarazmian_Empire",
+     "quote": "he died destitute on an island in the Caspian Sea ... in December 1220 (date marked citation needed)"
+    }
+   ],
+   "note": "Date not stated in line (sources vary: Dec 1220 to Jan 1221), fine.",
+   "fix": "",
+   "fp": "e48b313f3ebf"
+  }
+ ]
+}

@@ -1,7 +1,7 @@
 // 외부 프로그램 위치 - OS마다(맥·윈도우) 기본 자리, 환경 변수로 덮어쓰기. 파이썬 쪽은 scripts/tools.py (같은 규칙)
 //   node scripts/tools.mjs              찾은 위치와 있는지 표 (새 PC 확인용)
 //   node scripts/tools.mjs open <주소>   기본 브라우저·앱으로 열기 (맥 open, 윈도우 start)
-// 환경 변수: HWM RMW_PYTHON CHROME BLENDER SFIZZ_RENDER RHUBARB FLUIDSYNTH
+// 환경 변수: HWM RMW_PYTHON CHROME BLENDER SFIZZ_RENDER RHUBARB FLUIDSYNTH CHRONOMAP
 import { execFileSync, spawn } from "node:child_process";
 import { existsSync, readdirSync } from "node:fs";
 import { homedir } from "node:os";
@@ -27,6 +27,8 @@ const which = (name) => {
 const winRoots = () => [env("ProgramFiles"), env("ProgramFiles(x86)"), env("LOCALAPPDATA")].filter(Boolean);
 
 export const hwmHome = () => env("HWM") ?? join(homedir(), "hwm"); // 산출물 폴더 (저장소 위치와 상관없이)
+// 사이트 저장소 - 지도 장면(map-scene.mjs)이 개발 서버와 scripts/scene-borders.mjs(그 node_modules)를 쓴다
+export const chronomap = () => env("CHRONOMAP") ?? join(homedir(), "Documents/GitHub/chronomap");
 export const python = () => env("RMW_PYTHON") ?? join(CODE, WIN ? ".venv/Scripts/python.exe" : ".venv/bin/python");
 // 검사기 등 표준 라이브러리만 쓰는 것: 맥은 그대로 python3, 윈도우는 python3가 스토어 바로가기라 .venv 파이썬
 export const sysPython = () => (WIN ? python() : "python3");
@@ -95,7 +97,7 @@ export const paste = () =>
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   if (process.argv[2] === "open") openPath(process.argv[3]);
   else {
-    const rows = { hwmHome: hwmHome(), python: python(), sysPython: sysPython(), node: node(), remotion: remotion()[1][0], chrome: chrome(), blender: blender(), sfizzRender: sfizzRender(), rhubarb: rhubarb(), fluidsynth: fluidsynth(), ffmpeg: ffmpeg() };
+    const rows = { hwmHome: hwmHome(), chronomap: chronomap(), python: python(), sysPython: sysPython(), node: node(), remotion: remotion()[1][0], chrome: chrome(), blender: blender(), sfizzRender: sfizzRender(), rhubarb: rhubarb(), fluidsynth: fluidsynth(), ffmpeg: ffmpeg() };
     for (const [k, v] of Object.entries(rows)) {
       const ok = v && (existsSync(v) || which(v) || (k === "sysPython" && !WIN));
       console.log(`${ok ? "있음" : "없음"}  ${k.padEnd(12)} ${v}`);

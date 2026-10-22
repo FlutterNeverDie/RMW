@@ -1,4 +1,4 @@
-# ReStory Worlds Map 채널 가이드
+# ReStory Worlds 채널 가이드
 
 영상 기획·제작·업로드 때 Claude와 사람이 같이 보는 기준 문서. 사용자가 정한 원칙과 결정, 겪은 사고와 해결을 여기에 쌓는다.
 

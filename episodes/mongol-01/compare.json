@@ -1,0 +1,132 @@
+{
+ "refs": [
+  {
+   "title": "Mongols Season 1 (Genghis Khan to Kublai, 합본)",
+   "channel": "Kings and Generals",
+   "url": "https://www.youtube.com/@KingsandGenerals",
+   "views": "약 1,300만 (집계 사이트, 신뢰 낮음 - 미확인)",
+   "length": "약 1시간 (합본)",
+   "first30": "미확인 (영상을 직접 보지 않음). 채널 공통 형식은 전략 지도 위 내레이션으로 배경 설명부터 시작",
+   "structure": "연대순. 칭기즈칸의 통일 → 금 → 호라즘 → 후계자. 전투는 전략 지도에서 전술 지도로 내려감",
+   "pacing": "차분한 내레이션 + 지도 애니메이션 (컷 빈도 미확인)",
+   "take": "전투를 단계별 지도로 정확히, 수부타이·제베 같은 장군을 인물로 세움",
+   "moments": []
+  },
+  {
+   "title": "Genghis Khan (6부작)",
+   "channel": "Extra History",
+   "url": "https://www.youtube.com/@extrahistory",
+   "views": "미확인",
+   "length": "편당 약 8~10분",
+   "first30": "미확인. 시리즈 형식상 손그림 일러스트 + 내레이터 한 명",
+   "structure": "어린 시절 고난에 여러 편을 씀(버려짐·베크테르·포로·보르테), 인물 관계 드라마 중심",
+   "pacing": "정지 일러스트에 가벼운 움직임, 내레이션 위주",
+   "take": "인물 관계(자무카·토그릴)를 감정선으로, 어려운 이름을 반복해 각인",
+   "moments": []
+  },
+  {
+   "title": "몽골 제국의 유럽 침공 1편 (시리즈 1~4, 몰아보기)",
+   "channel": "별별역사",
+   "url": "https://www.youtube.com/@별별역사",
+   "views": "1편 150만+, 몰아보기 약 650만 (07 문서)",
+   "length": "편당 10~15분",
+   "first30": "미확인. 제목이 질문형이라 질문을 먼저 던지는 구조로 추정 [추론]",
+   "structure": "질문형 도입 → 인물 대사 연기로 극화 → 다음 편 예고",
+   "pacing": "캐리커처 + 지도, 내레이터 연기",
+   "take": "인물 대사 연기, 시리즈 번호, 다음 편으로 끌기. 반면교사: 사실 오류·과장 비판",
+   "moments": []
+  }
+ ],
+ "ours": {
+  "length_sec": 650,
+  "scenes": 91,
+  "sec_per_change": 7.1,
+  "how": "timeline 실제",
+  "first30": [
+   {
+    "t": 0,
+    "type": "cinematic",
+    "text": "A boy, left to starve on the open steppe."
+   },
+   {
+    "t": 6.3,
+    "type": "mapscene",
+    "text": "Seventy years later, his family ruled from the Pacific to the Black Sea."
+   },
+   {
+    "t": 9.7,
+    "type": "mapscene",
+    "text": "The largest connected land empire in history."
+   },
+   {
+    "t": 12.4,
+    "type": "map",
+    "text": "There were maybe a million Mongols. Their enemies counted their people in tens of millions."
+   },
+   {
+    "t": 17.6,
+    "type": "art",
+    "text": "So how does a hunted orphan with nothing... end up ruling half the known world?"
+   },
+   {
+    "t": 21.0,
+    "type": "title",
+    "text": ""
+   },
+   {
+    "t": 26.9,
+    "type": "title",
+    "text": ""
+   }
+  ]
+ },
+ "script": {
+  "axes": {
+   "hook": {
+    "best": "참고 영상들은 배경 설명이나 질문으로 시작(직접 확인은 못 함)",
+    "ours": "0~25초: 시네마틱 초원 → 제국이 번지는 지도 → 숫자(약 100만 vs 수천만) → 영상 전체 질문. 첫 5초 큰 화면 변화",
+    "rate": "better",
+    "fix": ""
+   },
+   "clarity": {
+    "best": "Extra History는 어린 시절에 여러 편을 써서 이름을 천천히 익힘",
+    "ours": "11분에 이름이 많음(예수게이·베크테르·소르칸 시라·토그릴·자무카·제베, 타타르·메르키트·케레이트·나이만). 장마다 얼굴 메달·진영 색으로 구분하고, 인물은 처음 나올 때 짧은 설명을 붙임",
+    "rate": "equal",
+    "fix": "4단계에서 부족마다 지도 색 하나로 고정, 인물 첫 등장 때 얼굴 메달(새 기능 3) - 이름을 화면 글자 없이 각인"
+   },
+   "pacing": {
+    "best": "별별역사·K&G 모두 10~15분에 장면 전환이 잦음(수치 미확인)",
+    "ours": "118장면/11.1분 = 장면당 약 5.6초, 모든 장면이 움직임(카메라·시네마틱·대군). 질문·반전 간격 75초 이내, 재몰입 3분(자무카 결별)·6분(대상단 학살)",
+    "rate": "equal",
+    "fix": "4단계에서 6초 넘는 장면에 캐릭터 등장·효과음 큐·카메라 중간 키를 넣어 3~5초마다 변화"
+   },
+   "visuals": {
+    "best": "K&G: 전략·전술 지도 애니메이션 / Extra History: 손그림 일러스트",
+    "ours": "실제 지형 시네마틱 4샷 + 기울인 지도 위 대군·포위·도시 함락·번지는 제국 + 먹선 캐릭터 + 찢은 종이 옛 그림, 같은 필름 마감",
+    "rate": "better",
+    "fix": ""
+   },
+   "sound": {
+    "best": "K&G·Epic History는 전용·라이선스 음악, 별별역사는 고정 BGM(호불호)",
+    "ours": "채널 전용 오케스트라(장마다 hook·lament·tension·battle·triumph 교체), 실제 녹음 효과음은 장 전환·재몰입에만",
+    "rate": "equal",
+    "fix": ""
+   },
+   "emotion": {
+    "best": "별별역사: 인물 대사 연기 / Extra History: 고난 서사",
+    "ours": "버려짐 → 배신 → 의형제와 결별 → 자무카의 마지막 소원 → 인더스 절벽(\"아비라면 저런 아들을\") 감정 계단, 인물 대사 16줄을 배역 목소리로 연기",
+    "rate": "better",
+    "fix": ""
+   },
+   "accuracy": {
+    "best": "별별역사는 사실 오류·과장 비판이 잦음. K&G는 대체로 정확(미확인)",
+    "ours": "주장 111개를 위키백과·연구서·1차 사료(몽골 비사 de Rachewiltz, 주베이니 Boyle, 원사)로 확인, 틀린 곳 6개 고침, 논란 숫자 9개는 단정하지 않음",
+    "rate": "better",
+    "fix": ""
+   }
+  },
+  "summary": "화면·감정·정확성에서 앞서고, 이름이 많은 점(쉬움)과 장면 길이(리듬)는 4단계 화면 연출에서 얼굴 메달·부족 색·중간 변화로 메운다. 참고 영상의 첫 30초는 직접 보지 못해 구조만 비교했다",
+  "fp": "e8c6b7ae565ad3c8",
+  "date": "2026-10-22"
+ }
+}

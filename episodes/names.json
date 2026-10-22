@@ -1,19 +1,153 @@
 {
  "_설명": "채널 공통 이름 사전 (scripts/check-text.py가 씀). 키 = 영어 대사에 쓸 표기, place = 지명(캐릭터 대상 아님), variants = 쓰면 안 되는 다른 영어 표기, ko·es = 그 언어 대사에 쓸 표기(여러 개면 |로). 새 이름이 나오면 표기를 확인해서 추가",
  "names": {
-  "Temüjin": {"ko": "테무친", "es": "Temuyín", "variants": ["Temujin", "Temuchin"]},
-  "Genghis Khan": {"ko": "칭기즈칸", "es": "Gengis Kan", "variants": ["Chinggis", "Jenghiz"]},
-  "Bekter": {"ko": "베크테르", "es": "Bekter", "variants": ["Begter", "Behter"]},
-  "Yesügei": {"ko": "예수게이", "es": "Yesügei", "variants": ["Yesugei", "Yesukhei"]},
-  "Hoelun": {"ko": "호엘룬", "es": "Hoelún"},
-  "Börte": {"ko": "보르테", "es": "Börte", "variants": ["Borte"]},
-  "Jamukha": {"ko": "자무카", "es": "Yamuqa", "variants": ["Jamuqa"]},
-  "Toghrul": {"ko": "토그릴", "es": "Toghrul", "variants": ["Toghril"]},
-  "Jebe": {"ko": "제베", "es": "Jebe"},
-  "Subutai": {"ko": "수부타이", "es": "Subotai", "variants": ["Subotai", "Sübedei"]},
-  "Khwarazm": {"place": true, "ko": "호라즘", "es": "Corasmia|corasmio", "variants": ["Khwarezm", "Khorezm"]},
-  "Otrar": {"place": true, "ko": "오트라르", "es": "Otrar"},
-  "Inalchuq": {"ko": "이날추크", "es": "Inalchuq"},
-  "Jalal al-Din": {"ko": "잘랄 앗딘", "es": "Jalal al-Din"}
+  "Temüjin": {
+   "ko": "테무친",
+   "es": "Temuyín",
+   "variants": [
+    "Temujin",
+    "Temuchin"
+   ]
+  },
+  "Genghis Khan": {
+   "ko": "칭기즈칸",
+   "es": "Gengis Kan",
+   "variants": [
+    "Chinggis",
+    "Jenghiz"
+   ]
+  },
+  "Bekter": {
+   "ko": "베크테르",
+   "es": "Bekter",
+   "variants": [
+    "Begter",
+    "Behter"
+   ]
+  },
+  "Yesügei": {
+   "ko": "예수게이",
+   "es": "Yesügei",
+   "variants": [
+    "Yesugei",
+    "Yesukhei"
+   ]
+  },
+  "Hoelun": {
+   "ko": "호엘룬",
+   "es": "Hoelún"
+  },
+  "Börte": {
+   "ko": "보르테",
+   "es": "Börte",
+   "variants": [
+    "Borte"
+   ]
+  },
+  "Jamukha": {
+   "ko": "자무카",
+   "es": "Yamuqa",
+   "variants": [
+    "Jamuqa"
+   ]
+  },
+  "Toghrul": {
+   "ko": "토그릴",
+   "es": "Toghrul",
+   "variants": [
+    "Toghril"
+   ]
+  },
+  "Jebe": {
+   "ko": "제베",
+   "es": "Jebe"
+  },
+  "Subutai": {
+   "ko": "수부타이",
+   "es": "Subotai",
+   "variants": [
+    "Subotai",
+    "Sübedei"
+   ]
+  },
+  "Khwarazm": {
+   "place": true,
+   "ko": "호라즘",
+   "es": "Corasmia|corasmio",
+   "variants": [
+    "Khwarezm",
+    "Khorezm"
+   ]
+  },
+  "Otrar": {
+   "place": true,
+   "ko": "오트라르",
+   "es": "Otrar"
+  },
+  "Inalchuq": {
+   "ko": "이날추크",
+   "es": "Inalchuq"
+  },
+  "Jalal al-Din": {
+   "ko": "잘랄 앗딘",
+   "es": "Jalal al-Din"
+  },
+  "Sorkan-shira": {
+   "ko": "소르칸 시라",
+   "es": "Sorqan Shira",
+   "variants": [
+    "Sorqan-shira",
+    "Sorgan Shira"
+   ]
+  },
+  "Khasar": {
+   "ko": "카사르",
+   "es": "Qasar",
+   "variants": [
+    "Qasar",
+    "Kasar"
+   ]
+  },
+  "Muhammad": {
+   "ko": "무함마드",
+   "es": "Mohamed"
+  },
+  "Baljuna": {
+   "place": true,
+   "ko": "발주나",
+   "es": "Baljuna"
+  },
+  "Dalan Baljut": {
+   "place": true,
+   "ko": "달란 발주트",
+   "es": "Dalan Balzhut"
+  },
+  "Onon": {
+   "place": true,
+   "ko": "오논",
+   "es": "Onón"
+  },
+  "Kyzylkum": {
+   "place": true,
+   "ko": "키질쿰",
+   "es": "Kyzylkum"
+  },
+  "Zhongdu": {
+   "place": true,
+   "ko": "중도",
+   "es": "Zhongdu"
+  },
+  "Merkit": {
+   "ko": "메르키트",
+   "es": "merkita"
+  },
+  "Naiman": {
+   "ko": "나이만",
+   "es": "naimano"
+  },
+  "Keraites": {
+   "ko": "케레이트",
+   "es": "keraítas"
+  }
  }
 }

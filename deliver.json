@@ -74,36 +74,6 @@
    "nodate": true
   },
   {
-   "src": "out/watermark.png",
-   "dir": "배너",
-   "name": "워터마크 (RWM 메달)",
-   "nodate": true
-  },
-  {
-   "src": "out/profile-medal.png",
-   "dir": "배너/시안",
-   "name": "프로필 시안 A 메달",
-   "nodate": true
-  },
-  {
-   "src": "out/profile-bold.png",
-   "dir": "배너/시안",
-   "name": "프로필 시안 B 큰 글자",
-   "nodate": true
-  },
-  {
-   "src": "out/profile-ring.png",
-   "dir": "배너/시안",
-   "name": "프로필 시안 C 원형 테두리",
-   "nodate": true
-  },
-  {
-   "src": "out/banner-color.png",
-   "dir": "배너",
-   "name": "채널 배너",
-   "nodate": true
-  },
-  {
    "src": "out/historymapworld-europe-borders-1x1.mp4",
    "dir": "쇼츠",
    "name": "유럽 국경 1700-2020"
@@ -278,30 +248,6 @@
    "nodate": true
   },
   {
-   "src": "../../Documents/GitHub/chronomap/marketing/brand/youtube/banner-en-2560x1440.png",
-   "dir": "배너",
-   "name": "채널 배너 영어",
-   "nodate": true
-  },
-  {
-   "src": "../../Documents/GitHub/chronomap/marketing/brand/youtube/banner-ko-2560x1440.png",
-   "dir": "배너",
-   "name": "채널 배너 한국어",
-   "nodate": true
-  },
-  {
-   "src": "../../Documents/GitHub/chronomap/marketing/brand/youtube/profile-800x800.png",
-   "dir": "배너",
-   "name": "프로필 사진",
-   "nodate": true
-  },
-  {
-   "src": "../../Documents/GitHub/chronomap/marketing/brand/youtube/watermark-150x150.png",
-   "dir": "배너",
-   "name": "워터마크",
-   "nodate": true
-  },
-  {
    "src": "docs/youtube.html",
    "dir": ".",
    "name": "채널 운영 정리",
@@ -329,6 +275,126 @@
    "src": "out/pipeline-explainer.mp4",
    "dir": ".",
    "name": "영상 만드는 구조",
+   "nodate": true
+  },
+  {
+   "src": "out/brand/b-cine.png",
+   "dir": "배너/시안/ReStory Worlds",
+   "name": "배너 A 시네마틱 초원",
+   "nodate": true
+  },
+  {
+   "src": "out/brand/b-ink.png",
+   "dir": "배너/시안/ReStory Worlds",
+   "name": "배너 B 먹선 행렬",
+   "nodate": true
+  },
+  {
+   "src": "out/brand/b-art.png",
+   "dir": "배너/시안/ReStory Worlds",
+   "name": "배너 C 옛 그림 콜라주",
+   "nodate": true
+  },
+  {
+   "src": "out/brand/p-helmet.png",
+   "dir": "배너/시안/ReStory Worlds",
+   "name": "프로필 A 반반 투구",
+   "nodate": true
+  },
+  {
+   "src": "out/brand/p-hourglass.png",
+   "dir": "배너/시안/ReStory Worlds",
+   "name": "프로필 B 모래시계와 칼·소총",
+   "nodate": true
+  },
+  {
+   "src": "out/brand/p-seal.png",
+   "dir": "배너/시안/ReStory Worlds",
+   "name": "프로필 C 밀랍 봉인",
+   "nodate": true
+  },
+  {
+   "src": "out/brand/w-helmet.png",
+   "dir": "배너/시안/ReStory Worlds",
+   "name": "워터마크 A 반반 투구",
+   "nodate": true
+  },
+  {
+   "src": "out/brand/w-hourglass.png",
+   "dir": "배너/시안/ReStory Worlds",
+   "name": "워터마크 B 모래시계",
+   "nodate": true
+  },
+  {
+   "src": "out/brand/w-seal.png",
+   "dir": "배너/시안/ReStory Worlds",
+   "name": "워터마크 C 밀랍 봉인",
+   "nodate": true
+  },
+  {
+   "src": "out/brand/시안 비교.html",
+   "dir": "배너/시안/ReStory Worlds",
+   "name": "시안 비교",
+   "nodate": true
+  },
+  {
+   "src": "out/brand/p-helmet-old.png",
+   "dir": "배너/시안/ReStory Worlds",
+   "name": "프로필 A 이전판 (광택)",
+   "nodate": true
+  },
+  {
+   "src": "out/brand/p-helmet-navy.png",
+   "dir": "배너/시안/ReStory Worlds",
+   "name": "프로필 A 바탕 남색",
+   "nodate": true
+  },
+  {
+   "src": "out/brand/p-helmet-charcoal.png",
+   "dir": "배너/시안/ReStory Worlds",
+   "name": "프로필 A 바탕 먹색",
+   "nodate": true
+  },
+  {
+   "src": "out/brand/p-helmet-teal.png",
+   "dir": "배너/시안/ReStory Worlds",
+   "name": "프로필 A 바탕 청록",
+   "nodate": true
+  },
+  {
+   "src": "out/brand/p-helmet-oxblood.png",
+   "dir": "배너/시안/ReStory Worlds",
+   "name": "프로필 A 바탕 검붉은색",
+   "nodate": true
+  },
+  {
+   "src": "out/brand/채널 설명.html",
+   "dir": "",
+   "name": "채널 설명 (ReStory Worlds)",
+   "nodate": true
+  },
+  {
+   "src": "out/brand/b-art.png",
+   "dir": "배너",
+   "name": "채널 배너",
+   "nodate": true
+  },
+  {
+   "src": "out/brand/p-helmet.png",
+   "dir": "배너",
+   "name": "프로필 사진",
+   "nodate": true
+  },
+  {
+   "src": "out/brand/w-helmet-150.png",
+   "dir": "배너",
+   "name": "워터마크 (150)",
+   "nodate": true
+  },
+  {
+   "src": "out/brand/w-helmet.png",
+   "dir": "배너",
+   "name": "워터마크 (300 원본)",
    "nodate": true
   }
  ]

@@ -25,7 +25,8 @@ KINDS = {"number", "date", "name", "place", "quote", "army", "casualty", "event"
 VERDICTS = {"ok", "disputed", "wrong", "unverified"}
 # 논란 숫자를 단정하지 않았다는 표시 (원칙: "chroniclers claimed"처럼 말한다)
 HEDGE = re.compile(r"\b(claim\w*|according|reported\w*|perhaps|maybe|may|might|possibly|probably|estimat\w*|legend\w*|chronicl\w*|sources?|historians?|"
-                   r"up to|as many as|around|about|roughly|nearly|almost|supposedly|allegedly|disputed|unclear)\b", re.I)
+                   r"up to|as many as|around|about|roughly|nearly|almost|supposedly|allegedly|disputed|unclear|"
+                   r"said to|says|\w+ or \w+ (?:thousand|hundred|million))\b", re.I)  # "the Secret History says", "said to be", 범위("twenty or thirty thousand")
 
 
 def tfp(text):

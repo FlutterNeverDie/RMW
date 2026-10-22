@@ -39,7 +39,8 @@ def moving(sh):
         return mv(sh.get("from"), sh.get("to")) or mv(sh.get("mapFrom"), sh.get("mapTo"))
     if "from" in sh and "to" in sh:
         return mv(sh["from"], sh["to"])
-    return sh.get("type") in ("lapse", "units")
+    # 기울인 지도(mapscene)·시네마틱(cinematic)은 카메라가 계속 움직이는 연속 그림
+    return sh.get("type") in ("lapse", "units", "mapscene", "cinematic")
 
 
 def P(scene, msg, rule, level="error"):

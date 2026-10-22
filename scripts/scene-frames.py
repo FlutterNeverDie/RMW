@@ -61,7 +61,8 @@ for i, sc in enumerate(tl["scenes"]):
         if not Path(blender).exists():
             sys.exit(f"시네마틱 장면을 찍으려면 Blender 필요 ({blender}) - " + ("winget install BlenderFoundation.Blender (setup.ps1)" if tools.WIN else "brew install --cask blender (setup.sh)"))
         print(f"장면 {i:02d} 시네마틱 {sh['shot']} ({n}장)", flush=True)
-        subprocess.run([blender, "-b", "--factory-startup", "-P", str(CODE / "blender/render_shot.py"), "--",
+        keep_awake = [] if tools.WIN else ["caffeinate", "-i"]  # 샷 하나 30분 넘게 걸려 맥이 잠들면 멈춤
+        subprocess.run([*keep_awake, blender, "-b", "--factory-startup", "-P", str(CODE / "blender/render_shot.py"), "--",
                         "--shot", str(shot), "--out", str(out), "--frames", str(n)], check=True, cwd=CODE)
         (out / "meta.json").write_text(json.dumps({"key": key, "frames": n, "shot": sh["shot"]}))
 print("미리 찍는 장면: 준비됨")

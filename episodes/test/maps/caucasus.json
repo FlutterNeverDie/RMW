@@ -4,7 +4,7 @@
   "year": 1222,
   "theme": "film",
   "terrain": true,
-  "relief": 0.9,
+  "relief": 0.5,
   "camera": [
     { "t": 0, "at": [47.6, 41.6], "zoom": 30, "tilt": 40, "heading": -25 },
     { "t": 1, "at": [48.1, 42.1], "zoom": 55, "tilt": 50, "heading": 0, "ease": "inOut" }

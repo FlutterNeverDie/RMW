@@ -4,7 +4,8 @@
 // 자료(모두 퍼블릭 도메인, 설명란 출처):
 //   - 고도: NOAA NCEI ETOPO 2022 15 arc-second (15° 조각 GeoTIFF, data/geo/etopo15/에)
 //   - 땅 색: Natural Earth I 토지 피복(NE1_HR_LC, 1/60°), 해안선·호수·강: Natural Earth 10m (data/geo/ne/, 처음 한 번 받아 둠)
-// 결과: color.png(토지 피복 색, 메르카토르 격자), shade.png(산 음영, 회색 128 = 평지), terrain.json({bbox, land, lakes, rivers})
+// 결과: color.png(토지 피복 색, 메르카토르 격자), shade.png(산 음영, 회색 128 = 평지),
+//   height.png(16비트 회색, 같은 격자, 고도 m = 값 × scale - offset, 바다 밑 깊이도 그대로), terrain.json({bbox, size, height, land, lakes, rivers})
 import { existsSync } from "node:fs";
 import { mkdir, open, readFile, writeFile } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
@@ -28,7 +29,9 @@ const out = join(GEO, "terrain", `${ep}-${name}`);
 function sceneBbox() {
   if (scene.terrain?.bbox) return scene.terrain.bbox;
   let [w, s, e, n] = [180, 90, -180, -90];
-  for (const c of scene.camera) {
+  // follow(부대 따라가기) 키는 at 대신 그 부대 path의 모든 점을 같은 zoom으로
+  const spots = scene.camera.flatMap((c) => (c.follow ? (scene.units ?? []).find((u) => u.id === c.follow)?.path?.map((p) => ({ ...c, at: p.at })) ?? [] : [c]));
+  for (const c of spots) {
     const half = (450 / c.zoom) * (c.tilt ? 1.0 : 0.6);
     const [lon, lat] = c.at;
     const cos = Math.cos((lat * Math.PI) / 180);
@@ -187,8 +190,8 @@ async function landCover() {
   };
 }
 
-// ── PNG 쓰기(zlib만) ──
-function png(w, h, channels, data) {
+// ── PNG 쓰기(zlib만, depth 16이면 data는 큰 자리 먼저 2바이트씩) ──
+function png(w, h, channels, data, depth = 8) {
   const crcTable = (buf) => zlib.crc32(buf);
   const chunk = (type, body) => {
     const len = Buffer.alloc(4);
@@ -201,12 +204,13 @@ function png(w, h, channels, data) {
   const ihdr = Buffer.alloc(13);
   ihdr.writeUInt32BE(w, 0);
   ihdr.writeUInt32BE(h, 4);
-  ihdr[8] = 8;
+  ihdr[8] = depth;
   ihdr[9] = channels === 1 ? 0 : 2;
-  const raw = Buffer.alloc((w * channels + 1) * h);
+  const line = (w * channels * depth) / 8;
+  const raw = Buffer.alloc((line + 1) * h);
   for (let y = 0; y < h; y++) {
-    raw[y * (w * channels + 1)] = 0;
-    data.copy(raw, y * (w * channels + 1) + 1, y * w * channels, (y + 1) * w * channels);
+    raw[y * (line + 1)] = 0;
+    data.copy(raw, y * (line + 1) + 1, y * line, (y + 1) * line);
   }
   return Buffer.concat([
     Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]),
@@ -352,12 +356,17 @@ const rows = Math.round((yN - yS) / stepY);
 console.log(`격자 ${cols}×${rows}`);
 
 const zs = new Float32Array(cols * rows);
+// 고도 원본(바다 밑 포함) - 지도 장면이 골짜기 초록·능선 마름·바위 비탈·눈선을 칠할 때 쓴다(prep_terrain.py와 같은 식)
+const HEIGHT = { offset: 11000, scale: 1 }; // ETOPO 범위 약 -10900~8850 m가 16비트에 1 m 단위로 들어간다
+const height = Buffer.alloc(cols * rows * 2);
 const rgb = Buffer.alloc(cols * rows * 3);
 for (let r = 0; r < rows; r++) {
   const lat = unmerc(yN - (r + 0.5) * stepY);
   for (let c = 0; c < cols; c++) {
     const lon = W + (c + 0.5) * step;
-    zs[r * cols + c] = Math.max(0, elev.at(lon, lat)); // 바다 밑은 평평하게(물은 10m 해안선이 덮는다)
+    const z = elev.at(lon, lat);
+    zs[r * cols + c] = Math.max(0, z); // 바다 밑은 평평하게(물은 10m 해안선이 덮는다)
+    height.writeUInt16BE(Math.min(65535, Math.max(0, Math.round((z + HEIGHT.offset) / HEIGHT.scale))), (r * cols + c) * 2);
     let [R, G, B] = color(lon, lat);
     // 토지 피복 원본은 물이 흰색 - 해안선(10m)과 1.85km 격자가 어긋난 물가가 하얗게 비치지 않게, 물(흰색이고 고도 0 이하)은 왼쪽 땅 색으로
     if (Math.min(R, G, B) > 225 && elev.at(lon, lat) <= 1 && c > 0) {
@@ -400,6 +409,7 @@ for (let r = 0; r < rows; r++) {
 await mkdir(out, { recursive: true });
 await writeFile(join(out, "color.png"), png(cols, rows, 3, rgb));
 await writeFile(join(out, "shade.png"), png(cols, rows, 1, shade));
+await writeFile(join(out, "height.png"), png(cols, rows, 1, height, 16));
 const vec = await vectors();
-await writeFile(join(out, "terrain.json"), JSON.stringify({ bbox, size: [cols, rows], ...vec }));
+await writeFile(join(out, "terrain.json"), JSON.stringify({ bbox, size: [cols, rows], height: HEIGHT, ...vec }));
 console.log(`${out} (땅 ${vec.land.length}·호수 ${vec.lakes.length}·강 ${vec.rivers.length})`);

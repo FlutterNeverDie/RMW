@@ -38,13 +38,15 @@ export const Root = () => (
     ))}
     <Composition id="Shorts-quiz" component={QuizV} durationInFrames={QV_FRAMES} fps={shorts.fps} width={shorts.width} height={shorts.height} />
     <Composition id="Shorts-sameyear" component={SameYear} durationInFrames={SAMEYEAR_FRAMES} fps={shorts.fps} width={shorts.width} height={shorts.height} />
-      {(["color", "night", "parchment"] as const).map((look) => (
+      {(["cine", "ink", "art"] as const).map((look) => (
       <Still key={look} id={`ChannelBanner-${look}`} component={Banner} width={2560} height={1440} defaultProps={{ look }} />
     ))}
-    {(["medal", "bold", "ring"] as const).map((look) => (
+    {(["helmet", "hourglass", "seal"] as const).map((look) => (
       <Still key={look} id={`ChannelProfile-${look}`} component={Profile} width={800} height={800} defaultProps={{ look }} />
     ))}
-    <Still id="ChannelWatermark" component={Watermark} width={300} height={300} />
+    {(["helmet", "hourglass", "seal"] as const).map((look) => (
+      <Still key={look} id={`ChannelWatermark-${look}`} component={Watermark} width={300} height={300} defaultProps={{ look }} />
+    ))}
     <Still id="AuditArchitecture" component={Architecture} width={1600} height={900} />
     <Still id="AuditUserFlow" component={UserFlow} width={1600} height={900} />
     <Composition id="Mongol01Pilot" component={Episode} durationInFrames={timelineFrames(mongol01pilot as Timeline)} fps={30} width={1920} height={1080} defaultProps={{ timeline: mongol01pilot as Timeline }} />

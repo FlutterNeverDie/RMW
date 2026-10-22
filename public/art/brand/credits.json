@@ -1,0 +1,27 @@
+{
+ "alexander-mosaic": {
+  "file": "alexander-mosaic.jpg",
+  "title": "Battle of Issus.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Battle_of_Issus.jpg",
+  "artist": "an earlier Greek painting of  Philoxenus of Eretria",
+  "date": "2nd century BCdate QS:P,-150-00-00T00:00:00Z/7 / circa 100 B",
+  "license": "Public domain"
+ },
+ "napoleon-alps": {
+  "file": "napoleon-alps.jpg",
+  "title": "David - Napoleon crossing the Alps - Malmaison1.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:David_-_Napoleon_crossing_the_Alps_-_Malmaison1.jpg",
+  "artist": "Jacques-Louis David",
+  "date": "1800 ",
+  "license": "Public domain"
+ },
+ "shermans-st-vith-1944": {
+  "file": "shermans-st-vith-1944.jpg",
+  "title": "Lined up in a snow-covered field, near St. Vith, Belgium are the M-4 Sherman tanks of the 10th Tank Bn. (49347907661).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Lined_up_in_a_snow-covered_field,_near_St._Vith,_Belgium_are_the_M-4_Sherman_tanks_of_the_10th_Tank_Bn._(49347907661).jpg",
+  "artist": "Signal Corps Archive from Ireland and United States",
+  "date": "December 1944",
+  "license": "Public domain",
+  "credit": "Lined up in a snow-covered field, near St. Vith, Belgium are the M-4 Sherman tanks of the 10th Tank Bn."
+ }
+}
